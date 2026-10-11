@@ -1,0 +1,151 @@
+{
+  "kind": "software_WebGL_shader_warmup_validation",
+  "actual_iphone_data": false,
+  "errors": [],
+  "results": [
+    {
+      "map": "BLACKSITE",
+      "loadingMs": 60108.69999999995,
+      "warmPrograms": 64,
+      "maxGroup": 8,
+      "loadingDraws": 38,
+      "otherLoadingDraws": 6,
+      "shadowDraws": 201,
+      "stateRestored": true,
+      "warmup": {
+        "batches": 38,
+        "materialVariants": 283,
+        "shadowVariants": 201,
+        "yields": 38,
+        "durationMs": 58530
+      },
+      "transitions": [
+        {
+          "name": "spawn",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "interior",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "near-operator",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "distant-operator",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "first-shot",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "secondary",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "adaptive-low",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        },
+        {
+          "name": "restore-medium",
+          "before": 64,
+          "after": 64,
+          "newPrograms": 0
+        }
+      ]
+    },
+    {
+      "map": "NUKETOWN",
+      "loadingMs": 15820.600000000093,
+      "warmPrograms": 66,
+      "maxGroup": 8,
+      "loadingDraws": 32,
+      "otherLoadingDraws": 6,
+      "shadowDraws": 158,
+      "stateRestored": true,
+      "warmup": {
+        "batches": 32,
+        "materialVariants": 230,
+        "shadowVariants": 158,
+        "yields": 32,
+        "durationMs": 15777.90000000014
+      },
+      "transitions": [
+        {
+          "name": "spawn",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "interior",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "near-operator",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "distant-operator",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "first-shot",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "secondary",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "adaptive-low",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        },
+        {
+          "name": "restore-medium",
+          "before": 66,
+          "after": 66,
+          "newPrograms": 0
+        }
+      ]
+    }
+  ],
+  "build": {
+    "release": "61",
+    "commit": null,
+    "source_commit": "0aae4fe605c9c70bd3e9c911e2401fb96224379f",
+    "content_sha256": "da606f7b4dbecfc9e878cee1820209076a33112fe813c09a2a285c7bdef948d1",
+    "commit_resolution": "content_fingerprint"
+  },
+  "archived_content_sha256": "da606f7b4dbecfc9e878cee1820209076a33112fe813c09a2a285c7bdef948d1",
+  "distribution_dirty": true,
+  "timing_scope": "Shared-host software WebGL loading-stage diagnostics; these durations are not physical iPhone timings or proof that the reported device stall was eliminated."
+}

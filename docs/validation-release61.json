@@ -1,0 +1,181 @@
+{
+  "release": "61",
+  "date": "2026-10-11",
+  "kind": "overhaul_checkpoint_validation",
+  "actual_iphone_data": false,
+  "build": {
+    "release": "61",
+    "commit": null,
+    "source_commit": "0aae4fe605c9c70bd3e9c911e2401fb96224379f",
+    "content_sha256": "1fe2947ce95b32c0775ed9c607cf5a0cad2037e6321097fa3f1ad50ad7077716",
+    "commit_resolution": "content_fingerprint"
+  },
+  "scope": "Static validation, CPU regression tests and Chromium software WebGL/native WebAudio. No physical Release 61 Safari, GPU, thermal or premium art/audio acceptance.",
+  "regression": {
+    "command": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "passed": 352,
+    "failed": 0,
+    "skipped": 0,
+    "duration_ms": 558799.866242,
+    "capture_stage": "Before final blade hand-target correction; renderer, shader, occlusion, audio and inspection logic unchanged afterward."
+  },
+  "post_blade_correction": {
+    "command": "node --test tests/weapon-handling.test.mjs tests/weapon-inspection.test.mjs tests/weapon-dynamics.test.mjs",
+    "passed": 18,
+    "failed": 0,
+    "input_tests_passed": 27,
+    "follow_up": "validation-inspection-12-browser.json"
+  },
+  "package_check": {
+    "command": "npm run check",
+    "javascript_modules": 82,
+    "passed": true,
+    "includes": [
+      "syntax",
+      "local imports and assets",
+      "geometry winding",
+      "Home Screen manifest",
+      "release-versioned offline shell"
+    ]
+  },
+  "shader_compile_link": {
+    "scope": "Offline GLSL ES compile/link only; no rendered frames or iPhone validation",
+    "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1",
+    "variants": 56,
+    "passed": 56,
+    "failures": []
+  },
+  "inspection": {
+    "weapons": 30,
+    "native_framing_rows": 60,
+    "gameplay_captures": 18,
+    "touch_layouts": 8,
+    "keyboard_and_pointer_verified": {
+      "keyboard": true,
+      "pointer": true
+    },
+    "page_errors": []
+  },
+  "occlusion": {
+    "matched_browser_views": 5,
+    "changed_rgba_bytes": 0,
+    "full_actor_buffers_on_shadow_refresh": true,
+    "savings_scope": "Operator triangles between shadow refreshes; broader world occlusion and hardware FPS unmeasured."
+  },
+  "warmup": {
+    "maps": [
+      "BLACKSITE",
+      "NUKETOWN"
+    ],
+    "reviewed_transitions_per_map": 8,
+    "new_programs": 0,
+    "max_material_group": 8,
+    "original_capture_content_sha256": "da606f7b4dbecfc9e878cee1820209076a33112fe813c09a2a285c7bdef948d1",
+    "final_runtime_difference": "Only the id12 right-hand pose was raised to close the blade grip gap after this capture. Preserve the original archived warmup fingerprint; final benchmark lifecycle records the resulting distribution fingerprint.",
+    "physical_device_stall_cause_or_removal_proven": false
+  },
+  "ground": {
+    "paired_views": 3,
+    "additional_draws_per_view": 2,
+    "additional_triangles_per_view": 32,
+    "additional_shader_variants": 6,
+    "additional_texture_estimate_bytes": 0,
+    "physical_gpu_cost": "unmeasured"
+  },
+  "audio": {
+    "original_takes": 406,
+    "new_material_takes": 42,
+    "compressed_bytes": 3676377,
+    "decoded_48khz_bytes": 40719220,
+    "allowance_bytes": 41943040,
+    "pause_remaining_sources": 0,
+    "subjective_listening_review": false
+  },
+  "user_device_baseline": {
+    "report": "../benchmarks/iphone-release60-2026-10-06.json",
+    "sha256": "928ec5cd34c237fb02c77aeb0e5caa986842f3ca549c00ccfbd95ef57aee41a8",
+    "actual_iphone_data": true,
+    "release": "60",
+    "checkpoint_performance_measurement": false
+  },
+  "evidence": [
+    {
+      "path": "validation-inspection-browser.json",
+      "sha256": "b3fe28441a17bc7e6436b5c92aab3fac68e9e5ad3cd323a7d5ea560848e7cbaa"
+    },
+    {
+      "path": "validation-inspection-12-browser.json",
+      "sha256": "f4bb4b48e58fdc133250dc82be993b41cf2815070accec692ab0a238b620604d"
+    },
+    {
+      "path": "validation-blacksite-ground.json",
+      "sha256": "bbdb255c4b7a864ad0b425ddf5f914eafde7a9456f6be65454297e42199f135a"
+    },
+    {
+      "path": "validation-release61-occlusion.json",
+      "sha256": "16270bf6b47276124de1de39d237a6eb77646e92c23b6296791536697c813c8e"
+    },
+    {
+      "path": "validation-release61-occlusion-browser.json",
+      "sha256": "f0954cf1db2adc3d5655c9a69cd3da7cf38671bd8999d058a0f7b22f2d36450b"
+    },
+    {
+      "path": "validation-release61-warmup-browser.json",
+      "sha256": "a31c108e76e053326f1579972431e787d9ffa1392ee218445db74de45eca1aa3"
+    },
+    {
+      "path": "validation-production-audio-browser.json",
+      "sha256": "91e1eadd281dd7b3703b76f377aefab68ee7358eda92a5d0778cb549bfa6f683"
+    },
+    {
+      "path": "validation-ballistic-audio-browser.json",
+      "sha256": "d0f4de7b4e04a66124f2e3e21bffa069186e160e215afbf1f0624b77fb91e4e1"
+    },
+    {
+      "path": "validation-release61-benchmark-browser.json",
+      "sha256": "3b1d8e1504485df91a64f78a21bb01061ffad7befae15b4684d86a05db27b57c"
+    }
+  ],
+  "open_acceptance": [
+    "Physical Release 61 iPhone FPS and pacing",
+    "Safari memory pressure and thermals",
+    "Physical audio latency and subjective premium realism",
+    "Temporal recoil quality",
+    "Professional environment and hero-asset quality",
+    "Skeletal human animation",
+    "Broader world occlusion and runtime texture residency"
+  ],
+  "benchmark_lifecycle": {
+    "artifact": "validation-release61-benchmark-browser.json",
+    "captured_build": {
+      "release": "61",
+      "commit": null,
+      "source_commit": "0aae4fe605c9c70bd3e9c911e2401fb96224379f",
+      "content_sha256": "1fe2947ce95b32c0775ed9c607cf5a0cad2037e6321097fa3f1ad50ad7077716",
+      "commit_resolution": "content_fingerprint"
+    },
+    "checks": [
+      "release_61_boot",
+      "legacy_measurements_preserved_obsolete_setup_removed",
+      "local_controls_without_account_setup",
+      "normal_gameplay_recording_watermark",
+      "final_json_valid_actual_browser_frames",
+      "saved_session_selected_for_export",
+      "actual_json_download_preserves_saved_copy",
+      "saved_reports_survive_reload",
+      "offline_boot_and_json_download",
+      "scripted_test_isolated_cancelled_and_restored",
+      "removal_requires_confirmation",
+      "no_page_errors_or_report_network_requests"
+    ],
+    "normal_session_frame_count": 14,
+    "steady_frame_count": 8,
+    "json_download_verified": true,
+    "page_errors": [],
+    "external_request_count": 0,
+    "write_request_count": 0,
+    "gamepad_hardware_backend_disabled": true,
+    "scope": "SwiftShader functional browser checks; the unavailable Linux hardware backend was disabled only in the harness. Controller edges are covered separately by regression tests."
+  }
+}

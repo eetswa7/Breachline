@@ -50,22 +50,22 @@ test('frame-rate preferences persist and malformed old saves default to 60 FPS',
  const old=new SaveStore({getItem:()=>JSON.stringify({version:1,controlRevision:2,settings:{frameRate:'30'}})});assert.equal(old.data.settings.frameRate,30);
 });
 
-test('match preparation compiles both equipped guns and populated actors before drawing',async()=>{
+test('match preparation warms both equipped guns and populated actors before controls can advance gameplay',async()=>{
  const r=fixture(),g=new Game({map:11,mode:'hill',loadout:{primary:16,secondary:22}},{seed:44}),calls=[];
  r.arena=g.arena;r.buildWorld();r.resize=()=>844/390;r.applyQuality=()=>{};
  // The menu camera can face away from every live operator. Warmup must still
  // prepare their full materials before gameplay culling starts.
  r.frustum={intersectsSphere:()=>false};r.actorBounds={center:{set(){}}};
- r.renderer.compileAsync=async(scene,camera)=>{calls.push({scene,key:r.weaponKey});assert(camera.isPerspectiveCamera);};
+ r.renderer.compileAsync=async(objects,camera,scene)=>{calls.push({scene,key:r.weaponKey});assert(camera.isCamera);assert(objects.children.length<=8);};
  const ammo=g.player.weapons.map(w=>w.ammo),time=g.time;await r.prepareMatch(g);
- assert.equal(calls.length,3);assert(calls[0].key.startsWith('16/'));assert(calls[1].key.startsWith('22/'));assert.equal(calls[2].scene,r.scene);
+ assert(calls.some(c=>c.scene===r.weaponScene&&c.key.startsWith('16/')));assert(calls.some(c=>c.scene===r.weaponScene&&c.key.startsWith('22/')));assert(calls.some(c=>c.scene===r.scene));
  assert(g.actors.slice(1).every(a=>a.renderParts?.length>0));assert([...r.actorBatches.values()].some(b=>b.used>0));assert.equal(g.player.slot,0);assert(r.weaponKey.startsWith('16/'));
- assert.deepEqual(g.player.weapons.map(w=>w.ammo),ammo);assert.equal(g.time,time);assert.deepEqual(r.rendered,[]);
- r.renderWeapon(g,844/390,false);assert.deepEqual(r.rendered,[r.weaponScene]);
+ assert.deepEqual(g.player.weapons.map(w=>w.ammo),ammo);assert.equal(g.time,time);assert(r.matchWarmup.batches>0);assert.equal(r.matchWarmup.yields,r.matchWarmup.batches);assert.equal(r.rendered.length,r.matchWarmup.batches);
+ r.rendered.length=0;r.renderWeapon(g,844/390,false);assert.deepEqual(r.rendered,[r.weaponScene]);
 });
 test('failed or unavailable shader warmup preserves the active weapon slot',async()=>{
  const r=fixture(),g=new Game({loadout:{primary:19,secondary:23}},{seed:44});r.arena=g.arena;r.resize=()=>844/390;r.applyQuality=()=>{};
  g.player.slot=1;r.renderer.compileAsync=async()=>{throw new Error('Lost graphics context');};
  await assert.rejects(()=>r.prepareMatch(g),/Lost graphics context/);assert.equal(g.player.slot,1);assert(r.weaponKey.startsWith('23/'));
- delete r.renderer.compileAsync;await r.prepareMatch(g);assert.equal(g.player.slot,1);assert.deepEqual(r.rendered,[]);
+ delete r.renderer.compileAsync;await r.prepareMatch(g);assert.equal(g.player.slot,1);assert(r.rendered.length>0,'actual loading draws cover the synchronous compilation fallback');
 });

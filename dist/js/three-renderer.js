@@ -1,37 +1,40 @@
-import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=60';
-import {ProductionLighting} from './production-lighting.js?v=60';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=60';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=60';
-import {patchBlenderMaterial} from './blender-material.js?v=60';
-import {blenderWorld} from './blender-world.js?v=60';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=60';
-import {updateWeaponClearance} from './weapon-clearance.js?v=60';
-import {WEAPONS} from './weapons.js?v=60';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=60';
-import {patchAtmosphere} from './atmosphere.js?v=60';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=60';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=60';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=60';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=60';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=60';
-import {DecalSystem} from './decal-system.js?v=60';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=60';
-import {LightingField} from './lighting-field.js?v=60';
-import {RoomLights} from './room-lights.js?v=60';
-import {waterMaterial,patchWater} from './water-material.js?v=60';
-import {visualGroundHeight} from './surface-placement.js?v=60';
-import {patchSurfaceDetail} from './material-detail.js?v=60';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=60';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=60';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=60';
+import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=61';
+import {ProductionLighting} from './production-lighting.js?v=61';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=61';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=61';
+import {patchBlenderMaterial} from './blender-material.js?v=61';
+import {blenderWorld} from './blender-world.js?v=61';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=61';
+import {updateWeaponClearance} from './weapon-clearance.js?v=61';
+import {WEAPONS} from './weapons.js?v=61';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=61';
+import {patchAtmosphere} from './atmosphere.js?v=61';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=61';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=61';
+import {SolidWallOcclusion,actorEnvelopeRadius,shadowUpdatePending} from './solid-wall-occlusion.js?v=61';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=61';
+import {warmMatchMaterials} from './render-warmup.js?v=61';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=61';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=61';
+import {DecalSystem} from './decal-system.js?v=61';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=61';
+import {LightingField} from './lighting-field.js?v=61';
+import {RoomLights} from './room-lights.js?v=61';
+import {waterMaterial,patchWater} from './water-material.js?v=61';
+import {visualGroundHeight} from './surface-placement.js?v=61';
+import {patchSurfaceDetail} from './material-detail.js?v=61';
+import {patchGroundWear} from './ground-wear.js?v=61';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=61';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=61';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=61';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=60';
-import { actorModel, material, part } from './geometry.js?v=60';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=60';
-import { loadImages } from './textures.js?v=60';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=60';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=60';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=60';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=61';
+import { actorModel, material, part } from './geometry.js?v=61';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=61';
+import { loadImages } from './textures.js?v=61';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=61';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=61';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=61';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -216,7 +219,7 @@ export class Renderer {
   materialKey(p, category) {
     const m = this.partMaterial(p);
     if(p.objectiveBanner)return `${category}/objective-banner-v1`;
-    return m.keys[category] ?? (m.keys[category] = `${category}/${p.surface==='snow'?'snow-grain-v1':p.surface==='water'&&p.surfaceLayer===2?'puddle-v1':'general-surface'}/${p.operatorWeapon?'operator-weapon':'general'}/${this.blenderAssets?.key(p,category)?'blender':['ridge','conifer','strata'].includes(p.mesh)?p.mesh:'regular'}/${p.blenderWind?'plant-wind':'still'}/${p.blenderVertexMaterial?'vertex-material':'uniform-material'}/${(category==='weapon'||p.operatorWeapon)&&p.blenderColour&&p.blenderVertexMaterial?'native-hero-reflectance':'general-reflectance'}/${category==='world'&&m.pattern===9&&p.blenderVertexMaterial?'authored-paint':'base-reflectance'}/${p.productionGround?'baked-ground':'live-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/${p.wet?'wet':'dry'}/${p.surfaceLayer??0}/${!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'hard-bevel':'regular'}/${m.pattern}/${category === 'weapon'||p.operatorWeapon ? m.finishTile ?? -1 : -1}/${Math.round(m.rough * 10) / 10}/${Math.round(m.metal * 10) / 10}/${m.emissive > 0 ? m.emissive : 0}/${p.surface==='water'?2:p.surface === 'glass' ? 1 : 0}`);
+    return m.keys[category] ?? (m.keys[category] = `${category}/${p.surface==='snow'?'snow-grain-v1':p.surface==='water'&&p.surfaceLayer===2?'puddle-v1':'general-surface'}/${p.operatorWeapon?'operator-weapon':'general'}/${this.blenderAssets?.key(p,category)?'blender':['ridge','conifer','strata'].includes(p.mesh)?p.mesh:'regular'}/${p.blenderWind?'plant-wind':'still'}/${p.blenderVertexMaterial?'vertex-material':'uniform-material'}/${(category==='weapon'||p.operatorWeapon)&&p.blenderColour&&p.blenderVertexMaterial?'native-hero-reflectance':'general-reflectance'}/${category==='world'&&m.pattern===9&&p.blenderVertexMaterial?'authored-paint':'base-reflectance'}/${p.productionGround?'baked-ground':'live-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/${p.productionGroundWear??'none'}/${p.wet?'wet':'dry'}/${p.surfaceLayer??0}/${!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'hard-bevel':'regular'}/${m.pattern}/${category === 'weapon'||p.operatorWeapon ? m.finishTile ?? -1 : -1}/${Math.round(m.rough * 10) / 10}/${Math.round(m.metal * 10) / 10}/${m.emissive > 0 ? m.emissive : 0}/${p.surface==='water'?2:p.surface === 'glass' ? 1 : 0}`);
   }
 
   makeMaterial(p, category) {
@@ -288,11 +291,11 @@ export class Renderer {
       const depth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking,side:THREE.DoubleSide});this.patchWind(depth);this.depthMaterials.set(key,depth);
     }
     const previousPatch=mat.onBeforeCompile,previousKey=mat.customProgramCacheKey();
-    mat.onBeforeCompile=shader=>{previousPatch(shader);if(!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p))patchWeaponBevel(shader);if(maps||water)patchSurfaceDetail(shader,maps?.baked,snow||!!p.blenderVertexMaterial,p.wet?.42:1);if(p.blenderVertexMaterial&&!p.objectiveBanner&&!snow&&!puddle)patchBlenderMaterial(shader,category==='world'&&tile===8,nativeHero);if(water)patchWater(shader,this.windTime,this.arena?.info?.size,puddle);else if(category!=='weapon'&&!leaf){if(p.productionGround)this.productionLighting?.patch(shader);else{this.lightingField?.patch(shader,category==='world');this.roomLights?.patch(shader);if(category==='world')this.productionLighting?.patchBounce(shader);}}if(category!=='weapon')patchAtmosphere(shader,this.hazeSun??{value:new THREE.Vector3(0,1,0)},this.hazeAmount??{value:.075});};
+    mat.onBeforeCompile=shader=>{previousPatch(shader);if(!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p))patchWeaponBevel(shader);if(maps||water)patchSurfaceDetail(shader,maps?.baked,snow||!!p.blenderVertexMaterial,p.wet?.42:1);if(maps&&category==='world')patchGroundWear(shader,p);if(p.blenderVertexMaterial&&!p.objectiveBanner&&!snow&&!puddle)patchBlenderMaterial(shader,category==='world'&&tile===8,nativeHero);if(water)patchWater(shader,this.windTime,this.arena?.info?.size,puddle);else if(category!=='weapon'&&!leaf){if(p.productionGround)this.productionLighting?.patch(shader);else{this.lightingField?.patch(shader,category==='world');this.roomLights?.patch(shader);if(category==='world')this.productionLighting?.patchBounce(shader);}}if(category!=='weapon')patchAtmosphere(shader,this.hazeSun??{value:new THREE.Vector3(0,1,0)},this.hazeAmount??{value:.075});};
     // Cache by the actual shader interface. World bounce, actor lighting and
     // the viewmodel use different uniforms even when their Three defines match.
     // Epoxy's diffuse patch also differs from ordinary concrete.
-    mat.customProgramCacheKey=()=>`${category}/${previousKey}/${puddle?'puddle-v1':water?'water-v2':snow?'snow-grain-v1':!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'metric-bevel':''}/packed-orm-${maps?maps.baked?'blender-v2':'v2':'none'}/${p.blenderVertexMaterial&&!snow&&!puddle?'vertex-rm-v2':''}/${nativeHero?'native-hero-reflectance-v1':'general-reflectance'}/${category==='world'&&tile===8&&p.blenderVertexMaterial?'authored-paint-v1':'base-reflectance'}/${p.wet?'wet':'dry'}/${p.productionGround?'cycles-ground-v2':category==='world'?'room-ground-bounce-v4':category==='actor'?'room-lightfield-v2':'hero-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/haze-v2`;
+    mat.customProgramCacheKey=()=>`${category}/${previousKey}/${puddle?'puddle-v1':water?'water-v2':snow?'snow-grain-v1':!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'metric-bevel':''}/packed-orm-${maps?maps.baked?'blender-v2':'v2':'none'}/${p.blenderVertexMaterial&&!snow&&!puddle?'vertex-rm-v2':''}/${nativeHero?'native-hero-reflectance-v1':'general-reflectance'}/${category==='world'&&tile===8&&p.blenderVertexMaterial?'authored-paint-v1':'base-reflectance'}/${p.wet?'wet':'dry'}/${p.productionGround?'cycles-ground-v2':category==='world'?'room-ground-bounce-v4':category==='actor'?'room-lightfield-v2':'hero-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/ground-wear-${p.productionGroundWear??'none'}/haze-v2`;
     if(p.objectiveBanner){const before=mat.onBeforeCompile,key=mat.customProgramCacheKey();
       mat.onBeforeCompile=shader=>{before(shader);patchObjectiveBanner(shader,this.windTime??{value:0});};
       mat.customProgramCacheKey=()=>key+'/objective-textile-v2';
@@ -396,6 +399,7 @@ export class Renderer {
         for(const b of [batch,far]){b.instanceMatrix.setUsage(THREE.DynamicDrawUsage);b.instanceColor?.setUsage(THREE.DynamicDrawUsage);}
       }
     }
+    this.solidWallOcclusion=new SolidWallOcclusion(this.worldBatches);
     this.buildStaticContacts();this.applyQuality(true); this.shadowClock = 1;
   }
 
@@ -688,6 +692,7 @@ export class Renderer {
 
   updateActors(game, preparing = false) {
     this.resetDynamic(this.actorBatches);
+    this.actorOccluded=0;
     const player = game.player;
     for (const a of game.actors) {
       const actorDistance = distance(a, player);
@@ -695,9 +700,12 @@ export class Renderer {
       if (!preparing && this.frustum && actorDistance > 3) {
         // Include the held rifle and posed limbs, even if the body centre is
         // outside the view. Falling operators need room for their root lean.
-        this.actorBounds.radius = a.dead ? 2.5 : 2;
+        this.actorBounds.radius = actorEnvelopeRadius(a);
         this.actorBounds.center.set(a.x, a.y + .9, a.z);
         if (!this.frustum.intersectsSphere(this.actorBounds)) continue;
+      }
+      if(!preparing&&actorDistance>3&&this.actorOcclusionAllowed!==false&&this.solidWallOcclusion?.hidden(a,this.camera.position)){
+        this.actorOccluded++;continue;
       }
       const detailRange=(this.quality==='low'?24:38)*Math.tan(27.5*RAD)/Math.tan(this.camera.fov*RAD/2);
       a.renderLOD=actorDetailLevel(a.renderLOD,actorDistance,detailRange);const distant=!preparing&&a.renderLOD===1;
@@ -708,15 +716,15 @@ export class Renderer {
       a.renderBodyLOD=actorDetailLevel(a.renderBodyLOD,actorDistance,bodyRange);
       const bodyFar=!preparing&&a.renderBodyLOD===1;
       const death = a.dead ? Math.min(1, (3 - a.respawnLeft) * 2) : 0;
-      if (a.dead && death >= 1) continue;
+      if (a.dead && death >= 1 && !preparing) continue;
       compose(this.rawMatrix, a.x, a.y + death * .2, a.z, 1, 1, 1, -a.yaw, 0, death * 1.5); this.parentMatrix.fromArray(this.rawMatrix);
       const identity = identityFor(a, player, game.rules), parts = actorModel(a, game.time, identity);
       const nativeRange=this.quality==='low'?7:12;
-      a.nativeWeaponVisible=!!this.blenderAssets&&actorDistance<(a.nativeWeaponVisible?nativeRange*1.18:nativeRange*.92);
+      a.nativeWeaponVisible=!!this.blenderAssets&&(preparing||actorDistance<(a.nativeWeaponVisible?nativeRange*1.18:nativeRange*.92));
       for (let i = 0; i < parts.length; i++) {
         const q = parts[i]; let color;
         if(this.blenderAssets){q.blenderBodyIndex=i<a.operatorBodyCount?i:undefined;q.blenderFar=distant||bodyFar;}
-        if (q.hidden || a.nativeWeaponVisible&&q.carried || distant && !FAR_ACTOR_PARTS.has(i) && !q.actorFar) continue;
+        if (q.hidden || !preparing&&a.nativeWeaponVisible&&q.carried || distant && !FAR_ACTOR_PARTS.has(i) && !q.actorFar) continue;
         // Navy/cyan versus warm charcoal/crimson is stable after sides switch and in FFA.
         if (q.surface === 'fabric') color = q.operatorNeutral ? q.color ?? [.65,.64,.52] : identity.cloth;
         if (q.surface === 'white' || q.teamBand) color = identity.band;
@@ -826,18 +834,13 @@ export class Renderer {
 
   async prepareMatch(game) {
     if(this.lost||!this.loaded)throw new Error('Graphics are not ready. Reload to retry.');
-    this.applyQuality();const aspect=this.resize(),p=game.player,slot=p.slot;
-    this.updateActors(game,true);this.uploadDynamic(this.actorBatches);
-    if(this.lightingField?.texture.value)this.renderer.initTexture?.(this.lightingField.texture.value);
+    this.applyQuality();const aspect=this.resize();
+    const lod=game.actors.map(actor=>[actor,actor.renderLOD,actor.renderBodyLOD,actor.nativeWeaponVisible]);
     try{
-      // Both slots and the populated world are ready before controls activate.
-      for(let i=0;i<p.weapons.length;i++){
-        p.slot=i;this.prepareWeapon(game,aspect,false);
-        if(this.renderer.compileAsync)await this.renderer.compileAsync(this.weaponScene,this.weaponCamera);
-      }
-      if(this.renderer.compileAsync)await this.renderer.compileAsync(this.scene,this.camera);
-      if(this.lost)throw new Error('Graphics context unavailable');
-    }finally{p.slot=slot;this.prepareWeapon(game,aspect,false);}
+      this.updateActors(game,true);this.uploadDynamic(this.actorBatches);
+      if(this.lightingField?.texture.value)this.renderer.initTexture?.(this.lightingField.texture.value);
+      this.matchWarmup=await warmMatchMaterials(this,game,aspect);
+    }finally{for(const [actor,detail,body,native]of lod){actor.renderLOD=detail;actor.renderBodyLOD=body;actor.nativeWeaponVisible=native;}}
   }
 
   prepareWeapon(game, aspect, menu) {
@@ -904,6 +907,7 @@ export class Renderer {
     this.frustum?.setFromProjectionMatrix(this.worldVP);
     this.lightingField?.update();this.sceneLOD?.update(this,dt);this.blenderAssets?.updateLOD(this,dt);
     this.windTime.value = game.time;
+    this.actorOcclusionAllowed=!shadowUpdatePending(this,dt,(QUALITY[this.quality]??QUALITY.medium).shadowHz);
     this.updateActors(game); this.updateEffects(menu || game.paused ? 0 : dt, game); this.uploadDynamic(this.actorBatches);
     this.updateLighting(dt);
     this.shadowDraws=0;

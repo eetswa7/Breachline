@@ -1,0 +1,175 @@
+{
+  "kind": "software_WebGL_visual_validation",
+  "actual_iphone_data": false,
+  "comparison": "Current renderer with identical fixed game state and camera; baseline intercepts only the Release60 production-world module.",
+  "baselineGroundSourceCommit": "449256114f827a0f2993bf94588c66c617a14e00",
+  "baselineGroundSourceSha256": "bc9217c3a7a706ce4807643b8af1e7cc7dadf90c551193b803326227cdeaf9b3",
+  "viewport": {
+    "width": 1280,
+    "height": 600
+  },
+  "map": 14,
+  "quality": "high",
+  "fov": 80,
+  "seed": 817,
+  "errors": {
+    "before": [],
+    "after": []
+  },
+  "geometry": {
+    "apronSlabs": 16,
+    "approachSlabs": 4,
+    "additionalNativePlaneInstances": 16,
+    "sameHeightApronApproachOverlaps": 0,
+    "blacksiteProductionArtParts": 138,
+    "existingProductionArtPartCap": 140
+  },
+  "shader": {
+    "additionalProgramVariants": 6,
+    "additionalTextureSamplers": 0,
+    "additionalRenderTargets": 0,
+    "broadValueNoiseHashesPerFragment": 4,
+    "fineWearUsesExistingAlbedoSample": true,
+    "crackSquaredDistanceSegments": 7,
+    "physicalDeviceGPUCost": "unmeasured"
+  },
+  "visualAssessment": "Construction joints and mild curing/traffic variation improve the forecourt. Concrete tile repetition, coarse terrain, sparse dressing and simplified architecture remain visible. This is an incremental Blacksite surface treatment, not completion of professional environment art or AAA quality.",
+  "pairs": [
+    {
+      "camera": {
+        "name": "approach",
+        "x": 0,
+        "z": 27,
+        "yaw": 0,
+        "pitch": -0.14
+      },
+      "before": {
+        "name": "approach",
+        "draws": 302,
+        "triangles": 416036,
+        "shadowDraws": 215,
+        "textureEstimateBytes": 82779926,
+        "programs": 30,
+        "activeWorldBatches": 213,
+        "fullWorldBatches": 272,
+        "groundDetailParts": 0
+      },
+      "after": {
+        "name": "approach",
+        "draws": 304,
+        "triangles": 416068,
+        "shadowDraws": 215,
+        "textureEstimateBytes": 82779926,
+        "programs": 36,
+        "activeWorldBatches": 215,
+        "fullWorldBatches": 274,
+        "groundDetailParts": 62
+      },
+      "delta": {
+        "draws": 2,
+        "triangles": 32,
+        "shadowDraws": 0,
+        "textureEstimateBytes": 0,
+        "programs": 6,
+        "activeWorldBatches": 2,
+        "fullWorldBatches": 2
+      },
+      "images": {
+        "before": "docs/art-ground-checkpoint/approach-before.webp",
+        "after": "docs/art-ground-checkpoint/approach-after.webp"
+      }
+    },
+    {
+      "camera": {
+        "name": "apron",
+        "x": 12,
+        "z": 30,
+        "yaw": 0.4,
+        "pitch": -0.2
+      },
+      "before": {
+        "name": "apron",
+        "draws": 203,
+        "triangles": 269398,
+        "shadowDraws": 188,
+        "textureEstimateBytes": 82779926,
+        "programs": 30,
+        "activeWorldBatches": 212,
+        "fullWorldBatches": 272,
+        "groundDetailParts": 0
+      },
+      "after": {
+        "name": "apron",
+        "draws": 205,
+        "triangles": 269430,
+        "shadowDraws": 188,
+        "textureEstimateBytes": 82779926,
+        "programs": 36,
+        "activeWorldBatches": 214,
+        "fullWorldBatches": 274,
+        "groundDetailParts": 62
+      },
+      "delta": {
+        "draws": 2,
+        "triangles": 32,
+        "shadowDraws": 0,
+        "textureEstimateBytes": 0,
+        "programs": 6,
+        "activeWorldBatches": 2,
+        "fullWorldBatches": 2
+      },
+      "images": {
+        "before": "docs/art-ground-checkpoint/apron-before.webp",
+        "after": "docs/art-ground-checkpoint/apron-after.webp"
+      }
+    },
+    {
+      "camera": {
+        "name": "asphalt",
+        "x": 18,
+        "z": 39,
+        "yaw": -0.28,
+        "pitch": -0.24
+      },
+      "before": {
+        "name": "asphalt",
+        "draws": 277,
+        "triangles": 371768,
+        "shadowDraws": 168,
+        "textureEstimateBytes": 82779926,
+        "programs": 30,
+        "activeWorldBatches": 212,
+        "fullWorldBatches": 272,
+        "groundDetailParts": 0
+      },
+      "after": {
+        "name": "asphalt",
+        "draws": 279,
+        "triangles": 371800,
+        "shadowDraws": 168,
+        "textureEstimateBytes": 82779926,
+        "programs": 36,
+        "activeWorldBatches": 214,
+        "fullWorldBatches": 274,
+        "groundDetailParts": 62
+      },
+      "delta": {
+        "draws": 2,
+        "triangles": 32,
+        "shadowDraws": 0,
+        "textureEstimateBytes": 0,
+        "programs": 6,
+        "activeWorldBatches": 2,
+        "fullWorldBatches": 2
+      },
+      "images": {
+        "before": "docs/art-ground-checkpoint/asphalt-before.webp",
+        "after": "docs/art-ground-checkpoint/asphalt-after.webp"
+      }
+    }
+  ],
+  "reproduction": [
+    "node scripts/capture-ground.mjs before --baseline-ref=449256114f827a0f2993bf94588c66c617a14e00",
+    "node scripts/capture-ground.mjs after"
+  ]
+}

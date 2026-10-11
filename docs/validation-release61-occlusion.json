@@ -1,0 +1,362 @@
+{
+  "scope": "Fixed 16-operator Blacksite roster on verified unoccupied gameplay positions, five representative views, 80 degree horizontal FOV, 874x402 CSS reference viewport at DPR 1 with each tier actual resolution scale. Same native library, poses and quality for both policies. Node CPU + submitted actor geometry only; excludes world, effects, weapon and shadow passes. Shadow-refresh frames deliberately retain original actor buffers, so these are between-refresh savings. CPU times were captured with concurrent software browser validation; no physical iPhone FPS/GPU/timing/thermal/memory measurement.",
+  "actual_iphone_data": false,
+  "librarySha256": "8a121b045b7ede1f1ffc20013a36b94dd5dfdd61e46e32893dc9add9d0d909e2",
+  "wallContract": "One native wall closed inner core (.94,.94,.76) must cover the projected AABB of the full live/falling sphere (radius 2/2.5 m, centre y+0.9). No combined independent hits. Excludes apertures/facades/props/rotated/translucent/breakable/microdetail/wind geometry. Rechecks destroyed/invisible state each call. Bypass within 3 m and on preparation/shadow-refresh frames.",
+  "roster": [
+    [
+      -15,
+      -40
+    ],
+    [
+      -10,
+      -30
+    ],
+    [
+      10,
+      -30
+    ],
+    [
+      15,
+      -40
+    ],
+    [
+      0,
+      -20
+    ],
+    [
+      0,
+      -5
+    ],
+    [
+      5,
+      -10
+    ],
+    [
+      -5,
+      -10
+    ],
+    [
+      -20,
+      0
+    ],
+    [
+      20,
+      0
+    ],
+    [
+      -38,
+      5
+    ],
+    [
+      38,
+      5
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      -5,
+      18
+    ],
+    [
+      5,
+      18
+    ]
+  ],
+  "views": [
+    {
+      "name": "blacksite-approach",
+      "x": 0,
+      "z": 27,
+      "yaw": 0
+    },
+    {
+      "name": "blacksite-interior",
+      "x": 0,
+      "z": 9,
+      "yaw": 0
+    },
+    {
+      "name": "blacksite-yard",
+      "x": -31,
+      "z": 25,
+      "yaw": -0.12
+    },
+    {
+      "name": "blacksite-oblique",
+      "x": 12,
+      "z": 30,
+      "yaw": 0.4
+    },
+    {
+      "name": "blacksite-services",
+      "x": -5.5,
+      "z": 8,
+      "yaw": -0.95
+    }
+  ],
+  "results": [
+    {
+      "view": "blacksite-approach",
+      "quality": "low",
+      "policy": "disabled",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 97756,
+      "instances": 553,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.8336,
+      "cpuP95Ms": 5.8839
+    },
+    {
+      "view": "blacksite-approach",
+      "quality": "low",
+      "policy": "closed-wall",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 75408,
+      "instances": 445,
+      "occludedActors": 4,
+      "cpuMedianMs": 0.5031,
+      "cpuP95Ms": 1.206
+    },
+    {
+      "view": "blacksite-interior",
+      "quality": "low",
+      "policy": "disabled",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 57320,
+      "instances": 316,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.3739,
+      "cpuP95Ms": 0.9468
+    },
+    {
+      "view": "blacksite-interior",
+      "quality": "low",
+      "policy": "closed-wall",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 24,
+      "triangles": 46148,
+      "instances": 262,
+      "occludedActors": 2,
+      "cpuMedianMs": 0.2904,
+      "cpuP95Ms": 3.0979
+    },
+    {
+      "view": "blacksite-yard",
+      "quality": "low",
+      "policy": "disabled",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 36580,
+      "instances": 204,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.2249,
+      "cpuP95Ms": 2.9021
+    },
+    {
+      "view": "blacksite-yard",
+      "quality": "low",
+      "policy": "closed-wall",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 15508,
+      "instances": 91,
+      "occludedActors": 3,
+      "cpuMedianMs": 0.0877,
+      "cpuP95Ms": 0.1707
+    },
+    {
+      "view": "blacksite-oblique",
+      "quality": "low",
+      "policy": "disabled",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 47904,
+      "instances": 261,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.3056,
+      "cpuP95Ms": 4.4038
+    },
+    {
+      "view": "blacksite-oblique",
+      "quality": "low",
+      "policy": "closed-wall",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 42320,
+      "instances": 234,
+      "occludedActors": 1,
+      "cpuMedianMs": 0.2642,
+      "cpuP95Ms": 0.6748
+    },
+    {
+      "view": "blacksite-services",
+      "quality": "low",
+      "policy": "disabled",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 19432,
+      "instances": 120,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.0983,
+      "cpuP95Ms": 0.3016
+    },
+    {
+      "view": "blacksite-services",
+      "quality": "low",
+      "policy": "closed-wall",
+      "framebufferHeight": 281,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 19432,
+      "instances": 120,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.1051,
+      "cpuP95Ms": 0.5653
+    },
+    {
+      "view": "blacksite-approach",
+      "quality": "high",
+      "policy": "disabled",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 59,
+      "triangles": 181630,
+      "instances": 646,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.8594,
+      "cpuP95Ms": 3.3237
+    },
+    {
+      "view": "blacksite-approach",
+      "quality": "high",
+      "policy": "closed-wall",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 59,
+      "triangles": 159282,
+      "instances": 538,
+      "occludedActors": 4,
+      "cpuMedianMs": 0.7086,
+      "cpuP95Ms": 4.7888
+    },
+    {
+      "view": "blacksite-interior",
+      "quality": "high",
+      "policy": "disabled",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 69828,
+      "instances": 424,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.4295,
+      "cpuP95Ms": 8.884
+    },
+    {
+      "view": "blacksite-interior",
+      "quality": "high",
+      "policy": "closed-wall",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 58656,
+      "instances": 370,
+      "occludedActors": 2,
+      "cpuMedianMs": 0.3688,
+      "cpuP95Ms": 4.3234
+    },
+    {
+      "view": "blacksite-yard",
+      "quality": "high",
+      "policy": "disabled",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 40528,
+      "instances": 238,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.2408,
+      "cpuP95Ms": 1.6505
+    },
+    {
+      "view": "blacksite-yard",
+      "quality": "high",
+      "policy": "closed-wall",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 15508,
+      "instances": 91,
+      "occludedActors": 3,
+      "cpuMedianMs": 0.0913,
+      "cpuP95Ms": 0.3289
+    },
+    {
+      "view": "blacksite-oblique",
+      "quality": "high",
+      "policy": "disabled",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 60112,
+      "instances": 362,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.3672,
+      "cpuP95Ms": 2.5982
+    },
+    {
+      "view": "blacksite-oblique",
+      "quality": "high",
+      "policy": "closed-wall",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 54528,
+      "instances": 335,
+      "occludedActors": 1,
+      "cpuMedianMs": 0.3538,
+      "cpuP95Ms": 3.1515
+    },
+    {
+      "view": "blacksite-services",
+      "quality": "high",
+      "policy": "disabled",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 19432,
+      "instances": 120,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.1014,
+      "cpuP95Ms": 0.2994
+    },
+    {
+      "view": "blacksite-services",
+      "quality": "high",
+      "policy": "closed-wall",
+      "framebufferHeight": 402,
+      "trustedWallSlabs": 76,
+      "batches": 25,
+      "triangles": 19432,
+      "instances": 120,
+      "occludedActors": 0,
+      "cpuMedianMs": 0.1043,
+      "cpuP95Ms": 0.3939
+    }
+  ]
+}

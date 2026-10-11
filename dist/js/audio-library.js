@@ -1,4 +1,4 @@
-import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=60';
+import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=61';
 
 export async function loadSoundLibrary(context,onSound){
  const chunks=new Array(AUDIO_PARTS.length);let next=0;
@@ -42,6 +42,26 @@ export function footstepSurface(arena,position){
  if(['concrete','asphalt','plaster','stone','limestone','tiles'].includes(selected))return 'Hard';
  if(['grass','moss','dirt','sand'].includes(selected))return 'Soft';
  if(selected==='snow')return 'Snow';if(selected==='gravel')return 'Gravel';return null;
+}
+
+// Predict a small ejected case's landing from the existing floor query. Native
+// Web Audio scheduling holds the delay; there are no per-shot timers or queues.
+// This is cosmetic foley, not a new rigid-body or collision simulation.
+export function casingLanding(arena,shot,definition){
+ if(!shot.position||!arena.floorAt||!definition||definition.kind==='MELEE'||definition.revolver)return null;
+ const yaw=shot.yaw??0,rightX=Math.cos(yaw),rightZ=Math.sin(yaw),origin=shot.position;
+ const startY=origin.y-.15,p={x:origin.x+rightX*.23,y:startY,z:origin.z+rightZ*.23};
+ let floor=arena.floorAt(p,startY),flight=0;
+ for(let i=0;i<2;i++){
+  flight=(1.2+Math.sqrt(1.44+16*Math.max(0,startY-floor)))/8;
+  p.x=origin.x+rightX*(.23+1.8*flight);p.z=origin.z+rightZ*(.23+1.8*flight);
+  floor=arena.floorAt(p,startY);
+ }
+ p.y=floor;
+ const actual=footstepSurface(arena,p),map=arena.info?.id,tag=arena.info?.tag;
+ const surface=actual==='Metal'?'Metal':actual==='Wood'?'Wood':actual==='Water'?'Water':actual==='Snow'?'Snow':actual==='Soft'||actual==='Gravel'||actual==='Quarry'?'Soft':actual?'Hard':arena.indoors?.(p)?'Hard':map===8?'Snow':tag==='MIXED'||tag?.includes('FOREST')||map===9?'Soft':'Hard';
+ const action=definition.kind==='SNIPER'?.27:definition.shellReload?.22:.03;
+ return {position:p,surface,delay:Math.min(1.2,flight+action)};
 }
 
 // Geometry selects a shared short-room or warehouse response. No acoustic

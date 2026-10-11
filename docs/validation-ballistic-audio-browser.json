@@ -1,0 +1,113 @@
+{
+  "kind": "desktop_browser_ballistic_audio_validation",
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "original_material_takes": 42,
+  "sampleRate": 44100,
+  "native48kHzDecodedBytes": 40719220,
+  "renderedStereoPeak": 0.35021689534187317,
+  "nonfiniteSamples": 0,
+  "ambientPending": 16,
+  "priorityPending": 24,
+  "remainingVoicesAfterPause": 0,
+  "remainingSourcesAfterPause": 0,
+  "preview": "audio-contact-preview.m4a",
+  "scenes": [
+    {
+      "label": "Ricochet steel",
+      "startSeconds": 0,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 1,
+      "pcmPeak": 0.023498177528381348,
+      "pcmRms": 0.0006648948378453737
+    },
+    {
+      "label": "Ricochet concrete",
+      "startSeconds": 1.6,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 1,
+      "pcmPeak": 0.030980635434389114,
+      "pcmRms": 0.0007505064036542928
+    },
+    {
+      "label": "Penetration steel",
+      "startSeconds": 3.2,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.03653252497315407,
+      "pcmRms": 0.0006070205835479686
+    },
+    {
+      "label": "Penetration wood",
+      "startSeconds": 4.800000000000001,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.06010955199599266,
+      "pcmRms": 0.0009743615177730467
+    },
+    {
+      "label": "Penetration glass",
+      "startSeconds": 6.4,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.025652676820755005,
+      "pcmRms": 0.0005156518202218765
+    },
+    {
+      "label": "Penetration plaster",
+      "startSeconds": 8,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.041439156979322433,
+      "pcmRms": 0.0007655864432560496
+    },
+    {
+      "label": "Rifle then casing on concrete",
+      "startSeconds": 9.600000000000001,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.3494587540626526,
+      "pcmRms": 0.008770300241816582
+    },
+    {
+      "label": "Rifle then casing on steel",
+      "startSeconds": 11.200000000000001,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.34605810046195984,
+      "pcmRms": 0.008739644334300621
+    },
+    {
+      "label": "Rifle then casing on wood",
+      "startSeconds": 12.8,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.35021689534187317,
+      "pcmRms": 0.008777473296798543
+    },
+    {
+      "label": "Rifle then casing on dirt",
+      "startSeconds": 14.4,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.34887927770614624,
+      "pcmRms": 0.008824681840850137
+    },
+    {
+      "label": "Rifle then casing on water",
+      "startSeconds": 16,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.344623863697052,
+      "pcmRms": 0.008850415010652302
+    },
+    {
+      "label": "Rifle then casing on snow",
+      "startSeconds": 17.6,
+      "durationSeconds": 1.6,
+      "scheduledVoices": 2,
+      "pcmPeak": 0.34651851654052734,
+      "pcmRms": 0.008741308690550143
+    }
+  ]
+}

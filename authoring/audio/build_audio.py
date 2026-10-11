@@ -202,6 +202,57 @@ for surface in ('Metal','Stone','Wood','Glass','Water'):
             x += granular(t,rng,.05,.16,12,.018,(1500,6200),.006)
         register('impact'+surface,variant,x*1.45)
 
+for surface in ('Metal','Stone'):
+    for variant in range(4):
+        rng = np.random.default_rng(67519+variant*997+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.25))/RATE
+        x = contact(t,rng,.001,.16,3600+rng.uniform(-250,250),.004)
+        # A clipped friction scrape and a quiet falling fragment, not a long
+        # synthetic whistle. This describes a terminal glancing impact only.
+        x += noise(rng,len(t),[1800,11500])*envelope(t,.004,.0005,.024)*.055
+        if surface=='Metal':
+            x += noise(rng,len(t),[3700,13800])*envelope(t,.012,.001,.037)*.027
+            phase = math.tau*(6600*t-12500*t*t)
+            x += np.sin(phase)*envelope(t,.004,.001,.024)*.011
+            x += granular(t,rng,.029,.068,5,.012,(2100,5200),.004)
+        else:
+            x += noise(rng,len(t),[350,3400])*envelope(t,.004,.001,.018)*.047
+            x += granular(t,rng,.021,.088,11,.014,(1100,4300),.003)
+        register('ricochet'+surface,variant,x)
+
+for surface in ('Metal','Wood','Glass','Stone'):
+    for variant in range(4):
+        rng = np.random.default_rng(91753+variant*1709+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.22))/RATE
+        tone = {'Metal':3200,'Wood':850,'Glass':5100,'Stone':1600}[surface]
+        x = contact(t,rng,.001,.17,tone,.004,.85)
+        # Through-cover contacts are shorter than ordinary impacts. Entry and
+        # exit are spatially played from this material family in the game.
+        band = [1400,11000] if surface in ('Metal','Glass') else [140,4400]
+        x += noise(rng,len(t),band)*envelope(t,.002,.0003,.010)*.05
+        x += granular(t,rng,.009,.065,9 if surface=='Glass' else 5,.017,
+                      (tone*.55,min(7000,tone*1.6)),.003)
+        if surface=='Wood': x += noise(rng,len(t),[100,630])*envelope(t,.003,.001,.017)*.052
+        if surface=='Stone': x += noise(rng,len(t),[250,2300])*envelope(t,.005,.001,.016)*.034
+        register('penetration'+surface,variant,x)
+
+for surface in ('Hard','Metal','Wood','Soft','Water','Snow'):
+    for variant in range(3):
+        rng = np.random.default_rng(53629+variant*2017+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.30))/RATE
+        hardness = {'Hard':.9,'Metal':1,'Wood':.47,'Soft':.12,'Water':.13,'Snow':.09}[surface]
+        x = contact(t,rng,.002,.065*hardness,3300,.006)
+        for start,weight in ((rng.uniform(.044,.071),.023),(rng.uniform(.11,.15),.011)):
+            x += contact(t,rng,start,weight*hardness,2900,.004)
+        if surface=='Metal':
+            x += sum(np.sin(math.tau*f*t)*envelope(t,.002,.0003,.023)*.003
+                     for f in (3107,4913,7229))
+        elif surface=='Wood': x += noise(rng,len(t),[140,1300])*envelope(t,.002,.001,.011)*.012
+        elif surface=='Water': x += noise(rng,len(t),[500,6800])*envelope(t,.004,.003,.017)*.022
+        elif surface=='Snow': x += noise(rng,len(t),[800,6300])*envelope(t,.004,.005,.018)*.010
+        elif surface=='Soft': x += noise(rng,len(t),[140,2400])*envelope(t,.004,.003,.010)*.012
+        register('casing'+surface,variant,x)
+
 for variant in range(4):
     rng = np.random.default_rng(998731+variant*3877)
     t = np.arange(int(RATE*1.55))/RATE

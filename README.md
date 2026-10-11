@@ -1,6 +1,26 @@
 # BREACHLINE
 
-**Latest checkpoint: Release 60.** 30 weapons, 16 maps and 11 modes.
+**Latest checkpoint: Release 61.** 30 weapons, 16 maps and 11 modes.
+
+## Release 61: handling, ballistic sound and benchmark-led rendering work
+
+Inspect every weapon with **I**, the touch **INSPECT** button or controller
+**D-pad down**. Combat, aiming, reloads and equipment interrupt the handling
+animation immediately. Damped weapon inertia and firing movement preserve the
+existing aim, damage and fully aligned sights.
+
+Original material-specific ricochet, verified penetration and casing-contact
+sounds extend the offline library to 406 takes. Blacksite forecourts now have
+individual construction pours, worn lane paint and traffic/edge treatment.
+Conservative closed-wall operator culling reduces hidden geometry between shadow
+updates; loading prepares shadow, near/far, muzzle and interior-reflection shader
+variants. Benchmark spikes retain preceding/current frame evidence for diagnosis.
+
+The [Release 61 evidence and limits](docs/OVERHAUL_RELEASE61.md) and
+[updated checklist](docs/OVERHAUL_CHECKLIST.md) distinguish completed features
+from the unfinished visual/audio production target. The supplied
+[Release 60 device report](docs/BENCHMARK_RELEASE60_ANALYSIS.md) guides these
+changes; new iPhone performance, latency and thermal behaviour remain unmeasured.
 
 ## Release 60: environment and hero production overhaul
 

@@ -1,0 +1,231 @@
+{
+  "kind": "software_WebGL_occlusion_validation",
+  "actual_iphone_data": false,
+  "scope": "Same live Blacksite 16-actor roster, camera, LOD, lights, shadow texture and pose; only closed-wall actor occlusion toggled between two frames. Exact RGBA pixels compared before screenshots. Forced shadow-refresh frame checks bypass and real caster submission. This is Chromium SwiftShader, not iPhone Safari or GPU timings.",
+  "errors": [],
+  "requestFailures": [],
+  "results": [
+    {
+      "view": "blacksite-approach",
+      "walls": 76,
+      "webgl2": true,
+      "disabled": {
+        "draws": 216,
+        "triangles": 324848,
+        "actorBatches": 59,
+        "actorTriangles": 181630,
+        "actorInstances": 646,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "enabled": {
+        "draws": 216,
+        "triangles": 302500,
+        "actorBatches": 59,
+        "actorTriangles": 159282,
+        "actorInstances": 538,
+        "occludedActors": 4,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "shadow": {
+        "occludedActors": 0,
+        "allowed": false,
+        "shadowDraws": 198
+      }
+    },
+    {
+      "view": "blacksite-interior",
+      "walls": 76,
+      "webgl2": true,
+      "disabled": {
+        "draws": 140,
+        "triangles": 178760,
+        "actorBatches": 25,
+        "actorTriangles": 69828,
+        "actorInstances": 424,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "enabled": {
+        "draws": 140,
+        "triangles": 167588,
+        "actorBatches": 25,
+        "actorTriangles": 58656,
+        "actorInstances": 370,
+        "occludedActors": 2,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "shadow": {
+        "occludedActors": 0,
+        "allowed": false,
+        "shadowDraws": 192
+      }
+    },
+    {
+      "view": "blacksite-yard",
+      "walls": 76,
+      "webgl2": true,
+      "disabled": {
+        "draws": 147,
+        "triangles": 149892,
+        "actorBatches": 25,
+        "actorTriangles": 40528,
+        "actorInstances": 238,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "enabled": {
+        "draws": 147,
+        "triangles": 124872,
+        "actorBatches": 25,
+        "actorTriangles": 15508,
+        "actorInstances": 91,
+        "occludedActors": 3,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "shadow": {
+        "occludedActors": 0,
+        "allowed": false,
+        "shadowDraws": 169
+      }
+    },
+    {
+      "view": "blacksite-oblique",
+      "walls": 76,
+      "webgl2": true,
+      "disabled": {
+        "draws": 141,
+        "triangles": 170908,
+        "actorBatches": 25,
+        "actorTriangles": 60112,
+        "actorInstances": 362,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "enabled": {
+        "draws": 141,
+        "triangles": 165324,
+        "actorBatches": 25,
+        "actorTriangles": 54528,
+        "actorInstances": 335,
+        "occludedActors": 1,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "shadow": {
+        "occludedActors": 0,
+        "allowed": false,
+        "shadowDraws": 171
+      }
+    },
+    {
+      "view": "blacksite-services",
+      "walls": 76,
+      "webgl2": true,
+      "disabled": {
+        "draws": 134,
+        "triangles": 130484,
+        "actorBatches": 25,
+        "actorTriangles": 19432,
+        "actorInstances": 120,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "enabled": {
+        "draws": 134,
+        "triangles": 130484,
+        "actorBatches": 25,
+        "actorTriangles": 19432,
+        "actorInstances": 120,
+        "occludedActors": 0,
+        "changedPixels": 0,
+        "changedBytes": 0,
+        "maxChannelDelta": 0,
+        "width": 874,
+        "height": 402
+      },
+      "shadow": {
+        "occludedActors": 0,
+        "allowed": false,
+        "shadowDraws": 189
+      }
+    }
+  ],
+  "visualReview": {
+    "reviewed": true,
+    "views": "All five enabled actual gameplay screenshots inspected. Door/window views and equipment silhouettes retained; bunker exit image shows the actual cargo restriction. No visible difference across toggled frames, corroborated by exact RGBA comparison. This validates preservation for these fixtures, not the requested final art quality.",
+    "reviewedUtc": "2026-10-11"
+  },
+  "screenshots": [
+    {
+      "view": "blacksite-approach",
+      "path": "art-occlusion/blacksite-approach.png",
+      "disabledPngSha256": "6cc5cdb19cecb3165e86fc64b12b64c4c3d856143968b5a9daf598d848e3b16e",
+      "enabledPngSha256": "6cc5cdb19cecb3165e86fc64b12b64c4c3d856143968b5a9daf598d848e3b16e",
+      "identicalPngBytes": true
+    },
+    {
+      "view": "blacksite-interior",
+      "path": "art-occlusion/blacksite-interior.png",
+      "disabledPngSha256": "3a814e2879557901b686ee1e45e1f59f60ce29f7450592388ea14668d6d97af8",
+      "enabledPngSha256": "3a814e2879557901b686ee1e45e1f59f60ce29f7450592388ea14668d6d97af8",
+      "identicalPngBytes": true
+    },
+    {
+      "view": "blacksite-yard",
+      "path": "art-occlusion/blacksite-yard.png",
+      "disabledPngSha256": "da517e5adff65222bab0aa02665bef324c4eb42a1a9315e3f150925129cd4146",
+      "enabledPngSha256": "da517e5adff65222bab0aa02665bef324c4eb42a1a9315e3f150925129cd4146",
+      "identicalPngBytes": true
+    },
+    {
+      "view": "blacksite-oblique",
+      "path": "art-occlusion/blacksite-oblique.png",
+      "disabledPngSha256": "34f531a6faad9d722267509f1715356ed72ea415ae821059b10843e1de5f7a5c",
+      "enabledPngSha256": "34f531a6faad9d722267509f1715356ed72ea415ae821059b10843e1de5f7a5c",
+      "identicalPngBytes": true
+    },
+    {
+      "view": "blacksite-services",
+      "path": "art-occlusion/blacksite-services.png",
+      "disabledPngSha256": "83d7e27fde36a180ae61c17ce3617ad6436703dc2aa6732ec70a1849fb2c3f2d",
+      "enabledPngSha256": "83d7e27fde36a180ae61c17ce3617ad6436703dc2aa6732ec70a1849fb2c3f2d",
+      "identicalPngBytes": true
+    }
+  ]
+}

@@ -1,0 +1,1286 @@
+{
+  "kind": "software_WebGL_gameplay_visual_validation",
+  "actual_iphone_data": false,
+  "viewport": {
+    "width": 932,
+    "height": 430
+  },
+  "date": "2026-10-11",
+  "runtimeControls": {
+    "keyboard": true,
+    "pointer": true
+  },
+  "layouts": [
+    {
+      "profile": "simple",
+      "leftHanded": false,
+      "buttonScale": 1,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 214.359375,
+          "y": 316.5,
+          "width": 56,
+          "height": 42,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 298.984375,
+          "y": 316.5,
+          "width": 56,
+          "height": 42,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 367.4453125,
+          "y": 319.0234375,
+          "width": 49.265625,
+          "height": 36.953125,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "simple",
+      "leftHanded": false,
+      "buttonScale": 1.4,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 203.1640625,
+          "y": 308.1015625,
+          "width": 78.390625,
+          "height": 58.796875,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 287.7890625,
+          "y": 308.1015625,
+          "width": 78.390625,
+          "height": 58.796875,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 285.9765625,
+          "y": 236.6328125,
+          "width": 68.984375,
+          "height": 51.734375,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "simple",
+      "leftHanded": true,
+      "buttonScale": 1,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 396.625,
+          "y": 316.5,
+          "width": 56,
+          "height": 42,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 312,
+          "y": 316.5,
+          "width": 56,
+          "height": 42,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 250.2734375,
+          "y": 319.0234375,
+          "width": 49.265625,
+          "height": 36.953125,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "simple",
+      "leftHanded": true,
+      "buttonScale": 1.4,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 385.4296875,
+          "y": 308.1015625,
+          "width": 78.390625,
+          "height": 58.796875,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 300.8046875,
+          "y": 308.1015625,
+          "width": 78.390625,
+          "height": 58.796875,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 312.0234375,
+          "y": 236.6328125,
+          "width": 68.984375,
+          "height": 51.734375,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "advanced",
+      "leftHanded": false,
+      "buttonScale": 1,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 509.796875,
+          "y": 274.5,
+          "width": 51,
+          "height": 51,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 316,
+          "y": 317.25,
+          "width": 48,
+          "height": 48,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 370.078125,
+          "y": 315.5,
+          "width": 44,
+          "height": 44,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "advanced",
+      "leftHanded": false,
+      "buttonScale": 1.4,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 499.6015625,
+          "y": 264.3046875,
+          "width": 71.390625,
+          "height": 71.390625,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 306.40625,
+          "y": 299.796875,
+          "width": 67.1875,
+          "height": 67.1875,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 289.671875,
+          "y": 231.703125,
+          "width": 61.59375,
+          "height": 61.59375,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "advanced",
+      "leftHanded": true,
+      "buttonScale": 1,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 106.1875,
+          "y": 274.5,
+          "width": 51,
+          "height": 51,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 302.984375,
+          "y": 317.25,
+          "width": 48,
+          "height": 48,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 252.90625,
+          "y": 315.5,
+          "width": 44,
+          "height": 44,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "profile": "advanced",
+      "leftHanded": true,
+      "buttonScale": 1.4,
+      "boxes": [
+        {
+          "action": "reload",
+          "x": 95.9921875,
+          "y": 264.3046875,
+          "width": 71.390625,
+          "height": 71.390625,
+          "hidden": false
+        },
+        {
+          "action": "swap",
+          "x": 293.390625,
+          "y": 299.796875,
+          "width": 67.1875,
+          "height": 67.1875,
+          "hidden": false
+        },
+        {
+          "action": "inspect",
+          "x": 315.71875,
+          "y": 231.703125,
+          "width": 61.59375,
+          "height": 61.59375,
+          "hidden": false
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "id": 0,
+      "name": "Kestrel AR",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.1857820249987359,
+        "maxX": 0.5500718168579143,
+        "minY": -0.731357860214183,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 220698,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 30
+    },
+    {
+      "id": 0,
+      "name": "Kestrel AR",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.10367352701875368,
+        "maxX": 0.5832955764263487,
+        "minY": -0.6479270311874159,
+        "maxY": 0.277782318782945
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 220698,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 30
+    },
+    {
+      "id": 1,
+      "name": "Bastion 7",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.21156862125051434,
+        "maxX": 0.6166948415168859,
+        "minY": -0.7913032359910325,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 24
+    },
+    {
+      "id": 1,
+      "name": "Bastion 7",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.12407828311895294,
+        "maxX": 0.6572023225168223,
+        "minY": -0.6932736849393958,
+        "maxY": 0.3374174997989401
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 24
+    },
+    {
+      "id": 2,
+      "name": "Raptor C",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.1437392005813502,
+        "maxX": 0.40096077845856876,
+        "minY": -0.7902277936001588,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 32
+    },
+    {
+      "id": 2,
+      "name": "Raptor C",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.07506520006713524,
+        "maxX": 0.4283092077538083,
+        "minY": -0.6889707822574498,
+        "maxY": 0.24005003928013613
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 32
+    },
+    {
+      "id": 3,
+      "name": "Vesper 9",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.09933141651980998,
+        "maxX": 0.4947184693174112,
+        "minY": -0.8850888756469171,
+        "maxY": 0.26633642710194544
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 216456,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 36
+    },
+    {
+      "id": 3,
+      "name": "Vesper 9",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.03897857314091223,
+        "maxX": 0.5314149873452246,
+        "minY": -0.824801781243789,
+        "maxY": 0.270870361148061
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 216456,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 36
+    },
+    {
+      "id": 4,
+      "name": "Lynx PDW",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.14570386145277647,
+        "maxX": 0.4513222409077205,
+        "minY": -0.7044765425165264,
+        "maxY": 0.26633642710194544
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 28
+    },
+    {
+      "id": 4,
+      "name": "Lynx PDW",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.07529009788607352,
+        "maxX": 0.49020892773601277,
+        "minY": -0.6014946500006804,
+        "maxY": 0.270870361148061
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 28
+    },
+    {
+      "id": 5,
+      "name": "Breach 12",
+      "kind": "SHOTGUN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.23561975121459033,
+        "maxX": 0.6494247489792803,
+        "minY": -0.8227917208734254,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 215710,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 7
+    },
+    {
+      "id": 5,
+      "name": "Breach 12",
+      "kind": "SHOTGUN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.13717797401894616,
+        "maxX": 0.6949336535530231,
+        "minY": -0.5606789286901185,
+        "maxY": 0.28903435690321044
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 215710,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 7
+    },
+    {
+      "id": 6,
+      "name": "Tempest S",
+      "kind": "SHOTGUN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.21115969464492795,
+        "maxX": 0.5598821850978645,
+        "minY": -0.7405236597446525,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 8
+    },
+    {
+      "id": 6,
+      "name": "Tempest S",
+      "kind": "SHOTGUN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.1220032619287647,
+        "maxX": 0.5940841218339253,
+        "minY": -0.6715565895555353,
+        "maxY": 0.28437128475434825
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 8
+    },
+    {
+      "id": 7,
+      "name": "Longbow M",
+      "kind": "SNIPER",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.25680947445477714,
+        "maxX": 0.5736345305219251,
+        "minY": -0.7270645606297914,
+        "maxY": 0.23588323102999037
+      },
+      "rendered": true,
+      "draws": 258,
+      "triangles": 222504,
+      "inspectionElapsed": 1.26,
+      "ammo": 5
+    },
+    {
+      "id": 7,
+      "name": "Longbow M",
+      "kind": "SNIPER",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.15489217462957341,
+        "maxX": 0.608255853122327,
+        "minY": -0.5036832622289867,
+        "maxY": 0.2913854229840773
+      },
+      "rendered": true,
+      "draws": 258,
+      "triangles": 222504,
+      "inspectionElapsed": 2.4120000000000004,
+      "ammo": 5
+    },
+    {
+      "id": 8,
+      "name": "Warden D",
+      "kind": "MARKSMAN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.22696944581732229,
+        "maxX": 0.5791946732364347,
+        "minY": -0.7576040281654216,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 15
+    },
+    {
+      "id": 8,
+      "name": "Warden D",
+      "kind": "MARKSMAN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.13280562928090234,
+        "maxX": 0.6147624789430449,
+        "minY": -0.5698717066023372,
+        "maxY": 0.2967359516568627
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 15
+    },
+    {
+      "id": 9,
+      "name": "Atlas L",
+      "kind": "LMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.21745665206959805,
+        "maxX": 0.5750650369851703,
+        "minY": -0.7241584237300159,
+        "maxY": 0.20180989909142177
+      },
+      "rendered": true,
+      "draws": 258,
+      "triangles": 221854,
+      "inspectionElapsed": 1.3299999999999998,
+      "ammo": 80
+    },
+    {
+      "id": 9,
+      "name": "Atlas L",
+      "kind": "LMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.13189959970179652,
+        "maxX": 0.6143500288327033,
+        "minY": -0.5288744460430079,
+        "maxY": 0.33594917701019106
+      },
+      "rendered": true,
+      "draws": 258,
+      "triangles": 221854,
+      "inspectionElapsed": 2.546,
+      "ammo": 80
+    },
+    {
+      "id": 10,
+      "name": "Sable P",
+      "kind": "PISTOL",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.05696039058394869,
+        "maxX": 0.3201680470198133,
+        "minY": -0.8392728268927026,
+        "maxY": 0.31617524191367696
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 213790,
+      "inspectionElapsed": 1.015,
+      "ammo": 15
+    },
+    {
+      "id": 10,
+      "name": "Sable P",
+      "kind": "PISTOL",
+      "phase": "top",
+      "bounds": {
+        "minX": 0.025464557153879262,
+        "maxX": 0.37795431878804586,
+        "minY": -0.8097369250091485,
+        "maxY": 0.29570576530658277
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 213790,
+      "inspectionElapsed": 1.943,
+      "ammo": 15
+    },
+    {
+      "id": 11,
+      "name": "Dire 50",
+      "kind": "PISTOL",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.10815135328293791,
+        "maxX": 0.34399251466226627,
+        "minY": -0.8667032906630574,
+        "maxY": 0.31617524191367696
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.015,
+      "ammo": 7
+    },
+    {
+      "id": 11,
+      "name": "Dire 50",
+      "kind": "PISTOL",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.010600889982338496,
+        "maxX": 0.3865663800760762,
+        "minY": -0.8386081329679377,
+        "maxY": 0.29570576530658277
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.943,
+      "ammo": 7
+    },
+    {
+      "id": 12,
+      "name": "Field blade",
+      "kind": "MELEE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.10081870555706846,
+        "maxX": 0.38412678258183564,
+        "minY": -0.40725412553908585,
+        "maxY": 0.012566226066596624
+      },
+      "rendered": true,
+      "draws": 247,
+      "triangles": 204918,
+      "inspectionElapsed": 1.015,
+      "ammo": 1
+    },
+    {
+      "id": 12,
+      "name": "Field blade",
+      "kind": "MELEE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.03635999113207366,
+        "maxX": 0.372979853182604,
+        "minY": -0.33357553366617243,
+        "maxY": -0.011151547561236153
+      },
+      "rendered": true,
+      "draws": 247,
+      "triangles": 204918,
+      "inspectionElapsed": 1.943,
+      "ammo": 1
+    },
+    {
+      "id": 13,
+      "name": "Harrow B3",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.18379497004434678,
+        "maxX": 0.5402351003399347,
+        "minY": -0.7227648616841272,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 27
+    },
+    {
+      "id": 13,
+      "name": "Harrow B3",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.10280654421516063,
+        "maxX": 0.57401659468414,
+        "minY": -0.6372186728989923,
+        "maxY": 0.27264023299809154
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 27
+    },
+    {
+      "id": 14,
+      "name": "Marten 45",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.11357344724692436,
+        "maxX": 0.5495113442423426,
+        "minY": -0.8629448016397501,
+        "maxY": 0.26633642710194544
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 24
+    },
+    {
+      "id": 14,
+      "name": "Marten 45",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.05201697716396476,
+        "maxX": 0.590573058818568,
+        "minY": -0.8156678839403709,
+        "maxY": 0.28667187527584864
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 24
+    },
+    {
+      "id": 15,
+      "name": "Mako 7",
+      "kind": "MARKSMAN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.22372579441869075,
+        "maxX": 0.5867676514171779,
+        "minY": -0.7631899197863342,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 20
+    },
+    {
+      "id": 15,
+      "name": "Mako 7",
+      "kind": "MARKSMAN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.13139813604732586,
+        "maxX": 0.6246662844368105,
+        "minY": -0.6078060427232217,
+        "maxY": 0.31754459861201545
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 20
+    },
+    {
+      "id": 16,
+      "name": "Peregrine 6",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.17665073401273193,
+        "maxX": 0.5403028322375375,
+        "minY": -0.7225401782121101,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 24
+    },
+    {
+      "id": 16,
+      "name": "Peregrine 6",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.09777023738421411,
+        "maxX": 0.572959167513464,
+        "minY": -0.6162841989290788,
+        "maxY": 0.276154270495628
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 24
+    },
+    {
+      "id": 17,
+      "name": "Osprey S",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.07850374883790416,
+        "maxX": 0.5479836821507674,
+        "minY": -0.9502217114164199,
+        "maxY": 0.26633642710194544
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 40
+    },
+    {
+      "id": 17,
+      "name": "Osprey S",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.02241191031049615,
+        "maxX": 0.5894141879429549,
+        "minY": -0.875050961968,
+        "maxY": 0.270870361148061
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 40
+    },
+    {
+      "id": 18,
+      "name": "Bison 12",
+      "kind": "SHOTGUN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.216610844355575,
+        "maxX": 0.6406972870837059,
+        "minY": -0.8087146587831319,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 6
+    },
+    {
+      "id": 18,
+      "name": "Bison 12",
+      "kind": "SHOTGUN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.12606504144731817,
+        "maxX": 0.6826707681198163,
+        "minY": -0.5333495085606079,
+        "maxY": 0.35343389367329575
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 6
+    },
+    {
+      "id": 19,
+      "name": "Talon 338",
+      "kind": "SNIPER",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.26935436041100547,
+        "maxX": 0.5848328179610269,
+        "minY": -0.7351822388348096,
+        "maxY": 0.23588323102999037
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.26,
+      "ammo": 6
+    },
+    {
+      "id": 19,
+      "name": "Talon 338",
+      "kind": "SNIPER",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.16501040884626075,
+        "maxX": 0.6186281880778401,
+        "minY": -0.5243564998029091,
+        "maxY": 0.3114767438795633
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.4120000000000004,
+      "ammo": 6
+    },
+    {
+      "id": 20,
+      "name": "Rampart 556",
+      "kind": "LMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.20206711729693907,
+        "maxX": 0.5285191514566905,
+        "minY": -0.687139953182983,
+        "maxY": 0.20180989909142177
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.3299999999999998,
+      "ammo": 100
+    },
+    {
+      "id": 20,
+      "name": "Rampart 556",
+      "kind": "LMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.11931530937834363,
+        "maxX": 0.5574338765036454,
+        "minY": -0.6472793096062897,
+        "maxY": 0.26332706745957213
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.546,
+      "ammo": 100
+    },
+    {
+      "id": 21,
+      "name": "Spectre SD",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.11501790018984878,
+        "maxX": 0.5388614149689016,
+        "minY": -0.8210557629635755,
+        "maxY": 0.2540392085773113
+      },
+      "rendered": true,
+      "draws": 257,
+      "triangles": 218648,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 30
+    },
+    {
+      "id": 21,
+      "name": "Spectre SD",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.07604011044492735,
+        "maxX": 0.5762776190665108,
+        "minY": -0.7626987379310712,
+        "maxY": 0.25878813247110827
+      },
+      "rendered": true,
+      "draws": 257,
+      "triangles": 218648,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 30
+    },
+    {
+      "id": 22,
+      "name": "Krait R",
+      "kind": "PISTOL",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.16636683374102873,
+        "maxX": 0.3547867999671224,
+        "minY": -0.9198205198676149,
+        "maxY": 0.31617524191367696
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 212710,
+      "inspectionElapsed": 1.015,
+      "ammo": 6
+    },
+    {
+      "id": 22,
+      "name": "Krait R",
+      "kind": "PISTOL",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.05524501439511957,
+        "maxX": 0.41289584662402135,
+        "minY": -0.8828076396967397,
+        "maxY": 0.29570576530658277
+      },
+      "rendered": true,
+      "draws": 256,
+      "triangles": 212710,
+      "inspectionElapsed": 1.943,
+      "ammo": 6
+    },
+    {
+      "id": 23,
+      "name": "Swift 93",
+      "kind": "PISTOL",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.09189456597662234,
+        "maxX": 0.33715963206723676,
+        "minY": -0.9229132854077223,
+        "maxY": 0.31617524191367696
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.015,
+      "ammo": 20
+    },
+    {
+      "id": 23,
+      "name": "Swift 93",
+      "kind": "PISTOL",
+      "phase": "top",
+      "bounds": {
+        "minX": 0.005566738625172625,
+        "maxX": 0.4014572232787668,
+        "minY": -0.8896641280654427,
+        "maxY": 0.29570576530658277
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.943,
+      "ammo": 20
+    },
+    {
+      "id": 24,
+      "name": "Storm 68",
+      "kind": "RIFLE",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.19331890359527204,
+        "maxX": 0.439191843065015,
+        "minY": -0.7792617701025628,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 25
+    },
+    {
+      "id": 24,
+      "name": "Storm 68",
+      "kind": "RIFLE",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.11213434755050596,
+        "maxX": 0.46614802181129705,
+        "minY": -0.6851577713609717,
+        "maxY": 0.24005003928013613
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 25
+    },
+    {
+      "id": 25,
+      "name": "Needle 57",
+      "kind": "SMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.12810186274115834,
+        "maxX": 0.5541336074907723,
+        "minY": -0.8036404217350617,
+        "maxY": 0.26633642710194544
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 50
+    },
+    {
+      "id": 25,
+      "name": "Needle 57",
+      "kind": "SMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.059549131499369606,
+        "maxX": 0.596634173671649,
+        "minY": -0.6131333778332815,
+        "maxY": 0.270870361148061
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 50
+    },
+    {
+      "id": 26,
+      "name": "Jackal 12",
+      "kind": "SHOTGUN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.18285913317401584,
+        "maxX": 0.4744829256587693,
+        "minY": -0.7514401749994665,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 10
+    },
+    {
+      "id": 26,
+      "name": "Jackal 12",
+      "kind": "SHOTGUN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.1063331479769723,
+        "maxX": 0.5022359305549223,
+        "minY": -0.7189337714195593,
+        "maxY": 0.26208759754477223
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 10
+    },
+    {
+      "id": 27,
+      "name": "Sentinel 762",
+      "kind": "LMG",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.2534070854315286,
+        "maxX": 0.6122259825527205,
+        "minY": -0.7601324021669678,
+        "maxY": 0.20180989909142177
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.3299999999999998,
+      "ammo": 60
+    },
+    {
+      "id": 27,
+      "name": "Sentinel 762",
+      "kind": "LMG",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.15498023973021566,
+        "maxX": 0.6515464895813127,
+        "minY": -0.5826005812456205,
+        "maxY": 0.3303066763136761
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.546,
+      "ammo": 60
+    },
+    {
+      "id": 28,
+      "name": "Heron S",
+      "kind": "MARKSMAN",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.2346619512473926,
+        "maxX": 0.6713113258354226,
+        "minY": -0.8313629166802616,
+        "maxY": 0.23504725849949962
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.1724999999999999,
+      "ammo": 12
+    },
+    {
+      "id": 28,
+      "name": "Heron S",
+      "kind": "MARKSMAN",
+      "phase": "top",
+      "bounds": {
+        "minX": -0.13650056547487693,
+        "maxX": 0.712227912153436,
+        "minY": -0.5229069856437797,
+        "maxY": 0.3605677795472363
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 2.2445000000000004,
+      "ammo": 12
+    },
+    {
+      "id": 29,
+      "name": "Paladin 45",
+      "kind": "PISTOL",
+      "phase": "side",
+      "bounds": {
+        "minX": -0.08144255664073122,
+        "maxX": 0.3238754087727629,
+        "minY": -0.8464061176876975,
+        "maxY": 0.31617524191367696
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.015,
+      "ammo": 12
+    },
+    {
+      "id": 29,
+      "name": "Paladin 45",
+      "kind": "PISTOL",
+      "phase": "top",
+      "bounds": {
+        "minX": 0.0075785649932328105,
+        "maxX": 0.3779543515855279,
+        "minY": -0.8216543533378212,
+        "maxY": 0.29570576530658277
+      },
+      "rendered": false,
+      "draws": null,
+      "triangles": null,
+      "inspectionElapsed": 1.943,
+      "ammo": 12
+    }
+  ]
+}

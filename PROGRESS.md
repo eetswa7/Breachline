@@ -1,3 +1,25 @@
+# Release 61: inspection, contact audio and rendering preparation
+
+- Added side/top inspection for all 30 weapons with keyboard, touch and controller
+  input, immediate combat cancellation and pause/death lifecycle handling.
+- Added damped weapon inertia/recoil and original penetration, glancing-contact
+  and surface-specific casing cues with bounded voices and pause cleanup.
+- Added Blacksite construction pours, joints, traffic wear and edge deposits;
+  matched before/after gameplay renders retain the native PBR source assets.
+- Added conservative operator occlusion between shadow refreshes and bounded
+  near/far, interior/exterior and depth-material warmup during loading.
+- Archived the user's actual Release 60 iPhone export without alteration. New
+  benchmark spike records retain preceding/current callback evidence even when
+  reservoir sampling omits a stall.
+- All 352 regression tests, 82 packaged JavaScript modules and 56 shader variants
+  pass. Five occlusion comparisons retain identical pixels; warmup adds no new
+  programs across eight reviewed transitions on two maps. These are software
+  checks. Physical Release 61 iPhone speed, memory, latency and thermals remain
+  unverified.
+- [Release notes and evidence](docs/OVERHAUL_RELEASE61.md) and the original
+  thirteen-section [checklist](docs/OVERHAUL_CHECKLIST.md) track completed feature
+  scope separately from the unfinished professional art/audio target.
+
 # Release 59: continuation of the production art and audio overhaul
 
 - Fixed exterior-face sky access and ground bounce without another texture tap.

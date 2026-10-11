@@ -456,6 +456,9 @@ export function animateWeaponParts(parts,w,p,time){
  const emptySlide=w.ammo===0&&(!reloading||r<.87)?1:0;
  for(const index of parts.animated){const q=parts[index];q.x=q.baseX;q.y=q.baseY;q.z=q.baseZ;q.yaw=q.baseYaw;q.pitch=q.basePitch;q.roll=q.baseRoll;
   switch(q.tag){
+   // The blade's handle is horizontal at receiver height. Its old generic
+   // pistol-grip hand target left a visible air gap when viewed from the side.
+   case 'rightHand':if(w.def.id===12)q.y+=.122;break;
    case 'slide':q.z+=Math.max(slide,emptySlide)*.035;break;
    case 'bolt':q.z+=(w.def.kind==='SNIPER'||w.def.id===7?boltOpen*.068:slide*.026)+boltReload*.04;if(w.def.kind==='SNIPER'||w.def.id===7)q.roll-=(boltOpen+boltReload)*.68;break;
    case 'pump':case 'pumpHand':q.z+=pump*.079;if(reloading&&q.tag==='pumpHand'){q.x-=leftReach*.035;q.y-=leftReach*.095;q.z+=leftReach*.27;q.roll-=leftReach*.5;}break;

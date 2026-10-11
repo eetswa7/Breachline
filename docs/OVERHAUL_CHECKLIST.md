@@ -1,8 +1,9 @@
 # Breachline graphics and audio overhaul checklist
 
-Recorded on 11 October 2026 from the full audit requested by the user. This is
-the audit of Release 60 at `449256114f827a0f2993bf94588c66c617a14e00`; recording
-the checklist does not claim that additional production work was completed.
+Recorded on 11 October 2026 from the full audit requested by the user. The
+baseline is Release 60 at `449256114f827a0f2993bf94588c66c617a14e00`.
+Release 61 status changes below link their implementation and validation;
+the update log records the source checkpoint.
 
 **The original request is not complete in full.** Asset production, library
 coverage, preservation and deployment are substantially complete. The requested
@@ -40,6 +41,7 @@ physical iPhone performance remain unfinished or unverified.
 - [Actual Release 60 iPhone report](../benchmarks/iphone-release60-2026-10-06.json)
 - [Release 60 device analysis and comparison limits](BENCHMARK_RELEASE60_ANALYSIS.md)
 - [Original asset provenance](ART_PROVENANCE.md)
+- [Release 61 implementation, scope and review evidence](OVERHAUL_RELEASE61.md)
 
 The recovery ref is `release57-baseline` at
 `454a5a26a8418fa8db1d3cc1ec197f7e56c56415`. The physical measurement's recorded
@@ -100,8 +102,10 @@ as documented in the baseline JSON and validation report.
   surfaces. Most material families improved; comprehensive convincing mud/terrain
   treatment was not completed.
 - [ ] **Partial:** Irregularities, cracks, decals, tyre marks, puddles and ground
-  transitions. Surface artwork, lane paint and puddles improved; comprehensive
-  decals, tyre marks and transitions remain incomplete.
+  transitions. Release 61 adds twenty Blacksite construction pours, joints,
+  cracks, traffic marks, oil/edge deposits and worn paint. [Matched gameplay
+  views](validation-blacksite-ground.json) show the incremental improvement;
+  comprehensive decals, transitions and convincing terrain remain incomplete.
 - [ ] **Partial:** Detailed terrain variation and realistic material blending.
   Variation exists; sophisticated terrain blending was not completed.
 - [ ] **Not complete:** Eliminate obvious repetition and unnatural terrain shapes.
@@ -210,10 +214,15 @@ as documented in the baseline JSON and validation report.
   validated.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   improved; first-person reload animation was largely retained.
-- [ ] **Not complete:** Inspection animations. No inspection action/animation
-  was implemented.
-- [ ] **Not complete:** Improved recoil, firing movement and weapon inertia.
-  Existing live behaviour was retained rather than substantially overhauled.
+- [x] **Complete:** Inspection animations. All thirty weapons have side/receiver
+  and top/action phases, keyboard/touch/controller controls, combat cancellation,
+  pause freezing and spawn/death resets. [Gameplay framing and input evidence](validation-inspection-browser.json)
+  and [lifecycle checks](../tests/weapon-inspection.test.mjs) cover the functional
+  implementation; premium hand anatomy remains open above.
+- [ ] **Partial:** Improved recoil, firing movement and weapon inertia.
+  Release 61 adds handling-dependent damped angular lag and analytical shot
+  springs while preserving aim and ADS alignment. [Timing/bounds checks](../tests/weapon-dynamics.test.mjs)
+  cover all thirty weapons; temporal visual quality has not been accepted.
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
   particle presentation improved; firing emitters were largely retained.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
@@ -271,8 +280,9 @@ as documented in the baseline JSON and validation report.
   convincing realism remains incomplete.
 - [ ] **Partial:** Glass damage and material-specific impacts. Material impacts
   exist; progressive glass fracture/damage production was not completed.
-- [ ] **Not complete:** More convincing visual recoil/movement. Existing live
-  presentation was retained.
+- [ ] **Partial:** More convincing visual recoil/movement. Release 61 adds
+  analytical viewmodel recoil and angular inertia with bounded responses at
+  30/60/120 Hz. A temporal visual-quality review remains open.
 - [ ] **Partial:** Satisfying effects without excessive particles. Density is
   bounded; subjective quality remains unestablished.
 - [x] **Complete:** Efficient particles, atlases, shaders and quality scaling.
@@ -364,7 +374,10 @@ differences do not establish a controlled same-workload improvement.
 - [x] **Complete:** Baked lighting. Sixteen ground-lighting bakes.
 - [x] **Complete:** Efficient texture compression. ASTC/fallback formats included.
 - [ ] **Partial:** Occlusion/frustum culling. Frustum/spatial culling exists;
-  comprehensive render occlusion culling was not implemented.
+  Release 61 conservatively hides fully covered operator envelopes behind one
+  closed native wall between shadow refreshes. [Five matched browser views](validation-release61-occlusion-browser.json)
+  retain identical pixels and complete shadow buffers. Broader world occlusion
+  remains open.
 - [x] **Complete:** Geometry simplification where appropriate. Native near/far
   meshes and separate body/equipment detail policies.
 - [ ] **Partial:** Reduced shader overdraw. Bounded effects/restrained passes
@@ -379,7 +392,9 @@ differences do not establish a controlled same-workload improvement.
 - [ ] **Partial:** Balance quality/FPS without destroying visible quality.
   Strategies exist; the actual device balance is unverified.
 - [x] **Complete:** Browser/software tests, profiling, shader checks and complexity
-  measurements. Completed within available tools.
+  measurements. [Release 61 regression and lifecycle results](validation-release61.json)
+  and [bounded loading warmup](validation-release61-warmup-browser.json) cover
+  the new implementation within available software tools.
 - [x] **Complete:** Never present synthetic results as physical iPhone performance.
   Evidence explicitly distinguishes them.
 - [x] **Complete:** Preserve Benchmark Mode for real-world testing. Recording,
@@ -435,15 +450,24 @@ differences do not establish a controlled same-workload improvement.
   share families and audible realism is unverified.
 - [ ] **Partial:** Detailed reloads, magazines, bolts and handling. Weapon-specific
   designs exist; complete component-driven foley was not produced.
-- [ ] **Partial:** Shell-casing audio. Some ejection detail is embedded; no
-  comprehensive surface-specific casing landing audio.
+- [ ] **Partial:** Shell-casing audio. Release 61 schedules bounded native audio
+  for hard, metal, wood, soft, water and snow contacts using a cosmetic floor
+  query and weapon-specific ejection timing. Full casing physics and subjective
+  realism remain open; [playback/cleanup evidence](validation-ballistic-audio-browser.json).
 - [ ] **Partial:** Attachment-specific audio. Suppressor variants exist; a complete
   attachment-specific handling library does not.
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
-- [ ] **Not complete:** Ricochet audio. No dedicated ricochet sound/event system.
-- [ ] **Not complete:** Penetration audio. No dedicated penetration sound/event
-  system.
+- [x] **Complete:** Ricochet audio. Dedicated glancing metal/stone fragment cues
+  use verified terminal contacts, spatial distance and bounded priority voices.
+  [Contact/trajectory checks](../tests/ballistic-audio.test.mjs) and
+  [native playback](validation-ballistic-audio-browser.json) verify the system;
+  audible premium realism remains unverified.
+- [x] **Complete:** Penetration audio. Dedicated entry/exit cues follow verified
+  ballistic intervals with original variants and spatial playback. Embedded or
+  non-exiting shots do not invent exit cues. [Contact checks](../tests/ballistic-audio.test.mjs)
+  and [actual event preview](audio-contact-preview.m4a) support review; subjective
+  realism remains unverified.
 - [x] **Complete:** Deep layered explosions with distance attenuation. Variants
   and attenuation implemented; subjective quality remains unverified.
 - [ ] **Partial:** Accurate spatial audio, directional cues, distance falloff
@@ -519,3 +543,4 @@ differences do not establish a controlled same-workload improvement.
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
 | 2026-10-11 | Archived and validated the user's actual Release 60 Safari/iPhone run. Updated pacing/practical performance to Partial with explicit workload/comparison limits; no art requirements newly completed. | [Faithful report](../benchmarks/iphone-release60-2026-10-06.json), SHA256 `928ec5cd34c237fb02c77aeb0e5caa986842f3ca549c00ccfbd95ef57aee41a8`; [analysis](BENCHMARK_RELEASE60_ANALYSIS.md); checkpoint follows audit commit `1a8fb78f6d6a69fb1be16750b06b9e84ef2455aa`. |
 | 2026-10-11 | Benchmark spikes now retain bounded preceding/current callback CPU, render, draw, shadow and shader evidence, even if random raw sampling omits the stall. Older v1 reports remain valid. This adds diagnosis, not a measured performance improvement. | Checkpoint follows `9eedafe`; [measurement definitions](BENCHMARK.md), [behaviour/compatibility checks](../tests/benchmark-spikes.test.mjs); 15 benchmark tests pass. |
+| 2026-10-11 | Release 61 implements inspection for all thirty weapons and dedicated ricochet/penetration cue systems. Recoil/inertia advances to Partial; ground finishing, casing realism and broader occlusion remain Partial. Added bounded material/depth warmup and preserved device-performance limits. The full professional overhaul remains open. | Source checkpoint and combined results: [Release 61 validation](validation-release61.json); [implementation/evidence](OVERHAUL_RELEASE61.md), [inspection review](WEAPON_INSPECTION.md), [contact audio](validation-ballistic-audio-browser.json), [matched ground views](validation-blacksite-ground.json), [occlusion comparison](validation-release61-occlusion-browser.json) and [warmup](validation-release61-warmup-browser.json). |

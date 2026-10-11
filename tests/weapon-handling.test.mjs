@@ -9,6 +9,10 @@ test('top-loading magazine clears the receiver and empty pistols hold their slid
  const pdw=new Weapon(4),parts=weaponModel(pdw),mag=parts.find(p=>p.tag==='magazine');pdw.ammo=4;pdw.reload();pdw.reloadLeft=pdw.reloadTime*.6;animateWeaponParts(parts,pdw,{},0);assert(mag.y>mag.baseY+.12);
  for(const id of [10,11]){const w=new Weapon(id),model=weaponModel(w),slide=model.find(p=>p.tag==='slide');w.ammo=0;w.sinceShot=1;animateWeaponParts(model,w,{},0);assert(slide.z>slide.baseZ+.03);w.reload();w.update(w.reloadTime+.01);animateWeaponParts(model,w,{},0);assert.equal(slide.z,slide.baseZ);}
 });
+test('the field blade stays inside its gripping glove through repeated posed frames',()=>{
+ const w=new Weapon(12),parts=weaponModel(w),handle=parts.find(q=>q.z===.05&&q.h===.065),palm=parts.find(q=>q.tag==='rightHand'&&q.mesh==='sphere');
+ for(let frame=0;frame<120;frame++){animateWeaponParts(parts,w,{},frame/60);assert(Math.abs(handle.y-palm.y)<(handle.h+palm.h)/2);assert(Math.abs(handle.z-palm.z)<(handle.d+palm.d)/2);}
+});
 test('tactical reload preserves the closed action while an empty reload cycles it',()=>{
  const w=new Weapon(0),parts=weaponModel(w),bolt=parts.find(p=>p.tag==='bolt');w.ammo=6;w.reload();w.reloadLeft=w.reloadTime*.11;animateWeaponParts(parts,w,{},0);assert.equal(bolt.z,bolt.baseZ);
  w.reloadLeft=0;w.ammo=0;w.reload();w.reloadLeft=w.reloadTime*.11;animateWeaponParts(parts,w,{},0);assert(bolt.z>bolt.baseZ+.02);

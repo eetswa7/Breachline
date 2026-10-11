@@ -33,7 +33,8 @@ export function productionWorld(arena,parts){
  const result=parts.map(p=>{
   const ground=!!(p.ground||!p.roof&&p.h<.10&&p.y<.30&&p.w>1.5&&p.d>1.5&&p.surface!=='water');
   const epoxy=ground&&(industrial||id===14)&&(p.tile===14||p.surface==='tiles');
-  return visual(p,{productionGround:ground,...(epoxy?{surface:'concrete',tile:0,color:[.91,.94,.91],productionEpoxy:true,rough:.72}:{})});
+  const wear=id===14&&ground&&!epoxy&&['asphalt','concrete','gravel'].includes(p.surface)?p.surface:null;
+  return visual(p,{productionGround:ground,...(wear?{productionGroundWear:wear}:{}),...(epoxy?{surface:'concrete',tile:0,color:[.91,.94,.91],productionEpoxy:true,rough:.72}:{})});
  });
  // Authored material diversity is inside each merged native mesh. Identical
  // pieces share one draw batch; colour variants remain per-instance attributes.
@@ -46,7 +47,7 @@ export function productionWorld(arena,parts){
  const floor=(x,z,w,d,surface='concrete',extra={},source)=>add(x,.036,z,w,.006,d,'surface',{
   mesh:'surface',surface,tile:surface==='concrete'?0:surface==='gravel'?7:4,
   blenderColour:false,color:[.95,.96,.94],productionGround:true,surfaceLayer:3,
-  rough:.92,...extra},source);
+  rough:.92,...(id===14?{productionGroundWear:surface}:{}),...extra},source);
  const frame=(hole,bottom,clearance,kind,source)=>{
   const width=hole.width/.80,height=clearance/(kind==='aperture_frame'?.76:.88);
   const y=kind==='aperture_frame'?bottom+clearance/2:bottom+height/2;
@@ -145,12 +146,21 @@ export function productionWorld(arena,parts){
    // A poured service forecourt and connected approach replace the uniform
    // asphalt foreground with a physically useful construction footprint. The
    // finish stays below the original contact-shadow/impact receiving height.
-   floor(0,sign*16.2,34,8.2,'concrete',{y:.029,color:[.90,.92,.88],productionRole:'service_apron'});
-   floor(0,sign*24,13.5,16,'concrete',{y:.029,color:[.83,.86,.82],productionRole:'service_approach'});
+   // Large poured construction slabs have real joints and batch together as
+   // native surface instances. Eight apron slabs and two approach pours use
+   // restrained cured-concrete colour variation rather than a giant repeated
+   // finish. The 18 mm gaps expose the existing asphalt, with no raised lip.
+   for(let column=0;column<4;column++)for(let row=0;row<2;row++){
+    const tint=1+((column*3+row*2+(sign>0?1:0))%5-2)*.018;
+    floor(-12.75+column*8.5,sign*(14.15+row*4.1),8.482,4.082,'concrete',{
+     y:.029,color:[.90*tint,.92*tint,.88*tint],productionGroundWear:'apron',productionRole:'service_apron'});
+   }
+   for(let row=0;row<2;row++)floor(0,sign*(23.225+row*5.85),13.5,5.832,'concrete',{
+    y:.029,color:row?[.85,.88,.84]:[.83,.86,.82],productionGroundWear:'approach',productionRole:'service_approach'});
    for(const x of [-9.5,9.5])floor(x,sign*16.8,.14,5.8,'concrete',{
-    y:.0305,surfaceLayer:4,color:[.74,.65,.38],productionRole:'painted_service_lane'});
+    y:.0305,surfaceLayer:4,color:[.74,.65,.38],productionGroundWear:'paint',productionRole:'painted_service_lane'});
    floor(0,sign*19.6,19.1,.14,'concrete',{
-    y:.0305,surfaceLayer:4,color:[.74,.65,.38],productionRole:'painted_service_lane'});
+    y:.0305,surfaceLayer:4,color:[.74,.65,.38],productionGroundWear:'paint',productionRole:'painted_service_lane'});
    for(const x of [-10,10])add(x,4.35,sign*11.24,2.35,.72,.23,'vent',{yaw:sign<0?0:Math.PI});
    add(0,4.48,sign*11.245,3.25,.78,.10,'site_sign_14',{yaw:sign<0?Math.PI:0});
    // Closed maintenance bays are ON the solid upper hall facade. Their bases

@@ -89,3 +89,24 @@ test('the aim slowdown preference persists and older saves receive the default',
  assert.equal(new SaveStore(storage).data.settings.aimAssist,false);
  assert.equal(new SaveStore({getItem:()=>JSON.stringify({version:1,controlRevision:2,settings:{}})}).data.settings.aimAssist,true);
 });
+
+test('inspection is a one-shot touch action, cancelled touches clear it and mirroring keeps it reachable',()=>{
+ const {input,ev,buttons}=fixture(667,375);input.pointerDown(ev(1,394,338,'inspect'));input.pointerUp(ev(1,394,338,'inspect'));
+ assert(input.sample(.016).inspect);assert(!input.sample(.016).inspect);
+ input.pointerDown(ev(2,394,338,'inspect'));input.pointerUp(ev(2,394,338,'inspect'),true);assert(!input.sample(.016).inspect);
+ for(const leftHanded of [false,true]){input.settings.leftHanded=leftHanded;input.layout();const b=buttons.inspect,x=parseFloat(b.style.left)*6.67,y=parseFloat(b.style.top)*3.75;assert(!b.hidden);assert(x>parseFloat(b.style.width)/2+8&&x+parseFloat(b.style.width)/2<659);assert(y+parseFloat(b.style.height)/2<367);}
+});
+
+test('keyboard I requests inspection once per physical press and reset discards pending handling',()=>{
+ const callbacks={};const {input}=fixture();globalThis.window.addEventListener=(type,fn)=>{(callbacks[type]??=[]).push(fn);};const tracked=new TouchInput({},input.layer,{...DEFAULT_SETTINGS,layout:{}});tracked.active=true;
+ const event=repeat=>({code:'KeyI',repeat,target:{matches:()=>false},preventDefault(){}});callbacks.keydown[0](event(false));assert(tracked.sample(.016).inspect);callbacks.keydown[0](event(true));assert(!tracked.sample(.016).inspect);
+ callbacks.keyup[0](event(false));callbacks.keydown[0](event(false));tracked.reset();assert(!tracked.sample(.016).inspect);
+});
+
+test('max-size inspection controls clear the combat buttons on narrow mirrored layouts',()=>{
+ for(const profile of ['simple','advanced'])for(const leftHanded of [false,true]){
+  const {input,buttons}=fixture(667,375);input.settings.controlProfile=profile;input.settings.leftHanded=leftHanded;input.settings.buttonScale=1.4;input.layout();
+  const box=b=>({x:parseFloat(b.style.left)*6.67,y:parseFloat(b.style.top)*3.75,w:parseFloat(b.style.width),h:parseFloat(b.style.height)}),a=box(buttons.inspect);
+  for(const [action,button]of Object.entries(buttons))if(action!=='inspect'&&!button.hidden){const b=box(button);assert(Math.abs(a.x-b.x)>=(a.w+b.w)/2||Math.abs(a.y-b.y)>=(a.h+b.h)/2,profile+' '+leftHanded+' '+action);}
+ }
+});
