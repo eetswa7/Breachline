@@ -16,6 +16,7 @@
   programs across eight reviewed transitions on two maps. These are software
   checks. Physical Release 61 iPhone speed, memory, latency and thermals remain
   unverified.
+- Source checkpoint: `47d1282891950656350c878e72a9b41c7ae3d784`.
 - [Release notes and evidence](docs/OVERHAUL_RELEASE61.md) and the original
   thirteen-section [checklist](docs/OVERHAUL_CHECKLIST.md) track completed feature
   scope separately from the unfinished professional art/audio target.

@@ -5,10 +5,10 @@
   "actual_iphone_data": false,
   "build": {
     "release": "61",
-    "commit": null,
-    "source_commit": "0aae4fe605c9c70bd3e9c911e2401fb96224379f",
+    "commit": "47d1282891950656350c878e72a9b41c7ae3d784",
+    "source_commit": "47d1282891950656350c878e72a9b41c7ae3d784",
     "content_sha256": "1fe2947ce95b32c0775ed9c607cf5a0cad2037e6321097fa3f1ad50ad7077716",
-    "commit_resolution": "content_fingerprint"
+    "commit_resolution": "source_commit"
   },
   "scope": "Static validation, CPU regression tests and Chromium software WebGL/native WebAudio. No physical Release 61 Safari, GPU, thermal or premium art/audio acceptance.",
   "regression": {
@@ -177,5 +177,7 @@
     "write_request_count": 0,
     "gamepad_hardware_backend_disabled": true,
     "scope": "SwiftShader functional browser checks; the unavailable Linux hardware backend was disabled only in the harness. Controller edges are covered separately by regression tests."
-  }
+  },
+  "source_checkpoint": "47d1282891950656350c878e72a9b41c7ae3d784",
+  "provenance_note": "The final manifest identifies this committed source. Browser captures preserve their original dirty-build metadata; the final benchmark lifecycle exercised the identical distribution fingerprint. Stamping the public manifest changes only source provenance and is excluded from that fingerprint."
 }
