@@ -223,7 +223,11 @@
       "identical_to_reviewed_animated_poses": true
     },
     "change": "Corrected blade grip is the authored rest pose; no permanent animation offset. Unmodified arsenal idle-restoration assertion passes, and grip contact is checked before animation.",
-    "remote_ci": "pending repair push",
+    "remote_ci": {
+      "head_sha": "c50610e8e35ed6f0d45de3a51871b59a53ae5e34",
+      "run_url": "https://github.com/eetswa7/Test/actions/runs/38145876862",
+      "conclusion": "success"
+    },
     "build": {
       "release": "61",
       "commit": "2479ac6c877e8fcfe8417a1cb2739b713664b90c",

@@ -90,6 +90,8 @@ instead of applying a permanent animation offset. The no-drift assertion remains
 unchanged, and all thirty weapons retain their previously reviewed rendered
 transforms. The [aggregate validation](validation-release61.json) preserves the
 original captures and records the repaired run separately.
+The [repaired checkpoint CI](https://github.com/eetswa7/Test/actions/runs/38145876862)
+passes both `npm test` and `npm run check`.
 
 Physical Release 61 iPhone FPS, frame pacing, audio latency, memory pressure and
 thermals remain unverified. The audio preview supports listening review; signal
