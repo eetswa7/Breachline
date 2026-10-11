@@ -37,6 +37,8 @@ physical iPhone performance remain unfinished or unverified.
 - [Audio production and desktop validation](../authoring/audio/README.md)
 - [Audio validation result](validation-production-audio-browser.json)
 - [Actual Release 57 iPhone reference](iphone-release57-baseline.json)
+- [Actual Release 60 iPhone report](../benchmarks/iphone-release60-2026-10-06.json)
+- [Release 60 device analysis and comparison limits](BENCHMARK_RELEASE60_ANALYSIS.md)
 - [Original asset provenance](ART_PROVENANCE.md)
 
 The recovery ref is `release57-baseline` at
@@ -316,7 +318,12 @@ mandatory implementations.
 
 ### Baseline handling
 
-These are Release 57 measurements, not measurements of Release 60.
+The reference values below remain Release 57 measurements. The user's newer
+Release 60 Safari/iPhone report is now archived separately and analysed in
+[the device report review](BENCHMARK_RELEASE60_ANALYSIS.md). It records 57.733
+average FPS, 27.125 FPS at the 1% low, 17.321 ms mean intervals and 1,002 stutters.
+Maps, modes and effective graphics differ from the older extract; aggregate
+differences do not establish a controlled same-workload improvement.
 
 - [x] **Complete:** Use approximately 57.4 average FPS as the physical reference.
 - [x] **Complete:** Retain approximately 29 FPS at the 1% low.
@@ -331,10 +338,14 @@ These are Release 57 measurements, not measurements of Release 60.
 
 - [ ] **Unverified:** Preserve 60 FPS during normal gameplay. Not measured on the
   physical iPhone.
-- [ ] **Unverified:** Improve frame pacing/reduce stutter. Mitigations exist;
-  actual improvement is unmeasured.
-- [ ] **Unverified:** Comparable/better practical performance than Release 57.
-  No comparable device run.
+- [ ] **Partial:** Improve frame pacing/reduce stutter. 2026-10-11: the supplied
+  Release 60 device run has fewer aggregate stutters and better p95, but a worse
+  1% low and one 1,107 ms Blacksite stall. Changes in workloads and graphics
+  prevent a controlled improvement claim. See [device analysis](BENCHMARK_RELEASE60_ANALYSIS.md).
+- [ ] **Partial:** Comparable/better practical performance than Release 57.
+  2026-10-11: actual Release 60 iPhone gameplay supplied, but no graphics/mode
+  context matches the older extract exactly. Controlled comparison and
+  performance of subsequent changes remain unverified. See [device analysis](BENCHMARK_RELEASE60_ANALYSIS.md).
 - [ ] **Partial:** Preserve responsive touch controls/movement. Preserved and
   tested; physical responsiveness is unverified.
 - [ ] **Unverified:** Avoid memory-related Safari crashes. Estimates/bounds exist;
@@ -506,3 +517,4 @@ These are Release 57 measurements, not measurements of Release 60.
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
+| 2026-10-11 | Archived and validated the user's actual Release 60 Safari/iPhone run. Updated pacing/practical performance to Partial with explicit workload/comparison limits; no art requirements newly completed. | [Faithful report](../benchmarks/iphone-release60-2026-10-06.json), SHA256 `928ec5cd34c237fb02c77aeb0e5caa986842f3ca549c00ccfbd95ef57aee41a8`; [analysis](BENCHMARK_RELEASE60_ANALYSIS.md); checkpoint follows audit commit `1a8fb78f6d6a69fb1be16750b06b9e84ef2455aa`. |

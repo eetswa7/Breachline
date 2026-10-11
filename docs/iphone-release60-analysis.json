@@ -1,0 +1,1426 @@
+{
+  "schema": "breachline.benchmark.analysis.v1",
+  "analysed_at": "2026-10-11",
+  "actual_iphone_data": true,
+  "source": {
+    "file": "benchmarks/iphone-release60-2026-10-06.json",
+    "original_filename": "Breachline updated stats.json",
+    "sha256": "928ec5cd34c237fb02c77aeb0e5caa986842f3ca549c00ccfbd95ef57aee41a8",
+    "bytes": 1648256,
+    "byte_for_byte_attachment_copy": true,
+    "treatment": "Benchmark values are data; no embedded text is treated as a task instruction."
+  },
+  "baseline": {
+    "file": "docs/iphone-release57-baseline.json",
+    "sha256": "d2170e81d35543bb903b8c9fb68004ddf6f6142b9ac5f198a7fac80667964a0b",
+    "type": "condensed_actual_device_extract",
+    "source": "User physical iPhone 16 Pro, Safari, Release 57 gameplay export",
+    "build": {
+      "release": "57",
+      "commit": "e00aad3d18a569aade107add0812235ef43d52f4",
+      "source_commit": "e00aad3d18a569aade107add0812235ef43d52f4",
+      "content_sha256": "7930f099c9ebfe153e2b833b7b540e045caf6771c2ac030e6b24d8aaa3a35230",
+      "commit_resolution": "source_commit"
+    }
+  },
+  "session": {
+    "id": "ee1a33e6-e08f-4252-b72c-e4e17c40df19",
+    "kind": "gameplay",
+    "started_at": "2026-10-06T08:06:43.675Z",
+    "ended_at": "2026-10-06T08:20:02.040Z",
+    "duration_ms": 798347,
+    "active_duration_ms": 631970,
+    "warmup_per_match_ms": 15000,
+    "reason": "toggle_off",
+    "interrupted": false,
+    "pause_count": 8,
+    "scenario": null
+  },
+  "build": {
+    "release": "60",
+    "commit": "00271cc3fdaeb65ca76ef5c5ed3e0676cd5e0c21",
+    "source_commit": "00271cc3fdaeb65ca76ef5c5ed3e0676cd5e0c21",
+    "content_sha256": "96ea1515ec1d41eec17fa9a05143d3895698a33aceb1dbfbed8901aa2a786963",
+    "commit_resolution": "source_commit"
+  },
+  "environment": {
+    "browser": "Safari",
+    "browser_version": "27.0",
+    "device_family": "iPhone",
+    "device_model": {
+      "status": "unavailable",
+      "reason": "Safari does not reliably expose the hardware model"
+    },
+    "os": "iOS"
+  },
+  "availability": {
+    "cpu_frame": {
+      "status": "measured"
+    },
+    "gpu": {
+      "status": "unavailable",
+      "supported": false
+    },
+    "js_heap": {
+      "status": "unavailable"
+    },
+    "texture_bytes": {
+      "status": "estimate"
+    },
+    "process_memory": {
+      "status": "unavailable"
+    },
+    "vram": {
+      "status": "unavailable"
+    },
+    "temperature": {
+      "status": "unavailable"
+    },
+    "display_refresh_rate": {
+      "status": "unavailable"
+    }
+  },
+  "validation": {
+    "validator": "scripts/benchmark-validation.mjs: validateReport",
+    "passed": true,
+    "histogram_summary_recomputed": true,
+    "all_context_histograms_recomputed": true,
+    "steady_context_and_timeline_frame_totals_match": true,
+    "steady_spike_count_matches": true,
+    "self_comparison": "scripts/compare-benchmarks.mjs: compare; all changes zero",
+    "comparison_groups": 24,
+    "benchmark_unit_tests": {
+      "passed": 11,
+      "failed": 0,
+      "command": "node --test tests/benchmark.test.mjs tests/benchmark-comparison.test.mjs"
+    }
+  },
+  "aggregate": {
+    "status": "descriptive_unpaired_comparison",
+    "warmup_excluded": true,
+    "before": {
+      "active_duration_ms": 634267,
+      "fps": {
+        "average": 57.363,
+        "median": 58.394,
+        "low_1_percent": 29.014
+      },
+      "cpu_frame": {
+        "count": 32940,
+        "mean_ms": 3.737,
+        "min_ms": 0,
+        "max_ms": 39,
+        "p50_ms": 4.125,
+        "p90_ms": 6.125,
+        "p95_ms": 7.125,
+        "p99_ms": 8.125
+      },
+      "frame_time": {
+        "count": 32940,
+        "mean_ms": 17.433,
+        "min_ms": 6,
+        "max_ms": 60,
+        "p50_ms": 17.125,
+        "p90_ms": 20.125,
+        "p95_ms": 24.125,
+        "p99_ms": 32.125
+      },
+      "stutters": 1315,
+      "spikes": 1,
+      "stutter_rate_percent": 3.992
+    },
+    "after": {
+      "active_duration_ms": 631970,
+      "fps": {
+        "average": 57.733,
+        "median": 58.394,
+        "low_1_percent": 27.125
+      },
+      "frame_time": {
+        "count": 32907,
+        "mean_ms": 17.321,
+        "min_ms": 7,
+        "max_ms": 1107,
+        "p50_ms": 17.125,
+        "p90_ms": 19.125,
+        "p95_ms": 22.125,
+        "p99_ms": 32.125
+      },
+      "cpu_frame": {
+        "count": 32907,
+        "mean_ms": 3.751,
+        "min_ms": 1,
+        "max_ms": 1096,
+        "p50_ms": 3.125,
+        "p90_ms": 6.125,
+        "p95_ms": 7.125,
+        "p99_ms": 8.125
+      },
+      "cpu_render": {
+        "count": 32907,
+        "mean_ms": 2.27,
+        "min_ms": 0,
+        "max_ms": 1095,
+        "p50_ms": 2.125,
+        "p90_ms": 4.125,
+        "p95_ms": 4.125,
+        "p99_ms": 5.125
+      },
+      "gpu": {
+        "count": 0,
+        "mean_ms": null,
+        "min_ms": null,
+        "max_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null
+      },
+      "spikes": 2,
+      "stutters": 1002,
+      "stutter_rate_percent": 3.045
+    },
+    "changes": {
+      "average_fps_percent": 0.645,
+      "mean_frame_ms_percent": -0.642,
+      "p95_frame_ms_percent": -8.29,
+      "low_1_percent_fps_percent": -6.511,
+      "cpu_frame_mean_percent": 0.375,
+      "stutters_count": -313,
+      "stutters_count_percent": -23.802,
+      "stutter_rate_percentage_points": -0.947,
+      "stutter_rate_percent": -23.726
+    }
+  },
+  "comparable_contexts": {
+    "strict_comparison_possible": false,
+    "strict_comparable_context_count": 0,
+    "stored_shared_field_matches": 0,
+    "matching_fields": [
+      "map.id",
+      "mode",
+      "players",
+      "requested_quality",
+      "effective_quality",
+      "frame_cap",
+      "effective_frame_cap",
+      "width",
+      "height",
+      "render_scale",
+      "device_pixel_ratio",
+      "fov",
+      "camera_motion",
+      "dynamic_resolution"
+    ],
+    "missing_required_baseline_fields": [
+      "baseline.schema",
+      "baseline.session",
+      "baseline.environment",
+      "baseline.contexts[].difficulty",
+      "baseline.contexts[].steady.frame_time.histogram"
+    ],
+    "status": "No exact shared-field context match; the baseline extract also cannot pass the v1 full-report comparison validator.",
+    "broad_candidates": [
+      {
+        "map": "BLACKSITE",
+        "mode": "tdm",
+        "players": 16,
+        "effective_quality": "medium",
+        "candidate_context_id": 0,
+        "status": "uncontrolled_candidate_only",
+        "baseline_context_count": 2,
+        "baseline_frames": 4562,
+        "baseline_mean_ms_estimated": 17.222,
+        "baseline_fps_estimated": 58.066,
+        "candidate_frames": 1516,
+        "candidate_fps": 57.876,
+        "candidate_mean_ms": 17.278,
+        "candidate_framebuffer": [
+          1297,
+          596
+        ],
+        "candidate_render_scale": 1,
+        "baseline_framebuffers": [
+          [
+            1116,
+            513
+          ],
+          [
+            1168,
+            537
+          ]
+        ],
+        "baseline_render_scales": [
+          0.86,
+          0.9
+        ],
+        "note": "Map/mode/population/effective quality overlap; framebuffers and render scales differ. Baseline mean is inferred from rounded FPS. Difficulty, device/session identity and workload equivalence cannot be checked."
+      },
+      {
+        "map": "BLACKSITE",
+        "mode": "tdm",
+        "players": 16,
+        "effective_quality": "medium",
+        "candidate_context_id": 2,
+        "status": "uncontrolled_candidate_only",
+        "baseline_context_count": 2,
+        "baseline_frames": 4562,
+        "baseline_mean_ms_estimated": 17.222,
+        "baseline_fps_estimated": 58.066,
+        "candidate_frames": 1935,
+        "candidate_fps": 56.34,
+        "candidate_mean_ms": 17.749,
+        "candidate_framebuffer": [
+          1194,
+          549
+        ],
+        "candidate_render_scale": 0.92,
+        "baseline_framebuffers": [
+          [
+            1116,
+            513
+          ],
+          [
+            1168,
+            537
+          ]
+        ],
+        "baseline_render_scales": [
+          0.86,
+          0.9
+        ],
+        "note": "Map/mode/population/effective quality overlap; framebuffers and render scales differ. Baseline mean is inferred from rounded FPS. Difficulty, device/session identity and workload equivalence cannot be checked."
+      },
+      {
+        "map": "BLACKSITE",
+        "mode": "tdm",
+        "players": 16,
+        "effective_quality": "medium",
+        "candidate_context_id": 4,
+        "status": "uncontrolled_candidate_only",
+        "baseline_context_count": 2,
+        "baseline_frames": 4562,
+        "baseline_mean_ms_estimated": 17.222,
+        "baseline_fps_estimated": 58.066,
+        "candidate_frames": 2593,
+        "candidate_fps": 57.426,
+        "candidate_mean_ms": 17.414,
+        "candidate_framebuffer": [
+          1090,
+          501
+        ],
+        "candidate_render_scale": 0.84,
+        "baseline_framebuffers": [
+          [
+            1116,
+            513
+          ],
+          [
+            1168,
+            537
+          ]
+        ],
+        "baseline_render_scales": [
+          0.86,
+          0.9
+        ],
+        "note": "Map/mode/population/effective quality overlap; framebuffers and render scales differ. Baseline mean is inferred from rounded FPS. Difficulty, device/session identity and workload equivalence cannot be checked."
+      },
+      {
+        "map": "DUSTLINE",
+        "mode": "tdm",
+        "players": 8,
+        "effective_quality": "medium",
+        "candidate_context_id": 5,
+        "status": "uncontrolled_candidate_only",
+        "baseline_context_count": 5,
+        "baseline_frames": 16112,
+        "baseline_mean_ms_estimated": 17.332,
+        "baseline_fps_estimated": 57.695,
+        "candidate_frames": 3568,
+        "candidate_fps": 57.924,
+        "candidate_mean_ms": 17.264,
+        "candidate_framebuffer": [
+          1090,
+          501
+        ],
+        "candidate_render_scale": 0.84,
+        "baseline_framebuffers": [
+          [
+            1168,
+            537
+          ],
+          [
+            1220,
+            561
+          ],
+          [
+            1012,
+            465
+          ],
+          [
+            1064,
+            489
+          ],
+          [
+            960,
+            441
+          ]
+        ],
+        "baseline_render_scales": [
+          0.9,
+          0.94,
+          0.78,
+          0.82,
+          0.74
+        ],
+        "note": "Map/mode/population/effective quality overlap; framebuffers and render scales differ. Baseline mean is inferred from rounded FPS. Difficulty, device/session identity and workload equivalence cannot be checked."
+      },
+      {
+        "map": "DUSTLINE",
+        "mode": "tdm",
+        "players": 8,
+        "effective_quality": "medium",
+        "candidate_context_id": 7,
+        "status": "uncontrolled_candidate_only",
+        "baseline_context_count": 5,
+        "baseline_frames": 16112,
+        "baseline_mean_ms_estimated": 17.332,
+        "baseline_fps_estimated": 57.695,
+        "candidate_frames": 5161,
+        "candidate_fps": 58.264,
+        "candidate_mean_ms": 17.163,
+        "candidate_framebuffer": [
+          1142,
+          525
+        ],
+        "candidate_render_scale": 0.88,
+        "baseline_framebuffers": [
+          [
+            1168,
+            537
+          ],
+          [
+            1220,
+            561
+          ],
+          [
+            1012,
+            465
+          ],
+          [
+            1064,
+            489
+          ],
+          [
+            960,
+            441
+          ]
+        ],
+        "baseline_render_scales": [
+          0.9,
+          0.94,
+          0.78,
+          0.82,
+          0.74
+        ],
+        "note": "Map/mode/population/effective quality overlap; framebuffers and render scales differ. Baseline mean is inferred from rounded FPS. Difficulty, device/session identity and workload equivalence cannot be checked."
+      }
+    ]
+  },
+  "maps": [
+    {
+      "map": "BLACKSITE",
+      "mode": "tdm",
+      "players": [
+        16
+      ],
+      "steady_frames": 6046,
+      "fps": {
+        "average": 57.18,
+        "median": 58.394,
+        "low_1_percent": 20.132
+      },
+      "frame_time": {
+        "count": 6046,
+        "mean_ms": 17.489,
+        "min_ms": 11,
+        "max_ms": 1107,
+        "p50_ms": 17.125,
+        "p90_ms": 20.125,
+        "p95_ms": 22.125,
+        "p99_ms": 29.125
+      },
+      "stutters": 105,
+      "stutter_rate_percent": 1.737,
+      "effective_qualities": [
+        "medium"
+      ],
+      "render_samples": 121,
+      "framebuffer_pixels": {
+        "count": 121,
+        "min": 546090,
+        "median": 655506,
+        "max": 773012
+      },
+      "workload": {
+        "draw_calls": {
+          "count": 121,
+          "min": 56,
+          "median": 169,
+          "max": 360
+        },
+        "triangles": {
+          "count": 121,
+          "min": 66804,
+          "median": 230920,
+          "max": 665268
+        },
+        "shadow_draw_calls": {
+          "count": 121,
+          "min": 0,
+          "median": 0,
+          "max": 213
+        },
+        "main_render_passes": {
+          "count": 121,
+          "min": 2,
+          "median": 2,
+          "max": 2
+        },
+        "textures": {
+          "count": 121,
+          "min": 92,
+          "median": 92,
+          "max": 92
+        },
+        "geometries": {
+          "count": 121,
+          "min": 135,
+          "median": 146,
+          "max": 149
+        },
+        "texture_bytes_estimate": {
+          "count": 121,
+          "min": 82779926,
+          "median": 82779926,
+          "max": 82779926
+        }
+      }
+    },
+    {
+      "map": "DUSTLINE",
+      "mode": "tdm",
+      "players": [
+        8
+      ],
+      "steady_frames": 8730,
+      "fps": {
+        "average": 58.124,
+        "median": 58.394,
+        "low_1_percent": 29.851
+      },
+      "frame_time": {
+        "count": 8730,
+        "mean_ms": 17.204,
+        "min_ms": 8,
+        "max_ms": 42,
+        "p50_ms": 17.125,
+        "p90_ms": 18.125,
+        "p95_ms": 22.125,
+        "p99_ms": 32.125
+      },
+      "stutters": 293,
+      "stutter_rate_percent": 3.356,
+      "effective_qualities": [
+        "medium"
+      ],
+      "render_samples": 166,
+      "framebuffer_pixels": {
+        "count": 166,
+        "min": 546090,
+        "median": 599550,
+        "max": 599550
+      },
+      "workload": {
+        "draw_calls": {
+          "count": 166,
+          "min": 57,
+          "median": 141,
+          "max": 279
+        },
+        "triangles": {
+          "count": 166,
+          "min": 45532,
+          "median": 120076,
+          "max": 264830
+        },
+        "shadow_draw_calls": {
+          "count": 166,
+          "min": 0,
+          "median": 0,
+          "max": 163
+        },
+        "main_render_passes": {
+          "count": 166,
+          "min": 1,
+          "median": 2,
+          "max": 2
+        },
+        "textures": {
+          "count": 166,
+          "min": 92,
+          "median": 92,
+          "max": 92
+        },
+        "geometries": {
+          "count": 166,
+          "min": 184,
+          "median": 184,
+          "max": 187
+        },
+        "texture_bytes_estimate": {
+          "count": 166,
+          "min": 82779926,
+          "median": 82779926,
+          "max": 82779926
+        }
+      }
+    },
+    {
+      "map": "NUKETOWN",
+      "mode": "tdm",
+      "players": [
+        8
+      ],
+      "steady_frames": 8874,
+      "fps": {
+        "average": 57.312,
+        "median": 58.394,
+        "low_1_percent": 30.796
+      },
+      "frame_time": {
+        "count": 8874,
+        "mean_ms": 17.448,
+        "min_ms": 8,
+        "max_ms": 42,
+        "p50_ms": 17.125,
+        "p90_ms": 21.125,
+        "p95_ms": 23.125,
+        "p99_ms": 30.125
+      },
+      "stutters": 264,
+      "stutter_rate_percent": 2.975,
+      "effective_qualities": [
+        "medium",
+        "low"
+      ],
+      "render_samples": 169,
+      "framebuffer_pixels": {
+        "count": 169,
+        "min": 180576,
+        "median": 221067,
+        "max": 599550
+      },
+      "workload": {
+        "draw_calls": {
+          "count": 169,
+          "min": 49,
+          "median": 131,
+          "max": 303
+        },
+        "triangles": {
+          "count": 169,
+          "min": 66574,
+          "median": 169682,
+          "max": 521112
+        },
+        "shadow_draw_calls": {
+          "count": 169,
+          "min": 0,
+          "median": 0,
+          "max": 176
+        },
+        "main_render_passes": {
+          "count": 169,
+          "min": 1,
+          "median": 2,
+          "max": 2
+        },
+        "textures": {
+          "count": 169,
+          "min": 92,
+          "median": 92,
+          "max": 92
+        },
+        "geometries": {
+          "count": 169,
+          "min": 194,
+          "median": 197,
+          "max": 198
+        },
+        "texture_bytes_estimate": {
+          "count": 169,
+          "min": 82779926,
+          "median": 82779926,
+          "max": 82779926
+        }
+      }
+    },
+    {
+      "map": "IRON QUARRY",
+      "mode": "tdm",
+      "players": [
+        8
+      ],
+      "steady_frames": 9257,
+      "fps": {
+        "average": 58.14,
+        "median": 58.394,
+        "low_1_percent": 28.58
+      },
+      "frame_time": {
+        "count": 9257,
+        "mean_ms": 17.2,
+        "min_ms": 7,
+        "max_ms": 68,
+        "p50_ms": 17.125,
+        "p90_ms": 19.125,
+        "p95_ms": 22.125,
+        "p99_ms": 33.125
+      },
+      "stutters": 340,
+      "stutter_rate_percent": 3.673,
+      "effective_qualities": [
+        "low"
+      ],
+      "render_samples": 177,
+      "framebuffer_pixels": {
+        "count": 177,
+        "min": 153170,
+        "median": 171691,
+        "max": 190624
+      },
+      "workload": {
+        "draw_calls": {
+          "count": 177,
+          "min": 55,
+          "median": 122,
+          "max": 202
+        },
+        "triangles": {
+          "count": 177,
+          "min": 36488,
+          "median": 79846,
+          "max": 219228
+        },
+        "shadow_draw_calls": {
+          "count": 177,
+          "min": 0,
+          "median": 0,
+          "max": 0
+        },
+        "main_render_passes": {
+          "count": 177,
+          "min": 1,
+          "median": 2,
+          "max": 2
+        },
+        "textures": {
+          "count": 177,
+          "min": 92,
+          "median": 92,
+          "max": 92
+        },
+        "geometries": {
+          "count": 177,
+          "min": 220,
+          "median": 223,
+          "max": 225
+        },
+        "texture_bytes_estimate": {
+          "count": 177,
+          "min": 82779926,
+          "median": 82779926,
+          "max": 82779926
+        }
+      }
+    }
+  ],
+  "graphics": [
+    {
+      "effective_quality": "medium",
+      "steady_frames": 18245,
+      "steady_frame_share_percent": 55.444,
+      "observed_interval_ms": 318009,
+      "steady_time_share_percent": 55.792,
+      "fps": {
+        "average": 57.373,
+        "median": 58.394,
+        "low_1_percent": 25.862
+      },
+      "render_scale_range": [
+        0.72,
+        1
+      ],
+      "framebuffers": [
+        "1297x596",
+        "1194x549",
+        "1090x501",
+        "1142x525",
+        "1038x477",
+        "934x429"
+      ]
+    },
+    {
+      "effective_quality": "low",
+      "steady_frames": 14662,
+      "steady_frame_share_percent": 44.556,
+      "observed_interval_ms": 251979,
+      "steady_time_share_percent": 44.208,
+      "fps": {
+        "average": 58.187,
+        "median": 58.394,
+        "low_1_percent": 29.046
+      },
+      "render_scale_range": [
+        0.7,
+        0.84
+      ],
+      "framebuffers": [
+        "693x319",
+        "627x288",
+        "578x265",
+        "611x281",
+        "644x296"
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "name": "movement",
+      "stats": {
+        "fps": {
+          "average": 58.057,
+          "median": 58.394,
+          "low_1_percent": 29.817
+        },
+        "frame_time": {
+          "count": 25952,
+          "mean_ms": 17.224,
+          "min_ms": 7,
+          "max_ms": 44,
+          "p50_ms": 17.125,
+          "p90_ms": 19.125,
+          "p95_ms": 22.125,
+          "p99_ms": 32.125
+        },
+        "cpu_frame": {
+          "count": 25952,
+          "mean_ms": 3.541,
+          "min_ms": 1,
+          "max_ms": 1096,
+          "p50_ms": 3.125,
+          "p90_ms": 6.125,
+          "p95_ms": 7.125,
+          "p99_ms": 8.125
+        },
+        "cpu_render": {
+          "count": 25952,
+          "mean_ms": 2.145,
+          "min_ms": 0,
+          "max_ms": 1095,
+          "p50_ms": 2.125,
+          "p90_ms": 4.125,
+          "p95_ms": 4.125,
+          "p99_ms": 5.125
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 0,
+        "stutters": 736
+      }
+    },
+    {
+      "name": "gunfight",
+      "stats": {
+        "fps": {
+          "average": 57.903,
+          "median": 58.394,
+          "low_1_percent": 26.941
+        },
+        "frame_time": {
+          "count": 30588,
+          "mean_ms": 17.27,
+          "min_ms": 7,
+          "max_ms": 1107,
+          "p50_ms": 17.125,
+          "p90_ms": 19.125,
+          "p95_ms": 22.125,
+          "p99_ms": 32.125
+        },
+        "cpu_frame": {
+          "count": 30588,
+          "mean_ms": 3.687,
+          "min_ms": 1,
+          "max_ms": 1096,
+          "p50_ms": 3.125,
+          "p90_ms": 6.125,
+          "p95_ms": 7.125,
+          "p99_ms": 8.125
+        },
+        "cpu_render": {
+          "count": 30588,
+          "mean_ms": 2.215,
+          "min_ms": 0,
+          "max_ms": 1095,
+          "p50_ms": 2.125,
+          "p90_ms": 4.125,
+          "p95_ms": 4.125,
+          "p99_ms": 5.125
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 2,
+        "stutters": 894
+      }
+    },
+    {
+      "name": "explosion",
+      "stats": {
+        "fps": {
+          "average": 57.355,
+          "median": 58.394,
+          "low_1_percent": 30.934
+        },
+        "frame_time": {
+          "count": 4837,
+          "mean_ms": 17.435,
+          "min_ms": 8,
+          "max_ms": 44,
+          "p50_ms": 17.125,
+          "p90_ms": 21.125,
+          "p95_ms": 23.125,
+          "p99_ms": 29.125
+        },
+        "cpu_frame": {
+          "count": 4837,
+          "mean_ms": 3.67,
+          "min_ms": 1,
+          "max_ms": 12,
+          "p50_ms": 3.125,
+          "p90_ms": 6.125,
+          "p95_ms": 7.125,
+          "p99_ms": 8.125
+        },
+        "cpu_render": {
+          "count": 4837,
+          "mean_ms": 2.221,
+          "min_ms": 0,
+          "max_ms": 8,
+          "p50_ms": 2.125,
+          "p90_ms": 4.125,
+          "p95_ms": 4.125,
+          "p99_ms": 5.125
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 0,
+        "stutters": 123
+      }
+    },
+    {
+      "name": "smoke",
+      "stats": {
+        "fps": {
+          "average": null,
+          "median": null,
+          "low_1_percent": null
+        },
+        "frame_time": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "cpu_frame": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "cpu_render": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 0,
+        "stutters": 0
+      }
+    },
+    {
+      "name": "indoors",
+      "stats": {
+        "fps": {
+          "average": 57.184,
+          "median": 58.394,
+          "low_1_percent": 30.251
+        },
+        "frame_time": {
+          "count": 7072,
+          "mean_ms": 17.487,
+          "min_ms": 9,
+          "max_ms": 42,
+          "p50_ms": 17.125,
+          "p90_ms": 21.125,
+          "p95_ms": 24.125,
+          "p99_ms": 32.125
+        },
+        "cpu_frame": {
+          "count": 7072,
+          "mean_ms": 4.055,
+          "min_ms": 1,
+          "max_ms": 17,
+          "p50_ms": 3.125,
+          "p90_ms": 7.125,
+          "p95_ms": 8.125,
+          "p99_ms": 9.125
+        },
+        "cpu_render": {
+          "count": 7072,
+          "mean_ms": 2.396,
+          "min_ms": 1,
+          "max_ms": 16,
+          "p50_ms": 2.125,
+          "p90_ms": 4.125,
+          "p95_ms": 5.125,
+          "p99_ms": 5.125
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 0,
+        "stutters": 264
+      }
+    },
+    {
+      "name": "player_dead",
+      "stats": {
+        "fps": {
+          "average": 55.585,
+          "median": 58.394,
+          "low_1_percent": 29.925
+        },
+        "frame_time": {
+          "count": 1156,
+          "mean_ms": 17.99,
+          "min_ms": 7,
+          "max_ms": 42,
+          "p50_ms": 17.125,
+          "p90_ms": 23.125,
+          "p95_ms": 27.125,
+          "p99_ms": 31.125
+        },
+        "cpu_frame": {
+          "count": 1156,
+          "mean_ms": 4.746,
+          "min_ms": 1,
+          "max_ms": 10,
+          "p50_ms": 5.125,
+          "p90_ms": 7.125,
+          "p95_ms": 8.125,
+          "p99_ms": 9.125
+        },
+        "cpu_render": {
+          "count": 1156,
+          "mean_ms": 2.92,
+          "min_ms": 0,
+          "max_ms": 7,
+          "p50_ms": 3.125,
+          "p90_ms": 4.125,
+          "p95_ms": 5.125,
+          "p99_ms": 6.125
+        },
+        "gpu": {
+          "count": 0,
+          "mean_ms": null,
+          "min_ms": null,
+          "max_ms": null,
+          "p50_ms": null,
+          "p90_ms": null,
+          "p95_ms": null,
+          "p99_ms": null
+        },
+        "spikes": 0,
+        "stutters": 78
+      }
+    }
+  ],
+  "activity": {
+    "shots": 7020,
+    "player_shots": 1753,
+    "explosions": 67,
+    "smokes": 0,
+    "flashes": 0,
+    "kills": 240
+  },
+  "render_workload": {
+    "sample_count": 633,
+    "sample_method": "Unweighted medians/ranges of retained 1 Hz render samples; includes warm-up and steady play, mixed quality and populations. Draws and triangles are renderer counts, not GPU timing.",
+    "all_maps": {
+      "draw_calls": {
+        "count": 633,
+        "min": 49,
+        "median": 134,
+        "max": 360
+      },
+      "triangles": {
+        "count": 633,
+        "min": 36488,
+        "median": 146422,
+        "max": 665268
+      },
+      "shadow_draw_calls": {
+        "count": 633,
+        "min": 0,
+        "median": 0,
+        "max": 213
+      },
+      "main_render_passes": {
+        "count": 633,
+        "min": 1,
+        "median": 2,
+        "max": 2
+      },
+      "textures": {
+        "count": 633,
+        "min": 92,
+        "median": 92,
+        "max": 92
+      },
+      "geometries": {
+        "count": 633,
+        "min": 135,
+        "median": 194,
+        "max": 225
+      },
+      "texture_bytes_estimate": {
+        "count": 633,
+        "min": 82779926,
+        "median": 82779926,
+        "max": 82779926
+      }
+    }
+  },
+  "spikes": {
+    "warmup_count": 2,
+    "steady_count": 2,
+    "dropped": 0,
+    "events": [
+      {
+        "elapsed_ms": 21771,
+        "frame_ms": 128,
+        "context_id": 0,
+        "condition_mask": 3,
+        "phase": 0,
+        "map": "BLACKSITE",
+        "mode": "tdm",
+        "effective_quality": "medium",
+        "framebuffer": [
+          1297,
+          596
+        ],
+        "conditions": [
+          "movement",
+          "gunfight"
+        ],
+        "raw_observation": [
+          21771,
+          128,
+          6,
+          2,
+          0,
+          3,
+          0
+        ],
+        "containing_window": {
+          "start_ms": 21377,
+          "end_ms": 22377,
+          "frames": 53,
+          "frame_max_ms": 128,
+          "cpu_frame_max_ms": 6,
+          "cpu_render_max_ms": 3
+        }
+      },
+      {
+        "elapsed_ms": 100830,
+        "frame_ms": 1107,
+        "context_id": 4,
+        "condition_mask": 2,
+        "phase": 1,
+        "map": "BLACKSITE",
+        "mode": "tdm",
+        "effective_quality": "medium",
+        "framebuffer": [
+          1090,
+          501
+        ],
+        "conditions": [
+          "gunfight"
+        ],
+        "raw_observation": null,
+        "containing_window": {
+          "start_ms": 98940,
+          "end_ms": 100830,
+          "frames": 48,
+          "frame_max_ms": 1107,
+          "cpu_frame_max_ms": 1096,
+          "cpu_render_max_ms": 1095
+        }
+      },
+      {
+        "elapsed_ms": 595193,
+        "frame_ms": 77,
+        "context_id": 17,
+        "condition_mask": 3,
+        "phase": 0,
+        "map": "IRON QUARRY",
+        "mode": "tdm",
+        "effective_quality": "low",
+        "framebuffer": [
+          627,
+          288
+        ],
+        "conditions": [
+          "movement",
+          "gunfight"
+        ],
+        "raw_observation": null,
+        "containing_window": {
+          "start_ms": 595116,
+          "end_ms": 596124,
+          "frames": 56,
+          "frame_max_ms": 77,
+          "cpu_frame_max_ms": 4,
+          "cpu_render_max_ms": 2
+        }
+      },
+      {
+        "elapsed_ms": 638335,
+        "frame_ms": 68,
+        "context_id": 19,
+        "condition_mask": 2,
+        "phase": 1,
+        "map": "IRON QUARRY",
+        "mode": "tdm",
+        "effective_quality": "low",
+        "framebuffer": [
+          578,
+          265
+        ],
+        "conditions": [
+          "gunfight"
+        ],
+        "raw_observation": null,
+        "containing_window": {
+          "start_ms": 638250,
+          "end_ms": 639258,
+          "frames": 57,
+          "frame_max_ms": 68,
+          "cpu_frame_max_ms": 15,
+          "cpu_render_max_ms": 5
+        }
+      }
+    ],
+    "worst_steady_frame_contribution_percent": 0.194,
+    "diagnostic_excluding_single_1107_ms_stall": {
+      "official_metrics_unchanged": true,
+      "frames": 32906,
+      "fps": {
+        "average": 57.843,
+        "median": 58.394,
+        "low_1_percent": 29.754
+      },
+      "frame_time": {
+        "count": 32906,
+        "mean_ms": 17.288,
+        "min_ms": 7,
+        "max_ms": 68,
+        "p50_ms": 17.125,
+        "p90_ms": 19.125,
+        "p95_ms": 22.125,
+        "p99_ms": 32.125
+      },
+      "note": "Sensitivity analysis only: subtracts the one observed stall from the exact histogram. Official results include it. Raw reservoir omitted this event, so timing maxima in its containing window do not prove same-observation attribution or a root cause."
+    }
+  },
+  "degradation": {
+    "early_mean_frame_ms": 17.321,
+    "late_mean_frame_ms": 17.158,
+    "change_percent": -0.942,
+    "status": "estimate",
+    "note": "Uncontrolled maps, settings, combat and DRS can explain change; this does not establish thermal throttling"
+  },
+  "instrumentation": {
+    "cpu_overhead_ms": {
+      "count": 36549,
+      "mean_ms": 0.026,
+      "min_ms": 0,
+      "max_ms": 2,
+      "p50_ms": 0.125,
+      "p90_ms": 0.125,
+      "p95_ms": 0.125,
+      "p99_ms": 1.125
+    },
+    "checkpoint_period_ms": 60000,
+    "checkpoint_max_ms": 9,
+    "raw_observations": 4096
+  },
+  "limits": {
+    "contexts": 64,
+    "raw": 4096,
+    "windows": 720,
+    "spikes": 512,
+    "transitions": 512,
+    "gpu": 4096,
+    "activeSeconds": 7200,
+    "dropped": {
+      "contexts": 0,
+      "transitions": 0,
+      "spikes": 0,
+      "gpu": 0
+    },
+    "timeline_decimated": false,
+    "context_overflow": {
+      "fps": {
+        "average": null,
+        "median": null,
+        "low_1_percent": null
+      },
+      "frame_time": {
+        "count": 0,
+        "mean_ms": null,
+        "min_ms": null,
+        "max_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null
+      },
+      "cpu_frame": {
+        "count": 0,
+        "mean_ms": null,
+        "min_ms": null,
+        "max_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null
+      },
+      "cpu_render": {
+        "count": 0,
+        "mean_ms": null,
+        "min_ms": null,
+        "max_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null
+      },
+      "gpu": {
+        "count": 0,
+        "mean_ms": null,
+        "min_ms": null,
+        "max_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null
+      },
+      "spikes": 0,
+      "stutters": 0
+    }
+  },
+  "optimisation_priorities": [
+    {
+      "priority": 1,
+      "action": "Investigate rare main-thread/render-submission stalls before claiming better 1% lows.",
+      "evidence": "BLACKSITE has a 1,107 ms steady spike; its containing window records 1,096 ms CPU and 1,095 ms render-submission maxima. Check first-use shader/material/resource work and uploads with targeted tracing; the report alone cannot identify the cause."
+    },
+    {
+      "priority": 2,
+      "action": "Reduce scene/submission and pixel cost without making no-GPU AUTO promotion more aggressive.",
+      "evidence": "633 samples reach 360 draw calls and 665,268 triangles. All contexts are medium/low; NUKETOWN falls to low at 627x288, and IRON QUARRY reaches low at 578x265. These results do not prove unused GPU headroom."
+    },
+    {
+      "priority": 3,
+      "action": "Repeat fixed-quality, fixed-resolution device runs across matching maps/populations, and include smoke/flash workloads.",
+      "evidence": "No stored exact Release 57 context match. Release 60 smoke and flash counts are zero, and neither crash safety nor thermal behavior can be established from one completed session."
+    }
+  ],
+  "caveats": [
+    "Release 60 is one physical iPhone Safari gameplay session from 2026-10-06. The export does not identify the hardware model; Release 57 source documentation names an iPhone 16 Pro, but same-device identity is not encoded in Release 60.",
+    "Session FPS reports rendered submission intervals after the cap, not proof of displayed/compositor frames. Percentiles and 1% lows use the shared histogram estimator.",
+    "Baseline is a condensed extract, not the complete v1 export. Do not fabricate missing baseline sessions, difficulty, histograms, render workloads or raw observations to satisfy compare-benchmarks.",
+    "Aggregate changes are descriptive across different maps, modes, settings, resolution and combat. They do not establish like-for-like speedup.",
+    "Condition labels overlap and are not independent experimental groups. Render samples include warm-up; they are unweighted retained 1 Hz snapshots.",
+    "GPU timing, heap, process memory, VRAM, temperature and display refresh are unavailable. The 82,779,926-byte texture estimate is owned texture storage, not total memory or crash safety.",
+    "The early/late -0.942% frame-time estimate is confounded by changing maps and decreasing quality/resolution and does not establish thermal stability.",
+    "The 4,096 raw observations are a reservoir from 36,541 frames; omission of a stall is expected. Global histograms, timeline and spike records still include it.",
+    "No overflow/dropped measurements or timeline decimation is reported. Benchmark overhead averages 0.026 ms; checkpoint timing maximum is 9 ms. These measurements do not explain or rule out the long stall."
+  ]
+}
