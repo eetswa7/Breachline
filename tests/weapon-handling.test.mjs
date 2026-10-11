@@ -11,7 +11,9 @@ test('top-loading magazine clears the receiver and empty pistols hold their slid
 });
 test('the field blade stays inside its gripping glove through repeated posed frames',()=>{
  const w=new Weapon(12),parts=weaponModel(w),handle=parts.find(q=>q.z===.05&&q.h===.065),palm=parts.find(q=>q.tag==='rightHand'&&q.mesh==='sphere');
- for(let frame=0;frame<120;frame++){animateWeaponParts(parts,w,{},frame/60);assert(Math.abs(handle.y-palm.y)<(handle.h+palm.h)/2);assert(Math.abs(handle.z-palm.z)<(handle.d+palm.d)/2);}
+ const assertGrip=()=>{assert(Math.abs(handle.y-palm.y)<(handle.h+palm.h)/2);assert(Math.abs(handle.z-palm.z)<(handle.d+palm.d)/2);};
+ assertGrip();
+ for(let frame=0;frame<120;frame++){animateWeaponParts(parts,w,{},frame/60);assertGrip();}
 });
 test('tactical reload preserves the closed action while an empty reload cycles it',()=>{
  const w=new Weapon(0),parts=weaponModel(w),bolt=parts.find(p=>p.tag==='bolt');w.ammo=6;w.reload();w.reloadLeft=w.reloadTime*.11;animateWeaponParts(parts,w,{},0);assert.equal(bolt.z,bolt.baseZ);

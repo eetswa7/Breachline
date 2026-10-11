@@ -420,9 +420,12 @@ function addHands(b,w){
   box(x+.039*s,y+.005*s,z-.032*s,.026*s,.064*s,.031*s,GLOVE,tag,{mesh:'sphere',roll:-.4});
   box(x+.002*s,y+.024*s,z+.024*s,.06*s,.02*s,.051*s,RUBBER,tag,{mesh:'bevel'});
  };
- palm(.027,-.112,z+.008,1,'rightHand',-.13);
- box(.071,-.196,z+.131,.1,.105,.222,SLEEVE,'rightHand',{pitch:-.31,roll:-.20});box(.047,-.166,z+.054,.098,.028,.092,RUBBER,'rightHand',{pitch:-.26});
- box(.071,-.179,z+.096,.101,.013,.015,GLOVE,'rightHand',{pitch:-.31,roll:-.20});
+ // Author the blade's horizontal-handle grip as its rest pose, including the
+ // wrist/sleeve. Animation can then return to the cached pose without drift.
+ const rightY=id===12?.01:-.112;
+ palm(.027,rightY,z+.008,1,'rightHand',-.13);
+ box(.071,rightY-.084,z+.131,.1,.105,.222,SLEEVE,'rightHand',{pitch:-.31,roll:-.20});box(.047,rightY-.054,z+.054,.098,.028,.092,RUBBER,'rightHand',{pitch:-.26});
+ box(.071,rightY-.067,z+.096,.101,.013,.015,GLOVE,'rightHand',{pitch:-.31,roll:-.20});
  if(id===12)return;
  if(short){palm(-.026,-.115,z+.016,1.03,'supportHand',.14);box(-.076,-.198,z+.127,.1,.102,.214,SLEEVE,'supportHand',{pitch:-.3,roll:.2});}
  else{
@@ -456,9 +459,6 @@ export function animateWeaponParts(parts,w,p,time){
  const emptySlide=w.ammo===0&&(!reloading||r<.87)?1:0;
  for(const index of parts.animated){const q=parts[index];q.x=q.baseX;q.y=q.baseY;q.z=q.baseZ;q.yaw=q.baseYaw;q.pitch=q.basePitch;q.roll=q.baseRoll;
   switch(q.tag){
-   // The blade's handle is horizontal at receiver height. Its old generic
-   // pistol-grip hand target left a visible air gap when viewed from the side.
-   case 'rightHand':if(w.def.id===12)q.y+=.122;break;
    case 'slide':q.z+=Math.max(slide,emptySlide)*.035;break;
    case 'bolt':q.z+=(w.def.kind==='SNIPER'||w.def.id===7?boltOpen*.068:slide*.026)+boltReload*.04;if(w.def.kind==='SNIPER'||w.def.id===7)q.roll-=(boltOpen+boltReload)*.68;break;
    case 'pump':case 'pumpHand':q.z+=pump*.079;if(reloading&&q.tag==='pumpHand'){q.x-=leftReach*.035;q.y-=leftReach*.095;q.z+=leftReach*.27;q.roll-=leftReach*.5;}break;

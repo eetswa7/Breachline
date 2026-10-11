@@ -80,6 +80,17 @@ blade hand-target correction happened afterward and changed that fingerprint;
 the aggregate validation records this narrow difference and the follow-up
 weapon tests/capture. Renderer and shader sources were unchanged by that fix.
 
+## CI follow-up — 12 October 2026
+
+The 352-test full-suite pass predates the last blade grip change. The subsequent
+18 weapon checks passed, but [final checkpoint CI](https://github.com/eetswa7/Test/actions/runs/38131489082)
+ran all 353 tests and failed cached idle-pose restoration in
+`tests/arsenal.test.mjs`. The repair authors the corrected blade grip at rest,
+instead of applying a permanent animation offset. The no-drift assertion remains
+unchanged, and all thirty weapons retain their previously reviewed rendered
+transforms. The [aggregate validation](validation-release61.json) preserves the
+original captures and records the repaired run separately.
+
 Physical Release 61 iPhone FPS, frame pacing, audio latency, memory pressure and
 thermals remain unverified. The audio preview supports listening review; signal
 generation/native playback do not establish premium realism. Skeletal character

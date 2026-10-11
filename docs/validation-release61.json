@@ -179,5 +179,50 @@
     "scope": "SwiftShader functional browser checks; the unavailable Linux hardware backend was disabled only in the harness. Controller edges are covered separately by regression tests."
   },
   "source_checkpoint": "47d1282891950656350c878e72a9b41c7ae3d784",
-  "provenance_note": "The final manifest identifies this committed source. Browser captures preserve their original dirty-build metadata; the final benchmark lifecycle exercised the identical distribution fingerprint. Stamping the public manifest changes only source provenance and is excluded from that fingerprint."
+  "provenance_note": "The final manifest identifies this committed source. Browser captures preserve their original dirty-build metadata; the final benchmark lifecycle exercised the identical distribution fingerprint. Stamping the public manifest changes only source provenance and is excluded from that fingerprint.",
+  "final_checkpoint_ci": {
+    "head_sha": "0ed80a4d415fddb686b65afcafcd7552022221a6",
+    "run_url": "https://github.com/eetswa7/Test/actions/runs/38131489082",
+    "command": "npm test",
+    "tests": 353,
+    "passed": 352,
+    "failed": 1,
+    "failing_test": "tests/arsenal.test.mjs: all attachment combinations animate cached arrays without drifting or replacing parts",
+    "package_check": "skipped",
+    "observation": "The final blade correction followed the earlier full-suite pass. Targeted weapon checks missed initial versus restored idle-pose disagreement."
+  },
+  "ci_repair": {
+    "date": "2026-10-12",
+    "tested_build": {
+      "release": "61",
+      "commit": null,
+      "source_commit": "0ed80a4d415fddb686b65afcafcd7552022221a6",
+      "content_sha256": "043213cb1d43acf0da812ba07f4183c2c1f3be9aa3bcfe718db4dede57bdbc55",
+      "commit_resolution": "content_fingerprint"
+    },
+    "source_checkpoint": null,
+    "local_regression": {
+      "command": "npm test",
+      "tests": 353,
+      "passed": 353,
+      "failed": 0,
+      "duration_ms": 196727.989867
+    },
+    "local_package_check": {
+      "command": "npm run check",
+      "passed": true,
+      "javascript_modules": 82
+    },
+    "targeted_weapon_tests": {
+      "passed": 26,
+      "failed": 0
+    },
+    "rendered_transform_comparison": {
+      "weapons": 30,
+      "float32_values": 26406,
+      "identical_to_reviewed_animated_poses": true
+    },
+    "change": "Corrected blade grip is the authored rest pose; no permanent animation offset. Unmodified arsenal idle-restoration assertion passes, and grip contact is checked before animation.",
+    "remote_ci": "pending repair push"
+  }
 }
