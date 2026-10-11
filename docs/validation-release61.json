@@ -200,7 +200,7 @@
       "content_sha256": "043213cb1d43acf0da812ba07f4183c2c1f3be9aa3bcfe718db4dede57bdbc55",
       "commit_resolution": "content_fingerprint"
     },
-    "source_checkpoint": null,
+    "source_checkpoint": "2479ac6c877e8fcfe8417a1cb2739b713664b90c",
     "local_regression": {
       "command": "npm test",
       "tests": 353,
@@ -223,6 +223,13 @@
       "identical_to_reviewed_animated_poses": true
     },
     "change": "Corrected blade grip is the authored rest pose; no permanent animation offset. Unmodified arsenal idle-restoration assertion passes, and grip contact is checked before animation.",
-    "remote_ci": "pending repair push"
+    "remote_ci": "pending repair push",
+    "build": {
+      "release": "61",
+      "commit": "2479ac6c877e8fcfe8417a1cb2739b713664b90c",
+      "source_commit": "2479ac6c877e8fcfe8417a1cb2739b713664b90c",
+      "content_sha256": "043213cb1d43acf0da812ba07f4183c2c1f3be9aa3bcfe718db4dede57bdbc55",
+      "commit_resolution": "source_commit"
+    }
   }
 }
