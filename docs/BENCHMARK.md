@@ -76,6 +76,16 @@ exceeds max(50 ms, twice the effective cap budget); a stutter exceeds 1.5 budget
 Pausing primes the clock on resume rather than counting a background gap as a stall.
 Safari rendering cadence cannot prove every frame was displayed by the compositor.
 
+New reports retain optional `spikes[].frames.preceding` and `current` observations
+outside the random raw-frame reservoir. Each contains its callback timestamp,
+CPU/frame submission time, weapon and draw/triangle/shadow/shader counts. The
+preceding callback's work can delay the current callback; the current CPU sample
+measures work after that callback begins. These are separate observations, not a
+claim that either caused the interval. Shader-count changes help investigate
+first-use compilation but do not measure compiler time. Both observations remain
+bounded by the existing 512-spike limit. Older v1 exports without them still
+validate, including the archived Release 60 iPhone report.
+
 Limits: 64 contexts, 720 timeline/render samples, 512 transitions/spikes and two
 active hours. Overflow is counted and labelled. Global histograms include all
 frames even after raw storage fills. Statistics include the recorder's overhead;

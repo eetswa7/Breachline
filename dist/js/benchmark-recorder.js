@@ -22,6 +22,13 @@ const memoryInfo=()=>{
  const m=globalThis.performance?.memory;
  return m&&Number.isFinite(m.usedJSHeapSize)?{status:'estimate',js_heap_used_bytes:m.usedJSHeapSize,js_heap_limit_bytes:m.jsHeapSizeLimit??null}:{status:'unavailable',js_heap_used_bytes:null,js_heap_limit_bytes:null};
 };
+// Retain both sides of a long rAF interval. The preceding submission can block
+// the next callback; CPU work measured in that callback is a separate sample.
+const frameEvidence=(cpuMs,renderCpuMs,render,game,context,now,start)=>({
+ elapsed_ms:round(now-start),context_id:context?.id??-1,weapon:game.player.weapon.def.id,
+ cpu_frame_ms:round(cpuMs),cpu_render_ms:round(renderCpuMs),
+ ...Object.fromEntries(['draw_calls','triangles','shadow_draw_calls','shader_programs','textures','geometries','main_render_passes'].map(key=>[key,Number.isFinite(render[key])?render[key]:null]))
+});
 export class BenchmarkRecorder {
  constructor({build,environment,renderer,kind='gameplay',scenario=null,id=globalThis.crypto?.randomUUID?.(),startedAt=new Date().toISOString(),now=performance.now(),warmupSeconds=15}={}){
   if(!id)throw new Error('Secure session identifiers are unavailable');
@@ -30,7 +37,7 @@ export class BenchmarkRecorder {
  }
  pause(reason='inactive'){
   if(this.last!==null){this.pauseCount++;this.flushWindow(this.last);}
-  this.last=null;this.lastPauseReason=reason;
+  this.last=null;this.previousFrame=null;this.lastPauseReason=reason;
  }
  observeEvents(events,now){for(const e of events){if(e.type==='shot'){this.counters.shots++;if(e.source===0)this.counters.player_shots++;this.gunUntil=now+1000;}else if(e.type==='explosion'){this.counters.explosions++;this.explosionUntil=now+2000;}else if(e.type==='smoke')this.counters.smokes++;else if(e.type==='flash')this.counters.flashes++;else if(e.type==='kill')this.counters.kills++;}}
  ensureContext(game,graphics,now,elapsed=0){
@@ -49,7 +56,7 @@ export class BenchmarkRecorder {
   if(now<this.start)return false;
   // A boundary primes the clock. Never insert the game's synthetic first dt.
   if(this.game!==game){this.pause('match_changed');this.game=game;this.gameplayMs=0;this.nextPopulation=0;}
-  if(this.last===null){this.ensureContext(game,graphics,now);this.last=now;return false;}
+  if(this.last===null){const context=this.ensureContext(game,graphics,now);this.last=now;this.previousFrame=frameEvidence(cpuMs,renderCpuMs,render,game,context,now,this.start);return false;}
   const elapsed=now-this.last;this.last=now;if(!(elapsed>0))return false;
   const context=this.ensureContext(game,graphics,now,elapsed);
   const phase=this.gameplayMs<this.warmupMs?0:1;if(phase!==this.lastPhase)this.flushWindow(now-elapsed);this.lastPhase=phase;this.gameplayMs+=elapsed;this.activeMs+=elapsed;
@@ -62,7 +69,10 @@ export class BenchmarkRecorder {
   this.window.add(elapsed,cpuMs,renderCpuMs,graphics.effective_frame_cap??graphics.frame_cap);
   const row=[round(now-this.start),round(elapsed),round(cpuMs),round(renderCpuMs),context?.id??-1,mask,phase];
   this.rawSeen++;if(this.raw.length<LIMITS.raw)this.raw.push(row);else{this.randomState=(Math.imul(this.randomState,1664525)+1013904223)>>>0;const index=Math.floor(this.randomState/4294967296*this.rawSeen);if(index<LIMITS.raw)this.raw[index]=row;}
-  if(elapsed>Math.max(50,2000/(graphics.effective_frame_cap??graphics.frame_cap))){if(this.spikes.length<LIMITS.spikes)this.spikes.push({elapsed_ms:row[0],frame_ms:row[1],context_id:row[4],condition_mask:mask,phase});else this.dropped.spikes++;}
+  if(elapsed>Math.max(50,2000/(graphics.effective_frame_cap??graphics.frame_cap))){if(this.spikes.length<LIMITS.spikes)this.spikes.push({elapsed_ms:row[0],frame_ms:row[1],context_id:row[4],condition_mask:mask,phase,frames:{preceding:{...this.previousFrame},current:frameEvidence(cpuMs,renderCpuMs,render,game,context,now,this.start)}});else this.dropped.spikes++;}
+  // A single fixed-size observation stays in memory even when the reservoir
+  // replaces the expensive frame. No per-frame history or GPU readback.
+  const previous=this.previousFrame;previous.elapsed_ms=row[0];previous.context_id=row[4];previous.weapon=game.player.weapon.def.id;previous.cpu_frame_ms=row[2];previous.cpu_render_ms=row[3];previous.draw_calls=render.draw_calls??null;previous.triangles=render.triangles??null;previous.shadow_draw_calls=render.shadow_draw_calls??null;previous.shader_programs=render.shader_programs??null;previous.textures=render.textures??null;previous.geometries=render.geometries??null;previous.main_render_passes=render.main_render_passes??null;
   if(now-this.windowStart>=1000)this.flushWindow(now);
   return this.activeMs>=LIMITS.activeSeconds*1000;
  }
