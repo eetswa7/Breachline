@@ -1,5 +1,10 @@
 # Production objective restored on 5 October 2026
 
+Read [the overhaul checklist](OVERHAUL_CHECKLIST.md) when resuming this work.
+It records the full thirteen-section audit, completed requirements and remaining
+partial, incomplete or unverified work. Update its checkboxes with evidence as
+requirements are completed in future sessions.
+
 The user authorizes a complete graphics and audio production overhaul of
 BREACHLINE, including frequent pushed usable checkpoints and deployment. The
 goal is a dramatic, immediately visible increase in realism and production

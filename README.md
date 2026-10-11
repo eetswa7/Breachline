@@ -18,6 +18,8 @@ voicings, mechanical details, surface foley, impact variations and bounded
 positional room/distance processing. Both graphics and audio remain offline.
 
 See [production changes, gameplay renders and validation](docs/ART_RELEASE60.md).
+The [overhaul checklist](docs/OVERHAUL_CHECKLIST.md) records the full requirement
+audit and remaining work for future sessions.
 The Release 57 baseline remains recoverable. Software rendering and scene budgets
 verify implementation; physical iPhone frame pacing, thermals and sound must be
 measured with the preserved Benchmark Mode. This release does not establish
