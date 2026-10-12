@@ -1,8 +1,8 @@
-import {rng,rayBox,distance,clamp} from './math.js?v=61';
-import {dressWorld} from './world-detail.js?v=61';
-import {RayGrid} from './ray-grid.js?v=61';
-import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=61';
-import {buildNuketown} from './nuketown.js?v=61';
+import {rng,rayBox,distance,clamp} from './math.js?v=62';
+import {dressWorld} from './world-detail.js?v=62';
+import {RayGrid} from './ray-grid.js?v=62';
+import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=62';
+import {buildNuketown} from './nuketown.js?v=62';
 export const MAPS=[
  {id:0,name:'OLD QUARTER',location:'Coastal city',size:32,weather:'sun',tag:'URBAN',description:'Market alleys, a central plaza and elevated terraces.',sky:[.47,.65,.76],fog:[.59,.66,.65],sun:[-.5,.8,.35]},
  {id:1,name:'FOUNDRY',location:'Industrial district',size:35,weather:'overcast',tag:'INDUSTRIAL',description:'Four loading entrances connect the machinery hall to covered freight lanes.',sky:[.27,.38,.48],fog:[.35,.43,.46],sun:[-.6,.7,-.3]},
@@ -17,8 +17,8 @@ export const MAPS=[
  {id:10,name:'SKYBRIDGE',location:'Civic transit interchange',size:40,weather:'sun',tag:'TRANSIT',description:'A raised concourse, glass-fronted station halls and sheltered service routes.',sky:[.48,.65,.77],fog:[.61,.70,.73],sun:[-.62,.72,.32]},
  {id:11,name:'MONSOON',location:'Tropical logistics terminal',size:42,weather:'rain',tag:'TROPICAL',description:'Rain-soaked freight lanes wrap a four-door depot and jungle maintenance huts.',sky:[.31,.43,.48],fog:[.41,.53,.54],sun:[.24,.9,-.32]},
  {id:12,name:'EMBERWORKS',location:'Copper processing district',size:41,weather:'sun',tag:'REFINERY',description:'Twin processing halls, tank farms and an accessible pipe-service catwalk.',sky:[.62,.57,.47],fog:[.72,.61,.48],sun:[-.71,.48,.51]},
- {id:13,teamSize:8,name:'CROSSFIRE DISTRICT',location:'Coastal financial quarter',size:60,weather:'sun',tag:'CITY',groundSurface:'asphalt',colliderBudget:260,decorBudget:1500,description:'A 120 m city district with open-window interiors, traffic cover and a 3.6 m overpass.',sky:[.48,.63,.74],fog:[.62,.68,.70],sun:[-.65,.75,.25]},
- {id:14,teamSize:8,name:'BLACKSITE',location:'Restricted power station',size:58,weather:'overcast',tag:'INDUSTRIAL',groundSurface:'asphalt',colliderBudget:230,decorBudget:1200,description:'A 116 m facility with a generator hall, four bunkers, raised service routes and cargo flanks.',sky:[.29,.40,.51],fog:[.40,.48,.53],sun:[.45,.76,-.3]},
+ {id:13,teamSize:20,name:'CROSSFIRE DISTRICT',location:'Coastal financial quarter',size:60,weather:'sun',tag:'CITY',groundSurface:'asphalt',colliderBudget:260,decorBudget:1500,description:'A 120 m city district with open-window interiors, traffic cover and a 3.6 m overpass.',sky:[.48,.63,.74],fog:[.62,.68,.70],sun:[-.65,.75,.25]},
+ {id:14,teamSize:20,name:'BLACKSITE',location:'Restricted power station',size:58,weather:'overcast',tag:'INDUSTRIAL',groundSurface:'asphalt',colliderBudget:230,decorBudget:1200,description:'A 116 m facility with a generator hall, four bunkers, raised service routes and cargo flanks.',sky:[.29,.40,.51],fog:[.40,.48,.53],sun:[.45,.76,-.3]},
  {id:15,name:'NUKETOWN',location:'Nevada test neighbourhood',size:32,navigationStep:.75,ridgeTemplate:2,authoredDressing:true,groundSurface:'grass',colliderBudget:340,decorBudget:1400,weather:'sun',tag:'CLASSIC',description:'Classic Nuketown recreation: twin two-storey houses, garages, rear balconies, a school bus and an open moving truck.',sky:[.53,.69,.81],fog:[.68,.72,.68],sun:[-.45,.85,.34]}
 ];
 export const SURFACES={concrete:{color:[.45,.47,.45],rough:.92,metal:0,pattern:1},sand:{color:[.61,.51,.35],rough:1,metal:0,pattern:1},stone:{color:[.68,.61,.48],rough:.94,metal:0,pattern:2},steel:{color:[.22,.3,.31],rough:.55,metal:.7,pattern:3},rust:{color:[.39,.2,.13],rough:.88,metal:.08,pattern:3},wood:{color:[.39,.28,.16],rough:.9,metal:0,pattern:4},dark:{color:[.075,.095,.105],rough:.6,metal:.5,pattern:0},white:{color:[.78,.79,.7],rough:.88,metal:0,pattern:1},blue:{color:[.12,.29,.37],rough:.66,metal:.05,pattern:3},orange:{color:[.79,.32,.08],rough:.7,metal:.2,pattern:0},glass:{color:[.11,.24,.29],rough:.18,metal:.65,pattern:0},green:{color:[.2,.29,.18],rough:.88,metal:0,pattern:1}};
@@ -56,7 +56,7 @@ export class Arena {
   this.box(0,-.2,0,s*2,.4,s*2,this.info.groundSurface??(id===2?'sand':id===0?'dirt':id===3||id===5||id===7?'grass':id===4||id===10||id===11?'asphalt':id===8?'snow':id===9||id===12?'gravel':'concrete'),{ground:true});
   for(const sign of [-1,1]){this.box(sign*s,id===4&&sign===1?.65:1.4,0,.8,id===4&&sign===1?1.3:2.8,s*2,id===4?'concrete':'plaster');this.box(0,1.4,sign*s,s*2,2.8,.8,'plaster');}
   this.spawns=[{x:-s+5,y:0,z:-s+5,team:0},{x:-s+9,y:0,z:-s+5,team:0},{x:-s+5,y:0,z:-s+9,team:0},{x:-s+10,y:0,z:-s+10,team:0},{x:s-5,y:0,z:s-5,team:1},{x:s-9,y:0,z:s-5,team:1},{x:s-5,y:0,z:s-9,team:1},{x:s-10,y:0,z:s-10,team:1},{x:-s+5,y:0,z:s-5,team:0},{x:s-5,y:0,z:-s+5,team:1}];
-  if(this.info.teamSize===8)for(const team of [0,1])for(const [dx,dz]of [[5,13],[13,5],[5,18],[18,5]]){const sign=team?1:-1;this.spawns.push({x:sign*(s-dx),y:0,z:sign*(s-dz),team});}
+  if(this.info.teamSize>4)for(const team of [0,1])for(const [dx,dz]of [[5,13],[13,5],[5,18],[18,5]]){const sign=team?1:-1;this.spawns.push({x:sign*(s-dx),y:0,z:sign*(s-dz),team});}
   this.objectives=[{name:'A',x:-s*.5,y:0,z:s*.28},{name:'B',x:0,y:0,z:0},{name:'C',x:s*.5,y:0,z:-s*.28}];
   if(id===0){
    for(const [x,z,w,d,h] of [[-16,-12,9,9,9],[15,13,10,9,8],[-14,15,8,8,7],[16,-15,9,7,9],[-29,5,5,13,11],[28,-2,5,13,10]])this.building(x,z,w,d,h);

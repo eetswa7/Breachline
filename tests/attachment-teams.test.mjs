@@ -59,10 +59,10 @@ test('attachment mobility changes player movement in the simulation',()=>{
  const travel=loadout=>{const g=new Game({loadout},{seed:71});g.actors=[g.player];g.arena.blocks=[];Object.assign(g.player,{x:0,y:0,z:0,yaw:0});for(let i=0;i<60;i++)g.update(1/60,{...emptyInput(),mz:1});return -g.player.z;};
  assert(travel({handling:3})>travel({})*1.08);assert(travel({magazine:3})<travel({})*.93);
 });
-test('all team modes double huge-map rosters and retain safe separated starts',()=>{
+test('all team modes field twenty per side on huge maps and retain safe separated starts',()=>{
  for(const map of [13,14])for(const mode of ['tdm','sabotage','domination','hardpoint','confirmed','ctf','elimination','frontline']){
-  const g=new Game({map,mode},{seed:443});assert.equal(g.actors.length,16);
-  for(const team of [0,1])assert.equal(g.actors.filter(a=>a.team===team).length,8);
+  const g=new Game({map,mode},{seed:443});assert.equal(g.actors.length,40);
+  for(const team of [0,1])assert.equal(g.actors.filter(a=>a.team===team).length,20);
   for(const a of g.actors){assert(!g.arena.collides(a,.31,1.75));assert(g.actors.every(b=>a===b||Math.hypot(a.x-b.x,a.z-b.z)>.6),`${map}/${mode}: overlapping starts`);}
  }
  assert.equal(new Game({map:0,mode:'tdm'}).actors.length,8);

@@ -1,5 +1,5 @@
-import {WEAPONS} from './weapons.js?v=61';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=61';
+import {WEAPONS} from './weapons.js?v=62';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=62';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));

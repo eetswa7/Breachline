@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest checkpoint: Release 61.** 30 weapons, 16 maps and 11 modes.
+**Latest checkpoint: Release 62.** 30 weapons, 16 maps and 11 modes.
+
+## Release 62: 20 vs 20 on the big maps
+
+Crossfire District and Blacksite now field 20 combatants per team in all team
+modes, including the player: 40 total. Existing spawn safety and dynamic actor
+batches support the larger roster.
+
+See [roster validation and CTF evidence](docs/ROSTERS62.md).
 
 ## Release 61: Blacksite construction, handling and character motion
 
@@ -296,7 +304,7 @@ Eleven fully simulated player-versus-bot modes:
 
 | Mode | Rules |
 | --- | --- |
-| Team Deathmatch | 4 vs 4, 40 eliminations, respawns, 6-minute limit; 8 vs 8 on the two huge maps |
+| Team Deathmatch | 4 vs 4, 40 eliminations, respawns, 6-minute limit; 20 vs 20 on the two huge maps |
 | Free For All | Eight combatants, first to 20, respawns, 6-minute limit |
 | Sabotage | Plant at A or C, defend or defuse, one life per round, first to four rounds, teams switch sides every three rounds |
 | Domination | Capture and contest A, B and C, hold sites to reach 150 points |
@@ -308,7 +316,7 @@ Eleven fully simulated player-versus-bot modes:
 | Elimination | One life per round, first to five rounds; timeouts use survivors then remaining health, equal results draw |
 | Frontline | Capture successive sectors to push towards the enemy rear; defenders can reverse the line, with respawns behind the current sector |
 
-All team modes use 8 vs 8 on Crossfire District and Blacksite, and 4 vs 4
+All team modes use 20 vs 20 on Crossfire District and Blacksite, and 4 vs 4
 elsewhere. Free-for-all modes retain eight combatants.
 
 Sixteen battlegrounds: **Old Quarter**, **Foundry**, **Dustline**, **Relay**, **Breakwater**, **Citadel**, **Switchyard**, **Canopy**, **Frostline**, **Iron Quarry**, **Skybridge**, **Monsoon**, **Emberworks**, **Crossfire District**, **Blacksite** and **Nuketown**. Breakwater adds a harbour and drydock routes; Citadel adds a covered courtyard, comms tunnel and radar overlook; Switchyard adds freight crossings; Canopy connects forest cabins around a sheltered court; Frostline adds alpine patrol routes and a snowbound beacon; Iron Quarry adds stoneworks, conveyors and a low central crusher apron. Wind-driven snow and drifting grit give these maps their own weather; both rendering paths share the same quality-bounded effects, which clear under roofs. Synthesized snow-crunch and stone-grit footsteps follow each map's surface, while indoor footsteps stay hard-surfaced. Each map has authored routes, cover, objective sites, safe spawns, indoor and outdoor areas and navigable elevation changes.

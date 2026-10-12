@@ -35,7 +35,7 @@ test('campers at every legacy home corner force respawns into sheltered interior
   for(const a of g.actors)a.health=0;
   const anchors=g.arena.spawns.filter(s=>s.team===0);
   const campers=g.actors.filter(a=>a.team===1);
-  for(let i=0;i<campers.length;i++)campers[i].reset(anchors[i],0);
+  for(let i=0;i<campers.length;i++)campers[i].reset(anchors[i%anchors.length],0);
   p.health=0;g.time=12;g.spawn(p);
   const nearest=Math.min(...campers.map(a=>near(p,a)));
   assert(nearest>15,`${map.name}: spawned within camper kill range (${nearest.toFixed(1)} m)`);

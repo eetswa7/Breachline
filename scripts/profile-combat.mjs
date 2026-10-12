@@ -18,4 +18,4 @@ for(const map of [13,14]){
   if(run===4)results.push({map:game.arena.info.name,actors:game.actors.length,steps:2400,medianMilliseconds:median(runs),runs,paths,expansions,shots});
  }
 }
-console.log(JSON.stringify({environment:'Node simulation CPU only, fixed seeds and 16 actors; not iPhone FPS',results},null,2));
+console.log(JSON.stringify({environment:'Node simulation CPU only, fixed seeds and full map rosters; not iPhone FPS',results},null,2));

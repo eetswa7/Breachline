@@ -1,10 +1,10 @@
-import {Game,emptyInput} from './engine.js?v=61';
-import {BenchmarkRecorder,browserInfo,rendererInfo,graphicsSnapshot,LIMITS} from './benchmark-recorder.js?v=61';
-import {BenchmarkStore,SAVED_REPORT_LIMIT} from './benchmark-store.js?v=61';
-import {downloadBenchmark} from './benchmark-export.js?v=61';
-import {StressSequence,STRESS_SCENARIO} from './benchmark-stress.js?v=61';
-import {BENCHMARK_BUILD} from './benchmark-build.js?v=61';
-import {TimingStats,round} from './benchmark-stats.js?v=61';
+import {Game,emptyInput} from './engine.js?v=62';
+import {BenchmarkRecorder,browserInfo,rendererInfo,graphicsSnapshot,LIMITS} from './benchmark-recorder.js?v=62';
+import {BenchmarkStore,SAVED_REPORT_LIMIT} from './benchmark-store.js?v=62';
+import {downloadBenchmark} from './benchmark-export.js?v=62';
+import {StressSequence,STRESS_SCENARIO} from './benchmark-stress.js?v=62';
+import {BENCHMARK_BUILD} from './benchmark-build.js?v=62';
+import {TimingStats,round} from './benchmark-stats.js?v=62';
 
 export class BenchmarkController {
  constructor(app){
