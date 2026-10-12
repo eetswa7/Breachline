@@ -22,7 +22,7 @@ try{
   const game=new Game({map:14,mode:'tdm'},{seed:681});game.actors=[game.player];game.rules.time=999;
   const renderer=new Renderer(document.querySelector('canvas'),{quality:'high',motion:true,fov:80,frameRate:60});renderer.setArena(game.arena);await renderer.ready;await renderer.prepareMatch(game);
   window.reload={game,renderer,Weapon,emptyInput};
-  window.reload.start=(id,empty)=>{const m=window.reload,p=m.game.player;p.weapons[0]=new Weapon(id,{optic:1});p.slot=0;p.reset({x:0,y:0,z:27},0);p.ads=0;m.game.time=2;m.game.events=[];m.renderer.cameraY=null;m.renderer.weaponKey='';const w=p.weapon;w.ammo=empty?0:Math.max(1,w.capacity-3);if(!w.reload())throw Error('Reload failed');m.renderer.prepareWeapon(m.game,844/390,false);return w.reloadTime;};
+  window.reload.start=(id,empty,magazine=0)=>{const m=window.reload,p=m.game.player;p.weapons[0]=new Weapon(id,{optic:1,magazine});p.slot=0;p.reset({x:0,y:0,z:27},0);p.ads=0;m.game.time=2;m.game.events=[];m.renderer.cameraY=null;m.renderer.weaponKey='';const w=p.weapon;w.ammo=empty?0:Math.max(1,w.capacity-3);if(!w.reload())throw Error('Reload failed');m.renderer.prepareWeapon(m.game,844/390,false);return w.reloadTime;};
   window.reload.step=frames=>{const m=window.reload;for(let i=0;i<frames;i++){m.game.update(1/120,m.emptyInput());m.renderer.prepareWeapon(m.game,844/390,false);}};
  });
  await mkdir(`test-results/${stage}`,{recursive:true});
@@ -32,17 +32,17 @@ try{
    const parts=r.weaponParts,rig=parts.reloadRig,xyz=q=>q?{x:q.x,y:q.y,z:q.z,yaw:q.yaw,pitch:q.pitch,roll:q.roll}:null;
    const groups=[...(r.blenderWeaponGroups??[]),...(r.blenderHandGroups??[])];
    const jointsMatch=groups.every(g=>{const q=parts[g.anchor];return q&&['x','y','z','yaw','pitch','roll'].every(k=>Math.abs((g[k]??0)-(q[k]??0))<1e-7);});
-   return {name,weapon:w.def.name,id:w.def.id,phase:1-w.reloadLeft/w.reloadTime,ammo:w.ammo,reloadStartedEmpty:w.reloadStartedEmpty,nativeWeaponGroups:r.blenderWeaponGroups?.length??0,nativeHandGroups:r.blenderHandGroups?.length??0,jointsMatch,finite:parts.every(q=>['x','y','z','yaw','pitch','roll'].every(k=>Number.isFinite(q[k]??0))),parts:parts.filter(q=>/^(supportHand|pumpHand|magazine|bolt|slide|cylinder|loadShell|lid)$/.test(q.tag??'')).map(q=>({tag:q.tag,...xyz(q),hidden:!!q.hidden})),contact:rig?.contact?{...rig.contact}:null,draws:r.drawCalls,triangles:r.triangles};
+   return {name,weapon:w.def.name,id:w.def.id,magazine:w.magazine,phase:1-w.reloadLeft/w.reloadTime,ammo:w.ammo,reloadStartedEmpty:w.reloadStartedEmpty,nativeWeaponGroups:r.blenderWeaponGroups?.length??0,nativeHandGroups:r.blenderHandGroups?.length??0,jointsMatch,finite:parts.every(q=>['x','y','z','yaw','pitch','roll'].every(k=>Number.isFinite(q[k]??0))),parts:parts.filter(q=>/^(supportHand|pumpHand|magazine|bolt|slide|cylinder|loadShell|lid)$/.test(q.tag??'')).map(q=>({tag:q.tag,...xyz(q),hidden:!!q.hidden})),contact:rig?.contact?{...rig.contact}:null,draws:r.drawCalls,triangles:r.triangles};
   },name);
   await page.screenshot({path:`test-results/${stage}/${name}.png`,timeout:120000});captures.push(sample);console.log(name,JSON.stringify({phase:sample.phase,contact:sample.contact,jointsMatch:sample.jointsMatch}));
  }
- for(const [id,empty]of [[0,true],[0,false],[2,true],[4,true],[5,true],[9,true],[10,true],[18,true],[20,true],[22,true]]){
-  const duration=await page.evaluate(({id,empty})=>window.reload.start(id,empty),{id,empty});let last=0;
-  const phases=id===0&&empty?[.10,.40,.76,.89,.98]:[.40,.76,.89];
-  for(const phase of phases){await page.evaluate(frames=>window.reload.step(frames),Math.round((phase-last)*duration*120));last=phase;await capture(`reload-${id}-${empty?'empty':'tactical'}-${Math.round(phase*100)}`);}
+ for(const [id,empty,magazine=0]of [[0,true],[0,false],[0,true,3],[2,true],[4,true],[5,true],[9,true],[10,true],[18,true],[20,true],[22,true]]){
+  const duration=await page.evaluate(({id,empty,magazine})=>window.reload.start(id,empty,magazine),{id,empty,magazine});let last=0;
+  const phases=id===0&&empty&&!magazine?[.10,.40,.76,.89,.98]:id===9?[.16,.40,.76,.89]:[.40,.76,.89];
+  for(const phase of phases){await page.evaluate(frames=>window.reload.step(frames),Math.round((phase-last)*duration*120));last=phase;await capture(`reload-${id}${magazine?'-mag'+magazine:''}-${empty?'empty':'tactical'}-${Math.round(phase*100)}`);}
  }
  const pause=await page.evaluate(()=>{const m=window.reload;m.start(0,true);m.step(30);const before=m.game.player.weapon.reloadLeft;m.game.paused=true;m.step(8);m.game.paused=false;return before===m.game.player.weapon.reloadLeft;});
- const report={kind:'software_WebGL_native_reload_temporal_validation',actual_iphone_data:false,capturedAt:new Date().toISOString(),release,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),distributionDirty:!!execFileSync('git',['status','--porcelain','--','dist'],{encoding:'utf8'}).trim(),viewport:{width:844,height:390},errors,requestFailures,validation:{pauseFreezesClock:pause,nativePresentation:captures.every(s=>s.nativeWeaponGroups>0&&s.nativeHandGroups>0),coherentNativeJoints:captures.every(s=>s.jointsMatch),finiteTransforms:captures.every(s=>s.finite)},captures};
+ const report={kind:'software_WebGL_native_reload_temporal_validation',actual_iphone_data:false,capturedAt:new Date().toISOString(),release,origin,sourceCommit:process.env.ART_TEST_SOURCE_COMMIT??execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),distributionDirty:process.env.ART_TEST_SOURCE_COMMIT?false:!!execFileSync('git',['status','--porcelain','--','dist'],{encoding:'utf8'}).trim(),viewport:{width:844,height:390},errors,requestFailures,validation:{pauseFreezesClock:pause,nativePresentation:captures.every(s=>s.nativeWeaponGroups>0&&s.nativeHandGroups>0),coherentNativeJoints:captures.every(s=>s.jointsMatch),finiteTransforms:captures.every(s=>s.finite)},captures};
  await writeFile(`docs/validation-${stage}-browser.json`,JSON.stringify(report,null,2)+'\n');
  if(errors.length||requestFailures.length||Object.values(report.validation).some(v=>!v))throw Error(JSON.stringify(report.validation));
  console.log(JSON.stringify(report.validation));
