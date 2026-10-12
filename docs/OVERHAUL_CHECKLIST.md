@@ -208,10 +208,14 @@ as documented in the baseline JSON and validation report.
   validated.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   improved; first-person reload animation was largely retained.
-- [ ] **Not complete:** Inspection animations. No inspection action/animation
-  was implemented.
-- [ ] **Not complete:** Improved recoil, firing movement and weapon inertia.
-  Existing live behaviour was retained rather than substantially overhauled.
+- [ ] **Partial:** Inspection animations. An interruptible two-sided inspection
+  action is implemented for all weapon families, with touch, keyboard and
+  controller access. Native temporal image acceptance is pending. Updated
+  2026-10-12 at `30682fc`; [implementation and tests](WEAPON_MOTION61.md).
+- [ ] **Partial:** Improved recoil, firing movement and weapon inertia. Weighted
+  firing impulses and damped turning/landing movement now preserve fully aimed
+  alignment and gameplay recoil. Native temporal image acceptance is pending.
+  Updated 2026-10-12 at `30682fc`; [implementation and tests](WEAPON_MOTION61.md).
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
   particle presentation improved; firing emitters were largely retained.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
@@ -269,8 +273,9 @@ as documented in the baseline JSON and validation report.
   convincing realism remains incomplete.
 - [ ] **Partial:** Glass damage and material-specific impacts. Material impacts
   exist; progressive glass fracture/damage production was not completed.
-- [ ] **Not complete:** More convincing visual recoil/movement. Existing live
-  presentation was retained.
+- [ ] **Partial:** More convincing visual recoil/movement. Damped visual recoil
+  and inertia are implemented; actual temporal presentation remains under review.
+  Updated 2026-10-12 at `30682fc`; [motion evidence](WEAPON_MOTION61.md).
 - [ ] **Partial:** Satisfying effects without excessive particles. Density is
   bounded; subjective quality remains unestablished.
 - [x] **Complete:** Efficient particles, atlases, shaders and quality scaling.
@@ -424,15 +429,25 @@ These are Release 57 measurements, not measurements of Release 60.
   share families and audible realism is unverified.
 - [ ] **Partial:** Detailed reloads, magazines, bolts and handling. Weapon-specific
   designs exist; complete component-driven foley was not produced.
-- [ ] **Partial:** Shell-casing audio. Some ejection detail is embedded; no
-  comprehensive surface-specific casing landing audio.
+- [ ] **Partial:** Shell-casing audio. Engine/render-synchronised landings now
+  play hard, metal, wood, soft-ground and water families. Shotgun hulls share
+  pitched takes and revolver reload dumping remains absent, so comprehensive
+  coverage is unfinished. Updated 2026-10-12 at `30682fc`;
+  [events, playback evidence and listening reel](BALLISTIC_AUDIO61.md).
 - [ ] **Partial:** Attachment-specific audio. Suppressor variants exist; a complete
   attachment-specific handling library does not.
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
-- [ ] **Not complete:** Ricochet audio. No dedicated ricochet sound/event system.
-- [ ] **Not complete:** Penetration audio. No dedicated penetration sound/event
-  system.
+- [x] **Complete:** Ricochet audio. Dedicated original metal/mineral variants
+  play at shallow hard-cover contacts with position, attenuation, occlusion and
+  bounded voices. Deflection cues are cosmetic; the existing bullet stops at
+  cover without a reflected damage ray. Completed 2026-10-12 at `30682fc`;
+  [event tests, native playback and listening reel](BALLISTIC_AUDIO61.md).
+- [x] **Complete:** Penetration audio. Actual outgoing cover faces emit dedicated
+  material-specific rupture/debris cues with positional acoustic processing.
+  Existing energy loss, collision and target damage remain regression-tested.
+  Completed 2026-10-12 at `30682fc`;
+  [event tests, native playback and listening reel](BALLISTIC_AUDIO61.md).
 - [x] **Complete:** Deep layered explosions with distance attenuation. Variants
   and attenuation implemented; subjective quality remains unverified.
 - [ ] **Partial:** Accurate spatial audio, directional cues, distance falloff
@@ -506,3 +521,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
+
+| 2026-10-12 | Implemented dedicated ricochet and penetration audio (complete within the documented cosmetic/event scope), surface-specific casing landings (partial), and weapon inspection/recoil/inertia (partial pending native temporal review). The staged usable source passed 88 focused regressions and the 78-module/offline check; all 408 sounds decoded and cleaned up in Chromium. | `30682fcd600d17ac4f9042692e63fdc2af225894`; [audio evidence](BALLISTIC_AUDIO61.md), [motion evidence](WEAPON_MOTION61.md). |
