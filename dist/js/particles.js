@@ -11,7 +11,11 @@ void main() {
   vSpin=fract(instanceKind)*6.28318530718;
   vec4 centre=modelViewMatrix*vec4(instancePosition,1.0);
   vec2 local=position.xy*instanceSize;
-  if(vKind==5.0){
+  if(vKind==8.0){
+    // World-horizontal blast front: perspective and depth testing keep it
+    // attached to the explosion instead of becoming a screen-space halo.
+    centre+=viewMatrix*vec4(local.x,0.0,local.y,0.0);
+  }else if(vKind==5.0){
     // Rain follows gravity in view space, including when the player looks up.
     vec2 fall=(viewMatrix*vec4(.08,-1.0,0.0,0.0)).xy;
     fall=length(fall)>.03?normalize(fall):vec2(0.0,-1.0);
@@ -34,10 +38,16 @@ void main(){
   bool shard=vKind>3.5&&vKind<4.5;
   bool rain=vKind>4.5&&vKind<5.5;
   bool snow=vKind>5.5&&vKind<6.5;
-  bool mote=vKind>6.5;
+  bool mote=vKind>6.5&&vKind<7.5;
+  bool blast=vKind>7.5&&vKind<8.5;
   bool smoke=vKind<.5;
   float shape;vec3 c=vTint;
-  if(rain){
+  if(blast){
+    float edge=max(.016,fwidth(radius));
+    shape=smoothstep(.64-edge,.81,radius)*(1.0-smoothstep(.85,1.0+edge,radius));
+    // Break the front into soft dust patches without an extra texture tap.
+    shape*=.65+.35*sin(p.x*17.0+p.y*11.0)*sin(p.y*19.0-p.x*9.0);
+  }else if(rain){
     shape=(1.0-smoothstep(.08,.78,abs(p.x)))*(1.0-smoothstep(.5,1.0,abs(p.y)));
     c*=.75+.25*(1.0-p.y);
   }else if(snow||mote){

@@ -260,7 +260,11 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** Dust, sparks and particles. Shapes, rotation and shading
   improved; animated quality remains incompletely reviewed.
 - [ ] **Partial:** Explosions and shock effects. Existing explosions benefit from
-  particle changes; no new visual shockwave system.
+  particle changes. On 2026-10-12 an expanding, depth-tested blast-dust front,
+  shorter hot core and coherent debris replaced the generic burst within the
+  existing bounded effect draw. Temporal visual acceptance is pending the
+  integrated rebuild; the overall professional quality requirement stays open.
+  Evidence: [Release 61 effects checkpoint](ART_RELEASE61.md#effects-checkpoint).
 - [ ] **Partial:** Smoke grenades and atmospheric smoke. Existing smoke gained
   revised shading/rotation; no complete temporal acceptance review.
 - [ ] **Partial:** Fire and environmental effects. Weather/ambient effects
@@ -506,3 +510,4 @@ These are Release 57 measurements, not measurements of Release 60.
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
+| 2026-10-12 | Implemented a bounded blast-dust front and reworked explosion phases. Overall explosion quality remains partial pending temporal review. | Effects source checkpoint on `art-production-release61`; [implementation and validation](ART_RELEASE61.md#effects-checkpoint). |

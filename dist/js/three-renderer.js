@@ -13,6 +13,7 @@ import {installMetricUV,patchMetricUV} from './surface-uv.js?v=60';
 import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=60';
 import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=60';
 import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=60';
+import {emitBlast,blastFront} from './blast-effects.js?v=60';
 import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=60';
 import {DecalSystem} from './decal-system.js?v=60';
 import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=60';
@@ -623,9 +624,7 @@ export class Renderer {
           (Math.random() - .5) * 1.5, Math.random(), (Math.random() - .5) * 1.5);
       } else if (event.type === 'explosion') {
         this.refreshDestroyed();
-        for (let i = 0; i < 30; i++) { const angle = Math.random() * 6.28, speed = Math.random() * 5;
-          this.particle(p, i < 12 ? 2 : 0, i < 12 ? [2.4, .65, .08] : [.25, .24, .21],
-            i < 12 ? .25 : .4, .45 + Math.random() * 1.1, Math.cos(angle) * speed, Math.random() * 4, Math.sin(angle) * speed); }
+        emitBlast(this,{...event,position:p});
       } else if (event.type === 'flash') this.particle(p, 2, [3, 3, 2.7], .7, .12);
     }
   }
@@ -655,9 +654,10 @@ export class Renderer {
       if (e.life <= 0) continue;
       e.life -= dt; if (e.life <= 0) continue;
       e.x += e.vx * dt; e.y += e.vy * dt; e.z += e.vz * dt;
-      if (e.kind > .5) e.vy -= dt * 8;
+      if (e.kind > .5 && e.kind !== 8) e.vy -= dt * 8;
       if (e.y < .025) { e.y = .025; e.vy = 0; e.vx *= .8; e.vz *= .8; }
       const age = 1 - e.life / e.max, soft = e.kind < .5;
+      if(e.kind===8){const front=blastFront(e);count=this.writeBillboard(count,e.x,e.y,e.z,front.size,front.size,e.r,e.g,e.b,front.alpha,8);continue;}
       const size = e.size * (soft ? 2 + age * 4 : 2);
       count = this.writeBillboard(count, e.x, e.y, e.z, size, e.kind === 3 ? size * .35 : size,
         e.r, e.g, e.b, Math.min(1, e.life * 7) * (soft ? .28 : 1), e.kind + ((e.seed ?? 0) + age * (soft ? .07 : .55)) % 1);
