@@ -199,7 +199,9 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** Completely improve all 30 weapons and attachments. All weapon
   cores were revised; complete professional presentation was not achieved.
 - [ ] **Partial:** Realistic proportions and mechanical construction. Physical
-  joins improved; proportions/construction remain simplified.
+  joins and family-specific forged/stamped receiver and swept-stock profiles
+  improved. Overall construction remains stylised. Updated 2026-10-12 at
+  `2884259`; [native gameplay comparisons](ART_RELEASE63.md).
 - [ ] **Partial:** Detailed receivers, rails, handguards, barrels, magazines and
   optics. Native detail was added; close-up detail remains coarse.
 - [ ] **Partial:** High-quality metallic/polymer materials. PBR finishes exist;
@@ -207,12 +209,17 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** Mechanical details, engravings and wear. Some detail exists;
   comprehensive readable engravings/individual finishing were not completed.
 - [ ] **Partial:** Better hands, gloves and sleeves. Models, seams and normals
-  improved; anatomy/hand contact remain angular.
+  now include rounded palms/knuckles, dedicated thumb masses and continuous
+  wrist cuffs. Fingers remain rigid and sleeves tubular. Updated 2026-10-12
+  at `2884259`; [actual glove frames and limits](ART_RELEASE63.md).
 - [ ] **Partial:** Realistic sight alignment and scope presentation. Alignment
   was preserved and mounts fixed; every optic/ADS presentation was not visually
   validated.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
-  improved; first-person reload animation was largely retained.
+  previously improved; first-person hands now follow actual component extraction,
+  seating and empty charging actions, with separate shell/top-loader/feed-cover/
+  revolver targets. Rigid grasp and simplified magazines/loaders remain. Updated
+  2026-10-12 at `c51316c`; [36 native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
   two-sided presentation with touch, keyboard and controller access. Native
   gameplay frame review corrected the second-side arc; combat cancels without
@@ -226,7 +233,11 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
   particle presentation improved; firing emitters were largely retained.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
-  components. Some targets/anchors improved; complete choreography was not rebuilt.
+  components. First-person component-following hand groups now share coherent
+  native/fallback pivots and empty-only action targets. Finger grasp and real
+  detachable replacement components remain absent; lower-magazine interactions
+  are often off-camera. Updated 2026-10-12 at `c51316c`;
+  [actual contact review and scope](ART_RELEASE63.md).
 - [ ] **Partial:** Strong realistic silhouettes and attractive close-ups for
   every weapon. Weapons are distinguishable; the premium standard remains unmet.
 - [ ] **Not complete:** Avoid generic weapons assembled from primitive-looking
@@ -542,3 +553,4 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-12 | Implemented dedicated ricochet and penetration audio (complete within the documented cosmetic/event scope), surface-specific casing landings (partial), and weapon inspection/recoil/inertia (partial pending native temporal review). The staged usable source passed 88 focused regressions and the 78-module/offline check; all 408 sounds decoded and cleaned up in Chromium. | `30682fcd600d17ac4f9042692e63fdc2af225894`; [audio evidence](BALLISTIC_AUDIO61.md), [motion evidence](WEAPON_MOTION61.md). |
 | 2026-10-12 | Completed native visual acceptance of inspection and revised firing motion; implemented reviewed rigid-rig walk/run, crouch/aim and state blending. Advanced Blacksite architecture/ground treatment and hit/death poses while keeping broader art/animation requirements partial. All sixteen maps rendered; final validation is in the Release 61 report. | `20b987517c8c2d1685f301e509ad790d3c1b05ae`; [Release 61 evidence and remaining limits](ART_RELEASE61.md), [Blacksite](BLACKSITE61.md), [weapon motion](WEAPON_MOTION61.md), [character motion](CHARACTER_MOTION61.md). |
 | 2026-10-12 | Finished the requested 20 vs 20 rosters on Crossfire District and Blacksite; preserved smaller-map and Gun Game rosters. All 36 focused regressions and twelve full-roster native crowd fixtures passed. No art requirement newly completed; physical-device performance remains unverified. | `84e958af795113e0ce407dc111e3e54367aaf8b7`; [Release 62 roster evidence](ROSTERS62.md). |
+| 2026-10-12 | Rebuilt native receiver/stock/glove forms and first-person component-aware reload choreography. Reviewed 26 motion and 36 reload frames, including exact baseline comparisons. Corrected offline caching for the larger library; retained all thirty rigs, attachments and 40-player rosters. Updated the relevant partial explanations without claiming professional realism, anatomical grasp or physical-device performance. | `c51316ca2f4c07bf2a81f5c53ee5aced70b1322f`, `2884259ef473b2e7e0a635002982cb2329d34a98`, `325fd9e57182485a2ee8e4be725ccc483f454db3`; [Release 63 evidence and costs](ART_RELEASE63.md). |

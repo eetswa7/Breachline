@@ -1,6 +1,17 @@
 # BREACHLINE
 
-**Latest checkpoint: Release 62.** 30 weapons, 16 maps and 11 modes.
+**Latest checkpoint: Release 63.** 30 weapons, 16 maps and 11 modes.
+
+## Release 63: native hero forms and component-aware reloads
+
+Weapon receivers and stocks have revised family-specific shapes, recessed panels
+and geometry-based finish differences. Gloves have rounded palms, thumbs,
+knuckles and cuffs. Reload hands now follow actual magazines, shells, feed covers
+and charging actions while preserving gameplay timing and ammunition.
+
+See [matched gameplay frames, validation, costs and remaining limits](docs/ART_RELEASE63.md).
+Crossfire District and Blacksite retain 20 vs 20. The wider professional art
+standard, anatomical grasp and physical iPhone performance remain unfinished.
 
 ## Release 62: 20 vs 20 on the big maps
 

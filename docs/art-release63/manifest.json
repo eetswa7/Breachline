@@ -1,0 +1,115 @@
+{
+  "kind": "unmodified_native_gameplay_screenshots",
+  "actual_iphone_data": false,
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "nativeSourceSha256": "f8010780c63829ed9a47e29b7e0dea688aabaed1a33b9a8b77562863a0b3ce87",
+  "librarySha256": "0aef8d1e810013b18aa075c505bf0e727eaaf1f79b7c37c531a4b248d70ec6ef",
+  "baselineSourceCommit": "c80191bfca029965d611a6b3909d55f12b407fca",
+  "images": [
+    {
+      "path": "art-release63/inspect-0-left.png",
+      "captureStage": "motion63",
+      "bytes": 417581,
+      "sha256": "084fd8aa5307a852a3161b6f9f2d7c837ddcbd6092ea2b5fd9baeadf4d6756d0"
+    },
+    {
+      "path": "art-release63/inspect-0-right.png",
+      "captureStage": "motion63",
+      "bytes": 424836,
+      "sha256": "940aeb3e134f664014c7ddc3d4dd9ce62db5e7ec3f6e7821aaac74c37cabe1e2"
+    },
+    {
+      "path": "art-release63/inspect-10-right.png",
+      "captureStage": "motion63",
+      "bytes": 422275,
+      "sha256": "3bf1bdc3f24faf69b16ffaa3d8b743ccdb0e1b84398fa3cb94d7a43e00b7974b"
+    },
+    {
+      "path": "art-release63/inspect-9-left.png",
+      "captureStage": "motion63",
+      "bytes": 412610,
+      "sha256": "921128a900d460787c6235815b2172789420c731474f75648f9afbd1f06ec288"
+    },
+    {
+      "path": "art-release63/inspect-12-left.png",
+      "captureStage": "motion63",
+      "bytes": 422053,
+      "sha256": "f0fca5f6d99eb96bd9006eb4b2b7de8a833257c251c3d1de60f194f4d5e48ea8"
+    },
+    {
+      "path": "art-release63/ads-0-fire-turn.png",
+      "captureStage": "motion63",
+      "bytes": 406134,
+      "sha256": "f9fb2746d17c3419269818694bd67b0a264284555c09e17911801a5dfa069c11"
+    },
+    {
+      "path": "art-release63/reload-0-empty-89.png",
+      "captureStage": "reload63",
+      "bytes": 424815,
+      "sha256": "8b19752dc864056851c6cb518d6f93a2e00fa69110eca2a522107b88a1af1c6b"
+    },
+    {
+      "path": "art-release63/reload-0-mag3-empty-89.png",
+      "captureStage": "reload63",
+      "bytes": 424688,
+      "sha256": "ea4ac8c4fd3ce4427463aa7e1b2719cf02937f7bf785af992024512ae9c58e8c"
+    },
+    {
+      "path": "art-release63/reload-4-empty-40.png",
+      "captureStage": "reload63",
+      "bytes": 416776,
+      "sha256": "ab3eca685afdecda0c2233b27b7690fe9a9ee65b80ae39b8476395b31debdec4"
+    },
+    {
+      "path": "art-release63/reload-4-empty-76.png",
+      "captureStage": "reload63",
+      "bytes": 419149,
+      "sha256": "eec61ecbdca8e178640c6f9168d065423e09627a308bd2d124331a381d6498f1"
+    },
+    {
+      "path": "art-release63/reload-5-empty-40.png",
+      "captureStage": "reload63",
+      "bytes": 425632,
+      "sha256": "64790ad4ff712c953b6339b43d9dba2f39daba8771c1fca2e2ca2bd98c36ec62"
+    },
+    {
+      "path": "art-release63/reload-9-empty-16.png",
+      "captureStage": "reload63",
+      "bytes": 425818,
+      "sha256": "ebdbc8b14af4c5767704e8a4cf98df87346265acbe6c976bb3162353d4571edd"
+    },
+    {
+      "path": "art-release63/reload-10-empty-89.png",
+      "captureStage": "reload63",
+      "bytes": 423576,
+      "sha256": "9b3b1b684c7364c6cbda06dcc006e5b60c7c0ac3e33b1eb1c3e8a80eccc3251d"
+    },
+    {
+      "path": "art-release63/reload-22-empty-40.png",
+      "captureStage": "reload63",
+      "bytes": 419917,
+      "sha256": "bc8ad113ee7d8fcd19d3fc5364c28e9e2b9344cb566b7346bf8492a1f3b31679"
+    },
+    {
+      "path": "art-release63/before-reload-0-empty-89.png",
+      "captureStage": "reload-baseline62",
+      "bytes": 424703,
+      "sha256": "03919b3355489b292192a4565770856720f855bc5ff519e5cfb03fbc70f33743"
+    },
+    {
+      "path": "art-release63/before-reload-4-empty-40.png",
+      "captureStage": "reload-baseline62",
+      "bytes": 416389,
+      "sha256": "d549edc952e222509862f2fb12c45e1366e8f7a7c9727e0ecc69faf6cee1b2a6"
+    },
+    {
+      "path": "art-release63/before-reload-10-empty-89.png",
+      "captureStage": "reload-baseline62",
+      "bytes": 423322,
+      "sha256": "a647f6443dea821acbdc174c2fe2e5c5fcf519cf8834b296ab1fd0f51d5017ee"
+    }
+  ]
+}
