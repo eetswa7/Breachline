@@ -41,6 +41,7 @@ void main(){
   bool mote=vKind>6.5&&vKind<7.5;
   bool blast=vKind>7.5&&vKind<8.5;
   bool smoke=vKind<.5;
+  bool fire=vKind>8.5&&vKind<9.5;
   float shape;vec3 c=vTint;
   if(blast){
     float edge=max(.016,fwidth(radius));
@@ -54,7 +55,7 @@ void main(){
     shape=1.0-smoothstep(snow?.13:.0,1.0,radius);
   }else{
     vec2 sampleUv=vUv;
-    if(smoke){
+    if(smoke||fire){
       if(radius>1.0)discard;
       float cs=cos(vSpin),sn=sin(vSpin);
       sampleUv=mat2(cs,sn,-sn,cs)*p*.5+.5;
@@ -68,6 +69,10 @@ void main(){
       shape=pow(max(0.0,shape),.72)*(1.0-smoothstep(.83,1.0,radius));
       float volume=sqrt(max(0.0,1.0-radius*radius));
       c*=.72+.28*clamp(volume*.65-p.y*.35+.25,0.0,1.0);
+    }
+    if(fire){
+      shape=pow(max(0.0,shape),.48)*(1.0-smoothstep(.72,1.0,radius));
+      c=mix(vec3(3.5,1.65,.42),vTint,smoothstep(.12,.87,radius));
     }
   }
   if(chip||shard){

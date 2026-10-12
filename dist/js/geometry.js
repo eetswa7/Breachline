@@ -1,6 +1,6 @@
-import {poseLegs} from './actor-pose.js?v=60';
-import {addOperatorGear,poseOperator} from './operator-detail.js?v=60';
-import {SURFACES} from './maps.js?v=60';
+import {poseLegs,updateOperatorMotion,operatorTorsoPoint} from './actor-pose.js?v=61';
+import {addOperatorGear,poseOperator} from './operator-detail.js?v=61';
+import {SURFACES} from './maps.js?v=61';
 export function makeCube(){const data=[];const faces=[[[1,0,0],[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]],[[-1,0,0],[-1,-1,1],[-1,-1,-1],[-1,1,-1],[-1,1,1]],[[0,1,0],[-1,1,-1],[1,1,-1],[1,1,1],[-1,1,1]],[[0,-1,0],[-1,-1,1],[1,-1,1],[1,-1,-1],[-1,-1,-1]],[[0,0,1],[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,1]],[[0,0,-1],[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1]]];for(const f of faces)for(const i of [0,1,2,0,2,3]){const p=f[i+1],uv=[[0,0],[1,0],[1,1],[0,1]][i];data.push(...p.map(v=>v*.5),...f[0],...uv);}return outward(new Float32Array(data));}
 export function makeCylinder(sides=12){const d=[];for(let i=0;i<sides;i++){const a=i/sides*Math.PI*2,b=(i+1)/sides*Math.PI*2;const p=[Math.cos(a)*.5,Math.sin(a)*.5],q=[Math.cos(b)*.5,Math.sin(b)*.5];for(const [x,y,z,nx,ny,nz,u,v]of [[...p.slice(0,1),-.5,p[1],p[0]*2,0,p[1]*2,0,0],[q[0],-.5,q[1],q[0]*2,0,q[1]*2,1,0],[q[0],.5,q[1],q[0]*2,0,q[1]*2,1,1],[p[0],-.5,p[1],p[0]*2,0,p[1]*2,0,0],[q[0],.5,q[1],q[0]*2,0,q[1]*2,1,1],[p[0],.5,p[1],p[0]*2,0,p[1]*2,0,1]])d.push(x,y,z,nx,ny,nz,u,v);for(const y of [-.5,.5]){let pts=y>0?[p,q]:[q,p];for(const v of [[0,0],...pts])d.push(v[0],y,v[1],0,y*2,0,v[0]+.5,v[1]+.5);}}const data=new Float32Array(d);for(let i=0;i<sides;i++){
  const u=i/sides,v=(i+1)/sides;for(const [j,t]of [[0,u],[1,v],[2,v],[3,u],[4,v],[5,u]])data[(i*12+j)*8+6]=t;
@@ -8,7 +8,7 @@ export function makeCylinder(sides=12){const d=[];for(let i=0;i<sides;i++){const
 export function makeSphere(){const d=[],lat=8,lon=12;const p=(a,b)=>[Math.sin(a)*Math.cos(b),Math.cos(a),Math.sin(a)*Math.sin(b)];for(let y=0;y<lat;y++)for(let x=0;x<lon;x++){let pts=[p(y/lat*Math.PI,x/lon*Math.PI*2),p((y+1)/lat*Math.PI,x/lon*Math.PI*2),p((y+1)/lat*Math.PI,(x+1)/lon*Math.PI*2),p(y/lat*Math.PI,(x+1)/lon*Math.PI*2)];for(const i of [0,1,2,0,2,3])d.push(...pts[i].map(v=>v*.5),...pts[i],(x+(i===2||i===3?1:0))/lon,1-(y+(i===1||i===2?1:0))/lat);}return outward(new Float32Array(d));}
 
 export const part=(x,y,z,w,h,d,surface='dark',extra={})=>({x,y,z,w,h,d,surface,...extra});
-export {weaponModel} from './weapon-models.js?v=60';
+export {weaponModel} from './weapon-models.js?v=61';
 export function actorModel(a,time,relation){
  const team=relation?.cloth??(a.team===0?[.24,.40,.46]:[.52,.32,.25]);
  if(!a.renderParts){
@@ -33,12 +33,26 @@ export function actorModel(a,time,relation){
   addOperatorGear(p,a);a.operatorBodyCount=p.length;a.renderParts=p;a.renderBase=p.map(p=>({...p}));
  }
  if(relation&&a.renderIdentity!==relation.key){a.renderIdentity=relation.key;for(const i of [0,1,2,3,6,7,11,14,15,16,17])a.renderParts[i].color=relation.cloth;for(const q of a.renderParts)if(q.surface==='white')q.color=relation.band;}
- const speed=Math.hypot(a.vx,a.vz),dt=Math.min(.05,Math.max(0,time-(a.animTime??time)));a.animTime=time;
- a.stride=((a.stride??a.id)+speed*dt*2.5)%(Math.PI*2);a.animSpeed=(a.animSpeed??speed)+(speed-(a.animSpeed??speed))*(1-Math.exp(-dt*14));
- a.animDuck=(a.animDuck??0)+((a.crouched?.5:0)-(a.animDuck??0))*(1-Math.exp(-dt*16));
- const walk=Math.sin(a.stride)*Math.min(.6,a.animSpeed*.17),duck=a.animDuck;
- for(let i=0;i<a.renderParts.length;i++){const q=a.renderParts[i],b=a.renderBase[i];q.x=b.x;q.z=b.z;q.roll=b.roll??0;q.y=b.y-(i>=6?duck:duck*.3);q.pitch=b.pitch??0;if(i<4){q.pitch=(i%2===0?walk:-walk)*(i<2?1:.7);q.z=b.z+Math.sin(q.pitch)*.13;}if(i>=14&&i<=19&&a.weapon.reloadLeft>0)q.pitch+=.55;}
+ const motion=updateOperatorMotion(a,time),duck=motion.duck;
+ for(let i=0;i<a.renderParts.length;i++){
+  const q=a.renderParts[i],b=a.renderBase[i];q.x=b.x;q.z=b.z;q.roll=b.roll??0;q.yaw=b.yaw??0;q.y=b.y-(i>=6?duck:duck*.3);q.pitch=b.pitch??0;
+ }
  poseLegs(a,duck);
+ // The pelvis leads crouch and stride; chest equipment follows one coherent
+ // transform instead of each rigid section tilting around its own centre.
+ const pelvis=a.renderParts[6];pelvis.y+=duck*.2+motion.settle;pelvis.roll=motion.torsoRoll*.3;
+ for(let i=7;i<a.operatorBodyCount;i++){
+  if(i>=14&&i<=19||i===26||i===27||i===28||i===29)continue;
+  const q=a.renderParts[i];
+  if(q.operatorPelvis){q.y+=duck*.2+motion.settle;continue;}
+  if(q.operatorShoulder||q.operatorShoulderPatch)continue;
+  if(i>=10&&i<=13||q.operatorHead){
+   const pivot=1.43-duck,y=q.y-pivot,cp=Math.cos(motion.headPitch),sp=Math.sin(motion.headPitch);
+   q.y=pivot+y*cp-q.z*sp;q.z=y*sp+q.z*cp;q.pitch+=motion.headPitch;
+  }
+  operatorTorsoPoint(a,q.x,q.y,q.z,q);
+  q.pitch+=motion.torsoPitch+motion.impactPitch;q.roll+=motion.torsoRoll+motion.impactRoll;
+ }
  poseOperator(a,duck);
  // Sewn identifiers follow the posed upper sleeve, including crouch, reload
  // and impact lean. Thin patches replace the rigid tabs beside the shoulders.
@@ -49,11 +63,14 @@ export function actorModel(a,time,relation){
   const rx=cr*lx-sr*ly,ry=cp*(sr*lx+cr*ly)-sp*lz,rz=sp*(sr*lx+cr*ly)+cp*lz;
   patch.x=sleeve.x+cy*rx+sy*rz;patch.y=sleeve.y+ry;patch.z=sleeve.z-sy*rx+cy*rz;
   patch.yaw=sleeve.yaw??0;patch.pitch=sleeve.pitch??0;patch.roll=sleeve.roll??0;
+  for(let i=30;i<a.operatorBodyCount;i++){
+   const q=a.renderParts[i];if(q.operatorShoulder!==side&&q.operatorShoulderPatch!==side)continue;
+   const localX=side*.012,localY=sleeve.h*.39,localZ=q.operatorShoulderPatch?-.085:0;
+   const x=cr*localX-sr*localY,y=cp*(sr*localX+cr*localY)-sp*localZ,z=sp*(sr*localX+cr*localY)+cp*localZ;
+   q.x=sleeve.x+cy*x+sy*z;q.y=sleeve.y+y;q.z=sleeve.z-sy*x+cy*z;
+   q.yaw=sleeve.yaw??0;q.pitch=sleeve.pitch??0;q.roll=(sleeve.roll??0)+(q.operatorShoulder?side*.18:0);
+  }
  }
- // A small pelvis-settle and breathing layer gives the rigid equipment a
- // coherent weight. The weapon, hands and body share the same visual offset.
- const gait=Math.min(1,a.animSpeed/4),settle=-Math.cos(a.stride*2)*.013*gait+Math.sin(time*2.15+a.id)*.003*(1-gait);a.operatorSettle=settle;
- for(let i=6;i<a.renderParts.length;i++)a.renderParts[i].y+=settle;
  return a.renderParts;
 }
 export function material(p){const s=SURFACES[p.surface]??SURFACES.dark;return{color:p.color??s.color,rough:p.rough??s.rough,metal:p.metal??s.metal,pattern:p.leaf!==undefined?-1-p.leaf:p.tile!==undefined?p.tile+1:(s.tile??-1)+1,emissive:p.emissive??0};}

@@ -76,10 +76,10 @@ test('conservative live and falling envelopes contain the native body and every 
  // firing recoil, maximum arm pitch, gait, crouch and the leaning death pose
  // exercise the largest envelopes without relying on artificial test meshes.
  for(const def of WEAPONS)for(const config of [{},{optic:3,barrel:1,handling:4,magazine:1}])
- for(const pitch of [-.65,0,.65])for(const crouched of [false,true])for(const death of [0,.35,.65,.9,.99]){
+ for(const pitch of [-.65,0,.65])for(const crouched of [false,true])for(const death of [0,.18,.35,.65,.94,1.4,2.8]){
   a.weapons[0]=new Weapon(def.id,config);a.pitch=pitch;a.crouched=crouched;
   a.animDuck=crouched?.5:0;a.animSpeed=7;a.vx=7;a.stride=1.5;
-  a.health=death?0:100;a.respawnLeft=3-death/2;
+  a.health=death?0:100;a.respawnLeft=3-death;
   a.weapon.ammo=0;a.weapon.reload();a.weapon.reloadLeft=a.weapon.reloadTime*.55;a.weapon.sinceShot=0;
   r.updateActors(g);r.uploadDynamic(r.actorBatches);samples++;
   for(const e of r.actorBatches.values())if(e.used){
@@ -97,6 +97,6 @@ test('conservative live and falling envelopes contain the native body and every 
    }
   }
  }
- assert.equal(samples,1800);assert(liveMax>1,'native carried-weapon bounds were measured');
- assert(deathMax>2,'falling pose requires the larger radius');
+ assert.equal(samples,2520);assert(liveMax>1,'native carried-weapon bounds were measured');
+ assert(deathMax>liveMax,'full settled deaths require additional space around the standing centre');
 });

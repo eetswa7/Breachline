@@ -1,38 +1,39 @@
-import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=60';
-import {ProductionLighting} from './production-lighting.js?v=60';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=60';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=60';
-import {patchBlenderMaterial} from './blender-material.js?v=60';
-import {blenderWorld} from './blender-world.js?v=60';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=60';
-import {updateWeaponClearance} from './weapon-clearance.js?v=60';
-import {WEAPONS} from './weapons.js?v=60';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=60';
-import {patchAtmosphere} from './atmosphere.js?v=60';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=60';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=60';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=60';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=60';
-import {emitBlast,blastFront} from './blast-effects.js?v=60';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=60';
-import {DecalSystem} from './decal-system.js?v=60';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=60';
-import {LightingField} from './lighting-field.js?v=60';
-import {RoomLights} from './room-lights.js?v=60';
-import {waterMaterial,patchWater} from './water-material.js?v=60';
-import {visualGroundHeight} from './surface-placement.js?v=60';
-import {patchSurfaceDetail} from './material-detail.js?v=60';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=60';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=60';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=60';
+import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=61';
+import {ProductionLighting} from './production-lighting.js?v=61';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=61';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=61';
+import {patchBlenderMaterial} from './blender-material.js?v=61';
+import {blenderWorld} from './blender-world.js?v=61';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=61';
+import {operatorDeathPose,operatorTorsoPoint} from './actor-pose.js?v=61';
+import {updateWeaponClearance} from './weapon-clearance.js?v=61';
+import {WEAPONS} from './weapons.js?v=61';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=61';
+import {patchAtmosphere} from './atmosphere.js?v=61';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=61';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=61';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=61';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=61';
+import {emitBlast,blastFront} from './blast-effects.js?v=61';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=61';
+import {DecalSystem} from './decal-system.js?v=61';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=61';
+import {LightingField} from './lighting-field.js?v=61';
+import {RoomLights} from './room-lights.js?v=61';
+import {waterMaterial,patchWater} from './water-material.js?v=61';
+import {visualGroundHeight} from './surface-placement.js?v=61';
+import {patchSurfaceDetail} from './material-detail.js?v=61';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=61';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=61';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=61';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=60';
-import { actorModel, material, part } from './geometry.js?v=60';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=60';
-import { loadImages } from './textures.js?v=60';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=60';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=60';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=60';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=61';
+import { actorModel, material, part } from './geometry.js?v=61';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=61';
+import { loadImages } from './textures.js?v=61';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=61';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=61';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=61';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -597,11 +598,9 @@ export class Renderer {
       const p = event.position ?? game.eye(game.player);
       if (event.type === 'shot') {
         if (event.source === game.player.id) {
-          const aim = direction(game.player.yaw, game.player.pitch), rightX = Math.cos(game.player.yaw), rightZ = Math.sin(game.player.yaw);
+          const aim = direction(game.player.yaw, game.player.pitch);
           this.particle({ x: p.x + aim.x * .85, y: p.y + aim.y * .85 - .13, z: p.z + aim.z * .85 },
             0, [.43, .46, .45], .07, .42, aim.x * .45, .25, aim.z * .45);
-          this.particle({ x: p.x + rightX * .23, y: p.y - .15, z: p.z + rightZ * .23 },
-            3, [.63, .43, .12], .028, 1.1, rightX * 1.8, 1.2, rightZ * 1.8);
         } else if (event.end) {
           const source=game.actors.find(a=>a.id===event.source),start=source?operatorMuzzle(source,{def:WEAPONS[event.weapon],barrel:event.suppressed?1:0}):p;
           if(!event.suppressed)this.particle(start,2,[2.3,1.3,.45],.08,.045);
@@ -654,13 +653,20 @@ export class Renderer {
       if (e.life <= 0) continue;
       e.life -= dt; if (e.life <= 0) continue;
       e.x += e.vx * dt; e.y += e.vy * dt; e.z += e.vz * dt;
-      if (e.kind > .5 && e.kind !== 8) e.vy -= dt * 8;
+      if (e.kind > .5 && e.kind !== 8 && e.kind !== 9) e.vy -= dt * 8;
       if (e.y < .025) { e.y = .025; e.vy = 0; e.vx *= .8; e.vz *= .8; }
       const age = 1 - e.life / e.max, soft = e.kind < .5;
       if(e.kind===8){const front=blastFront(e);count=this.writeBillboard(count,e.x,e.y,e.z,front.size,front.size,e.r,e.g,e.b,front.alpha,8);continue;}
+      if(e.kind===9){const size=e.size*(1+age*1.8);count=this.writeBillboard(count,e.x,e.y,e.z,size,size,e.r,e.g,e.b,1-age*age,9+(e.seed??0));continue;}
       const size = e.size * (soft ? 2 + age * 4 : 2);
       count = this.writeBillboard(count, e.x, e.y, e.z, size, e.kind === 3 ? size * .35 : size,
         e.r, e.g, e.b, Math.min(1, e.life * 7) * (soft ? .28 : 1), e.kind + ((e.seed ?? 0) + age * (soft ? .07 : .55)) % 1);
+    }
+    // The fixed cosmetic pool supplies the same positions that trigger landing
+    // audio. Quality-scaled effect eviction cannot move or silence these cases.
+    for(const casing of game.casingFoley?.slots??[])if(casing.life>0&&casing.delay<=0){
+      const size=casing.hull?.064:.056,spin=casing.landed?.2:(casing.life*.9)%1;
+      count=this.writeBillboard(count,casing.x,casing.y,casing.z,size,size*.35,.63,.43,.12,Math.min(1,casing.life*7),3+spin);
     }
     for (const smoke of game.smokes) {
       const radius = Math.min(5.2, smoke.age * 4), alpha = Math.min(.8, smoke.age) * clamp((16 - smoke.age) / 3, 0, 1);
@@ -707,9 +713,8 @@ export class Renderer {
       const bodyRange=1.8*(this.height??600)/(2*Math.tan(this.camera.fov*RAD/2)*bodyPixels);
       a.renderBodyLOD=actorDetailLevel(a.renderBodyLOD,actorDistance,bodyRange);
       const bodyFar=!preparing&&a.renderBodyLOD===1;
-      const death = a.dead ? Math.min(1, (3 - a.respawnLeft) * 2) : 0;
-      if (a.dead && death >= 1) continue;
-      compose(this.rawMatrix, a.x, a.y + death * .2, a.z, 1, 1, 1, -a.yaw, 0, death * 1.5); this.parentMatrix.fromArray(this.rawMatrix);
+      const death=operatorDeathPose(a,game.time,this.operatorDeathPose??(this.operatorDeathPose={}));
+      compose(this.rawMatrix,a.x-Math.sin(a.yaw)*death.z,a.y+death.y,a.z+Math.cos(a.yaw)*death.z,1,1,1,-a.yaw,death.pitch,death.roll);this.parentMatrix.fromArray(this.rawMatrix);
       const identity = identityFor(a, player, game.rules), parts = actorModel(a, game.time, identity);
       const nativeRange=this.quality==='low'?7:12;
       a.nativeWeaponVisible=!!this.blenderAssets&&actorDistance<(a.nativeWeaponVisible?nativeRange*1.18:nativeRange*.92);
@@ -724,7 +729,7 @@ export class Renderer {
       }
       if(a.nativeWeaponVisible){
         const groups=nativeOperatorWeapon(a,this.blenderAssets,game.time),mount=operatorWeaponMount(a,this.operatorWeaponPose);
-        compose(this.rawMatrix,mount.x,mount.y,mount.z,1,1,1,0,mount.pitch,0);this.operatorWeaponLocal.fromArray(this.rawMatrix);
+        compose(this.rawMatrix,mount.x,mount.y,mount.z,1,1,1,0,mount.pitch,mount.roll);this.operatorWeaponLocal.fromArray(this.rawMatrix);
         this.operatorWeaponMatrix.multiplyMatrices(this.parentMatrix,this.operatorWeaponLocal);
         for(const q of groups)if(!q.hidden)this.addDynamic(this.actorBatches,this.scene,q,'actor',this.operatorWeaponMatrix);
         for(const q of a.nativeWeaponAccessories)if(!q.hidden)this.addDynamic(this.actorBatches,this.scene,q,'actor',this.operatorWeaponMatrix);
@@ -734,7 +739,8 @@ export class Renderer {
         part(0, 1.18, -.244, .13, .035, .006, 'white', { tile: -1 }),
         part(0, 1.18, .253, .13, .035, .006, 'white', { tile: -1 })]);
       for (let i = 0; i < identifiers.length; i++) { const q = identifiers[i];
-        q.y = 1.18-(a.animDuck??0)+(a.operatorSettle??0);q.blenderFar=distant||bodyFar;
+        operatorTorsoPoint(a,0,1.18-(a.operatorMotion?.duck??a.animDuck??0),i? .253:-.244,q);
+        q.pitch=(a.operatorMotion?.torsoPitch??0)+(a.operatorMotion?.impactPitch??0);q.roll=(a.operatorMotion?.torsoRoll??0)+(a.operatorMotion?.impactRoll??0);q.blenderFar=distant||bodyFar;
         this.addDynamic(this.actorBatches, this.scene, q, 'actor', this.parentMatrix, identity.band);
       }
     }

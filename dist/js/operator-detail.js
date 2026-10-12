@@ -1,6 +1,6 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=60';
-import {clamp} from './math.js?v=60';
-import {poseSegment} from './actor-pose.js?v=60';
+import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=61';
+import {clamp} from './math.js?v=61';
+import {poseSegment,operatorTorsoPoint,poseBlend} from './actor-pose.js?v=61';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 function template(w){
@@ -22,40 +22,42 @@ export function addOperatorGear(parts,actor){
  for(const i of [20,21,22])parts[i].hidden=true;
  // The shaped ballistic shell owns the silhouette; the old rectangular cover
  // obscured it. Keep its rig slot for cached poses, with a compact NVG bracket.
- add(0,1.73,-.02,.27,.105,.28,'rubber',{hidden:true});
- add(0,1.70,-.159,.077,.067,.026,'steel',{actorFar:true});
- add(0,1.765,.04,.055,.015,.17,'steel');
+ add(0,1.73,-.02,.27,.105,.28,'rubber',{hidden:true,operatorHead:true});
+ add(0,1.70,-.159,.077,.067,.026,'steel',{actorFar:true,operatorHead:true});
+ add(0,1.765,.04,.055,.015,.17,'steel',{operatorHead:true});
  for(const sign of [-1,1]){
-  add(sign*.168,1.585,.01,.06,.13,.095,'rubber',{mesh:'sphere'});
-  add(sign*.19,1.605,.005,.018,.055,.10,'steel');
-  add(sign*.24,1.34,-.035,.135,.145,.17,'fabric',{mesh:'sphere',roll:sign*.18,operatorNeutral:true,actorFar:actor.role===4});
-  add(sign*.25,1.34,-.129,.07,.027,.016,'white',{actorFar:true});
+  add(sign*.168,1.585,.01,.06,.13,.095,'rubber',{mesh:'sphere',operatorHead:true});
+  add(sign*.19,1.605,.005,.018,.055,.10,'steel',{operatorHead:true});
+  add(sign*.24,1.34,-.035,.135,.145,.17,'fabric',{mesh:'sphere',roll:sign*.18,operatorShoulder:sign,operatorNeutral:true,actorFar:actor.role===4});
+  add(sign*.25,1.34,-.129,.07,.027,.016,'white',{actorFar:true,operatorShoulderPatch:sign});
   add(sign*.135,1.37,-.177,.053,.065,.045,'fabric');
  }
  add(0,1.31,-.213,.265,.03,.022,'rubber');
  add(0,1.19,-.223,.095,.062,.033,'steel');
  add(-.185,1.35,-.21,.065,.09,.055,'rubber');
  add(-.18,1.443,-.203,.012,.095,.012,'steel',{mesh:'cylinder'});
- add(.21,.86,.025,.084,.21,.14,'rubber',{roll:-.12});
+ add(.21,.86,.025,.084,.21,.14,'rubber',{roll:-.12,operatorPelvis:true});
  if(actor.role===4){
   add(0,1.14,.245,.34,.39,.22,'fabric',{actorFar:true});
   add(.21,1.11,-.17,.11,.17,.085,'rubber');
  }else if(actor.role===3){
   add(0,1.10,.21,.24,.31,.14,'fabric');
   add(-.15,.89,-.19,.065,.17,.04,'rubber');
- }else add(0,.84,-.17,.22,.07,.045,'rubber');
+ }else add(0,.84,-.17,.22,.07,.045,'rubber',{operatorPelvis:true});
 }
 
-function arm(parts,upperIndex,foreIndex,handIndex,side,target,duck){
- const sx=side*.25,sy=1.36-duck,sz=-.02,dx=target.x-sx,dy=target.y-sy,dz=target.z-sz,raw=Math.hypot(dx,dy,dz)||1,length=clamp(raw,.035,.649);
+function arm(actor,upperIndex,foreIndex,handIndex,side,target,duck){
+ const parts=actor.renderParts,pose=actor.operatorPose,shoulder=operatorTorsoPoint(actor,side*.25,1.36-duck,-.02,pose.shoulder??(pose.shoulder={}));
+ const sx=shoulder.x,sy=shoulder.y,sz=shoulder.z,dx=target.x-sx,dy=target.y-sy,dz=target.z-sz,raw=Math.hypot(dx,dy,dz)||1,length=clamp(raw,.035,.649);
  const ux=dx/raw,uy=dy/raw,uz=dz/raw,along=(.32*.32-.34*.34+length*length)/(2*length),bend=Math.sqrt(Math.max(0,.32*.32-along*along));
  let bx=side,by=-.65,bz=.12;const dot=bx*ux+by*uy+bz*uz;bx-=ux*dot;by-=uy*dot;bz-=uz*dot;const n=Math.hypot(bx,by,bz)||1;
  const ex=sx+ux*along+bx/n*bend,ey=sy+uy*along+by/n*bend,ez=sz+uz*along+bz/n*bend,wx=sx+ux*length,wy=sy+uy*length,wz=sz+uz*length;
  poseSegment(parts[upperIndex],sx,sy,sz,ex,ey,ez);poseSegment(parts[foreIndex],ex,ey,ez,wx,wy,wz);
- const hand=parts[handIndex];hand.x=wx;hand.y=wy;hand.z=wz;hand.pitch=.1;hand.roll=side*.2;
+ const hand=parts[handIndex];hand.x=wx;hand.y=wy;hand.z=wz;hand.pitch=.1+(pose.mount.pitch??0)*.5;hand.roll=side*.2+(pose.mount.roll??0);
 }
-function mount(out,p,c,s,y,recoil,dy=0,dz=0){
- const py=p.y+dy,pz=p.z+dz;out.x=.075+p.x;out.y=y+py*c-pz*s;out.z=-.23+py*s+pz*c+recoil;return out;
+function mount(out,p,m,dy=0,dz=0){
+ const py=p.y+dy,pz=p.z+dz,cr=Math.cos(m.roll??0),sr=Math.sin(m.roll??0),cp=Math.cos(m.pitch),sp=Math.sin(m.pitch);
+ const x=cr*p.x-sr*py,y=sr*p.x+cr*py;out.x=m.x+x;out.y=m.y+y*cp-pz*sp;out.z=m.z+y*sp+pz*cp;return out;
 }
 function smooth(a,b,value){const t=clamp((value-a)/(b-a),0,1);return t*t*(3-2*t);}
 function magazineTravel(w,r,out){
@@ -65,10 +67,10 @@ function magazineTravel(w,r,out){
  return out;
 }
 export function operatorWeaponMount(actor,out={}){
- const w=actor.weapon,duck=actor.animDuck??(actor.crouched?.5:0);
- out.pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025;
- out.x=.075;out.y=1.30-duck+(actor.operatorSettle??0);
- out.z=-.23+Math.exp(-w.sinceShot*22)*.027;return out;
+ const w=actor.weapon,m=actor.operatorMotion,duck=m?.duck??actor.animDuck??(actor.crouched?.5:0);
+ out.pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025+(m?.weaponPitch??0);out.roll=m?.weaponRoll??0;
+ out.x=.075+(m?.weaponX??0);out.y=1.30-duck+(actor.operatorSettle??0)+(m?.weaponY??0);
+ out.z=-.23+Math.exp(-w.sinceShot*22)*.027+(m?.weaponZ??0);return out;
 }
 export function nativeOperatorWeapon(actor,assets,time){
  const key=actor.carriedTemplate.key;
@@ -102,16 +104,15 @@ export function poseOperator(actor,duck){
   }
  }
  const t=actor.carriedTemplate,pose=actor.operatorPose??(actor.operatorPose={right:{},left:{}});
- const pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025,c=Math.cos(pitch),s=Math.sin(pitch);
- const recoil=Math.exp(-w.sinceShot*22)*.027,mountY=1.30-duck,react=clamp(actor.hitReact??0,0,.16),r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
+ const mounting=operatorWeaponMount(actor,pose.mount??(pose.mount={})),r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
  const travel=pose.magazineTravel??(pose.magazineTravel={});magazineTravel(w,r,travel);
  for(let i=actor.operatorBodyCount;i<actor.renderParts.length;i++){
   const q=actor.renderParts[i],base=actor.renderBase[i];let dy=0,dz=0;
   if(base.tag==='magazine'&&w.reloadLeft>0){dy=travel.y;dz=travel.z;}
   if(base.tag==='pump')dz=Math.exp(-Math.abs(w.sinceShot-.23)*18)*.07;
-  mount(q,base,c,s,mountY,recoil,dy,dz);if(base.tag==='magazine'&&w.reloadLeft>0)q.x+=travel.x;q.pitch=(base.pitch??0)+pitch;q.hidden=false;
+  mount(q,base,mounting,dy,dz);if(base.tag==='magazine'&&w.reloadLeft>0)q.x+=travel.x;q.pitch=(base.pitch??0)+mounting.pitch;q.roll=(base.roll??0)+mounting.roll;q.hidden=false;
  }
- mount(pose.right,t.grip,c,s,mountY,recoil);mount(pose.left,t.support??t.grip,c,s,mountY,recoil);
+ mount(pose.right,t.grip,mounting);mount(pose.left,t.support??t.grip,mounting);
  if(w.reloadLeft>0){
   const target=pose.reloadTarget??(pose.reloadTarget={}),local=pose.reloadLocal??(pose.reloadLocal={});
   const reach=smooth(.04,.21,r)*(1-smooth(.85,.99,r));
@@ -126,14 +127,14 @@ export function poseOperator(actor,duck){
    const rack=smooth(.79,.86,r)*(1-smooth(.93,.99,r));
    local.x+=(t.bolt.x-.025-local.x)*rack;local.y+=(t.bolt.y-local.y)*rack;local.z+=(t.bolt.z-local.z)*rack;
   }
-  mount(target,local,c,s,mountY,recoil);
+  mount(target,local,mounting);
   pose.left.x+=(target.x-pose.left.x)*reach;pose.left.y+=(target.y-pose.left.y)*reach;pose.left.z+=(target.z-pose.left.z)*reach;
  }
- arm(actor.renderParts,15,17,19,1,pose.right,duck);arm(actor.renderParts,14,16,18,-1,pose.left,duck);
- // Local impact recoil is presentation only; it never moves collision or aim.
- if(react>0)for(let i=6;i<actor.renderParts.length;i++){
-  if(i===26||i===27)continue;const q=actor.renderParts[i];q.z+=(q.y-(.82-duck))*react;q.pitch=(q.pitch??0)+react;
+ if(actor.dead){
+  const release=poseBlend(.15,.60,actor.operatorMotion?.death.age??0);
+  pose.left.x+=(-.31-pose.left.x)*release;pose.left.y+=(.72-duck-pose.left.y)*release;pose.left.z+=(.08-pose.left.z)*release;
  }
+ arm(actor,15,17,19,1,pose.right,duck);arm(actor,14,16,18,-1,pose.left,duck);
 }
 
 export function operatorMuzzle(actor,weapon=actor.weapon){

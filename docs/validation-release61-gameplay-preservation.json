@@ -1,0 +1,24 @@
+{
+  "kind": "software_seeded_simulation_preservation_review",
+  "actual_iphone_data": false,
+  "baseline_commit": "1a8fb78",
+  "maps": 16,
+  "modes": [
+    "tdm",
+    "ffa",
+    "sabotage",
+    "domination",
+    "gun",
+    "hardpoint",
+    "confirmed",
+    "ctf",
+    "hill",
+    "elimination",
+    "frontline"
+  ],
+  "runs": 176,
+  "framesPerRun": 180,
+  "seed": 94711,
+  "simulationEquivalent": true,
+  "findings": []
+}

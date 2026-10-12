@@ -1,8 +1,8 @@
-import {emptyInput} from './engine.js?v=60';
-import {ControllerInput} from './gamepad.js?v=60';
-import {clamp} from './math.js?v=60';
+import {emptyInput} from './engine.js?v=61';
+import {ControllerInput} from './gamepad.js?v=61';
+import {clamp} from './math.js?v=61';
 
-export const CONTROL_LAYOUT={fire:[.87,.68,88],ads:[.91,.40,56],reload:[.36,.90,50],jump:[.70,.81,54],crouch:[.70,.9,48],swap:[.49,.9,50],grenade:[.72,.48,48],interact:[.60,.53,56],melee:[.94,.26,44],sprint:[.13,.43,44]};
+export const CONTROL_LAYOUT={fire:[.87,.68,88],ads:[.91,.40,56],reload:[.36,.90,50],jump:[.70,.81,54],crouch:[.70,.9,48],swap:[.49,.9,50],grenade:[.72,.48,48],interact:[.60,.53,56],melee:[.94,.26,44],sprint:[.13,.43,44],inspect:[.31,.28,44]};
 const ADVANCED_LAYOUT={...CONTROL_LAYOUT,fire:[.9,.57,82],ads:[.81,.31,52],reload:[.81,.8,51],jump:[.94,.88,51],crouch:[.7,.9,48],grenade:[.65,.72,48],swap:[.51,.91,48],interact:[.7,.51,48]};
 const simpleHidden=new Set(['crouch','melee','sprint']);
 const TAP_SLOP=9;
@@ -20,7 +20,7 @@ export class TouchInput {
   for(const type of ['touchstart','touchmove','touchend','touchcancel'])window.addEventListener(type,e=>this.syncTouches(e),{passive:true,capture:true});
   window.addEventListener('pagehide',()=>this.reset());
   layer.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener?.('contextmenu',e=>e.preventDefault());
-  window.addEventListener('keydown',e=>{if(!this.active||e.target.matches('input,select,textarea'))return;this.keys.add(e.code);const action={KeyR:'reload',Space:'jump',KeyC:'crouch',ControlLeft:'crouch',KeyQ:'swap',Digit1:'swap',KeyG:'grenade',KeyV:'melee'}[e.code];if(action&&!e.repeat)this.actions[action]=true;if(['Space','Tab','ControlLeft'].includes(e.code))e.preventDefault();});
+  window.addEventListener('keydown',e=>{if(!this.active||e.target.matches('input,select,textarea'))return;this.keys.add(e.code);const action={KeyR:'reload',Space:'jump',KeyC:'crouch',ControlLeft:'crouch',KeyQ:'swap',Digit1:'swap',KeyG:'grenade',KeyV:'melee',KeyI:'inspect'}[e.code];if(action&&!e.repeat)this.actions[action]=true;if(['Space','Tab','ControlLeft'].includes(e.code))e.preventDefault();});
   window.addEventListener('keyup',e=>this.keys.delete(e.code));
   window.addEventListener('mousemove',e=>{if(this.active&&document.pointerLockElement)this.addLook(e.movementX,e.movementY);});
   window.addEventListener('mousedown',e=>{if(this.active&&document.pointerLockElement){if(e.button===0){this.holds.mouseFire=true;this.actions.firePressed=true;}if(e.button===2)this.holds.mouseADS=true;}});
@@ -121,6 +121,7 @@ export class TouchInput {
   if(p.action){this.holds[p.action]=false;for(const q of this.pointers.values())if(q.action===p.action)this.holds[p.action]=true;if(!this.holds[p.action])p.button?.classList.remove('pressed');}
   if(cancelled&&p.action==='ads')this.adsToggle=false;
   if(cancelled&&p.action==='fire'&&!this.holds.fire)this.actions.firePressed=false;
+  if(cancelled&&p.action==='inspect')this.actions.inspect=false;
  }
  async enableGyro(){
   const C=globalThis.DeviceMotionEvent;if(!C)return false;

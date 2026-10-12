@@ -1,4 +1,4 @@
-import {rayBox,clamp} from './math.js?v=60';
+import {rayBox,clamp} from './math.js?v=61';
 
 const POWER={PISTOL:.38,SMG:.3,RIFLE:1,LMG:1.18,MARKSMAN:1.35,SNIPER:1.85,SHOTGUN:0,MELEE:0};
 const COVER={wood:{resistance:1.3,depth:.55},glass:{resistance:.45,depth:.18},plaster:{resistance:3.8,depth:.22},steel:{resistance:12,depth:.075},blue:{resistance:12,depth:.075},rust:{resistance:12,depth:.075},dark:{resistance:12,depth:.075}};
@@ -6,17 +6,17 @@ const COVER={wood:{resistance:1.3,depth:.55},glass:{resistance:.45,depth:.18},pl
 // The exact entry and exit along the ray, including oblique surfaces. A hollow
 // prop still has a full collision volume; its two physical skins consume energy.
 export function boxInterval(origin,dir,box){
- let entry=-Infinity,exit=Infinity,incidence=1;
+ let entry=-Infinity,exit=Infinity,incidence=1,axis='y',sign=1;
  for(const k of ['x','y','z']){
   const half=box[k==='x'?'w':k==='y'?'h':'d']/2;
   if(Math.abs(dir[k])<1e-8){if(origin[k]<box[k]-half||origin[k]>box[k]+half)return null;}
   else{
    const a=(box[k]-half-origin[k])/dir[k],b=(box[k]+half-origin[k])/dir[k],near=Math.min(a,b);
-   if(near>entry){entry=near;incidence=Math.abs(dir[k]);}
+   if(near>entry){entry=near;incidence=Math.abs(dir[k]);axis=k;sign=dir[k]>0?-1:1;}
    exit=Math.min(exit,Math.max(a,b));if(entry>exit)return null;
   }
  }
- return exit<0?null:{entry:Math.max(0,entry),exit,incidence};
+ return exit<0?null:{entry:Math.max(0,entry),exit,incidence,normal:{x:axis==='x'?sign:0,y:axis==='y'?sign:0,z:axis==='z'?sign:0},startsInside:entry<0};
 }
 
 const hitBox={x:0,y:0,z:0,w:0,h:0,d:0};
@@ -55,7 +55,13 @@ export function traceBullet(arena,actors,shooter,origin,dir,weapon,limit=Math.ma
    // Never skip another wall embedded in the volume of a hollow prop.
    penetrated=!arena.trace(from,dir,Math.max(.001,interval.exit-interval.entry-.004),block).block;
   }
-  impacts.push({block,position:end,penetrated,thickness});
+  const normal=interval?.normal??{x:0,y:1,z:0};
+  const exitPosition=penetrated?{x:current.x+dir.x*interval.exit,y:current.y+dir.y*interval.exit,z:current.z+dir.z*interval.exit}:null;
+  // A grazing hard-surface cue describes the stopped projectile. It never
+  // traces a second damage ray or changes the existing penetration budget.
+  const metal=['steel','blue','rust','dark','brass'].includes(block.surface),stone=['stone','concrete','asphalt','limestone','tiles'].includes(block.surface);
+  const ricochet=!!(!penetrated&&!interval?.startsInside&&weapon.def.kind!=='MELEE'&&interval&&interval.incidence>.035&&interval.incidence<(metal?.32:stone?.22:0));
+  impacts.push({block,position:end,normal,penetrated,thickness,exitPosition,ricochet,incidence:interval?.incidence??1});
   if(!penetrated)return {target:null,part:'body',t,scale:1,impacts,end};
   energy-=cost;layers++;travelled+=interval.exit+.004;
   current={x:origin.x+dir.x*travelled,y:origin.y+dir.y*travelled,z:origin.z+dir.z*travelled};

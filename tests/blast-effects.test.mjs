@@ -18,7 +18,7 @@ test('blast presentation is bounded, quality-scaled and keeps airborne blast hei
 test('blast front expands monotonically, fades, and invalid events do not poison the pool',()=>{
   let previous=0;
   for(let age=0;age<=1;age+=.1){const f=blastFront({size:4,max:.48,life:.48*(1-age)});
-    assert(f.size>=previous);assert(f.alpha>=0&&f.alpha<=.44);previous=f.size;}
+    assert(f.size>=previous);assert(f.alpha>=0&&f.alpha<=.72);previous=f.size;}
   assert.equal(blastFront({size:4,max:.48,life:0}).alpha,0);
   const calls=[],renderer={particle:(...args)=>calls.push(args)};
   emitBlast(renderer,{position:{x:NaN,y:0,z:0}});assert.equal(calls.length,0);

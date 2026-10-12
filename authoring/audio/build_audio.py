@@ -11,7 +11,8 @@ from scipy.signal import butter, sosfilt
 
 RATE = 44100
 root = Path('dist/assets/audio'); root.mkdir(parents=True, exist_ok=True)
-work = Path(tempfile.mkdtemp(prefix='breachline-sound-'))
+scratch = Path('work'); scratch.mkdir(exist_ok=True)
+work = Path(tempfile.mkdtemp(prefix='breachline-sound-', dir=scratch))
 weapons = json.loads(Path('authoring/audio/weapons.json').read_text())
 voicing = json.loads(Path('authoring/audio/weapon-voicing.json').read_text())
 sounds = []
@@ -201,6 +202,73 @@ for surface in ('Metal','Stone','Wood','Glass','Water'):
             x = noise(rng,len(t),[650,7000])*envelope(t,.002,.003,.049)*.115
             x += granular(t,rng,.05,.16,12,.018,(1500,6200),.006)
         register('impact'+surface,variant,x*1.45)
+
+# Stopped-projectile deflections have a short scraping front and falling
+# high-frequency modes, rather than reusing the broad impact/debris recording.
+for surface in ('Metal','Stone'):
+    for variant in range(4):
+        rng = np.random.default_rng(45731+variant*733+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.24))/RATE
+        x = noise(rng,len(t),[2100,12500])*envelope(t,.001,.00018,.008)*.14
+        if surface=='Metal':
+            phase = math.tau*(rng.uniform(4200,4900)*t-rng.uniform(4600,5900)*t*t)
+            x += np.sin(phase)*envelope(t,.003,.0006,.027)*.016
+            x += noise(rng,len(t),[1800,6900])*envelope(t,.004,.0006,.019)*.045
+        else:
+            x += noise(rng,len(t),[450,4900])*envelope(t,.002,.0004,.013)*.045
+            x += granular(t,rng,.010,.073,7,.009,(1400,5800),.003)
+        register('ricochet'+surface,variant,x)
+
+# Exit fracture differs from a stopping impact: a brief pressured front, a
+# tearing/splintering material layer, then very sparse fragments.
+for surface in ('Metal','Wood','Glass','Plaster'):
+    for variant in range(4):
+        rng = np.random.default_rng(80473+variant*1709+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.19))/RATE
+        x = noise(rng,len(t),[220,6500])*envelope(t,.001,.00015,.005)*.13
+        if surface=='Metal':
+            x += contact(t,rng,.002,.075,3400,.010)
+            x += granular(t,rng,.007,.038,4,.010,(2200,6600),.003)
+        elif surface=='Wood':
+            x = filtered(x,2900)
+            x += noise(rng,len(t),[140,1450])*envelope(t,.001,.0003,.014)*.065
+            x += granular(t,rng,.007,.052,9,.016,(800,2600),.004)
+        elif surface=='Glass':
+            x += noise(rng,len(t),[2600,14500])*envelope(t,.002,.0002,.007)*.11
+            x += granular(t,rng,.006,.106,15,.013,(3300,8000),.007)
+        else:
+            x = filtered(x,4600)
+            x += noise(rng,len(t),[400,5800])*envelope(t,.004,.0008,.018)*.055
+            x += granular(t,rng,.010,.081,10,.010,(1100,3700),.003)
+        register('penetration'+surface,variant,x)
+
+# Case contact is deliberately smaller than a boot or projectile impact. A
+# 0.23 s recording contains the initial contact and two decaying micro-bounces;
+# gameplay needs one voice per body, even for automatic fire or extraction.
+for surface in ('Hard','Gravel','Soft','Snow','Metal','Water','Wood'):
+    for variant in range(4):
+        rng = np.random.default_rng(110893+variant*1279+sum(map(ord,surface)))
+        t = np.arange(int(RATE*.23))/RATE
+        x = np.zeros(len(t))
+        for start,weight in ((.002,1),(.042,.40),(.079,.18)):
+            start += rng.uniform(-.001,.004)
+            if surface in ('Hard','Metal'):
+                x += contact(t,rng,start,.066*weight,3900 if surface=='Hard' else 4800,.004)
+                u = np.maximum(0,t-start)
+                x += sum(np.sin(math.tau*f*u)*envelope(t,start,.0002,.009+i*.003)*.005*weight
+                         for i,f in enumerate((3107,5179,7463)))
+                if surface=='Metal': x += contact(t,rng,start,.018*weight,1700,.010)
+            elif surface=='Wood':
+                x += contact(t,rng,start,.034*weight,980,.006)
+                x += contact(t,rng,start,.018*weight,3800,.003)
+            elif surface=='Gravel':
+                x += contact(t,rng,start,.035*weight,3300,.003)
+                x += granular(t,rng,start,.023,5,.009*weight,(1700,4400),.003)
+            elif surface=='Water':
+                x += noise(rng,len(t),[1100,7000])*envelope(t,start,.0012,.012)*.035*weight
+            else:
+                x += noise(rng,len(t),[380,2700] if surface=='Soft' else [1300,6500])*envelope(t,start,.001,.009)*(.016 if surface=='Soft' else .022)*weight
+        register('casing'+surface,variant,x)
 
 for variant in range(4):
     rng = np.random.default_rng(998731+variant*3877)

@@ -1,5 +1,6 @@
-import {WEAPONS} from './weapons.js?v=60';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=60';
+import {WEAPONS} from './weapons.js?v=61';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=61';
+import {impactFamily} from './ballistic-presentation.js?v=61';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -66,6 +67,15 @@ export class AudioSystem {
   synth('impactWood',.18,(t,n,low)=>low*Math.exp(-t*47)*.34+Math.sin(t*3370)*Math.exp(-t*84)*.10);
   synth('impactGlass',.28,(t,n,low)=>(n-low)*Math.exp(-t*28)*.13,7907);
   synth('impactWater',.24,(t,n,low)=>(n-low)*Math.exp(-t*22)*.16*(1-Math.exp(-t*500)),1097);
+  for(const family of ['Metal','Stone'])synth('ricochet'+family,.24,(t,n,low)=>{
+   const sweep=Math.sin(6.283185*(4100*t-5100*t*t))*Math.exp(-t*42)*.025;
+   return (n-low)*Math.exp(-t*130)*.14+(family==='Metal'?sweep:low*Math.exp(-t*63)*.06);
+  },family==='Metal'?6231:3257);
+  for(const family of ['Metal','Wood','Glass','Plaster'])synth('penetration'+family,.19,(t,n,low)=>(n-low)*Math.exp(-t*(family==='Glass'?62:110))*.12+low*Math.exp(-t*42)*.10,4283+family.length);
+  for(const family of ['Hard','Gravel','Soft','Snow','Metal','Water','Wood'])synth('casing'+family,.23,(t,n,low)=>{
+   const soft=['Soft','Snow','Water'].includes(family),tap=t>.041?(n-low)*Math.exp(-(t-.041)*190)*(soft?.014:.042):0;
+   return (soft?low:(n-low))*Math.exp(-t*(soft?44:180))*(soft?.038:.11)+tap;
+  },5827+family.length*17);
   synth('click',.07,(t,n,low)=>(n-low)*Math.exp(-t*95)*.22);
   synth('hit',.085,t=>(Math.sin(t*6.283185*1710)+Math.sin(t*6.283185*2330)*.3)*Math.exp(-t*59)*.13);
   synth('kill',.19,t=>(Math.sin(t*6.283185*1210)+Math.sin(t*6.283185*1815)*.55)*Math.exp(-t*22)*.12);
@@ -111,19 +121,23 @@ export class AudioSystem {
  }
  haptic(ms){if(!this.settings.haptics||!navigator.vibrate)return;const now=performance.now();if(now-this.hapticAt<70)return;this.hapticAt=now;navigator.vibrate(ms);}
  events(events,game){
-  if(this.master)this.master.gain.value=this.settings.volume;let impacts=0;
+  if(this.master)this.master.gain.value=this.settings.volume;let impacts=0,casings=0;
   for(const e of events){
    const dx=e.position?e.position.x-game.player.x:0,dy=e.position?e.position.y-game.player.y:0,dz=e.position?e.position.z-game.player.z:0;
    const d=Math.hypot(dx,dy,dz),own=e.source===0;
-   const spatial=['shot','step','land','impact','explosion'].includes(e.type);
-   const occluded=!!(!own&&spatial&&e.position&&d>2&&d<80&&game.arena.visible?.({x:game.player.x,y:game.player.y+1.55,z:game.player.z},{x:e.position.x,y:e.position.y+(e.type==='step'?1.1:.08),z:e.position.z})===false);
-   const volume=(own||!e.position?1:clamp(1/(1+d*d*.004)-.015,0,.85))*(occluded?.48:1);
+   const spatial=['shot','step','land','impact','ricochet','penetration','casing','explosion'].includes(e.type);
+   const local=own&&!['impact','ricochet','penetration','casing'].includes(e.type);
+   const occluded=!!(!local&&spatial&&e.position&&d>2&&d<80&&game.arena.visible?.({x:game.player.x,y:game.player.y+1.55,z:game.player.z},{x:e.position.x,y:e.position.y+(e.type==='step'?1.1:.08),z:e.position.z})===false);
+   const volume=(local||!e.position?1:clamp(1/(1+d*d*.004)-.015,0,.85))*(occluded?.48:1);
    const pan=e.position?Math.sin(Math.atan2(dx,-dz)-game.player.yaw):0;
    const room=spatial?roomAcoustics(game.arena,e.position):null;
    switch(e.type){
     case 'shot':this.play(`${e.suppressed?'suppressed':'shot'}${e.weapon}`,{volume:volume*(own?.85:.72)*(e.loudness??1),pan,rate:.985+Math.random()*.030,indoor:room??e.indoor,distance:d,important:own,occluded});if(own)this.haptic(8);break;
     case 'step':case 'land':if(d<24){const hard=game.arena.indoors(e.position),map=game.arena.info?.id,tag=game.arena.info?.tag,soft=tag==='MIXED'||tag?.includes('FOREST'),land=e.type==='land';const actual=footstepSurface(game.arena,e.position);const sound=actual?'step'+actual:hard?'stepHard':map===8?'stepSnow':map===9?'stepQuarry':soft?'stepSoft':'stepGravel';this.play(sound,{volume:volume*(land?.65:own?.28:.48)*(e.value??1),pan,rate:land?.76:.94+Math.random()*.11,distance:d,important:land&&own,occluded,indoor:room});if(land&&own)this.haptic(Math.round(8+12*(e.value??0)));}break;
-    case 'impact':if(d<40&&impacts++<3){const s=e.surface,key=['steel','dark','blue','rust','brass'].includes(s)?'impactMetal':s==='wood'?'impactWood':s==='glass'?'impactGlass':s==='water'?'impactWater':'impactStone';this.play(key,{volume:volume*.34,pan,distance:d,occluded});}break;
+    case 'impact':if(!e.penetrated&&!e.ricochet&&d<40&&impacts++<3){const family=impactFamily(e.surface);this.play('impact'+(family==='Plaster'?'Stone':family),{volume:volume*.34,pan,distance:d,occluded,indoor:room});}break;
+    case 'ricochet':if(d<55&&impacts++<3)this.play('ricochet'+(impactFamily(e.surface)==='Metal'?'Metal':'Stone'),{volume:volume*.38,pan,distance:d,occluded,indoor:room,rate:.97+Math.random()*.06});break;
+    case 'penetration':if(d<40&&impacts++<3){const family=impactFamily(e.surface);this.play('penetration'+(['Metal','Wood','Glass','Plaster'].includes(family)?family:'Plaster'),{volume:volume*.34,pan,distance:d,occluded,indoor:room});}break;
+    case 'casing':if(d<18&&casings++<3)this.play('casing'+e.surface,{volume:volume*(e.hull?.43:.32),pan,distance:d,occluded,indoor:room,rate:e.hull?.72:.98+Math.random()*.04});break;
     case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room});if(d<14)this.haptic(30);break;
     case 'reload':{const w=game.player.weapon,id=e.weapon??w.def.id;this.play(`reload${id}`,{volume:.7,rate:(WEAPONS[id].reload||.3)/Math.max(.1,w.reloadTime),indoor:roomAcoustics(game.arena,game.player)});break;}
     case 'reloadDone':{const w=game.player.weapon,id=e.weapon??w.def.id;this.play(`${w.reloadStartedEmpty&&!w.def.shellReload?'rack':'seat'}${id}`,{volume:.55,indoor:roomAcoustics(game.arena,game.player)});this.haptic(9);break;}

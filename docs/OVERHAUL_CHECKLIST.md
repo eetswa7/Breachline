@@ -208,10 +208,14 @@ as documented in the baseline JSON and validation report.
   validated.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   improved; first-person reload animation was largely retained.
-- [ ] **Not complete:** Inspection animations. No inspection action/animation
-  was implemented.
-- [ ] **Not complete:** Improved recoil, firing movement and weapon inertia.
-  Existing live behaviour was retained rather than substantially overhauled.
+- [ ] **Partial:** Inspection animations. On 2026-10-12 a two-angle inspection
+  action was implemented for all thirty weapons, with touch, keyboard and
+  controller input and immediate combat/traversal cancellation. Full weapon
+  image review is in progress; [Release 61 evidence](ART_RELEASE61.md).
+- [ ] **Partial:** Improved recoil, firing movement and weapon inertia.
+  On 2026-10-12 weight-dependent damped recoil and turn/acceleration inertia
+  replaced the retained presentation. Ballistic recoil and centred ADS are
+  preserved; temporal image acceptance is in progress. [Evidence](ART_RELEASE61.md).
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
   particle presentation improved; firing emitters were largely retained.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
@@ -232,16 +236,21 @@ as documented in the baseline JSON and validation report.
 - [ ] **Not complete:** Convincing skeletal animation and natural movement.
   Characters still use animated rigid mesh groups, without a new skinned-human
   animation system.
-- [ ] **Not complete:** Improved running/walking. Existing procedural locomotion
-  was retained.
-- [ ] **Not complete:** Improved crouching/aiming. Existing animation behaviour
-  was retained.
+- [ ] **Partial:** Improved running/walking. On 2026-10-12 blended direction/run
+  readiness and planted-foot contact/recovery replaced sinusoidal foot motion.
+  World-space contact tests pass; temporal/native visual review is in progress.
+  The rig still consists of rigid groups. [Evidence](ART_RELEASE61.md).
+- [ ] **Partial:** Improved crouching/aiming. On 2026-10-12 stance/aim/readiness
+  transitions and coherent leaned shoulder, hand and weapon mounting were added;
+  native temporal review is in progress. [Evidence](ART_RELEASE61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
   targets improved.
 - [ ] **Partial:** Better animation-state transitions. Existing smoothing remains;
   no substantial new blending system was produced.
-- [ ] **Not complete:** More believable hit reactions/deaths. Existing lean and
-  death-tilt behaviour was retained.
+- [ ] **Partial:** More believable hit reactions/deaths. On 2026-10-12 hit recoil,
+  knee buckling, support-hand release and staged root settling replaced the
+  retained tilt/disappearance. Corpses remain until respawn; final death/grip
+  image corrections are in progress. [Evidence](ART_RELEASE61.md).
 - [ ] **Partial:** Reduce robotic motion, clipping and inconsistencies. Clothing
   joins, patches and some hand targets were corrected; comprehensive motion
   quality remains unfinished.
@@ -273,8 +282,10 @@ as documented in the baseline JSON and validation report.
   convincing realism remains incomplete.
 - [ ] **Partial:** Glass damage and material-specific impacts. Material impacts
   exist; progressive glass fracture/damage production was not completed.
-- [ ] **Not complete:** More convincing visual recoil/movement. Existing live
-  presentation was retained.
+- [ ] **Partial:** More convincing visual recoil/movement. On 2026-10-12 damped
+  weapon recoil and turn/travel inertia were implemented with preserved ADS,
+  ballistic response and reduced-motion mode. Temporal acceptance is in
+  progress. [Evidence](ART_RELEASE61.md).
 - [ ] **Partial:** Satisfying effects without excessive particles. Density is
   bounded; subjective quality remains unestablished.
 - [x] **Complete:** Efficient particles, atlases, shaders and quality scaling.
@@ -428,15 +439,22 @@ These are Release 57 measurements, not measurements of Release 60.
   share families and audible realism is unverified.
 - [ ] **Partial:** Detailed reloads, magazines, bolts and handling. Weapon-specific
   designs exist; complete component-driven foley was not produced.
-- [ ] **Partial:** Shell-casing audio. Some ejection detail is embedded; no
-  comprehensive surface-specific casing landing audio.
+- [ ] **Partial:** Shell-casing audio. On 2026-10-12 a shared, bounded casing pool
+  synchronised visible bodies and landing cues across seven surface families,
+  with pump/bolt delays and revolver extraction. Native browser playback passes;
+  audible realism and physical-device acceptance remain open. [Evidence](ART_RELEASE61.md).
 - [ ] **Partial:** Attachment-specific audio. Suppressor variants exist; a complete
   attachment-specific handling library does not.
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
-- [ ] **Not complete:** Ricochet audio. No dedicated ricochet sound/event system.
-- [ ] **Not complete:** Penetration audio. No dedicated penetration sound/event
-  system.
+- [ ] **Partial:** Ricochet audio. On 2026-10-12 dedicated hard-surface grazing
+  events and original metal/stone cues were implemented without changing bullet
+  damage. Native browser playback passes; listening acceptance remains open.
+  [Evidence](ART_RELEASE61.md).
+- [ ] **Partial:** Penetration audio. On 2026-10-12 original metal, wood, glass
+  and plaster entry/exit cues were implemented on the existing penetration
+  trace. Native browser playback passes; listening acceptance remains open.
+  [Evidence](ART_RELEASE61.md).
 - [x] **Complete:** Deep layered explosions with distance attenuation. Variants
   and attenuation implemented; subjective quality remains unverified.
 - [ ] **Partial:** Accurate spatial audio, directional cues, distance falloff
@@ -510,4 +528,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
-| 2026-10-12 | Implemented a bounded blast-dust front and reworked explosion phases. Overall explosion quality remains partial pending temporal review. | Effects source checkpoint on `art-production-release61`; [implementation and validation](ART_RELEASE61.md#effects-checkpoint). |
+| 2026-10-12 | Implemented a bounded blast-dust front and reworked explosion phases. Overall explosion quality remains partial pending temporal review. | `0ab093e67c58a53e807c216cde72fd7998f737e4` on `art-production-release61`; [implementation and validation](ART_RELEASE61.md#effects-checkpoint). |
+| 2026-10-12 | Implemented inspection/recoil, blended operator motion, dedicated ballistic cues and shared casing bodies. Functional checks pass; animation image and sound listening acceptance remain open. | Release 61 presentation source checkpoint on `art-production-release61`; [scope and evidence](ART_RELEASE61.md). |

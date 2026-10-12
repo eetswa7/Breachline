@@ -15,6 +15,17 @@ function fixture(width=844,height=390){
 }
 test('simultaneous move, look and fire are tracked independently',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,90,260));input.pointerMove(ev(1,90,210));input.pointerDown(ev(2,600,160));input.pointerMove(ev(2,630,145));input.pointerDown(ev(3,740,200,'fire'));const f=input.sample(1/60);assert(f.mz>.9);assert(f.lx>0);assert(f.ly>0);assert(f.fire);assert(f.firePressed);input.pointerUp(ev(3,740,200,'fire'));assert(input.sample(1/60).mz>.9);});
 test('quick fire taps survive release before the next animation frame',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,700,200,'fire'));input.pointerUp(ev(1,700,200,'fire'));const f=input.sample(1/60);assert(f.fire&&f.firePressed);assert(!input.sample(1/60).fire);});
+test('the inspect touch target is visible in both layouts and quick taps produce one action',()=>{
+ const{input,ev,buttons}=fixture();for(const profile of ['simple','advanced']){input.settings.controlProfile=profile;input.layout();assert.equal(buttons.inspect.hidden,false);input.pointerDown(ev(7,260,110,'inspect'));input.pointerUp(ev(7,260,110,'inspect'));assert(input.sample(.016).inspect);assert(!input.sample(.016).inspect);}
+ input.pointerDown(ev(8,260,110,'inspect'));input.pointerUp(ev(8,260,110,'inspect'),true);assert(!input.sample(.016).inspect);
+ input.pointerDown(ev(9,260,110,'inspect'));input.reset();assert(!input.sample(.016).inspect);
+});
+test('I inspects once per keyboard press without stealing the existing reload binding',()=>{
+ const callbacks={},{input}=fixture();globalThis.window.addEventListener=(type,fn)=>{(callbacks[type]??=[]).push(fn);};const tracked=new TouchInput({},input.layer,{...DEFAULT_SETTINGS,layout:{}});tracked.active=true;
+ const key=(code,repeat=false)=>({code,repeat,target:{matches:()=>false},preventDefault(){}});
+ callbacks.keydown[0](key('KeyI'));assert(tracked.sample(.016).inspect);callbacks.keydown[0](key('KeyI',true));assert(!tracked.sample(.016).inspect);
+ callbacks.keydown[0](key('KeyR'));const f=tracked.sample(.016);assert(f.reload&&!f.inspect);
+});
 test('dragging the fire button aims while holding fire',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,700,200,'fire'));input.pointerMove(ev(1,745,175,'fire'));const f=input.sample(1/60);assert(f.fire&&f.lx>0&&f.ly>0);});
 test('ADS supports both tap and hold without a stuck state',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,670,120,'ads'));input.pointerUp(ev(1,670,120,'ads'));assert(input.sample(.016).ads);input.pointerDown(ev(2,670,120,'ads'));input.pointerUp(ev(2,670,120,'ads'));assert(!input.sample(.016).ads);input.settings.adsMode='hold';input.pointerDown(ev(3,670,120,'ads'));assert(input.sample(.016).ads);input.pointerUp(ev(3,670,120,'ads'));assert(!input.sample(.016).ads);});
 test('cancel/reset releases all input after an interruption',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,90,260));input.pointerMove(ev(1,90,190));input.pointerDown(ev(2,700,200,'fire'));input.reset();const f=input.sample(.016);assert.equal(f.mz,0);assert.equal(f.lx,0);assert(!f.fire&&!f.ads);assert.equal(input.pointers.size,0);});

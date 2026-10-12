@@ -1,5 +1,5 @@
-import {angleDelta,clamp,lerp} from './math.js?v=60';
-import {opticMagnification} from './aim.js?v=60';
+import {angleDelta,clamp,lerp} from './math.js?v=61';
+import {opticMagnification} from './aim.js?v=61';
 
 // Touch friction only: callers scale the thumb delta. No angle, aim direction,
 // recoil or trigger state is changed. Visibility queries are cached at 12.5 Hz.
