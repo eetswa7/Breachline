@@ -45,9 +45,15 @@ recordings remain unfinished.
 
 ## Validation and preservation
 
-Final validation records are linked below as checks finish. All results are
+The final suite passes **340 regressions**, the **78-module** packaged/offline
+check and **50 shader variants**. All sixteen maps render without errors; 26
+weapon and 23 character temporal frames were reviewed. The real booted browser
+passes keyboard/touch inspection, cancellation, offline boot, saved reports and
+JSON downloads. [Aggregate evidence](validation-release61.json) retains the exact
+validated build. All results are
 software/browser, native-source or scene evidence; none are physical iPhone data.
 
+- [Live controls, offline boot and benchmark JSON export](validation-release61-benchmark-browser.json)
 - [Native Blacksite topology, source and budgets](validation-blacksite61-native.json)
 - [Weapon temporal rendering and ADS alignment](validation-weapon-motion61-browser.json)
 - [Character temporal posing](validation-character-motion61-browser.json)

@@ -19,12 +19,6 @@ const gamepadBackendDisabled=process.env.BENCHMARK_TEST_NO_GAMEPAD==='1';
 if(gamepadBackendDisabled)await context.addInitScript(()=>Object.defineProperty(navigator,'getGamepads',{value:()=>[],configurable:true}));
 const page=await context.newPage(),errors=[],checks=[],externalRequests=[],writeRequests=[];
 const inspectionInputCheck=process.env.BENCHMARK_TEST_INSPECTION==='1';
-if(inspectionInputCheck)await page.route('**/js/main.js*',async route=>{
- const source=await readFile('dist/js/main.js','utf8'),needle='try{new Application();}';
- assert(source.includes(needle));
- // Observe the real booted application without a shipped debugging global.
- await route.fulfill({contentType:'application/javascript',body:source.replace(needle,'try{window.__inspectionApp=new Application();}')});
-});
 page.on('pageerror',e=>errors.push(e.message));
 const origin=process.env.BENCHMARK_TEST_ORIGIN??'http://127.0.0.1:4189';
 context.on('request',r=>{if(new URL(r.url()).origin!==origin)externalRequests.push(r.url());if(!['GET','HEAD'].includes(r.method()))writeRequests.push(r.method());});
@@ -39,14 +33,21 @@ try{
  assert.equal(await page.locator('#benchmark-toggle').isChecked(),false);assert.equal(await page.locator('#benchmark-watermark').isVisible(),false);assert.equal(await page.locator('#benchmark-setup').count(),0);assert.equal(await page.locator('#benchmark-retry').count(),0);assert(!/upload|pairing|cloudflare/i.test(await page.locator('#benchmark-panel').innerText()));checks.push('local_controls_without_account_setup');
  await page.locator('[data-setting="quality"]').selectOption('low');await page.locator('#benchmark-toggle').check();await page.locator('[data-page="play"]').click();await page.locator('#deploy').click();await page.locator('#hud').waitFor({state:'visible',timeout:45000});
  if(inspectionInputCheck){
-  await page.keyboard.press('f');await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft>0);checks.push('keyboard_inspection_through_application_frame');
-  await page.keyboard.press('Space');await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft===0);checks.push('jump_cancels_live_inspection');
-  const swap=await page.locator('[data-action="swap"]').boundingBox(),slot=await page.evaluate(()=>window.__inspectionApp.game.player.slot),cdp=await context.newCDPSession(page);
+  // Observe the real application's simulation calls after normal boot. This
+  // also works when the service worker supplies the unchanged main module.
+  await page.evaluate(async release=>{
+   const {Game}=await import('/js/engine.js?v='+release),update=Game.prototype.update;
+   Game.prototype.update=function(...args){window.__inspectionGame=this;return update.apply(this,args);};
+  },release);
+  await page.waitForFunction(()=>window.__inspectionGame?.player);
+  await page.keyboard.press('f');await page.waitForFunction(()=>window.__inspectionGame.player.weapon.inspectLeft>0);checks.push('keyboard_inspection_through_application_frame');
+  await page.keyboard.press('Space');await page.waitForFunction(()=>window.__inspectionGame.player.weapon.inspectLeft===0);checks.push('jump_cancels_live_inspection');
+  const swap=await page.locator('[data-action="swap"]').boundingBox(),slot=await page.evaluate(()=>window.__inspectionGame.player.slot),cdp=await context.newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:swap.x+swap.width/2,y:swap.y+swap.height/2,id:901}]});
-  await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft>0);
+  await page.waitForFunction(()=>window.__inspectionGame.player.weapon.inspectLeft>0);
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
-  assert.equal(await page.evaluate(()=>window.__inspectionApp.game.player.slot),slot);checks.push('held_swap_inspects_without_switch_through_real_touch_input');
-  await page.locator('[data-action="fire"]').tap();await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft===0);checks.push('live_fire_cancels_inspection');
+  assert.equal(await page.evaluate(()=>window.__inspectionGame.player.slot),slot);checks.push('held_swap_inspects_without_switch_through_real_touch_input');
+  await page.locator('[data-action="fire"]').tap();await page.waitForFunction(()=>window.__inspectionGame.player.weapon.inspectLeft===0);checks.push('live_fire_cancels_inspection');
   await cdp.detach();await screenshot('inspection-input-release'+release);
  }
  await page.waitForTimeout(20000);assert(await page.locator('#benchmark-watermark').isVisible());assert((await page.locator('#benchmark-watermark').textContent()).includes('FPS'));await screenshot('benchmark-recording');checks.push('normal_gameplay_recording_watermark');

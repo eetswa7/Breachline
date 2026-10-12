@@ -89,8 +89,11 @@ as documented in the baseline JSON and validation report.
   modelled; comprehensive damaged environments were not completed.
 - [ ] **Partial:** Believable industrial, military, urban and natural environments.
   These identities are present, but the requested realism was not achieved.
-- [ ] **Partial:** Better silhouettes, scale, density and composition. Some
-  improvements; environments still look sparse and block-based.
+- [ ] **Partial:** Better silhouettes, scale, density and composition. Blacksite
+  now has a purpose-built gabled industrial hall and broad metal wall hierarchy,
+  reviewed from close and wider gameplay cameras. Other environments remain
+  sparse and block-based. Updated 2026-10-12 at `20b9875`;
+  [matched Blacksite images and costs](BLACKSITE61.md).
 
 ### Ground and terrain
 
@@ -98,8 +101,10 @@ as documented in the baseline JSON and validation report.
   surfaces. Most material families improved; comprehensive convincing mud/terrain
   treatment was not completed.
 - [ ] **Partial:** Irregularities, cracks, decals, tyre marks, puddles and ground
-  transitions. Surface artwork, lane paint and puddles improved; comprehensive
-  decals, tyre marks and transitions remain incomplete.
+  transitions. Blacksite loading surfaces now have native slab joints, chipped
+  edges, a limited crack and feathered tyre sweeps without transparent overlays.
+  Complete-library treatment remains unfinished. Updated 2026-10-12 at
+  `20b9875`; [native surfaces and gameplay review](BLACKSITE61.md).
 - [ ] **Partial:** Detailed terrain variation and realistic material blending.
   Variation exists; sophisticated terrain blending was not completed.
 - [ ] **Not complete:** Eliminate obvious repetition and unnatural terrain shapes.
@@ -208,14 +213,16 @@ as documented in the baseline JSON and validation report.
   validated.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   improved; first-person reload animation was largely retained.
-- [ ] **Partial:** Inspection animations. An interruptible two-sided inspection
-  action is implemented for all weapon families, with touch, keyboard and
-  controller access. Native temporal image acceptance is pending. Updated
-  2026-10-12 at `30682fc`; [implementation and tests](WEAPON_MOTION61.md).
-- [ ] **Partial:** Improved recoil, firing movement and weapon inertia. Weighted
-  firing impulses and damped turning/landing movement now preserve fully aimed
-  alignment and gameplay recoil. Native temporal image acceptance is pending.
-  Updated 2026-10-12 at `30682fc`; [implementation and tests](WEAPON_MOTION61.md).
+- [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
+  two-sided presentation with touch, keyboard and controller access. Native
+  gameplay frame review corrected the second-side arc; combat cancels without
+  delay. This feature retains the existing rigid hands. Completed 2026-10-12
+  at `20b9875`; [temporal images and tests](WEAPON_MOTION61.md).
+- [x] **Complete:** Improved recoil, firing movement and weapon inertia.
+  Weighted firing impulses, damped turning/landing movement and blade attacks
+  were reviewed in actual native gameplay frames. Exact fully aimed alignment
+  and gameplay recoil remain preserved. Completed 2026-10-12 at `20b9875`;
+  [motion images and preservation checks](WEAPON_MOTION61.md).
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
   particle presentation improved; firing emitters were largely retained.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
@@ -236,16 +243,27 @@ as documented in the baseline JSON and validation report.
 - [ ] **Not complete:** Convincing skeletal animation and natural movement.
   Characters still use animated rigid mesh groups, without a new skinned-human
   animation system.
-- [ ] **Not complete:** Improved running/walking. Existing procedural locomotion
-  was retained.
-- [ ] **Not complete:** Improved crouching/aiming. Existing animation behaviour
-  was retained.
+- [x] **Complete:** Improved running/walking. Revised support/swing cycles,
+  speed-dependent cadence, foot clearance and coherent torso weight transfer
+  are implemented on the efficient existing rigid rig. Native gameplay posing
+  frames were reviewed; natural skeletal deformation remains open. Completed
+  2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
+- [x] **Complete:** Improved crouching/aiming. Hips/chest and head aim blend
+  with attached hands, sleeves and native/fallback guns, preserving actual
+  gameplay aim and collision. Native transition frames were reviewed. Completed
+  2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
   targets improved.
-- [ ] **Partial:** Better animation-state transitions. Existing smoothing remains;
-  no substantial new blending system was produced.
-- [ ] **Not complete:** More believable hit reactions/deaths. Existing lean and
-  death-tilt behaviour was retained.
+- [x] **Complete:** Better animation-state transitions. Reused motion state
+  blends speed, direction, stance, head aim, landing and impact recovery; pause
+  and respawn cleanup are regression-tested. This is rigid posing rather than
+  skeletal clip blending. Completed 2026-10-12 at `20b9875`;
+  [transition checks and frames](CHARACTER_MOTION61.md).
+- [ ] **Partial:** More believable hit reactions/deaths. Chest recovery,
+  knee compression and asymmetric death folds now replace the standing-body
+  tilt, including modes without respawns. The half-second lifetime, rigid rig
+  and absence of physical falls/ragdolls limit realism. Updated 2026-10-12 at
+  `20b9875`; [actual death/hit frames](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Reduce robotic motion, clipping and inconsistencies. Clothing
   joins, patches and some hand targets were corrected; comprehensive motion
   quality remains unfinished.
@@ -273,9 +291,10 @@ as documented in the baseline JSON and validation report.
   convincing realism remains incomplete.
 - [ ] **Partial:** Glass damage and material-specific impacts. Material impacts
   exist; progressive glass fracture/damage production was not completed.
-- [ ] **Partial:** More convincing visual recoil/movement. Damped visual recoil
-  and inertia are implemented; actual temporal presentation remains under review.
-  Updated 2026-10-12 at `30682fc`; [motion evidence](WEAPON_MOTION61.md).
+- [ ] **Partial:** More convincing visual recoil/movement. Native temporal
+  review confirms weighted firing recovery and smoother inertia. The wider
+  professional combat/effect presentation remains unfinished. Updated
+  2026-10-12 at `20b9875`; [actual motion evidence](WEAPON_MOTION61.md).
 - [ ] **Partial:** Satisfying effects without excessive particles. Density is
   bounded; subjective quality remains unestablished.
 - [x] **Complete:** Efficient particles, atlases, shaders and quality scaling.
@@ -523,3 +542,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
 
 | 2026-10-12 | Implemented dedicated ricochet and penetration audio (complete within the documented cosmetic/event scope), surface-specific casing landings (partial), and weapon inspection/recoil/inertia (partial pending native temporal review). The staged usable source passed 88 focused regressions and the 78-module/offline check; all 408 sounds decoded and cleaned up in Chromium. | `30682fcd600d17ac4f9042692e63fdc2af225894`; [audio evidence](BALLISTIC_AUDIO61.md), [motion evidence](WEAPON_MOTION61.md). |
+
+| 2026-10-12 | Completed native visual acceptance of inspection and revised firing motion; implemented reviewed rigid-rig walk/run, crouch/aim and state blending. Advanced Blacksite architecture/ground treatment and hit/death poses while keeping broader art/animation requirements partial. All sixteen maps rendered; final validation is in the Release 61 report. | `20b987517c8c2d1685f301e509ad790d3c1b05ae`; [Release 61 evidence and remaining limits](ART_RELEASE61.md), [Blacksite](BLACKSITE61.md), [weapon motion](WEAPON_MOTION61.md), [character motion](CHARACTER_MOTION61.md). |

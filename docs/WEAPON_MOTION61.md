@@ -106,3 +106,9 @@ implemented and visually reviewed within this scope. The coarse existing weapon
 and blade geometry, angular glove anatomy, professional animation quality and
 complete hand/component choreography remain open overhaul work. This desktop
 software rendering evidence does not establish physical iPhone performance.
+
+The [final live-application browser check](validation-release61-benchmark-browser.json)
+now verifies normal keyboard F and held SWAP touch inspection through the
+actual frame loop, jump/fire cancellation, offline boot and JSON export. The
+harness observes the normally booted Game instance; it does not replace player
+input or the application code. All checks pass with no page errors.
