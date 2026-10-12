@@ -89,3 +89,24 @@ test('the aim slowdown preference persists and older saves receive the default',
  assert.equal(new SaveStore(storage).data.settings.aimAssist,false);
  assert.equal(new SaveStore({getItem:()=>JSON.stringify({version:1,controlRevision:2,settings:{}})}).data.settings.aimAssist,true);
 });
+
+test('tap swap changes weapons while holding the same touch control inspects once',()=>{
+ for(const profile of ['simple','advanced']){
+  const {input,ev}=fixture();input.settings.controlProfile=profile;
+  input.pointerDown(ev(1,410,350,'swap'));assert(!input.sample(.1).swap);input.pointerUp(ev(1,410,350,'swap'));assert(input.sample(.016).swap);
+  input.pointerDown(ev(2,410,350,'swap'));assert(!input.sample(.3).inspect);const held=input.sample(.13);assert(held.inspect&&!held.swap);assert(!input.sample(.5).inspect);
+  input.pointerUp(ev(2,410,350,'swap'));assert(!input.sample(.016).swap);
+  input.pointerDown(ev(3,410,350,'swap'));input.pointerUp(ev(3,410,350,'swap'),true);const cancelled=input.sample(.5);assert(!cancelled.swap&&!cancelled.inspect);
+  input.mode='gun';input.layout();assert(!input.layer.querySelector('[data-action="swap"]').hidden);input.pointerDown(ev(4,410,350,'swap'));input.pointerUp(ev(4,410,350,'swap'));const gun=input.sample(.016);assert(gun.inspect&&!gun.swap);
+ }
+});
+test('inspection touch holds coexist with firing and reset cannot replay a queued inspection',()=>{
+ const {input,ev}=fixture();input.pointerDown(ev(1,410,350,'swap'));input.pointerDown(ev(2,700,230,'fire'));const f=input.sample(.45);assert(f.fire&&f.inspect&&!f.swap);
+ input.reset();const reset=input.sample(.016);assert(!reset.fire&&!reset.inspect&&!reset.swap);
+});
+test('F requests one desktop inspection and key repeats do not restart it',()=>{
+ const callbacks={},f=fixture();window.addEventListener=(name,fn)=>{(callbacks[name]??=[]).push(fn);};const input=new TouchInput({},f.input.layer,{...DEFAULT_SETTINGS,layout:{}});input.active=true;
+ const key=repeat=>({code:'KeyF',repeat,target:{matches:()=>false},preventDefault(){}});
+ for(const fn of callbacks.keydown)fn(key(false));assert(input.sample(.016).inspect);
+ for(const fn of callbacks.keydown)fn(key(true));assert(!input.sample(.016).inspect);
+});

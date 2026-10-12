@@ -1,0 +1,31 @@
+{
+  "kind": "desktop_browser_audio_validation",
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "recordings": 408,
+  "downloadBytes": 3715912,
+  "decodedBytes": 37432028,
+  "decodedKeys": 175,
+  "ballisticKeys": [
+    "ricochetMetal",
+    "ricochetStone",
+    "penetrationMetal",
+    "penetrationStone",
+    "penetrationWood",
+    "penetrationGlass",
+    "casingHard",
+    "casingMetal",
+    "casingWood",
+    "casingSoft",
+    "casingWater"
+  ],
+  "ballisticDecoded": true,
+  "decodedPeak": 0.9137374758720398,
+  "nonfiniteSamples": 0,
+  "sharedConvolvers": 2,
+  "contextState": "running",
+  "sampleRate": 44100,
+  "peakVoices": 24,
+  "remainingVoices": 0,
+  "remainingSources": 0
+}

@@ -596,11 +596,9 @@ export class Renderer {
       const p = event.position ?? game.eye(game.player);
       if (event.type === 'shot') {
         if (event.source === game.player.id) {
-          const aim = direction(game.player.yaw, game.player.pitch), rightX = Math.cos(game.player.yaw), rightZ = Math.sin(game.player.yaw);
+          const aim = direction(game.player.yaw, game.player.pitch);
           this.particle({ x: p.x + aim.x * .85, y: p.y + aim.y * .85 - .13, z: p.z + aim.z * .85 },
             0, [.43, .46, .45], .07, .42, aim.x * .45, .25, aim.z * .45);
-          this.particle({ x: p.x + rightX * .23, y: p.y - .15, z: p.z + rightZ * .23 },
-            3, [.63, .43, .12], .028, 1.1, rightX * 1.8, 1.2, rightZ * 1.8);
         } else if (event.end) {
           const source=game.actors.find(a=>a.id===event.source),start=source?operatorMuzzle(source,{def:WEAPONS[event.weapon],barrel:event.suppressed?1:0}):p;
           if(!event.suppressed)this.particle(start,2,[2.3,1.3,.45],.08,.045);
@@ -661,6 +659,13 @@ export class Renderer {
       const size = e.size * (soft ? 2 + age * 4 : 2);
       count = this.writeBillboard(count, e.x, e.y, e.z, size, e.kind === 3 ? size * .35 : size,
         e.r, e.g, e.b, Math.min(1, e.life * 7) * (soft ? .28 : 1), e.kind + ((e.seed ?? 0) + age * (soft ? .07 : .55)) % 1);
+    }
+    // Engine-owned cosmetic positions synchronize visible cases with landing
+    // audio, including raised decks and delayed pump/bolt ejection.
+    for(const c of game.casings??[]){
+      if(c.delay>0)continue;
+      const size=c.shell?.066:.048;
+      count=this.writeBillboard(count,c.x,c.y,c.z,size,size*(c.shell?.38:.35),c.shell?.54:.63,c.shell?.19:.43,.12,Math.min(1,c.life*5),3+((c.life*.4+c.weapon*.13)%1));
     }
     for (const smoke of game.smokes) {
       const radius = Math.min(5.2, smoke.age * 4), alpha = Math.min(.8, smoke.age) * clamp((16 - smoke.age) / 3, 0, 1);

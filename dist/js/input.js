@@ -6,6 +6,7 @@ export const CONTROL_LAYOUT={fire:[.87,.68,88],ads:[.91,.40,56],reload:[.36,.90,
 const ADVANCED_LAYOUT={...CONTROL_LAYOUT,fire:[.9,.57,82],ads:[.81,.31,52],reload:[.81,.8,51],jump:[.94,.88,51],crouch:[.7,.9,48],grenade:[.65,.72,48],swap:[.51,.91,48],interact:[.7,.51,48]};
 const simpleHidden=new Set(['crouch','melee','sprint']);
 const TAP_SLOP=9;
+const INSPECT_HOLD=.42;
 
 export class TouchInput {
  constructor(canvas,layer,settings){
@@ -20,7 +21,7 @@ export class TouchInput {
   for(const type of ['touchstart','touchmove','touchend','touchcancel'])window.addEventListener(type,e=>this.syncTouches(e),{passive:true,capture:true});
   window.addEventListener('pagehide',()=>this.reset());
   layer.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener?.('contextmenu',e=>e.preventDefault());
-  window.addEventListener('keydown',e=>{if(!this.active||e.target.matches('input,select,textarea'))return;this.keys.add(e.code);const action={KeyR:'reload',Space:'jump',KeyC:'crouch',ControlLeft:'crouch',KeyQ:'swap',Digit1:'swap',KeyG:'grenade',KeyV:'melee'}[e.code];if(action&&!e.repeat)this.actions[action]=true;if(['Space','Tab','ControlLeft'].includes(e.code))e.preventDefault();});
+  window.addEventListener('keydown',e=>{if(!this.active||e.target.matches('input,select,textarea'))return;this.keys.add(e.code);const action={KeyR:'reload',Space:'jump',KeyC:'crouch',ControlLeft:'crouch',KeyQ:'swap',Digit1:'swap',KeyF:'inspect',KeyG:'grenade',KeyV:'melee'}[e.code];if(action&&!e.repeat)this.actions[action]=true;if(['Space','Tab','ControlLeft'].includes(e.code))e.preventDefault();});
   window.addEventListener('keyup',e=>this.keys.delete(e.code));
   window.addEventListener('mousemove',e=>{if(this.active&&document.pointerLockElement)this.addLook(e.movementX,e.movementY);});
   window.addEventListener('mousedown',e=>{if(this.active&&document.pointerLockElement){if(e.button===0){this.holds.mouseFire=true;this.actions.firePressed=true;}if(e.button===2)this.holds.mouseADS=true;}});
@@ -33,9 +34,10 @@ export class TouchInput {
   const s=this.settings,box=this.layer.getBoundingClientRect();this.layer.classList.toggle('left-handed',!!s.leftHanded);this.layer.classList.toggle('simple-controls',this.simple);this.layer.style.setProperty('--control-opacity',s.opacity);
   for(const [id,defaults]of Object.entries(this.simple?CONTROL_LAYOUT:ADVANCED_LAYOUT)){
    const b=this.layer.querySelector(`[data-action="${id}"]`),custom=s.layout?.[id];
-   const size=defaults[2]*(s.buttonScale??1),utility=this.simple&&['reload','swap'].includes(id),width=utility?size*1.12:size,height=utility?size*.84:size,xm=Math.max(.055,(width/2+8)/(box.width||844)),ym=Math.max(.08,(height/2+8)/(box.height||390));const x=clamp(custom?.x??defaults[0],xm,1-xm),y=clamp(custom?.y??defaults[1],Math.max(.13,ym),Math.min(.91,1-ym));
+   const size=defaults[2]*(s.buttonScale??1),utility=this.simple&&['reload','swap'].includes(id),width=utility?size*1.12:size,height=utility?size*(id==='swap'?1.04:.84):size,xm=Math.max(.055,(width/2+8)/(box.width||844)),ym=Math.max(.08,(height/2+8)/(box.height||390));const x=clamp(custom?.x??defaults[0],xm,1-xm),y=clamp(custom?.y??defaults[1],Math.max(.13,ym),Math.min(.91,1-ym));
    b.style.left=`${(s.leftHanded?1-x:x)*100}%`;b.style.top=`${y*100}%`;b.style.width=`${width}px`;b.style.height=`${height}px`;
-   b.hidden=(this.mode==='gun'&&['swap','grenade','melee'].includes(id))||this.simple&&simpleHidden.has(id)||id==='interact'&&!this.contextAvailable&&!this.editing;
+   b.hidden=(this.mode==='gun'&&['grenade','melee'].includes(id))||this.simple&&simpleHidden.has(id)||id==='interact'&&!this.contextAvailable&&!this.editing;
+   if(id==='swap'){b.setAttribute?.('aria-label',this.mode==='gun'?'Inspect weapon':'Tap to switch weapon, hold to inspect');const label=b.querySelector?.('span');if(label)label.textContent=this.mode==='gun'?'INSPECT':'SWAP';}
   }
   this.stick.style.left=s.leftHanded?'85%':'15%';
   const fireLabel=this.layer.querySelector('[data-action="fire"] span');if(fireLabel)fireLabel.textContent=this.simple&&s.aimFire!==false?'AIM + FIRE':'FIRE';
@@ -65,7 +67,7 @@ export class TouchInput {
    if(action==='ads'&&this.settings.adsMode==='toggle')this.adsToggle=!this.adsToggle;
    else if(action==='sprint')this.sprintToggle=!this.sprintToggle;
    else if(action==='fire')this.actions.firePressed=true;
-   else if(!(action==='jump'&&this.simple)&&!['ads','interact'].includes(action))this.actions[action]=true;
+   else if(!(action==='jump'&&this.simple)&&!['ads','interact','swap'].includes(action))this.actions[action]=true;
    this.holds[action]=true;
   }else if(this.stickID===null&&(this.settings.leftHanded?e.clientX>rect.left+rect.width*.55:e.clientX<rect.left+rect.width*.45)){role='stick';this.stickID=e.pointerId;}
   // Capture each contact separately: leaving a button must not drop a held shot.
@@ -115,6 +117,7 @@ export class TouchInput {
  pointerUp(e,cancelled=false){
   const p=this.pointers.get(e.pointerId);if(!p)return;
   if(!cancelled&&p.role==='jump'&&this.simple&&!p.held&&Math.hypot(p.x-p.ox,p.y-p.oy)<TAP_SLOP*3)this.actions[this.crouched?'crouch':'jump']=true;
+  if(!cancelled&&p.role==='swap'&&!p.held&&Math.hypot(p.x-p.ox,p.y-p.oy)<TAP_SLOP*3)this.actions[this.mode==='gun'?'inspect':'swap']=true;
   this.pointers.delete(e.pointerId);
   try{if(this.layer.hasPointerCapture?.(e.pointerId))this.layer.releasePointerCapture(e.pointerId);}catch{}
   if(p.role==='stick'){this.stickID=null;this.move.x=this.move.z=0;this.knob.style.transform='translate(-50%,-50%)';}
@@ -131,6 +134,7 @@ export class TouchInput {
  sample(dt){
   if(this.stickID===null||this.pointers.get(this.stickID)?.role!=='stick'){this.stickID=null;this.move.x=this.move.z=0;this.knob.style.transform='translate(-50%,-50%)';}
   for(const p of this.pointers.values())if(p.role==='jump'&&this.simple&&!p.held){p.age+=dt;if(p.age>.34){p.held=true;this.actions.crouch=true;}}
+  for(const p of this.pointers.values())if(p.role==='swap'&&!p.held){p.age+=dt;if(p.age>=INSPECT_HOLD&&Math.hypot(p.x-p.ox,p.y-p.oy)<TAP_SLOP*3){p.held=true;this.actions.inspect=true;}}
   const f={...this.actions};this.actions=emptyInput();
   f.mx=this.move.x+(this.keys.has('KeyD')?1:0)-(this.keys.has('KeyA')?1:0);f.mz=this.move.z+(this.keys.has('KeyW')?1:0)-(this.keys.has('KeyS')?1:0);
   f.fire=!!(this.holds.fire||this.holds.mouseFire||f.firePressed);f.ads=!!this.isAiming();

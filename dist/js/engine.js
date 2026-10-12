@@ -7,8 +7,9 @@ import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=60';
 import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=60';
 import {traceBullet} from './ballistics.js?v=60';
 import {beginVault,advanceVault} from './traversal.js?v=60';
+import {ejectCasing,updateCasings} from './casing-foley.js?v=60';
 
-export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
+export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
 export class Actor {
  constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.reset({x:0,y:0,z:0},0);}
@@ -23,7 +24,7 @@ export class Game {
   const seed=options.seed??Date.now(),arsenalRandom=rng((seed^0x51b4e329)>>>0);
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
   this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
-  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
+  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   this.teamSize=this.rules.mode.teams?(this.arena.info.teamSize??4):4;
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
@@ -38,7 +39,7 @@ export class Game {
  spawn(a,initial=false){
   const p=this.spawner.select(a,this,initial);a.reset(p,p.yaw);a.vault=null;
  }
- resetRound(){this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.grenades.length=0;this.smokes.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
+ resetRound(){this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;
@@ -87,6 +88,10 @@ export class Game {
     p.coyote=0;p.jumpBuffer=0;
    }
    if(!p.vault||!advanceVault(p,this.arena,dt))this.moveActor(p,dx,dz,dt);
+   // Inspection is cosmetic and never delays a combat or traversal action.
+   const interruptInspection=input.fire||input.ads||input.reload||input.swap||input.grenade||input.melee||input.interact||p.sprinting||p.sliding||p.vault||p.switchLeft>0||p.weapon.reloadLeft>0;
+   if(interruptInspection)p.weapon.cancelInspection();
+   else if(input.inspect&&p.ads<.12&&p.weapon.sinceShot>.2)p.weapon.inspect();
    if(input.reload&&p.weapon.reload())this.emit('reload',{source:0,weapon:p.weapon.def.id});
    if(input.swap&&this.rules.mode.id!=='gun'){p.weapon.reloadLeft=0;p.weapon.burstRemaining=0;p.slot=1-p.slot;p.switchLeft=.32;this.emit('switch');}
    if(input.autoReload&&p.weapon.ammo===0&&!p.weapon.reloadLeft&&p.weapon.reserve>0){if(p.weapon.reload())this.emit('reload',{source:0,weapon:p.weapon.def.id});}
@@ -99,7 +104,7 @@ export class Game {
   }
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
-  this.updateEquipment(dt);this.rules.update(dt,this);
+  updateCasings(this,dt);this.updateEquipment(dt);this.rules.update(dt,this);
  }
  shoot(a,bot=false){
   const w=a.weapon,d=w.def;if(a.dead||this.rules.phase!=='playing'||this.paused||a.switchLeft>0||w.cooldown>0)return false;
@@ -121,13 +126,19 @@ export class Game {
    }
    if(hit&&this.rules.enemies(a,hit)){this.damage(hit,w.damage(t,part)*result.scale,a,part==='head');anyHit=true;head=head||part==='head';this.emit('blood',{position:impact,value:part==='head'?8:5});}
    for(const contact of result.impacts){
-    const b=contact.block;this.emit('impact',{position:contact.position,surface:b.surface,normal:this.impactNormal(contact.position,b),value:d.kind==='SHOTGUN'?2:4,penetrated:contact.penetrated});
+    const b=contact.block,normal=this.impactNormal(contact.position,b);
+    // A shallow strike sheds/glances off hard cover. Its audible deflection is
+    // cosmetic: the existing bullet still stops here and cannot damage on bounce.
+    const glancing=!contact.penetrated&&d.kind!=='SHOTGUN'&&contact.incidence<.32&&['steel','dark','blue','rust','brass','concrete','stone','rock','limestone','tiles'].includes(b.surface);
+    this.emit('impact',{position:contact.position,surface:b.surface,normal,value:d.kind==='SHOTGUN'?2:4,penetrated:contact.penetrated,ballisticAudio:contact.penetrated||glancing});
+    if(contact.penetrated)this.emit('penetration',{position:contact.exitPosition,entry:contact.position,surface:b.surface,source:a.id,weapon:d.id,thickness:contact.thickness,normal:{x:-normal.x,y:-normal.y,z:-normal.z}});
+    else if(glancing)this.emit('ricochet',{position:contact.position,surface:b.surface,source:a.id,weapon:d.id,incidence:contact.incidence,normal});
     if(b.breakable){b.hp-=d.damage;if(b.hp<=0&&!b.destroyed){b.destroyed=true;this.explode({...b,owner:a.id,kind:'frag'},5.5,90);}}
    }
    if(i===0)this.emit('shot',{position:origin,end:impact,source:a.id,weapon:d.id,suppressed:w.suppressed,loudness:w.ammunition===3?.7:w.barrel===5?1.15:1,indoor:this.arena.indoors(a)});
   }
   if(a.id===0){this.shots++;if(anyHit){this.hits++;this.emit('hit',{headshot:head});}const r=w.recoilFor(a.ads,a.crouched,Math.hypot(a.vx,a.vz)<.6);const nextPitch=clamp(a.pitch+r,-1.48,1.48);a.recoilPitch+=nextPitch-a.pitch;a.pitch=nextPitch;a.yaw+=Math.sin(w.shotIndex*1.73+d.id)*r*.45*w.horizontalRecoil;a.visualKick+=r*2.5;}
-  a.lastShot=this.time;w.sinceShot=0;w.shotIndex++;
+  ejectCasing(this,a,w,origin);a.lastShot=this.time;w.sinceShot=0;w.shotIndex++;w.shotSerial=(w.shotSerial??0)+1;w.cancelInspection();
   for(const other of this.actors)if(other.id!==a.id&&!other.dead&&this.rules.enemies(a,other)&&distance(a,other)<w.hearingRadius&&other.target===null){other.lastKnown={x:a.x,y:a.y,z:a.z};other.memory=5;other.state='investigate';}
   return true;
  }

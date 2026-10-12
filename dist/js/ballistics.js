@@ -55,7 +55,10 @@ export function traceBullet(arena,actors,shooter,origin,dir,weapon,limit=Math.ma
    // Never skip another wall embedded in the volume of a hollow prop.
    penetrated=!arena.trace(from,dir,Math.max(.001,interval.exit-interval.entry-.004),block).block;
   }
-  impacts.push({block,position:end,penetrated,thickness});
+  // Cosmetic contact metadata exposes the real outgoing face without changing
+  // the ray path, energy budget, target selection or penetration rules.
+  const exitPosition=penetrated?{x:current.x+dir.x*interval.exit,y:current.y+dir.y*interval.exit,z:current.z+dir.z*interval.exit}:null;
+  impacts.push({block,position:end,penetrated,thickness,incidence:interval?.incidence??1,exitPosition});
   if(!penetrated)return {target:null,part:'body',t,scale:1,impacts,end};
   energy-=cost;layers++;travelled+=interval.exit+.004;
   current={x:origin.x+dir.x*travelled,y:origin.y+dir.y*travelled,z:origin.z+dir.z*travelled};

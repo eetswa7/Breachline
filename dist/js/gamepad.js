@@ -22,6 +22,6 @@ export class ControllerInput {
   const gain=(this.settings.controllerSensitivity??1)*(f.ads?(this.settings.controllerADSSensitivity??.55)*scopeScale:1),time=Math.max(0,Math.min(.08,dt)),curve=Math.hypot(s[2],s[3])**.35;
   f.lx+=s[2]*curve*time*2.8*gain;f.ly-=s[3]*curve*time*2.4*gain*(this.settings.controllerInvertY?-1:1);
   f.fire||=!!b[7];f.firePressed||=!!e[7];f.sprint||=!!b[10];f.interact||=!!b[2]&&context;
-  f.jump||=!!e[0];f.crouch||=!!e[1];f.reload||=!!e[2]&&!context;f.swap||=!!e[3];f.grenade||=!!e[4];f.melee||=!!(e[5]||e[11]);
+  f.jump||=!!e[0];f.crouch||=!!e[1];f.reload||=!!e[2]&&!context;f.swap||=!!e[3];f.inspect||=!!e[13];f.grenade||=!!e[4];f.melee||=!!(e[5]||e[11]);
  }
 }

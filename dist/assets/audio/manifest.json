@@ -44,7 +44,7 @@
         "duration": 0.46,
         "pcmPeak": 0.5343058705329895,
         "pcmRms": 0.03202260285615921,
-        "spectralCentroidHz": 1301.2847932014101,
+        "spectralCentroidHz": 1301.284793189878,
         "attackRms": 0.1433340162038803
       }
     ],
@@ -88,7 +88,7 @@
         "duration": 2.001995464852608,
         "pcmPeak": 0.19966040551662445,
         "pcmRms": 0.00743549969047308,
-        "spectralCentroidHz": 2754.200102437155,
+        "spectralCentroidHz": 2754.2001024372776,
         "attackRms": 0
       }
     ],
@@ -198,7 +198,7 @@
         "duration": 2.320498866213152,
         "pcmPeak": 0.23096005618572235,
         "pcmRms": 0.007279951125383377,
-        "spectralCentroidHz": 2103.5506099463523,
+        "spectralCentroidHz": 2103.5506099288655,
         "attackRms": 0
       }
     ],
@@ -254,7 +254,7 @@
         "duration": 0.39,
         "pcmPeak": 0.6513676643371582,
         "pcmRms": 0.027960151433944702,
-        "spectralCentroidHz": 2793.046839863118,
+        "spectralCentroidHz": 2793.0468397221553,
         "attackRms": 0.11805548518896103
       },
       {
@@ -296,7 +296,7 @@
         "duration": 0.39,
         "pcmPeak": 0.11637213826179504,
         "pcmRms": 0.00976606272161007,
-        "spectralCentroidHz": 1512.085964686748,
+        "spectralCentroidHz": 1512.0859646867139,
         "attackRms": 0.039232607930898666
       }
     ],
@@ -396,7 +396,7 @@
         "duration": 0.31,
         "pcmPeak": 0.08643555641174316,
         "pcmRms": 0.00749249616637826,
-        "spectralCentroidHz": 3071.055375841307,
+        "spectralCentroidHz": 3071.0553758412952,
         "attackRms": 0.02439526468515396
       },
       {
@@ -406,7 +406,7 @@
         "duration": 0.31,
         "pcmPeak": 0.08590734750032425,
         "pcmRms": 0.00891302339732647,
-        "spectralCentroidHz": 2243.423010486366,
+        "spectralCentroidHz": 2243.4230106727437,
         "attackRms": 0.03143031522631645
       }
     ],
@@ -464,7 +464,7 @@
         "duration": 0.34,
         "pcmPeak": 0.41647595167160034,
         "pcmRms": 0.02711685560643673,
-        "spectralCentroidHz": 1923.6576834037458,
+        "spectralCentroidHz": 1923.6576834714863,
         "attackRms": 0.10638067126274109
       },
       {
@@ -484,7 +484,7 @@
         "duration": 0.34,
         "pcmPeak": 0.43242785334587097,
         "pcmRms": 0.0253892969340086,
-        "spectralCentroidHz": 2141.5291743944513,
+        "spectralCentroidHz": 2141.529174394484,
         "attackRms": 0.09925630688667297
       }
     ],
@@ -506,7 +506,7 @@
         "duration": 0.34,
         "pcmPeak": 0.11265818029642105,
         "pcmRms": 0.00869213417172432,
-        "spectralCentroidHz": 2153.801608013026,
+        "spectralCentroidHz": 2153.8016080130105,
         "attackRms": 0.03056269697844982
       },
       {
@@ -552,7 +552,7 @@
         "duration": 0.28,
         "pcmPeak": 0.23607014119625092,
         "pcmRms": 0.01773928850889206,
-        "spectralCentroidHz": 4024.923464787998,
+        "spectralCentroidHz": 4024.923464787632,
         "attackRms": 0.04079033434391022
       }
     ],
@@ -584,7 +584,7 @@
         "duration": 0.68,
         "pcmPeak": 0.6550085544586182,
         "pcmRms": 0.04697316139936447,
-        "spectralCentroidHz": 649.266687624308,
+        "spectralCentroidHz": 649.2666875600834,
         "attackRms": 0.2198558896780014
       },
       {
@@ -594,7 +594,7 @@
         "duration": 0.68,
         "pcmPeak": 0.5790724158287048,
         "pcmRms": 0.04287443682551384,
-        "spectralCentroidHz": 737.7745652829027,
+        "spectralCentroidHz": 737.7745652829013,
         "attackRms": 0.19327977299690247
       }
     ],
@@ -606,7 +606,7 @@
         "duration": 0.68,
         "pcmPeak": 0.29247674345970154,
         "pcmRms": 0.01681223139166832,
-        "spectralCentroidHz": 1579.7540874499714,
+        "spectralCentroidHz": 1579.7540873359471,
         "attackRms": 0.045187246054410934
       },
       {
@@ -616,7 +616,7 @@
         "duration": 0.68,
         "pcmPeak": 0.23437130451202393,
         "pcmRms": 0.01704157330095768,
-        "spectralCentroidHz": 1778.5216858817382,
+        "spectralCentroidHz": 1778.521685881729,
         "attackRms": 0.05797360837459564
       },
       {
@@ -638,7 +638,7 @@
         "duration": 0.4731972789115646,
         "pcmPeak": 0.15543991327285767,
         "pcmRms": 0.009910828433930874,
-        "spectralCentroidHz": 2421.187638714674,
+        "spectralCentroidHz": 2421.1876387146744,
         "attackRms": 0
       }
     ],
@@ -674,7 +674,7 @@
         "duration": 0.55,
         "pcmPeak": 0.5561431646347046,
         "pcmRms": 0.04619433730840683,
-        "spectralCentroidHz": 667.8126639014819,
+        "spectralCentroidHz": 667.81266390038,
         "attackRms": 0.22217623889446259
       },
       {
@@ -726,7 +726,7 @@
         "duration": 0.55,
         "pcmPeak": 0.13239742815494537,
         "pcmRms": 0.012533166445791721,
-        "spectralCentroidHz": 1221.680960680501,
+        "spectralCentroidHz": 1221.6809607070443,
         "attackRms": 0.050097670406103134
       },
       {
@@ -826,7 +826,7 @@
         "duration": 0.73,
         "pcmPeak": 0.17753960192203522,
         "pcmRms": 0.016148868948221207,
-        "spectralCentroidHz": 714.451990969932,
+        "spectralCentroidHz": 714.4519909352592,
         "attackRms": 0.07696782797574997
       },
       {
@@ -882,7 +882,7 @@
         "duration": 0.28,
         "pcmPeak": 0.1947357952594757,
         "pcmRms": 0.018972020596265793,
-        "spectralCentroidHz": 2632.9569999154533,
+        "spectralCentroidHz": 2632.9569990948075,
         "attackRms": 0.04620633274316788
       }
     ],
@@ -914,7 +914,7 @@
         "duration": 0.51,
         "pcmPeak": 0.7024253606796265,
         "pcmRms": 0.045365553349256516,
-        "spectralCentroidHz": 844.0283357116722,
+        "spectralCentroidHz": 844.0283357115434,
         "attackRms": 0.1993543803691864
       },
       {
@@ -968,7 +968,7 @@
         "duration": 2.2294784580498868,
         "pcmPeak": 0.27690067887306213,
         "pcmRms": 0.007370059844106436,
-        "spectralCentroidHz": 2948.5011670102185,
+        "spectralCentroidHz": 2948.501167010219,
         "attackRms": 0
       }
     ],
@@ -1024,7 +1024,7 @@
         "duration": 0.47,
         "pcmPeak": 0.6765666604042053,
         "pcmRms": 0.035140808671712875,
-        "spectralCentroidHz": 1208.2977707500795,
+        "spectralCentroidHz": 1208.297770750182,
         "attackRms": 0.14746682345867157
       },
       {
@@ -1034,7 +1034,7 @@
         "duration": 0.47,
         "pcmPeak": 0.5439785122871399,
         "pcmRms": 0.040717706084251404,
-        "spectralCentroidHz": 937.567699661395,
+        "spectralCentroidHz": 937.567699698426,
         "attackRms": 0.16771557927131653
       }
     ],
@@ -1224,7 +1224,7 @@
         "duration": 0.43,
         "pcmPeak": 0.6998679041862488,
         "pcmRms": 0.03784840926527977,
-        "spectralCentroidHz": 1182.5998103867023,
+        "spectralCentroidHz": 1182.5998103865913,
         "attackRms": 0.16159281134605408
       },
       {
@@ -1518,7 +1518,7 @@
         "duration": 2.0929931972789118,
         "pcmPeak": 0.2236446887254715,
         "pcmRms": 0.0076782372780144215,
-        "spectralCentroidHz": 2950.8552578751924,
+        "spectralCentroidHz": 2950.8552578751314,
         "attackRms": 0
       }
     ],
@@ -1706,7 +1706,7 @@
         "duration": 0.5,
         "pcmPeak": 0.1552605777978897,
         "pcmRms": 0.011132211424410343,
-        "spectralCentroidHz": 1192.2897795518556,
+        "spectralCentroidHz": 1192.2897795531117,
         "attackRms": 0.04267197474837303
       },
       {
@@ -1738,7 +1738,7 @@
         "duration": 2.138480725623583,
         "pcmPeak": 0.25176557898521423,
         "pcmRms": 0.007276981137692928,
-        "spectralCentroidHz": 2748.519135466548,
+        "spectralCentroidHz": 2748.5191354433036,
         "attackRms": 0
       }
     ],
@@ -1816,7 +1816,7 @@
         "duration": 0.44,
         "pcmPeak": 0.13367661833763123,
         "pcmRms": 0.009790425188839436,
-        "spectralCentroidHz": 1508.4714725056626,
+        "spectralCentroidHz": 1508.4714724788882,
         "attackRms": 0.04033070430159569
       },
       {
@@ -1848,7 +1848,7 @@
         "duration": 1.956485260770975,
         "pcmPeak": 0.23856446146965027,
         "pcmRms": 0.007719458546489477,
-        "spectralCentroidHz": 3200.757749044032,
+        "spectralCentroidHz": 3200.75774904588,
         "attackRms": 0
       }
     ],
@@ -1994,7 +1994,7 @@
         "duration": 0.6999773242630386,
         "pcmPeak": 0.655453622341156,
         "pcmRms": 0.052735939621925354,
-        "spectralCentroidHz": 567.0508098971792,
+        "spectralCentroidHz": 567.050809905194,
         "attackRms": 0.23919637501239777
       },
       {
@@ -2004,7 +2004,7 @@
         "duration": 0.6999773242630386,
         "pcmPeak": 0.6345292329788208,
         "pcmRms": 0.05097634345293045,
-        "spectralCentroidHz": 603.809382285708,
+        "spectralCentroidHz": 603.8093822500729,
         "attackRms": 0.24761910736560822
       },
       {
@@ -2068,7 +2068,7 @@
         "duration": 0.5277777777777778,
         "pcmPeak": 0.13870105147361755,
         "pcmRms": 0.009428746066987514,
-        "spectralCentroidHz": 1920.440385098396,
+        "spectralCentroidHz": 1920.4403850984434,
         "attackRms": 0
       }
     ],
@@ -2134,7 +2134,7 @@
         "duration": 0.79,
         "pcmPeak": 0.7298768758773804,
         "pcmRms": 0.04846182093024254,
-        "spectralCentroidHz": 667.1171077533553,
+        "spectralCentroidHz": 667.117107741111,
         "attackRms": 0.20561037957668304
       }
     ],
@@ -2156,7 +2156,7 @@
         "duration": 0.79,
         "pcmPeak": 0.1339048445224762,
         "pcmRms": 0.015936588868498802,
-        "spectralCentroidHz": 724.108896315449,
+        "spectralCentroidHz": 724.1088963154481,
         "attackRms": 0.05759536102414131
       },
       {
@@ -2234,7 +2234,7 @@
         "duration": 0.43,
         "pcmPeak": 0.5424444675445557,
         "pcmRms": 0.03146561607718468,
-        "spectralCentroidHz": 1574.8870707191234,
+        "spectralCentroidHz": 1574.8870707579501,
         "attackRms": 0.13613857328891754
       },
       {
@@ -2288,7 +2288,7 @@
         "duration": 4.3224943310657595,
         "pcmPeak": 0.2311709076166153,
         "pcmRms": 0.0067406571470201015,
-        "spectralCentroidHz": 3198.9060491599175,
+        "spectralCentroidHz": 3198.9060491423625,
         "attackRms": 0
       }
     ],
@@ -2386,7 +2386,7 @@
         "duration": 0.33,
         "pcmPeak": 0.11418703943490982,
         "pcmRms": 0.011136259883642197,
-        "spectralCentroidHz": 2530.652675430329,
+        "spectralCentroidHz": 2530.652675430328,
         "attackRms": 0.038918688893318176
       }
     ],
@@ -2398,7 +2398,7 @@
         "duration": 1.6834920634920636,
         "pcmPeak": 0.22185109555721283,
         "pcmRms": 0.008102619089186192,
-        "spectralCentroidHz": 3262.3001032530788,
+        "spectralCentroidHz": 3262.3001032543825,
         "attackRms": 0
       }
     ],
@@ -2444,7 +2444,7 @@
         "duration": 0.47,
         "pcmPeak": 0.7086166143417358,
         "pcmRms": 0.04364944249391556,
-        "spectralCentroidHz": 979.3627157362563,
+        "spectralCentroidHz": 979.3627157363245,
         "attackRms": 0.1923348754644394
       },
       {
@@ -2544,7 +2544,7 @@
         "duration": 0.29,
         "pcmPeak": 0.45958375930786133,
         "pcmRms": 0.019200699403882027,
-        "spectralCentroidHz": 4570.724466707566,
+        "spectralCentroidHz": 4570.724466707723,
         "attackRms": 0.07009761780500412
       },
       {
@@ -2618,7 +2618,7 @@
         "duration": 1.3649886621315193,
         "pcmPeak": 0.24277831614017487,
         "pcmRms": 0.009356863796710968,
-        "spectralCentroidHz": 4312.138596513434,
+        "spectralCentroidHz": 4312.13859651468,
         "attackRms": 0
       }
     ],
@@ -2696,7 +2696,7 @@
         "duration": 0.48,
         "pcmPeak": 0.14351336658000946,
         "pcmRms": 0.011172343976795673,
-        "spectralCentroidHz": 1259.6796362675773,
+        "spectralCentroidHz": 1259.679636267568,
         "attackRms": 0.041734736412763596
       },
       {
@@ -2728,7 +2728,7 @@
         "duration": 2.1839909297052156,
         "pcmPeak": 0.22597086429595947,
         "pcmRms": 0.007131458725780249,
-        "spectralCentroidHz": 2673.2245040562984,
+        "spectralCentroidHz": 2673.2245040532575,
         "attackRms": 0
       }
     ],
@@ -2740,7 +2740,7 @@
         "duration": 0.19,
         "pcmPeak": 0.22944621741771698,
         "pcmRms": 0.014577171765267849,
-        "spectralCentroidHz": 2605.337707279088,
+        "spectralCentroidHz": 2605.3377072790913,
         "attackRms": 0.042640890926122665
       }
     ],
@@ -2816,7 +2816,7 @@
         "duration": 0.3,
         "pcmPeak": 0.10617922991514206,
         "pcmRms": 0.008662067353725433,
-        "spectralCentroidHz": 2286.403215789328,
+        "spectralCentroidHz": 2286.4032157926854,
         "attackRms": 0.02981068380177021
       },
       {
@@ -2838,7 +2838,7 @@
         "duration": 2.411496598639456,
         "pcmPeak": 0.20830877125263214,
         "pcmRms": 0.00682070292532444,
-        "spectralCentroidHz": 3404.6668136631256,
+        "spectralCentroidHz": 3404.6668136630583,
         "attackRms": 0
       }
     ],
@@ -2948,7 +2948,7 @@
         "duration": 2.5934920634920635,
         "pcmPeak": 0.1902979016304016,
         "pcmRms": 0.0063653625547885895,
-        "spectralCentroidHz": 2181.3626360291373,
+        "spectralCentroidHz": 2181.3626360292437,
         "attackRms": 0
       }
     ],
@@ -2972,7 +2972,7 @@
         "duration": 0.28,
         "pcmPeak": 0.23695915937423706,
         "pcmRms": 0.0176595039665699,
-        "spectralCentroidHz": 2959.031067793529,
+        "spectralCentroidHz": 2959.0310677615644,
         "attackRms": 0.040057748556137085
       }
     ],
@@ -3014,7 +3014,7 @@
         "duration": 0.53,
         "pcmPeak": 0.7213403582572937,
         "pcmRms": 0.050208162516355515,
-        "spectralCentroidHz": 609.5473364816258,
+        "spectralCentroidHz": 609.547336380483,
         "attackRms": 0.22287403047084808
       }
     ],
@@ -3058,7 +3058,7 @@
         "duration": 3.730997732426304,
         "pcmPeak": 0.18879859149456024,
         "pcmRms": 0.006889390293508768,
-        "spectralCentroidHz": 2041.67563188968,
+        "spectralCentroidHz": 2041.6756318896837,
         "attackRms": 0
       }
     ],
@@ -3104,7 +3104,7 @@
         "duration": 0.48,
         "pcmPeak": 0.5868068337440491,
         "pcmRms": 0.04073343798518181,
-        "spectralCentroidHz": 1323.3782852126333,
+        "spectralCentroidHz": 1323.3782852125921,
         "attackRms": 0.17671674489974976
       },
       {
@@ -3146,7 +3146,7 @@
         "duration": 0.48,
         "pcmPeak": 0.12841790914535522,
         "pcmRms": 0.009779857471585274,
-        "spectralCentroidHz": 1285.3296932119695,
+        "spectralCentroidHz": 1285.3296932120734,
         "attackRms": 0.035945504903793335
       },
       {
@@ -3406,7 +3406,7 @@
         "duration": 0.34,
         "pcmPeak": 0.1024617999792099,
         "pcmRms": 0.01564902253448963,
-        "spectralCentroidHz": 1198.6724265152038,
+        "spectralCentroidHz": 1198.6724265166406,
         "attackRms": 0.03287661820650101
       }
     ],
@@ -3458,7 +3458,7 @@
         "duration": 0.34,
         "pcmPeak": 0.11127595603466034,
         "pcmRms": 0.016340913251042366,
-        "spectralCentroidHz": 576.5097705408522,
+        "spectralCentroidHz": 576.5097705409693,
         "attackRms": 0.0471460334956646
       }
     ],
@@ -3500,7 +3500,7 @@
         "duration": 0.34,
         "pcmPeak": 0.16702720522880554,
         "pcmRms": 0.016410790383815765,
-        "spectralCentroidHz": 1622.9150474790035,
+        "spectralCentroidHz": 1622.9150474724308,
         "attackRms": 0.032451994717121124
       },
       {
@@ -3522,7 +3522,7 @@
         "duration": 0.34,
         "pcmPeak": 0.20484966039657593,
         "pcmRms": 0.01966489665210247,
-        "spectralCentroidHz": 803.871468286759,
+        "spectralCentroidHz": 803.8714682907741,
         "attackRms": 0.05656186863780022
       },
       {
@@ -3542,7 +3542,7 @@
         "duration": 0.34,
         "pcmPeak": 0.19819897413253784,
         "pcmRms": 0.02206047996878624,
-        "spectralCentroidHz": 704.5804638234038,
+        "spectralCentroidHz": 704.5804638218619,
         "attackRms": 0.060905396938323975
       },
       {
@@ -3636,7 +3636,7 @@
         "duration": 0.34,
         "pcmPeak": 0.20277005434036255,
         "pcmRms": 0.026676863431930542,
-        "spectralCentroidHz": 3688.4848142911933,
+        "spectralCentroidHz": 3688.4848139261317,
         "attackRms": 0.03606061264872551
       },
       {
@@ -3792,7 +3792,7 @@
         "duration": 0.48,
         "pcmPeak": 0.3972853720188141,
         "pcmRms": 0.018617086112499237,
-        "spectralCentroidHz": 4003.629952256652,
+        "spectralCentroidHz": 4003.6299522566633,
         "attackRms": 0.08640865981578827
       },
       {
@@ -3814,7 +3814,7 @@
         "duration": 0.48,
         "pcmPeak": 0.2314353883266449,
         "pcmRms": 0.015427828766405582,
-        "spectralCentroidHz": 772.0153181473809,
+        "spectralCentroidHz": 772.015318132612,
         "attackRms": 0.07062903791666031
       },
       {
@@ -3886,7 +3886,7 @@
         "duration": 0.48,
         "pcmPeak": 0.4075840413570404,
         "pcmRms": 0.017241107299923897,
-        "spectralCentroidHz": 6733.826253603098,
+        "spectralCentroidHz": 6733.826253523526,
         "attackRms": 0.07655851542949677
       }
     ],
@@ -3918,7 +3918,7 @@
         "duration": 0.48,
         "pcmPeak": 0.3022212088108063,
         "pcmRms": 0.027280857786536217,
-        "spectralCentroidHz": 4551.07398312849,
+        "spectralCentroidHz": 4551.07398353147,
         "attackRms": 0.08526455610990524
       },
       {
@@ -3932,19 +3932,481 @@
         "attackRms": 0.08548928797245026
       }
     ],
-    "explosion": [
+    "ricochetMetal": [
       {
         "offset": 3393055,
+        "bytes": 5773,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.24451762437820435,
+        "pcmRms": 0.022020719945430756,
+        "spectralCentroidHz": 7161.458796367544,
+        "attackRms": 0.0603337399661541
+      },
+      {
+        "offset": 3398828,
+        "bytes": 5978,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.23470847308635712,
+        "pcmRms": 0.02300083450973034,
+        "spectralCentroidHz": 7371.657333462359,
+        "attackRms": 0.06184960529208183
+      },
+      {
+        "offset": 3404806,
+        "bytes": 6069,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.25520965456962585,
+        "pcmRms": 0.02250019647181034,
+        "spectralCentroidHz": 7462.354000371728,
+        "attackRms": 0.06060813367366791
+      },
+      {
+        "offset": 3410875,
+        "bytes": 6100,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.2253641039133072,
+        "pcmRms": 0.022307027131319046,
+        "spectralCentroidHz": 7277.334880829547,
+        "attackRms": 0.06082964688539505
+      }
+    ],
+    "ricochetStone": [
+      {
+        "offset": 3416975,
+        "bytes": 5857,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.2231913059949875,
+        "pcmRms": 0.022997666150331497,
+        "spectralCentroidHz": 5597.199083803874,
+        "attackRms": 0.06299274414777756
+      },
+      {
+        "offset": 3422832,
+        "bytes": 6401,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.20872271060943604,
+        "pcmRms": 0.022916249930858612,
+        "spectralCentroidHz": 5455.750375257389,
+        "attackRms": 0.060831375420093536
+      },
+      {
+        "offset": 3429233,
+        "bytes": 5949,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.24878914654254913,
+        "pcmRms": 0.023155033588409424,
+        "spectralCentroidHz": 5266.4894666324035,
+        "attackRms": 0.06441683322191238
+      },
+      {
+        "offset": 3435182,
+        "bytes": 5750,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.20716358721256256,
+        "pcmRms": 0.022075334563851357,
+        "spectralCentroidHz": 5551.42911093988,
+        "attackRms": 0.05747123062610626
+      }
+    ],
+    "penetrationMetal": [
+      {
+        "offset": 3440932,
+        "bytes": 4188,
+        "variant": 0,
+        "duration": 0.2,
+        "pcmPeak": 0.27178630232810974,
+        "pcmRms": 0.019648496061563492,
+        "spectralCentroidHz": 5769.89264273507,
+        "attackRms": 0.03550777584314346
+      },
+      {
+        "offset": 3445120,
+        "bytes": 4087,
+        "variant": 1,
+        "duration": 0.2,
+        "pcmPeak": 0.23911093175411224,
+        "pcmRms": 0.019622398540377617,
+        "spectralCentroidHz": 5646.764529829473,
+        "attackRms": 0.045301374047994614
+      },
+      {
+        "offset": 3449207,
+        "bytes": 4359,
+        "variant": 2,
+        "duration": 0.2,
+        "pcmPeak": 0.23850633203983307,
+        "pcmRms": 0.01968136802315712,
+        "spectralCentroidHz": 5556.1295319435385,
+        "attackRms": 0.04304271191358566
+      },
+      {
+        "offset": 3453566,
+        "bytes": 4418,
+        "variant": 3,
+        "duration": 0.2,
+        "pcmPeak": 0.256209135055542,
+        "pcmRms": 0.019179804250597954,
+        "spectralCentroidHz": 5543.522116769098,
+        "attackRms": 0.042168259620666504
+      }
+    ],
+    "penetrationStone": [
+      {
+        "offset": 3457984,
+        "bytes": 4663,
+        "variant": 0,
+        "duration": 0.2,
+        "pcmPeak": 0.26698219776153564,
+        "pcmRms": 0.019555579870939255,
+        "spectralCentroidHz": 4291.9218077495825,
+        "attackRms": 0.021437345072627068
+      },
+      {
+        "offset": 3462647,
+        "bytes": 4334,
+        "variant": 1,
+        "duration": 0.2,
+        "pcmPeak": 0.3189656734466553,
+        "pcmRms": 0.019423875957727432,
+        "spectralCentroidHz": 4283.471943066099,
+        "attackRms": 0.01881534233689308
+      },
+      {
+        "offset": 3466981,
+        "bytes": 4291,
+        "variant": 2,
+        "duration": 0.2,
+        "pcmPeak": 0.2114727795124054,
+        "pcmRms": 0.019152436405420303,
+        "spectralCentroidHz": 4283.387619277636,
+        "attackRms": 0.01710430532693863
+      },
+      {
+        "offset": 3471272,
+        "bytes": 4646,
+        "variant": 3,
+        "duration": 0.2,
+        "pcmPeak": 0.19938769936561584,
+        "pcmRms": 0.019308708608150482,
+        "spectralCentroidHz": 4262.858344375605,
+        "attackRms": 0.01774226687848568
+      }
+    ],
+    "penetrationWood": [
+      {
+        "offset": 3475918,
+        "bytes": 4691,
+        "variant": 0,
+        "duration": 0.2,
+        "pcmPeak": 0.18294839560985565,
+        "pcmRms": 0.017535055056214333,
+        "spectralCentroidHz": 1903.3946689195438,
+        "attackRms": 0.017061738297343254
+      },
+      {
+        "offset": 3480609,
+        "bytes": 4197,
+        "variant": 1,
+        "duration": 0.2,
+        "pcmPeak": 0.24351361393928528,
+        "pcmRms": 0.018810372799634933,
+        "spectralCentroidHz": 1912.1491297921893,
+        "attackRms": 0.014575453475117683
+      },
+      {
+        "offset": 3484806,
+        "bytes": 4567,
+        "variant": 2,
+        "duration": 0.2,
+        "pcmPeak": 0.22074849903583527,
+        "pcmRms": 0.017242325469851494,
+        "spectralCentroidHz": 2063.2902620364252,
+        "attackRms": 0.01683499850332737
+      },
+      {
+        "offset": 3489373,
+        "bytes": 4727,
+        "variant": 3,
+        "duration": 0.2,
+        "pcmPeak": 0.21582679450511932,
+        "pcmRms": 0.01919831894338131,
+        "spectralCentroidHz": 1920.6823935052703,
+        "attackRms": 0.020909758284687996
+      }
+    ],
+    "penetrationGlass": [
+      {
+        "offset": 3494100,
+        "bytes": 4579,
+        "variant": 0,
+        "duration": 0.2,
+        "pcmPeak": 0.24536605179309845,
+        "pcmRms": 0.01874408684670925,
+        "spectralCentroidHz": 7494.364910434495,
+        "attackRms": 0.04647672548890114
+      },
+      {
+        "offset": 3498679,
+        "bytes": 4092,
+        "variant": 1,
+        "duration": 0.2,
+        "pcmPeak": 0.23136746883392334,
+        "pcmRms": 0.020214932039380074,
+        "spectralCentroidHz": 8059.93288651124,
+        "attackRms": 0.05164114758372307
+      },
+      {
+        "offset": 3502771,
+        "bytes": 4044,
+        "variant": 2,
+        "duration": 0.2,
+        "pcmPeak": 0.23464635014533997,
+        "pcmRms": 0.01915484480559826,
+        "spectralCentroidHz": 7730.163913825567,
+        "attackRms": 0.05184878408908844
+      },
+      {
+        "offset": 3506815,
+        "bytes": 4072,
+        "variant": 3,
+        "duration": 0.2,
+        "pcmPeak": 0.27587658166885376,
+        "pcmRms": 0.01937454380095005,
+        "spectralCentroidHz": 7926.852770780516,
+        "attackRms": 0.0511365607380867
+      }
+    ],
+    "casingHard": [
+      {
+        "offset": 3510887,
+        "bytes": 4645,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.09462835639715195,
+        "pcmRms": 0.005565187893807888,
+        "spectralCentroidHz": 6636.6370892644945,
+        "attackRms": 0.018829815089702606
+      },
+      {
+        "offset": 3515532,
+        "bytes": 4315,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.12501975893974304,
+        "pcmRms": 0.005505773704499006,
+        "spectralCentroidHz": 6958.484188914701,
+        "attackRms": 0.01841358281672001
+      },
+      {
+        "offset": 3519847,
+        "bytes": 4439,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.09306295961141586,
+        "pcmRms": 0.005603938363492489,
+        "spectralCentroidHz": 5679.401643040492,
+        "attackRms": 0.019019274041056633
+      },
+      {
+        "offset": 3524286,
+        "bytes": 4320,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.10611831396818161,
+        "pcmRms": 0.005535202566534281,
+        "spectralCentroidHz": 6307.348225561432,
+        "attackRms": 0.018586093559861183
+      }
+    ],
+    "casingMetal": [
+      {
+        "offset": 3528606,
+        "bytes": 4138,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.11329682171344757,
+        "pcmRms": 0.006482022814452648,
+        "spectralCentroidHz": 7648.596195306352,
+        "attackRms": 0.021226393058896065
+      },
+      {
+        "offset": 3532744,
+        "bytes": 4290,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.14187580347061157,
+        "pcmRms": 0.007493042387068272,
+        "spectralCentroidHz": 7785.344312279788,
+        "attackRms": 0.025081247091293335
+      },
+      {
+        "offset": 3537034,
+        "bytes": 4358,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.11344894021749496,
+        "pcmRms": 0.0067540318705141544,
+        "spectralCentroidHz": 7608.805203111686,
+        "attackRms": 0.02274010330438614
+      },
+      {
+        "offset": 3541392,
+        "bytes": 4482,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.11276677995920181,
+        "pcmRms": 0.00691492622718215,
+        "spectralCentroidHz": 7754.468870897597,
+        "attackRms": 0.023395540192723274
+      }
+    ],
+    "casingWood": [
+      {
+        "offset": 3545874,
+        "bytes": 3777,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.09589821100234985,
+        "pcmRms": 0.005419409833848476,
+        "spectralCentroidHz": 2117.396097694589,
+        "attackRms": 0.0184133592993021
+      },
+      {
+        "offset": 3549651,
+        "bytes": 3733,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.07433916628360748,
+        "pcmRms": 0.0048941802233457565,
+        "spectralCentroidHz": 2313.4163695806014,
+        "attackRms": 0.016539162024855614
+      },
+      {
+        "offset": 3553384,
+        "bytes": 3914,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.10019248723983765,
+        "pcmRms": 0.005407003220170736,
+        "spectralCentroidHz": 1951.9740784768535,
+        "attackRms": 0.018333187326788902
+      },
+      {
+        "offset": 3557298,
+        "bytes": 3779,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.08977384865283966,
+        "pcmRms": 0.005350522696971893,
+        "spectralCentroidHz": 2133.5166441038145,
+        "attackRms": 0.01835336536169052
+      }
+    ],
+    "casingSoft": [
+      {
+        "offset": 3561077,
+        "bytes": 3050,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.042533133178949356,
+        "pcmRms": 0.003151773940771818,
+        "spectralCentroidHz": 1126.578575565662,
+        "attackRms": 0.010984785854816437
+      },
+      {
+        "offset": 3564127,
+        "bytes": 3187,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.038398075848817825,
+        "pcmRms": 0.0031298247631639242,
+        "spectralCentroidHz": 1150.72337798083,
+        "attackRms": 0.011126456782221794
+      },
+      {
+        "offset": 3567314,
+        "bytes": 2979,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.0514422208070755,
+        "pcmRms": 0.0033599920570850372,
+        "spectralCentroidHz": 1025.372754348219,
+        "attackRms": 0.012042145244777203
+      },
+      {
+        "offset": 3570293,
+        "bytes": 3161,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.0380333811044693,
+        "pcmRms": 0.003045752178877592,
+        "spectralCentroidHz": 1195.2140859709634,
+        "attackRms": 0.010860594920814037
+      }
+    ],
+    "casingWater": [
+      {
+        "offset": 3573454,
+        "bytes": 4171,
+        "variant": 0,
+        "duration": 0.28,
+        "pcmPeak": 0.06890612095594406,
+        "pcmRms": 0.005672548431903124,
+        "spectralCentroidHz": 4115.346349887614,
+        "attackRms": 0.01824086345732212
+      },
+      {
+        "offset": 3577625,
+        "bytes": 4225,
+        "variant": 1,
+        "duration": 0.28,
+        "pcmPeak": 0.07372614741325378,
+        "pcmRms": 0.005271946545690298,
+        "spectralCentroidHz": 4284.152591790972,
+        "attackRms": 0.01669139787554741
+      },
+      {
+        "offset": 3581850,
+        "bytes": 4300,
+        "variant": 2,
+        "duration": 0.28,
+        "pcmPeak": 0.05724648758769035,
+        "pcmRms": 0.005420292261987925,
+        "spectralCentroidHz": 4148.696256773782,
+        "attackRms": 0.017328105866909027
+      },
+      {
+        "offset": 3586150,
+        "bytes": 4442,
+        "variant": 3,
+        "duration": 0.28,
+        "pcmPeak": 0.07472041994333267,
+        "pcmRms": 0.005583592690527439,
+        "spectralCentroidHz": 4099.341989129739,
+        "attackRms": 0.017459115013480186
+      }
+    ],
+    "explosion": [
+      {
+        "offset": 3590592,
         "bytes": 31594,
         "variant": 0,
         "duration": 1.55,
         "pcmPeak": 0.6166515350341797,
         "pcmRms": 0.056342702358961105,
-        "spectralCentroidHz": 821.4288543993896,
+        "spectralCentroidHz": 821.4288544121965,
         "attackRms": 0.2309759557247162
       },
       {
-        "offset": 3424649,
+        "offset": 3622186,
         "bytes": 32133,
         "variant": 1,
         "duration": 1.55,
@@ -3954,29 +4416,29 @@
         "attackRms": 0.22332347929477692
       },
       {
-        "offset": 3456782,
+        "offset": 3654319,
         "bytes": 31003,
         "variant": 2,
         "duration": 1.55,
         "pcmPeak": 0.6951536536216736,
         "pcmRms": 0.05611356720328331,
-        "spectralCentroidHz": 847.3685514880003,
+        "spectralCentroidHz": 847.3685514877816,
         "attackRms": 0.21390466392040253
       },
       {
-        "offset": 3487785,
+        "offset": 3685322,
         "bytes": 30590,
         "variant": 3,
         "duration": 1.55,
         "pcmPeak": 0.7837053537368774,
         "pcmRms": 0.05529167875647545,
-        "spectralCentroidHz": 853.9472553704367,
+        "spectralCentroidHz": 853.947255370755,
         "attackRms": 0.2519972026348114
       }
     ]
   },
-  "bytes": 3518375,
-  "sha256": "426698a1be0cc88e7875cbd157c6ad2b2193abd20a0a3ef8588d30c631b897f0",
+  "bytes": 3715912,
+  "sha256": "626aa7d1c72a9899435c9b2b2de4926cd1bb5443767dfeda107b62b261c4fac0",
   "files": [
     {
       "path": "sound-bank.part000.bin",
@@ -3985,8 +4447,8 @@
     },
     {
       "path": "sound-bank.part001.bin",
-      "bytes": 1421225,
-      "sha256": "483a6519b0ee1668db5ecfd2cdfcd4d85368669e46f9f51efd5e52c012298b0f"
+      "bytes": 1618762,
+      "sha256": "0fc1f66758c3a7cc4ee1cfe394eb1829fad8cb2c741e906d6039c0f20a7eeae9"
     }
   ]
 }

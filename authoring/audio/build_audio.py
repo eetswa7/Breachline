@@ -14,6 +14,7 @@ root = Path('dist/assets/audio'); root.mkdir(parents=True, exist_ok=True)
 work = Path(tempfile.mkdtemp(prefix='breachline-sound-'))
 weapons = json.loads(Path('authoring/audio/weapons.json').read_text())
 voicing = json.loads(Path('authoring/audio/weapon-voicing.json').read_text())
+ballistic_foley = json.loads(Path('authoring/audio/ballistic-foley.json').read_text())
 sounds = []
 
 def filtered(x, hz, mode='lowpass', order=2):
@@ -201,6 +202,55 @@ for surface in ('Metal','Stone','Wood','Glass','Water'):
             x = noise(rng,len(t),[650,7000])*envelope(t,.002,.003,.049)*.115
             x += granular(t,rng,.05,.16,12,.018,(1500,6200),.006)
         register('impact'+surface,variant,x*1.45)
+
+def ballistic_contacts():
+    """Dedicated glancing fragments, exit rupture, and floor-contact takes.
+
+    These designs accompany cosmetic contacts, never imply new reflected damage.
+    Casing bounce detail is one recording/voice, beginning at the actual landing.
+    """
+    for event, families in ballistic_foley.items():
+        for family, p in families.items():
+            for variant in range(4):
+                seed = 641729+variant*1307+sum(map(ord,event+family))*31
+                rng = np.random.default_rng(seed)
+                t = np.arange(int(RATE*p['duration']))/RATE
+                if event == 'ricochet':
+                    x = contact(t,rng,.001,.21,p['contactHz']*rng.uniform(.93,1.07),.004)
+                    # Broad moving turbulence carries the audible deflection.
+                    # A quiet, falling inharmonic fragment sits below this noise.
+                    turbulence = noise(rng,len(t),p['band'])
+                    x += turbulence*envelope(t,.006,.001,.038)*.105
+                    u = np.maximum(0,t-.006)
+                    phase = math.tau*(p['sweepHz']*u-p['sweepDrop']*u*u)
+                    x += (np.sin(phase)+np.sin(phase*1.379)*.3)*envelope(t,.006,.0007,p['decay'])*.014
+                    x += granular(t,rng,.025,.085,6,p['grit'],(1400,5800),.004)
+                elif event == 'penetration':
+                    # Entry bite, muffled passage and sharper exit rupture form
+                    # one short sound, spatialized at the actual outgoing face.
+                    start = p['exitDelay']*rng.uniform(.88,1.12)
+                    x = contact(t,rng,.001,.13,p['contactHz'],.004)
+                    x += noise(rng,len(t),p['band'])*envelope(t,start,.0004,.018)*.095
+                    x += contact(t,rng,start,.17,p['contactHz']*1.19,.006)
+                    x += granular(t,rng,start+.007,.092,p['grains'],.027,p['grainBand'],.004)
+                    if family == 'Wood': x = filtered(x,4800)
+                else:
+                    x = contact(t,rng,.002,p['contactWeight'],p['contactHz']*rng.uniform(.91,1.09),p['decay'])
+                    for bounce, delay in enumerate(p['bounces']):
+                        x += contact(t,rng,delay*rng.uniform(.92,1.08),p['contactWeight']*.52**(bounce+1),p['contactHz']*rng.uniform(.75,1.35),p['decay']*.7)
+                    if family == 'Metal':
+                        x += sum(np.sin(math.tau*f*t)*envelope(t,.002,.0004,.018)*.006
+                                 for f in (2671,4937,7133))
+                    elif family == 'Soft':
+                        x = filtered(x,1800)
+                        x += noise(rng,len(t),[180,2500])*envelope(t,.003,.001,.014)*.015
+                    elif family == 'Water':
+                        x += noise(rng,len(t),[720,6700])*envelope(t,.002,.002,.024)*.034
+                        x += granular(t,rng,.027,.05,5,.012,(1600,4700),.005)
+                    elif family == 'Wood': x = filtered(x,5300)
+                register(event+family,variant,x)
+
+ballistic_contacts()
 
 for variant in range(4):
     rng = np.random.default_rng(998731+variant*3877)

@@ -1,0 +1,19 @@
+{
+  "ricochet": {
+    "Metal": {"duration":0.28,"contactHz":3300,"band":[2300,12500],"sweepHz":5900,"sweepDrop":7700,"decay":0.035,"grit":0.045},
+    "Stone": {"duration":0.28,"contactHz":2500,"band":[1300,9000],"sweepHz":4100,"sweepDrop":5000,"decay":0.024,"grit":0.064}
+  },
+  "penetration": {
+    "Metal": {"duration":0.20,"contactHz":2900,"band":[1000,9200],"exitDelay":0.017,"grains":7,"grainBand":[1700,5200]},
+    "Stone": {"duration":0.20,"contactHz":2100,"band":[230,6800],"exitDelay":0.024,"grains":13,"grainBand":[850,4100]},
+    "Wood": {"duration":0.20,"contactHz":850,"band":[180,3400],"exitDelay":0.022,"grains":10,"grainBand":[530,2100]},
+    "Glass": {"duration":0.20,"contactHz":3900,"band":[1900,13500],"exitDelay":0.012,"grains":15,"grainBand":[2100,6900]}
+  },
+  "casing": {
+    "Hard": {"duration":0.28,"contactHz":3700,"contactWeight":0.115,"decay":0.005,"bounces":[0.043,0.104,0.165]},
+    "Metal": {"duration":0.28,"contactHz":4800,"contactWeight":0.115,"decay":0.007,"bounces":[0.035,0.090,0.145]},
+    "Wood": {"duration":0.28,"contactHz":1350,"contactWeight":0.090,"decay":0.007,"bounces":[0.051,0.116]},
+    "Soft": {"duration":0.28,"contactHz":520,"contactWeight":0.039,"decay":0.014,"bounces":[]},
+    "Water": {"duration":0.28,"contactHz":1750,"contactWeight":0.032,"decay":0.014,"bounces":[]}
+  }
+}

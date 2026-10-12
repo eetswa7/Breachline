@@ -1,0 +1,273 @@
+{
+  "kind": "isolated_original_runtime_take_listening_reel",
+  "subjective_listening_review": false,
+  "sampleRate": 44100,
+  "durationSeconds": 27.195736961451246,
+  "description": "Four shipped takes of every new family, at unity gain with 350 ms gaps; gameplay applies distance, room, occlusion and lower foley gains.",
+  "cues": [
+    {
+      "key": "ricochetMetal",
+      "variant": 0,
+      "startSeconds": 0,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetMetal",
+      "variant": 1,
+      "startSeconds": 0.651859410430839,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetMetal",
+      "variant": 2,
+      "startSeconds": 1.303718820861678,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetMetal",
+      "variant": 3,
+      "startSeconds": 1.955578231292517,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetStone",
+      "variant": 0,
+      "startSeconds": 2.607437641723356,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetStone",
+      "variant": 1,
+      "startSeconds": 3.259297052154195,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetStone",
+      "variant": 2,
+      "startSeconds": 3.911156462585034,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "ricochetStone",
+      "variant": 3,
+      "startSeconds": 4.563015873015873,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "penetrationMetal",
+      "variant": 0,
+      "startSeconds": 5.214875283446712,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationMetal",
+      "variant": 1,
+      "startSeconds": 5.773854875283447,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationMetal",
+      "variant": 2,
+      "startSeconds": 6.332834467120182,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationMetal",
+      "variant": 3,
+      "startSeconds": 6.891814058956916,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationStone",
+      "variant": 0,
+      "startSeconds": 7.450793650793651,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationStone",
+      "variant": 1,
+      "startSeconds": 8.009773242630386,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationStone",
+      "variant": 2,
+      "startSeconds": 8.56875283446712,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationStone",
+      "variant": 3,
+      "startSeconds": 9.127732426303854,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationWood",
+      "variant": 0,
+      "startSeconds": 9.68671201814059,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationWood",
+      "variant": 1,
+      "startSeconds": 10.245691609977325,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationWood",
+      "variant": 2,
+      "startSeconds": 10.80467120181406,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationWood",
+      "variant": 3,
+      "startSeconds": 11.363650793650793,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationGlass",
+      "variant": 0,
+      "startSeconds": 11.922630385487528,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationGlass",
+      "variant": 1,
+      "startSeconds": 12.481609977324263,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationGlass",
+      "variant": 2,
+      "startSeconds": 13.040589569160998,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "penetrationGlass",
+      "variant": 3,
+      "startSeconds": 13.599569160997733,
+      "durationSeconds": 0.2089795918367347
+    },
+    {
+      "key": "casingHard",
+      "variant": 0,
+      "startSeconds": 14.158548752834466,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingHard",
+      "variant": 1,
+      "startSeconds": 14.810408163265306,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingHard",
+      "variant": 2,
+      "startSeconds": 15.462267573696145,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingHard",
+      "variant": 3,
+      "startSeconds": 16.114126984126983,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingMetal",
+      "variant": 0,
+      "startSeconds": 16.765986394557824,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingMetal",
+      "variant": 1,
+      "startSeconds": 17.417845804988662,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingMetal",
+      "variant": 2,
+      "startSeconds": 18.0697052154195,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingMetal",
+      "variant": 3,
+      "startSeconds": 18.72156462585034,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWood",
+      "variant": 0,
+      "startSeconds": 19.37342403628118,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWood",
+      "variant": 1,
+      "startSeconds": 20.025283446712017,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWood",
+      "variant": 2,
+      "startSeconds": 20.677142857142858,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWood",
+      "variant": 3,
+      "startSeconds": 21.329002267573696,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingSoft",
+      "variant": 0,
+      "startSeconds": 21.980861678004533,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingSoft",
+      "variant": 1,
+      "startSeconds": 22.632721088435375,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingSoft",
+      "variant": 2,
+      "startSeconds": 23.284580498866212,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingSoft",
+      "variant": 3,
+      "startSeconds": 23.936439909297054,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWater",
+      "variant": 0,
+      "startSeconds": 24.58829931972789,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWater",
+      "variant": 1,
+      "startSeconds": 25.24015873015873,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWater",
+      "variant": 2,
+      "startSeconds": 25.89201814058957,
+      "durationSeconds": 0.301859410430839
+    },
+    {
+      "key": "casingWater",
+      "variant": 3,
+      "startSeconds": 26.543877551020408,
+      "durationSeconds": 0.301859410430839
+    }
+  ]
+}

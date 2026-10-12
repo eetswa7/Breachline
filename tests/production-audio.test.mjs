@@ -10,6 +10,7 @@ test('original audio bank covers every weapon, suppression, reload action and su
  const bytes=Buffer.concat(await Promise.all(AUDIO_PARTS.map(p=>readFile('dist/assets/'+p))));assert.equal(bytes.length,AUDIO_BANK.bytes);
  for(const w of WEAPONS)for(const key of ['shot','suppressed','reload','seat','rack'])assert(AUDIO_BANK.sounds[key+w.id]?.length,`${key} ${w.name}`);
  for(const key of ['stepHard','stepGravel','stepSoft','stepSnow','stepQuarry','stepMetal','stepWater','stepWood','impactMetal','impactStone','impactWood','impactGlass','impactWater','explosion'])assert(AUDIO_BANK.sounds[key]?.length>=4);
+ for(const key of ['ricochetMetal','ricochetStone','penetrationMetal','penetrationStone','penetrationWood','penetrationGlass','casingHard','casingMetal','casingWood','casingSoft','casingWater'])assert.equal(AUDIO_BANK.sounds[key]?.length,4,key);
  let end=0;for(const records of Object.values(AUDIO_BANK.sounds))for(const s of records){assert.equal(s.offset,end);assert(s.bytes>100);assert.equal(bytes.toString('ascii',s.offset+4,s.offset+8),'ftyp');assert(s.duration>0&&s.pcmPeak<=.92&&s.pcmRms>0);end+=s.bytes;}
  assert.equal(end,bytes.length);
 });
