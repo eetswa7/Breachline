@@ -1,0 +1,74 @@
+{
+  "release": 63,
+  "recordedAt": "2026-10-12T14:28:55.749546+00:00",
+  "actual_iphone_data": false,
+  "sourceCommits": {
+    "modelling_and_reload": "c51316ca2f4c07bf2a81f5c53ee5aced70b1322f",
+    "native_assets": "2884259ef473b2e7e0a635002982cb2329d34a98",
+    "offline_list": "325fd9e57182485a2ee8e4be725ccc483f454db3"
+  },
+  "regressions": {
+    "initial_full_suite": {
+      "tests": 346,
+      "passed": 345,
+      "failed": 1
+    },
+    "resolved_failure": "New native library segments 005/006 added to offline shell by regenerating release asset list",
+    "post_fix_native_suite": {
+      "tests": 11,
+      "passed": 11
+    },
+    "post_fix_cache_and_production_texture_suite": {
+      "tests": 9,
+      "passed": 9
+    },
+    "remaining_regression_failures": 0
+  },
+  "module_and_asset_check": {
+    "modules": 78,
+    "passed": true
+  },
+  "library": {
+    "parts": [
+      "breachline-library.part000.bin",
+      "breachline-library.part001.bin",
+      "breachline-library.part002.bin",
+      "breachline-library.part003.bin",
+      "breachline-library.part004.bin",
+      "breachline-library.part005.bin",
+      "breachline-library.part006.bin"
+    ],
+    "bytes": 13111098,
+    "unpackedBytes": 39843296,
+    "sha256": "0aef8d1e810013b18aa075c505bf0e727eaaf1f79b7c37c531a4b248d70ec6ef"
+  },
+  "nativeDownloadBytes": 18312298,
+  "preserved": [
+    "30 rigs and attachment matrices",
+    "16 maps and 11 modes",
+    "40-player large-map team rosters",
+    "gameplay ammo/timings/damage",
+    "aim and muzzle contracts",
+    "offline assets",
+    "Benchmark recording and JSON export",
+    "editable native source",
+    "release57-baseline"
+  ],
+  "evidence": [
+    "validation-weapon-motion63-browser.json",
+    "validation-reload63-browser.json",
+    "validation-reload-baseline62-browser.json",
+    "validation-release63-operator-crowd.json",
+    "validation-release63-scene-profile.json",
+    "validation-release63-benchmark-browser.json",
+    "art-release63/manifest.json"
+  ],
+  "remaining_limits": [
+    "Professional art standard incomplete",
+    "Rigid glove fingers and sleeves",
+    "Simplified/reused magazines and loaders",
+    "Most lower-magazine manipulation off-camera",
+    "Third-person reload choreography not rebuilt",
+    "Physical iPhone performance and premium listening quality unverified"
+  ]
+}

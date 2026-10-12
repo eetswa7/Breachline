@@ -63,6 +63,10 @@ not finger grasp or commercial-game realism.
   transforms, coherent native joints, pause and loaded presentation, with no
   browser errors or failed requests. [The exact baseline](validation-reload-baseline62-browser.json)
   and [image hashes](art-release63/manifest.json) retain provenance.
+- [Actual application and Benchmark checks](validation-release63-benchmark-browser.json)
+  passed keyboard/touch inspection, interruption, saved recording, JSON download,
+  offline boot/export and isolated stress-test cancellation with no page errors
+  or report network requests. These are software browser checks.
 - [All thirty standard weapon scene counts](validation-release63-scene-profile.json)
   peak at 28,200 triangles and thirteen batches. Exhaustive visual-attachment
   tests retain the existing 32,000-triangle and 16/17-batch limits.
