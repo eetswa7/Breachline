@@ -1,6 +1,6 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=60';
-import {clamp} from './math.js?v=60';
-import {poseSegment} from './actor-pose.js?v=60';
+import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=61';
+import {clamp} from './math.js?v=61';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=61';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 function template(w){
@@ -67,8 +67,8 @@ function magazineTravel(w,r,out){
 export function operatorWeaponMount(actor,out={}){
  const w=actor.weapon,duck=actor.animDuck??(actor.crouched?.5:0);
  out.pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025;
- out.x=.075;out.y=1.30-duck+(actor.operatorSettle??0);
- out.z=-.23+Math.exp(-w.sinceShot*22)*.027;return out;
+ out.x=.075;out.y=1.30-duck;out.yaw=0;out.roll=0;
+ out.z=-.23+Math.exp(-w.sinceShot*22)*.027;return transformOperatorPose(actor,out);
 }
 export function nativeOperatorWeapon(actor,assets,time){
  const key=actor.carriedTemplate.key;
@@ -103,7 +103,7 @@ export function poseOperator(actor,duck){
  }
  const t=actor.carriedTemplate,pose=actor.operatorPose??(actor.operatorPose={right:{},left:{}});
  const pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025,c=Math.cos(pitch),s=Math.sin(pitch);
- const recoil=Math.exp(-w.sinceShot*22)*.027,mountY=1.30-duck,react=clamp(actor.hitReact??0,0,.16),r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
+ const recoil=Math.exp(-w.sinceShot*22)*.027,mountY=1.30-duck,r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
  const travel=pose.magazineTravel??(pose.magazineTravel={});magazineTravel(w,r,travel);
  for(let i=actor.operatorBodyCount;i<actor.renderParts.length;i++){
   const q=actor.renderParts[i],base=actor.renderBase[i];let dy=0,dz=0;
@@ -130,14 +130,13 @@ export function poseOperator(actor,duck){
   pose.left.x+=(target.x-pose.left.x)*reach;pose.left.y+=(target.y-pose.left.y)*reach;pose.left.z+=(target.z-pose.left.z)*reach;
  }
  arm(actor.renderParts,15,17,19,1,pose.right,duck);arm(actor.renderParts,14,16,18,-1,pose.left,duck);
- // Local impact recoil is presentation only; it never moves collision or aim.
- if(react>0)for(let i=6;i<actor.renderParts.length;i++){
-  if(i===26||i===27)continue;const q=actor.renderParts[i];q.z+=(q.y-(.82-duck))*react;q.pitch=(q.pitch??0)+react;
- }
 }
 
 export function operatorMuzzle(actor,weapon=actor.weapon){
- const m=muzzlePosition(weapon),pitch=clamp(actor.pitch??0,-.65,.65),cp=Math.cos(pitch),sp=Math.sin(pitch),c=Math.cos(actor.yaw),s=Math.sin(actor.yaw);
- const x=.075+m.x,z=-.23+m.y*sp+m.z*cp;
- return{x:actor.x+c*x-s*z,y:actor.y+1.30-(actor.crouched?.5:0)+m.y*cp-m.z*sp,z:actor.z+s*x+c*z};
+ const m=muzzlePosition(weapon),pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-actor.weapon.sinceShot*20)*.025,cp=Math.cos(pitch),sp=Math.sin(pitch),c=Math.cos(actor.yaw),s=Math.sin(actor.yaw);
+ const point=actor.operatorMuzzlePose??(actor.operatorMuzzlePose={});
+ point.x=.075+m.x;point.y=1.30-(actor.operatorMotion?actor.animDuck:(actor.crouched?.5:0))+m.y*cp-m.z*sp;
+ point.z=-.23+m.y*sp+m.z*cp+Math.exp(-actor.weapon.sinceShot*22)*.027;
+ point.yaw=point.pitch=point.roll=0;transformOperatorPose(actor,point);
+ return{x:actor.x+c*point.x-s*point.z,y:actor.y+point.y,z:actor.z+s*point.x+c*point.z};
 }

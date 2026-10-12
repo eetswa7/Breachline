@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=60';
-import {Navigation} from './navigation.js?v=60';
-import {SpawnDirector} from './spawns.js?v=60';
-import {MatchRules} from './modes.js?v=60';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=60';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=60';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=60';
-import {traceBullet} from './ballistics.js?v=60';
-import {beginVault,advanceVault} from './traversal.js?v=60';
-import {ejectCasing,updateCasings} from './casing-foley.js?v=60';
+import {Arena,MAPS} from './maps.js?v=61';
+import {Navigation} from './navigation.js?v=61';
+import {SpawnDirector} from './spawns.js?v=61';
+import {MatchRules} from './modes.js?v=61';
+import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=61';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=61';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=61';
+import {traceBullet} from './ballistics.js?v=61';
+import {beginVault,advanceVault} from './traversal.js?v=61';
+import {ejectCasing,updateCasings} from './casing-foley.js?v=61';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -89,7 +89,7 @@ export class Game {
    }
    if(!p.vault||!advanceVault(p,this.arena,dt))this.moveActor(p,dx,dz,dt);
    // Inspection is cosmetic and never delays a combat or traversal action.
-   const interruptInspection=input.fire||input.ads||input.reload||input.swap||input.grenade||input.melee||input.interact||p.sprinting||p.sliding||p.vault||p.switchLeft>0||p.weapon.reloadLeft>0;
+   const interruptInspection=input.fire||input.ads||input.jump||input.crouch||input.reload||input.swap||input.grenade||input.melee||input.interact||p.sprinting||p.sliding||p.vault||p.switchLeft>0||p.weapon.reloadLeft>0;
    if(interruptInspection)p.weapon.cancelInspection();
    else if(input.inspect&&p.ads<.12&&p.weapon.sinceShot>.2)p.weapon.inspect();
    if(input.reload&&p.weapon.reload())this.emit('reload',{source:0,weapon:p.weapon.def.id});

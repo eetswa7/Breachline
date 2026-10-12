@@ -1,15 +1,15 @@
-import {Game,emptyInput} from './engine.js?v=60';
-import {Renderer} from './three-renderer.js?v=60';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=60';
-import {TouchInput} from './input.js?v=60';
-import {AudioSystem} from './audio.js?v=60';
-import {SaveStore} from './save.js?v=60';
-import {Interface,$} from './ui.js?v=60';
-import {Weapon} from './weapons.js?v=60';
-import {opticMagnification} from './aim.js?v=60';
-import {FramePacer} from './frame-pacer.js?v=60';
-import {BenchmarkController} from './benchmark.js?v=60';
-import {updateAimAssist} from './aim-assist.js?v=60';
+import {Game,emptyInput} from './engine.js?v=61';
+import {Renderer} from './three-renderer.js?v=61';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=61';
+import {TouchInput} from './input.js?v=61';
+import {AudioSystem} from './audio.js?v=61';
+import {SaveStore} from './save.js?v=61';
+import {Interface,$} from './ui.js?v=61';
+import {Weapon} from './weapons.js?v=61';
+import {opticMagnification} from './aim.js?v=61';
+import {FramePacer} from './frame-pacer.js?v=61';
+import {BenchmarkController} from './benchmark.js?v=61';
+import {updateAimAssist} from './aim-assist.js?v=61';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={mode:'tdm',map:14,difficulty:'regular',loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -54,8 +54,8 @@ export class Application {
   if(!this.playing||this.game.paused||this.game.rules.phase==='finished')this.ui.controllerMenu(this.input.controller);
   if(this.playing&&!this.game.paused&&this.game.rules.phase!=='finished'){
    this.input.aimAssistGain=this.isTouch?updateAimAssist(this.aimAssistState??(this.aimAssistState={}),this.game,dt,this.store.data.settings.aimAssist!==false):1;
-   this.input.crouched=this.game.player.crouched;this.input.scopeScale=1/Math.sqrt(opticMagnification(this.game.player.weapon));const next=this.benchmark?.stress?emptyInput():this.input.sample(dt);this.pending.mx=next.mx;this.pending.mz=next.mz;this.pending.lx+=next.lx;this.pending.ly+=next.ly;for(const key of ['fire','ads','sprint','interact','repeatFire','autoReload'])this.pending[key]=next[key];for(const key of ['firePressed','jump','crouch','reload','swap','grenade','melee'])this.pending[key]||=next[key];
-   this.accumulator=Math.min(.1,this.accumulator+dt);let steps=0;while(this.accumulator>=1/60&&steps++<6){this.game.update(1/60,this.benchmark?.stressInput()??this.pending);this.accumulator-=1/60;this.pending.lx=this.pending.ly=0;for(const key of ['firePressed','jump','crouch','reload','swap','grenade','melee'])this.pending[key]=false;}
+   this.input.crouched=this.game.player.crouched;this.input.scopeScale=1/Math.sqrt(opticMagnification(this.game.player.weapon));const next=this.benchmark?.stress?emptyInput():this.input.sample(dt);this.pending.mx=next.mx;this.pending.mz=next.mz;this.pending.lx+=next.lx;this.pending.ly+=next.ly;for(const key of ['fire','ads','sprint','interact','repeatFire','autoReload'])this.pending[key]=next[key];for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]||=next[key];
+   this.accumulator=Math.min(.1,this.accumulator+dt);let steps=0;while(this.accumulator>=1/60&&steps++<6){this.game.update(1/60,this.benchmark?.stressInput()??this.pending);this.accumulator-=1/60;this.pending.lx=this.pending.ly=0;for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]=false;}
    if(this.benchmark?.enabled)this.benchmark.events(this.game.events);this.renderer.events(this.game.events,this.game);this.audio.events(this.game.events,this.game);this.ui.events(this.game.events);this.game.events.length=0;this.ui.update(dt);
   }else if(!this.playing)this.game.time+=dt;
   const rendered=this.renderer.render(this.game,dt,!this.playing,elapsed);if(this.playing&&!this.game.paused)this.ui.updateIdentities(dt);

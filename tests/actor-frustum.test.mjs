@@ -73,7 +73,7 @@ test('conservative live and falling envelopes contain the native body and every 
  const {r,g,a}=actorFixture(0,-5),matrix=new THREE.Matrix4(),point=new THREE.Vector3();
  let liveMax=0,deathMax=0,samples=0;
  // AABB corners bound every authored vertex. Suppressor/large optic settings,
- // firing recoil, maximum arm pitch, gait, crouch and the leaning death pose
+ // firing recoil, maximum arm pitch, gait, crouch and the articulated collapse
  // exercise the largest envelopes without relying on artificial test meshes.
  for(const def of WEAPONS)for(const config of [{},{optic:3,barrel:1,handling:4,magazine:1}])
  for(const pitch of [-.65,0,.65])for(const crouched of [false,true])for(const death of [0,.35,.65,.9,.99]){
@@ -98,5 +98,5 @@ test('conservative live and falling envelopes contain the native body and every 
   }
  }
  assert.equal(samples,1800);assert(liveMax>1,'native carried-weapon bounds were measured');
- assert(deathMax>2,'falling pose requires the larger radius');
+ assert(deathMax>1,'native body and weapon bounds were measured throughout the collapse');
 });

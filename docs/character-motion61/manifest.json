@@ -1,0 +1,326 @@
+{
+  "kind": "software_WebGL_native_character_temporal_visual_fixtures",
+  "actual_iphone_data": false,
+  "capturedAt": "2026-10-12T09:20:20.739Z",
+  "sourceCommit": "659594081c73716b661dcae2c7f5cb9300acf45e",
+  "distributionDirty": true,
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "images": [
+    {
+      "file": "stand.png",
+      "sha256": "641cdba57ff3d1a6d4dce6c974bcd037bee7ddc068f3afc503dbe9e3dda9726e",
+      "capture": {
+        "name": "stand",
+        "time": 2,
+        "deathProgress": 0,
+        "duck": 0,
+        "stride": 1.7168146928204138,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.775,
+        "chest": {
+          "x": 0,
+          "y": 1.1292103046259026,
+          "z": 0,
+          "pitch": 0,
+          "roll": 0
+        },
+        "feet": [
+          {
+            "x": -0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          },
+          {
+            "x": 0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 334,
+        "triangles": 332032
+      }
+    },
+    {
+      "file": "walk-transfer.png",
+      "sha256": "b720895b5fe062fb87cfb8e0e840835f22613e6c2fc9d17f31a502d466deca11",
+      "capture": {
+        "name": "walk-transfer",
+        "time": 3.1166666666666627,
+        "deathProgress": 0,
+        "duck": 0,
+        "stride": 1.4074329651871198,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.775,
+        "chest": {
+          "x": 0.012866586842856256,
+          "y": 1.1392425179798789,
+          "z": -0.010846433166628327,
+          "pitch": -0.035,
+          "roll": 0.015786973692715617
+        },
+        "feet": [
+          {
+            "x": -0.13,
+            "y": 0.08,
+            "z": -0.15000008111248736,
+            "pitch": 0
+          },
+          {
+            "x": 0.12999999999999998,
+            "y": 0.13351532557356519,
+            "z": 0.16294359920712212,
+            "pitch": 0.06136543966181609
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331960
+      }
+    },
+    {
+      "file": "run-support.png",
+      "sha256": "df12dff1ca502c7a9f48e2080c7017888c182c76a473c517925616cab94d16df",
+      "capture": {
+        "name": "run-support",
+        "time": 2.9999999999999964,
+        "deathProgress": 0,
+        "duck": 0,
+        "stride": 0,
+        "stance": 0.3200312456494997,
+        "run": 0.9999023573453135,
+        "hipY": 0.775,
+        "chest": {
+          "x": 2.0880227925462373e-18,
+          "y": 1.1083854385951046,
+          "z": -0.04018373289861345,
+          "pitch": -0.1299907239478048,
+          "roll": -6.735557395310444e-18
+        },
+        "feet": [
+          {
+            "x": -0.12999999999999998,
+            "y": 0.09270860827467114,
+            "z": -0.4499912121610782,
+            "pitch": 0.09
+          },
+          {
+            "x": 0.12999999999999998,
+            "y": 0.17583734441286406,
+            "z": 0.2027659717903012,
+            "pitch": 0.07908886191450815
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331960
+      }
+    },
+    {
+      "file": "run-swing.png",
+      "sha256": "a52a7bdb7d3eae5a10280adbbe798a95ee92b5331ba7b62c8340ef779c735071",
+      "capture": {
+        "name": "run-swing",
+        "time": 3.233333333333329,
+        "deathProgress": 0,
+        "duck": 0,
+        "stride": 3.6691133842014185,
+        "stance": 0.3200030299521192,
+        "run": 0.9999905313996276,
+        "hipY": 0.775,
+        "chest": {
+          "x": -0.006564267262736791,
+          "y": 1.1180036534591045,
+          "z": -0.04018500424945198,
+          "pitch": -0.12999910048296462,
+          "roll": -0.008054282536621134
+        },
+        "feet": [
+          {
+            "x": -0.13,
+            "y": 0.23243778431979611,
+            "z": 0.0742147689627046,
+            "pitch": 0.112670149386935
+          },
+          {
+            "x": 0.13,
+            "y": 0.08,
+            "z": -0.24535504877488476,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331960
+      }
+    },
+    {
+      "file": "crouch-aim-settled.png",
+      "sha256": "9d17f9ac30b7ccfc66ad2c5b7c8fc7f0446c9925e6fc183eac1c74c9576c6b02",
+      "capture": {
+        "name": "crouch-aim-settled",
+        "time": 2.6499999999999977,
+        "deathProgress": 0,
+        "duck": 0.49979513251051005,
+        "stride": 3.744556419566585,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.37516389399159195,
+        "chest": {
+          "x": 0,
+          "y": 0.6306920493303653,
+          "z": 0.007885910240662888,
+          "pitch": -0.1199508318025224,
+          "roll": 0
+        },
+        "feet": [
+          {
+            "x": -0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          },
+          {
+            "x": 0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331960
+      }
+    },
+    {
+      "file": "hit-impact.png",
+      "sha256": "e59b6052305f107dc82d10964dee3b16a83e98295014daa117b2d08a3d801c00",
+      "capture": {
+        "name": "hit-impact",
+        "time": 2.025,
+        "deathProgress": 0,
+        "duck": 0,
+        "stride": 3.744556419566585,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.7646520463140095,
+        "chest": {
+          "x": 0.004374217073866527,
+          "y": 1.1186787124170359,
+          "z": 0.013846159201093836,
+          "pitch": 0.044684345462231746,
+          "roll": -0.014110845935441603
+        },
+        "feet": [
+          {
+            "x": -0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          },
+          {
+            "x": 0.13,
+            "y": 0.08,
+            "z": -0.06,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331960
+      }
+    },
+    {
+      "file": "death-knees.png",
+      "sha256": "2ed2651b09c1aae7eb7bc1d081d21a19d1fc1ba1e930bd9ce782334456f93b5d",
+      "capture": {
+        "name": "death-knees",
+        "time": 2.1166666666666663,
+        "deathProgress": 0.2333333333333325,
+        "duck": 0,
+        "stride": 3.744556419566585,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.6943899476438611,
+        "chest": {
+          "x": 0.005187443415463455,
+          "y": 1.0492574856730608,
+          "z": 0.02180882235605005,
+          "pitch": 0.016549699623807007,
+          "roll": -0.016734469486401164
+        },
+        "feet": [
+          {
+            "x": -0.1358333333333333,
+            "y": 0.08,
+            "z": -0.054482962962963,
+            "pitch": 0
+          },
+          {
+            "x": 0.1358333333333333,
+            "y": 0.08,
+            "z": -0.07241333333333325,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331958
+      }
+    },
+    {
+      "file": "death-end.png",
+      "sha256": "9a517272866ddc22bff26946b71a4b8fe276c55085637bd8ea5c74074d540493",
+      "capture": {
+        "name": "death-end",
+        "time": 2.4749999999999983,
+        "deathProgress": 0.9499999999999966,
+        "duck": 0,
+        "stride": 3.744556419566585,
+        "stance": 0.64,
+        "run": 0,
+        "hipY": 0.34495705666840853,
+        "chest": {
+          "x": 0.11383066699810304,
+          "y": 0.6483902677298092,
+          "z": -0.031958709694492354,
+          "pitch": -0.4753418919621916,
+          "roll": -0.3759923093243105
+        },
+        "feet": [
+          {
+            "x": -0.15374999999999991,
+            "y": 0.08,
+            "z": -0.02029000000000003,
+            "pitch": 0
+          },
+          {
+            "x": 0.15374999999999991,
+            "y": 0.08,
+            "z": -0.1493474999999999,
+            "pitch": 0
+          }
+        ],
+        "nativeWeaponVisible": true,
+        "nativeParts": 3,
+        "draws": 328,
+        "triangles": 331958
+      }
+    }
+  ],
+  "notes": "Exact, unaltered native gameplay posing frames from the final cadence correction; software WebGL2, not physical device measurements."
+}

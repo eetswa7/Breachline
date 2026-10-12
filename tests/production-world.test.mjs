@@ -56,6 +56,48 @@ test('native equipment replaces weak component layers and keeps destroyed-parent
  assert(classic.some(p=>p.blenderKind==='vehicle_sedan'),'civilian car is no longer selected as a freight container');
 });
 
+test('Blacksite turbine hall and joined loading surface preserve sightlines and contact height',async()=>{
+ const arena=new Arena(14),parts=blenderWorld(arena),hall=arena.blocks.find(p=>p.roof&&p.x===0&&p.z===0);
+ const roof=parts.find(p=>p.blenderKind==='blacksite_hall_roof');
+ const walls=parts.filter(p=>p.blenderKind==='blacksite_hall_cladding');
+ assert.equal(walls.length,4);assert.equal(Object.getPrototypeOf(roof),hall);
+ assert(roof.y-roof.h/2>=hall.y+hall.h/2-.001,'new silhouette remains above the original roof');
+ assert(walls.every(p=>p.y-p.h/2>3.01),'cladding remains above the tallest empty doorway');
+ for(const sign of [-1,1]){
+  const apron=parts.find(p=>p.productionRole==='service_apron'&&Math.sign(p.z)===sign);
+  const approach=parts.find(p=>p.productionRole==='service_approach'&&Math.sign(p.z)===sign);
+  assert(Math.abs(approach.z)-approach.d/2<Math.abs(apron.z)+apron.d/2,'poured approach meets loading apron');
+  assert.equal(apron.blenderKind,'blacksite_service_apron');
+  assert.equal(approach.blenderKind,'blacksite_service_approach');
+ }
+ const packed=await readRuntimeLibrary(),buffer=await decodeBlenderLibrary(packed.buffer.slice(packed.byteOffset,packed.byteOffset+packed.byteLength));
+ const geometries=parseBlenderGLB(buffer),raw=new Float32Array(16),matrix=new THREE.Matrix4();
+ for(const p of parts.filter(p=>p.blenderKind?.startsWith('blacksite_'))){
+  const g=geometries.get(p.blenderKind+'__near');assert(g,'site-specific native model must ship');
+  compose(raw,p.x,p.y,p.z,p.w,p.h,p.d,p.yaw??0,0,0);
+  const bounds=g.boundingBox.clone().applyMatrix4(matrix.fromArray(raw));
+  if(p.productionGround)assert(bounds.max.y<.034,'native joints and wear stay below impact/contact receiver');
+  else if(p===roof){
+   assert(bounds.min.y>=hall.y+hall.h/2-.01);
+   const position=g.getAttribute('position'),indices=g.index;
+   const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();let slopes=0;
+   for(let i=0;i<indices.count;i+=3){
+    a.fromBufferAttribute(position,indices.getX(i));b.fromBufferAttribute(position,indices.getX(i+1));c.fromBufferAttribute(position,indices.getX(i+2));
+    const centre=a.clone().add(b).add(c).multiplyScalar(1/3),normal=b.clone().sub(a).cross(c.clone().sub(a));
+    if(normal.length()>.2&&Math.abs(centre.z)<.25&&Math.abs(centre.y-(.468-Math.abs(centre.x)*1.822))<.01){
+     assert(normal.y>0,'both mirrored roof slopes face outwards');slopes++;
+    }
+   }
+   assert.equal(slopes,4);
+  }
+  else assert(bounds.min.y>3.01);
+ }
+ const detailTriangles=['blacksite_hall_roof','blacksite_hall_cladding','blacksite_service_apron','blacksite_service_approach']
+  .reduce((sum,kind)=>sum+geometries.get(kind+'__near').index.count/3,0);
+ assert(detailTriangles<4000,'four site-specific assets have a bounded native topology');
+ hall.destroyed=true;assert(walls.every(p=>p.destroyed)&&roof.destroyed,'site shell inherits the authoritative hall state');
+});
+
 test('native doorway and window geometry leaves the authoritative aperture completely empty',async()=>{
  const packed=await readRuntimeLibrary(),buffer=await decodeBlenderLibrary(packed.buffer.slice(packed.byteOffset,packed.byteOffset+packed.byteLength));
  const geometries=parseBlenderGLB(buffer),parts=blenderWorld(new Arena(14));

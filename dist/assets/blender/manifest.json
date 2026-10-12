@@ -646,6 +646,46 @@
       "vertices": 1680,
       "vertexMaterial": true
     },
+    "blacksite_hall_roof__near": {
+      "triangles": 692,
+      "vertices": 460,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_roof__far": {
+      "triangles": 188,
+      "vertices": 124,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_cladding__near": {
+      "triangles": 1028,
+      "vertices": 616,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_cladding__far": {
+      "triangles": 552,
+      "vertices": 304,
+      "vertexMaterial": true
+    },
+    "blacksite_service_apron__near": {
+      "triangles": 283,
+      "vertices": 557,
+      "vertexMaterial": true
+    },
+    "blacksite_service_apron__far": {
+      "triangles": 283,
+      "vertices": 557,
+      "vertexMaterial": true
+    },
+    "blacksite_service_approach__near": {
+      "triangles": 289,
+      "vertices": 569,
+      "vertexMaterial": true
+    },
+    "blacksite_service_approach__far": {
+      "triangles": 289,
+      "vertices": 569,
+      "vertexMaterial": true
+    },
     "site_sign_0__near": {
       "triangles": 2072,
       "vertices": 2112,
@@ -6401,27 +6441,27 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "52f6eab7be5dbfbaf6acd6216bcbbf4c636c74e44c5f810bf36ed0ab59cad0bf"
+      "sha256": "7e81488de9f634ae56f7bda420aa8f21309ef4ba03d52afa98178a1901d3c68a"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "7398806d1f5857ab8a7d301f5f56f153cbfae8596ce117d348bc662cbd9889b3"
+      "sha256": "c08e7ad9225531211060f618dd9a8538e1e715b8b2970c88714c6d5dcaaf1fcc"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "fba3f7d234112e5339b30add17afd54da2425def8bcd2225734a651129590d61"
+      "sha256": "f8ba7aa2483e8a307f80d4a65d30014213548771e268924262be02234ca05bbc"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "4e5a6fd482e7e57960d1c1cffe105fc6ace15864b31b68ab04d38b703b4e1202"
+      "sha256": "bdec7a167aece7884e5fb81c232762c4ebb1f23f6bb03c85123ee08f73259200"
     },
     {
       "path": "breachline-library.part004.bin",
-      "bytes": 1621300,
-      "sha256": "6b784fc613067d6dcff6a1f26833f020a2de949a5cfb4ee8114d3acbc65a9849"
+      "bytes": 1660798,
+      "sha256": "57ed61bd2509b03ac6798d5eff8af59099f523033feb6188f3df2e7306eec516"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6509,6 +6549,10 @@
     "stair_flight",
     "utility_van",
     "vehicle_sedan",
+    "blacksite_hall_roof",
+    "blacksite_hall_cladding",
+    "blacksite_service_apron",
+    "blacksite_service_approach",
     "cooling_stack",
     "site_sign_0",
     "site_sign_1",
@@ -6534,12 +6578,12 @@
   "authorship": "Original Blender mesh authoring and native Cycles colour/normal/physical bakes",
   "geometryPacking": {
     "normalisedBits": 16,
-    "streams": 266,
-    "savedBytes": 2498352,
+    "streams": 274,
+    "savedBytes": 2527808,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "e840004517eb4ba582d44bb34f818f165acaba6e746d98c1ed4532216d6ca2d1",
-    "exactPackedSha256": "e840004517eb4ba582d44bb34f818f165acaba6e746d98c1ed4532216d6ca2d1"
+    "exactSourceSha256": "614cb1df6270c0966526db96b2135a185392a441593672e9bd1ddb69425b05e4",
+    "exactPackedSha256": "614cb1df6270c0966526db96b2135a185392a441593672e9bd1ddb69425b05e4"
   },
   "library": {
     "parts": [
@@ -6549,9 +6593,9 @@
       "breachline-library.part003.bin",
       "breachline-library.part004.bin"
     ],
-    "bytes": 10009900,
-    "unpackedBytes": 32442076,
-    "sha256": "8a121b045b7ede1f1ffc20013a36b94dd5dfdd61e46e32893dc9add9d0d909e2"
+    "bytes": 10049398,
+    "unpackedBytes": 32794708,
+    "sha256": "6d03e9db7659a0d197e92da41772fd99cde4d0c98918bea4acf92db977bdcceb"
   },
-  "downloadBytes": 15211100
+  "downloadBytes": 15250598
 }

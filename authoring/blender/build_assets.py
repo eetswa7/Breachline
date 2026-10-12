@@ -494,6 +494,10 @@ def bake_details(name,columns,hero=False):
 
 
 from materials import bake_atlas,bake_auxiliary
+rebake_argument=next((arg for arg in sys.argv if arg.startswith('--rebake-maps=')),None)
+rebake_maps=set(int(value) for value in rebake_argument.split('=',1)[1].split(',')) if rebake_argument else None
+if rebake_maps and (not rebake_maps.issubset(set(range(16))) or '--reuse-lightmaps' in sys.argv or '--reuse-bakes' not in sys.argv):
+    raise RuntimeError('Selective GI requires valid map ids and cannot reuse those lightmaps')
 if '--reuse-bakes' in sys.argv:
     # Geometry iteration restores the exact previously baked pixels and their
     # editable shader graphs from our native source, without rebaking imagery.
@@ -502,6 +506,7 @@ if '--reuse-bakes' in sys.argv:
     baked_names=['surfaces-albedo','surfaces-normal','surfaces-orm',
                  'weapons-albedo','weapons-normal','weapons-orm','foliage','sky','effects']
     if '--reuse-lightmaps' in sys.argv:baked_names += ['lightmap-'+str(i) for i in range(16)]
+    elif rebake_maps:baked_names += ['lightmap-'+str(i) for i in range(16) if i not in rebake_maps]
     with bpy.data.libraries.load(str(previous),link=False) as (source,target):
         if not all(n in source.images for n in baked_names):raise RuntimeError('Incomplete cached native bakes')
         target.images=baked_names.copy()
@@ -591,7 +596,7 @@ scene['levels']='All 16 complete level assemblies are in Complete levels / metre
 from bake_lighting import bake_levels
 if '--reuse-lightmaps' in sys.argv:
     scene['lighting_bakes']='Cached Cycles RGBM bakes, 512 px, 32 samples; geometry-only hero iteration'
-else:bake_levels(scene,OUT,levels,preview,INPUT['maps'])
+else:bake_levels(scene,OUT,levels,preview,INPUT['maps'],rebake_maps)
 scene.world.color=(.22,.22,.22)
 source_path=SOURCE/'breachline-assets.blend'
 source_staging=SOURCE/'breachline-assets.staging.blend'

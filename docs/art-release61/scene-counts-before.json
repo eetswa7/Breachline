@@ -1,0 +1,125 @@
+{
+  "kind": "software_WebGL_visual_validation",
+  "actual_iphone_data": false,
+  "build": {
+    "release": "60",
+    "commit": "00271cc3fdaeb65ca76ef5c5ed3e0676cd5e0c21",
+    "source_commit": "00271cc3fdaeb65ca76ef5c5ed3e0676cd5e0c21",
+    "content_sha256": "96ea1515ec1d41eec17fa9a05143d3895698a33aceb1dbfbed8901aa2a786963",
+    "commit_resolution": "source_commit"
+  },
+  "distributionDirty": false,
+  "nativeSourceSha256": "9faafa3c4eefa0bf05d4844eea4b51f42516b9f31c2aa07b321196803cd58821",
+  "errors": [],
+  "requestFailures": [],
+  "results": [
+    {
+      "name": "blacksite-approach",
+      "map": "BLACKSITE",
+      "draws": 309,
+      "triangles": 418712,
+      "shadowDraws": 184,
+      "textureEstimateBytes": 82779926,
+      "programs": 29,
+      "geometryCount": 330,
+      "activeWorldBatches": 213,
+      "selectedWorldTriangles": 248182
+    },
+    {
+      "name": "blacksite-interior",
+      "map": "BLACKSITE",
+      "draws": 258,
+      "triangles": 347744,
+      "shadowDraws": 178,
+      "textureEstimateBytes": 82779926,
+      "programs": 33,
+      "geometryCount": 330,
+      "activeWorldBatches": 214,
+      "selectedWorldTriangles": 250122
+    },
+    {
+      "name": "blacksite-yard",
+      "map": "BLACKSITE",
+      "draws": 253,
+      "triangles": 346648,
+      "shadowDraws": 155,
+      "textureEstimateBytes": 82779926,
+      "programs": 33,
+      "geometryCount": 330,
+      "activeWorldBatches": 213,
+      "selectedWorldTriangles": 228560
+    },
+    {
+      "name": "blacksite-oblique",
+      "map": "BLACKSITE",
+      "draws": 212,
+      "triangles": 245834,
+      "shadowDraws": 157,
+      "textureEstimateBytes": 82779926,
+      "programs": 33,
+      "geometryCount": 330,
+      "activeWorldBatches": 212,
+      "selectedWorldTriangles": 221482
+    },
+    {
+      "name": "blacksite-services",
+      "map": "BLACKSITE",
+      "draws": 256,
+      "triangles": 351536,
+      "shadowDraws": 175,
+      "textureEstimateBytes": 82779926,
+      "programs": 33,
+      "geometryCount": 330,
+      "activeWorldBatches": 215,
+      "selectedWorldTriangles": 233430
+    },
+    {
+      "name": "weapon-close",
+      "map": "BLACKSITE",
+      "draws": 311,
+      "triangles": 379068,
+      "shadowDraws": 184,
+      "textureEstimateBytes": 82779926,
+      "programs": 33,
+      "geometryCount": 330,
+      "activeWorldBatches": 214,
+      "selectedWorldTriangles": 224178
+    },
+    {
+      "name": "operator-close",
+      "map": "BLACKSITE",
+      "draws": 365,
+      "triangles": 450432,
+      "shadowDraws": 191,
+      "textureEstimateBytes": 82779926,
+      "programs": 35,
+      "geometryCount": 330,
+      "activeWorldBatches": 214,
+      "selectedWorldTriangles": 224178
+    },
+    {
+      "name": "combat",
+      "map": "BLACKSITE",
+      "draws": 368,
+      "triangles": 450448,
+      "shadowDraws": 191,
+      "textureEstimateBytes": 82779926,
+      "programs": 35,
+      "geometryCount": 330,
+      "activeWorldBatches": 214,
+      "selectedWorldTriangles": 224178
+    },
+    {
+      "name": "reload",
+      "map": "BLACKSITE",
+      "draws": 261,
+      "triangles": 333438,
+      "shadowDraws": 185,
+      "textureEstimateBytes": 82779926,
+      "programs": 35,
+      "geometryCount": 330,
+      "activeWorldBatches": 215,
+      "selectedWorldTriangles": 241354
+    }
+  ]
+}

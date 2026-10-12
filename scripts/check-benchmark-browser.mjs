@@ -18,6 +18,13 @@ const context=await browser.newContext({viewport:{width:874,height:402},deviceSc
 const gamepadBackendDisabled=process.env.BENCHMARK_TEST_NO_GAMEPAD==='1';
 if(gamepadBackendDisabled)await context.addInitScript(()=>Object.defineProperty(navigator,'getGamepads',{value:()=>[],configurable:true}));
 const page=await context.newPage(),errors=[],checks=[],externalRequests=[],writeRequests=[];
+const inspectionInputCheck=process.env.BENCHMARK_TEST_INSPECTION==='1';
+if(inspectionInputCheck)await page.route('**/js/main.js*',async route=>{
+ const source=await readFile('dist/js/main.js','utf8'),needle='try{new Application();}';
+ assert(source.includes(needle));
+ // Observe the real booted application without a shipped debugging global.
+ await route.fulfill({contentType:'application/javascript',body:source.replace(needle,'try{window.__inspectionApp=new Application();}')});
+});
 page.on('pageerror',e=>errors.push(e.message));
 const origin=process.env.BENCHMARK_TEST_ORIGIN??'http://127.0.0.1:4189';
 context.on('request',r=>{if(new URL(r.url()).origin!==origin)externalRequests.push(r.url());if(!['GET','HEAD'].includes(r.method()))writeRequests.push(r.method());});
@@ -30,7 +37,19 @@ try{
  await page.goto(origin,{waitUntil:'domcontentloaded'});await page.locator('#loading').waitFor({state:'hidden',timeout:90000});assert((await page.locator('#game-version').textContent()).includes(release));checks.push('release_'+release+'_boot');
  await page.locator('#settings-top').click();const migrated=await readRows();assert.equal(migrated.length,1);assert.equal(migrated[0].value.report.session.id,legacy.session.id);assert.deepEqual(Object.keys(migrated[0].value),['report']);checks.push('legacy_measurements_preserved_obsolete_setup_removed');
  assert.equal(await page.locator('#benchmark-toggle').isChecked(),false);assert.equal(await page.locator('#benchmark-watermark').isVisible(),false);assert.equal(await page.locator('#benchmark-setup').count(),0);assert.equal(await page.locator('#benchmark-retry').count(),0);assert(!/upload|pairing|cloudflare/i.test(await page.locator('#benchmark-panel').innerText()));checks.push('local_controls_without_account_setup');
- await page.locator('[data-setting="quality"]').selectOption('low');await page.locator('#benchmark-toggle').check();await page.locator('[data-page="play"]').click();await page.locator('#deploy').click();await page.locator('#hud').waitFor({state:'visible',timeout:45000});await page.waitForTimeout(20000);assert(await page.locator('#benchmark-watermark').isVisible());assert((await page.locator('#benchmark-watermark').textContent()).includes('FPS'));await screenshot('benchmark-recording');checks.push('normal_gameplay_recording_watermark');
+ await page.locator('[data-setting="quality"]').selectOption('low');await page.locator('#benchmark-toggle').check();await page.locator('[data-page="play"]').click();await page.locator('#deploy').click();await page.locator('#hud').waitFor({state:'visible',timeout:45000});
+ if(inspectionInputCheck){
+  await page.keyboard.press('f');await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft>0);checks.push('keyboard_inspection_through_application_frame');
+  await page.keyboard.press('Space');await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft===0);checks.push('jump_cancels_live_inspection');
+  const swap=await page.locator('[data-action="swap"]').boundingBox(),slot=await page.evaluate(()=>window.__inspectionApp.game.player.slot),cdp=await context.newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:swap.x+swap.width/2,y:swap.y+swap.height/2,id:901}]});
+  await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft>0);
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  assert.equal(await page.evaluate(()=>window.__inspectionApp.game.player.slot),slot);checks.push('held_swap_inspects_without_switch_through_real_touch_input');
+  await page.locator('[data-action="fire"]').tap();await page.waitForFunction(()=>window.__inspectionApp.game.player.weapon.inspectLeft===0);checks.push('live_fire_cancels_inspection');
+  await cdp.detach();await screenshot('inspection-input-release'+release);
+ }
+ await page.waitForTimeout(20000);assert(await page.locator('#benchmark-watermark').isVisible());assert((await page.locator('#benchmark-watermark').textContent()).includes('FPS'));await screenshot('benchmark-recording');checks.push('normal_gameplay_recording_watermark');
  await page.locator('#pause-button').click();await page.getByRole('button',{name:'BENCHMARK OFF',exact:true}).click();await page.waitForTimeout(500);assert.equal(await page.locator('#benchmark-watermark').isVisible(),false);
  const reports=(await readRows()).filter(r=>r.key.startsWith('report:'));assert.equal(reports.length,2);const report=reports.find(r=>r.value.report.session.id!==legacy.session.id).value.report;validateReport(report);assert(report.raw.seen>10);assert(report.summary.steady.frame_time.count>0);assert.equal(report.session.kind,'gameplay');assert.equal(report.build.release,release);assert.equal(report.contexts[0].graphics.device_pixel_ratio,3);assert.equal(report.contexts[0].graphics.requested_quality,'low');checks.push('final_json_valid_actual_browser_frames');
  await page.getByRole('button',{name:'MAIN MENU',exact:true}).click();await page.locator('#settings-top').click();assert.equal(await page.locator('#benchmark-report').inputValue(),report.session.id);assert((await page.locator('#benchmark-status').textContent()).includes('Export JSON'));checks.push('saved_session_selected_for_export');
@@ -43,6 +62,6 @@ try{
  await page.locator('#settings-top').click();await page.locator('#benchmark-report').selectOption(legacy.session.id);await page.locator('#benchmark-remove').click();await page.getByRole('button',{name:'CANCEL',exact:true}).click();assert.equal((await readRows()).filter(r=>r.key.startsWith('report:')).length,3);checks.push('removal_requires_confirmation');
  assert.deepEqual(errors,[]);assert.deepEqual(externalRequests,[]);assert.deepEqual(writeRequests,[]);checks.push('no_page_errors_or_report_network_requests');await screenshot('benchmark-settings');
  assert.deepEqual(report.build,BENCHMARK_BUILD);
- const result={kind:'desktop_browser_validation',actual_iphone_data:false,build:report.build,browser:await browser.version(),renderer:'software WebGL / SwiftShader',viewport:{width:874,height:402,dpr:3},gamepad_hardware_backend_disabled:gamepadBackendDisabled,checks,errors,external_request_count:externalRequests.length,write_request_count:writeRequests.length,normal_session_frame_count:report.raw.seen,steady_frame_count:report.summary.steady.frame_time.count,normal_report_bytes:Buffer.byteLength(JSON.stringify(report)),json_download_verified:true};
+ const result={kind:'desktop_browser_validation',actual_iphone_data:false,build:report.build,browser:await browser.version(),renderer:'software WebGL / SwiftShader',viewport:{width:874,height:402,dpr:3},gamepad_hardware_backend_disabled:gamepadBackendDisabled,inspection_application_observation:inspectionInputCheck,checks,errors,external_request_count:externalRequests.length,write_request_count:writeRequests.length,normal_session_frame_count:report.raw.seen,steady_frame_count:report.summary.steady.frame_time.count,normal_report_bytes:Buffer.byteLength(JSON.stringify(report)),json_download_verified:true};
  await writeFile('docs/validation-release'+release+'-benchmark-browser.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }catch(e){await screenshot('benchmark-failure').catch(()=>{});console.error(JSON.stringify({checks,errors,failure:e.message}));throw e;}finally{await browser.close();server?.kill();}

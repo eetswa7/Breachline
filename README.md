@@ -1,6 +1,27 @@
 # BREACHLINE
 
-**Latest checkpoint: Release 60.** 30 weapons, 16 maps and 11 modes.
+**Latest checkpoint: Release 61.** 30 weapons, 16 maps and 11 modes.
+
+## Release 61: Blacksite construction, handling and character motion
+
+Blacksite now has an editable gabled industrial hall, metal upper-wall sheets,
+recessed ventilation and connected poured loading surfaces with slab joints and
+tyre wear. Its original collision, open windows, routes and objectives remain.
+Weapons have cancelable two-sided inspection, weighted firing recovery and turn
+inertia while retaining exact fully aimed alignment and gameplay recoil. Hold
+SWAP to inspect (tap switches), press F, or use controller D-pad down; Gun Game
+uses the same touch control for inspection. Combat actions cancel immediately.
+
+Operators use revised walk/run support cycles, blended crouch/aim transitions,
+landing compression and articulated hit/death poses with coherent gun/hand joins.
+The original sound bank adds dedicated penetration exits, cosmetic ricochet cues
+and surface-specific casing landings: 408 original takes with bounded playback.
+
+See [actual gameplay images, sound previews and validation](docs/ART_RELEASE61.md)
+and the updated [overhaul checklist](docs/OVERHAUL_CHECKLIST.md). This is a usable
+continuation checkpoint. Repeated materials, coarse weapons/characters, natural
+skeletal animation and the wider professional art target remain unfinished;
+physical iPhone performance and premium listening quality remain unverified.
 
 ## Release 60: environment and hero production overhaul
 
@@ -256,6 +277,7 @@ This is the **HTML / web-app implementation requested in the follow-up**, not a 
 | Fire and track target | Hold and drag AIM + FIRE (auto ADS) | Left mouse |
 | Aim down sights | AIM, tap or hold; drag to track | Right mouse |
 | Reload | Reload | R |
+| Inspect | Hold Swap (tap in Gun Game) | F |
 | Sprint | Push stick fully forward (automatic) | Left Shift |
 | Slide / crouch / jump | Tap JUMP; hold while moving fast to slide, or hold still to crouch | C while sprinting to slide / crouch · Space jump |
 | Switch primary / sidearm | Swap | Q |

@@ -504,4 +504,6 @@ def author_environment(api, helpers):
     sedan_far=[q for q in sedan if q not in wheels and max(q[2])>.1]
     sedan_far += [q for q in wheels if max(q[2])>.1]
     publish('vehicle_sedan',sedan,sedan_far)
+    from blacksite_models import author_blacksite
+    names += author_blacksite(api, helpers)
     return names

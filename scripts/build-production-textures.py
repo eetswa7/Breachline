@@ -7,9 +7,28 @@ from pathlib import Path
 from PIL import Image
 import concurrent.futures
 import json, math, struct, subprocess, tempfile, hashlib, os, sys
+from io import BytesIO
 
 root=Path('dist/assets/production');root.mkdir(parents=True,exist_ok=True)
 bakes=Path('dist/assets/blender');temporary=Path(tempfile.mkdtemp(prefix='breachline-astc-'))
+reuse_materials='--reuse-materials' in sys.argv
+previous=json.loads((root/'manifest.json').read_text()) if reuse_materials else {}
+source_hashes={name:hashlib.sha256((bakes/(name+'.png')).read_bytes()).hexdigest()
+               for name in ('surfaces-albedo','surfaces-normal','surfaces-orm','weapons-albedo','weapons-normal','weapons-orm')}
+if reuse_materials and previous.get('materialBakeSha256') and previous['materialBakeSha256']!=source_hashes:
+    raise RuntimeError('Material bakes changed: rebuild ASTC textures with astcenc instead of reusing them')
+part_records={record['path']:record for record in previous.get('files',[])}
+
+def original_parts(stem):
+    names=sorted(name for name in part_records if name.startswith(stem+'.part') and name.endswith('.bin'))
+    if not names:raise RuntimeError('Missing committed material container: '+stem)
+    blocks=[]
+    for name in names:
+        data=(root/name).read_bytes();record=part_records[name]
+        if len(data)!=record['bytes'] or hashlib.sha256(data).hexdigest()!=record['sha256']:
+            raise RuntimeError('Material container integrity failed: '+name)
+        blocks.append(data)
+    return b''.join(blocks)
 jobs=[]
 for bank,columns,count in [('surfaces',4,16),('weapons',2,4)]:
     atlases={suffix:Image.open(bakes/(bank+'-'+suffix+'.png')).convert('RGBA') for suffix in ('albedo','normal','orm')}
@@ -28,13 +47,25 @@ def encode(job):
     fallback.save(staging,format='WEBP',quality=94,method=6,lossless=suffix=='orm')
     with staging.open('rb') as file:os.fsync(file.fileno())
     with Image.open(staging) as check:check.load()
+    if reuse_materials:
+        # The original revision predates source-bake hashes. In that case the
+        # newly generated fallback must decode to the exact original pixels;
+        # lossy similarity is insufficient. Later builds also verify full-size
+        # native PNG hashes above. Any changed input rejects this reuse path.
+        original=Image.open(BytesIO(original_parts(name+'-webp'))).convert('RGBA')
+        current=Image.open(staging).convert('RGBA')
+        if current.size!=original.size or current.tobytes()!=original.tobytes():
+            raise RuntimeError('Material pixels changed; ASTC reuse rejected: '+name)
+        gpu=original_parts(name+'-astc')
+        if gpu[:4]!=b'BTX1':raise RuntimeError('Invalid original ASTC material: '+name)
+        (root/(name+'.btex')).write_bytes(gpu)
     staging.replace(destination)
     block=4 if suffix=='normal' else 6 if suffix=='albedo' else 8
     # Compressed WebGL uploads cannot flip Y. Match ordinary image textures
     # before encoding every mip, rather than changing metric UVs at runtime.
     tile=tile.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     mipmaps=[];size=tile.width
-    if '--fallback-only' in sys.argv:
+    if '--fallback-only' in sys.argv or reuse_materials:
         container=(root/(name+'.btex')).read_bytes();magic,width,height,saved_block,count,_=struct.unpack('<4sHHBBH',container[:12])
         if magic!=b'BTX1' or width!=tile.width or height!=width or saved_block!=block:raise RuntimeError('Stale ASTC texture')
         return {'name':name,'width':width,'block':block,'mips':count,'astcBytes':len(container),'fallbackBytes':destination.stat().st_size,'sha256':hashlib.sha256(container).hexdigest()}
@@ -62,5 +93,7 @@ for p in sorted(bakes.glob('lightmap-*.png')):
     staging=root/(p.stem+'.webp.tmp');Image.open(p).save(staging,format='WEBP',lossless=True,exact=True,method=6)
     with Image.open(staging) as check:check.load()
     staging.replace(root/(p.stem+'.webp'))
-(root/'manifest.json').write_text(json.dumps({'schema':1,'source':'Blender Cycles native bakes','textures':records,'astcGpuBytes':sum(r['astcBytes'] for r in records),'fallbackDownloadBytes':sum(r['fallbackBytes'] for r in records),'lightmaps':16,'lightmapEncoding':'linear RGBM range 6'},indent=2)+'\n')
+(root/'manifest.json').write_text(json.dumps({'schema':1,'source':'Blender Cycles native bakes',
+    'materialBakeSha256':source_hashes,'materialEncoding':'byte-exact retained ASTC; validated fallback pixels' if reuse_materials else 'fresh ASTC',
+    'textures':records,'astcGpuBytes':sum(r['astcBytes'] for r in records),'fallbackDownloadBytes':sum(r['fallbackBytes'] for r in records),'lightmaps':16,'lightmapEncoding':'linear RGBM range 6'},indent=2)+'\n')
 print('Production texture compression complete',len(records),flush=True)

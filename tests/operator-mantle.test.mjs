@@ -46,9 +46,9 @@ test('native carried rifles keep original joints and their mounted muzzle agrees
  const world=identity(),local=identity(),mounted=identity();
  for(const def of WEAPONS){
   a.weapons[0]=new Weapon(def.id,{optic:1,barrel:1});a.slot=0;a.yaw=.83;a.pitch=-.27;a.crouched=true;
-  a.animDuck=.5;a.weapon.sinceShot=10;actorModel(a,1);a.operatorSettle=0;
+  a.animDuck=.5;a.weapon.sinceShot=10;actorModel(a,1);
   const groups=nativeOperatorWeapon(a,assets,1),m=operatorWeaponMount(a),tip=muzzlePosition(a.weapon);
-  compose(world,a.x,a.y,a.z,1,1,1,-a.yaw);compose(local,m.x,m.y,m.z,1,1,1,0,m.pitch);multiply(mounted,world,local);
+  compose(world,a.x,a.y,a.z,1,1,1,-a.yaw);compose(local,m.x,m.y,m.z,1,1,1,m.yaw,m.pitch,m.roll);multiply(mounted,world,local);
   const actual={x:mounted[0]*tip.x+mounted[4]*tip.y+mounted[8]*tip.z+mounted[12],
    y:mounted[1]*tip.x+mounted[5]*tip.y+mounted[9]*tip.z+mounted[13],
    z:mounted[2]*tip.x+mounted[6]*tip.y+mounted[10]*tip.z+mounted[14]},expected=operatorMuzzle(a);

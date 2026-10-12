@@ -1,0 +1,180 @@
+{
+  "kind": "actual_shipped_renderer_gameplay_visual_evidence",
+  "actual_iphone_data": false,
+  "notes": "Fixed seed, camera, 1280x600 viewport and High software WebGL2. Captured during source integration; raw distributionDirty/build metadata is preserved. Images establish visible progress, not premium-art completion or physical performance.",
+  "images": [
+    {
+      "name": "blacksite-approach",
+      "after": "blacksite-approach.webp",
+      "capturedPngSha256": "dd464528ecd1c0d8f45911fddfbd4bad54409cbb83f20a9ad1fe649af3f8b1ce",
+      "webpSha256": "e9bed5863113c5ed4ea0cf62668f3281d30a3d430b1ed5df60ddfa6a1321383e",
+      "before": "before-blacksite-approach.webp",
+      "comparison": "comparison-blacksite-approach.webp"
+    },
+    {
+      "name": "blacksite-interior",
+      "after": "blacksite-interior.webp",
+      "capturedPngSha256": "7352480da736059fed58448ca70a837724cce02cfdd7a261a4fc0bc2910fad81",
+      "webpSha256": "3fc81ceb3d21a9b9f2082c6c0d56f6442df33af22e5135cb6d651673f6ac8e2f",
+      "before": "before-blacksite-interior.webp",
+      "comparison": "comparison-blacksite-interior.webp"
+    },
+    {
+      "name": "blacksite-oblique",
+      "after": "blacksite-oblique.webp",
+      "capturedPngSha256": "e6fdcc78306d2c1b295569fce22eecf05a72fc3084c3a6f12d69c3b4c571bede",
+      "webpSha256": "715367bd6c33386e5760dc321316674d6357e4c490e4a3a68c3031e909699742",
+      "before": "before-blacksite-oblique.webp",
+      "comparison": "comparison-blacksite-oblique.webp"
+    },
+    {
+      "name": "blacksite-services",
+      "after": "blacksite-services.webp",
+      "capturedPngSha256": "b2f0a4f3399e0797342af27d3e5c1decb8b8a35716d994e53004e9bb615bf369",
+      "webpSha256": "db61e674cc8d87da77b23164198dd35590334b77785be26c7aac7239b7c8f920",
+      "before": "before-blacksite-services.webp"
+    },
+    {
+      "name": "blacksite-yard",
+      "after": "blacksite-yard.webp",
+      "capturedPngSha256": "f8b77e0494eb74467d45b00bf86c936d528f7c4dc05e7bce9044dd65fc0f44e6",
+      "webpSha256": "d25503984ca8fc78ae6da1241dfa1f88602cb6fea4fd96e05f7ad7e2650b46dd",
+      "before": "before-blacksite-yard.webp"
+    },
+    {
+      "name": "combat",
+      "after": "combat.webp",
+      "capturedPngSha256": "e2e46447298337419ef1179df944d6363fd7f58147cbf645701defb163684a2d",
+      "webpSha256": "a99a7801de8f2c7832eb55514376b1379bdbe6608e224f22c95e1678e1f7f284",
+      "before": "before-combat.webp"
+    },
+    {
+      "name": "operator-close",
+      "after": "operator-close.webp",
+      "capturedPngSha256": "45cecd8eb3fda8c333fa4a996e2d42353219a6736a7eea0338f2c91e23ab6197",
+      "webpSha256": "40c733406b2d18cdd31f6cf8a8aca6f86526a8a592e4c369645565eafa4f8a08",
+      "before": "before-operator-close.webp",
+      "comparison": "comparison-operator-close.webp"
+    },
+    {
+      "name": "reload",
+      "after": "reload.webp",
+      "capturedPngSha256": "75cc4dfcdd68b9dccb1f96cb06f91b13fe1ff61deb62312340e6979fcd6940f4",
+      "webpSha256": "ea55973f74b34f2e9319c173bf5e3c85bab5a09d8eedd93caa888fcc95cdf311",
+      "before": "before-reload.webp"
+    },
+    {
+      "name": "weapon-close",
+      "after": "weapon-close.webp",
+      "capturedPngSha256": "7553505382f0d161b4fb3c3f48884de51ecf488228fa2a0b442197f9ebfaf08a",
+      "webpSha256": "4b4e18b15ecf0630d020174762a422247849f6fb8d3c7447ed1216c05ae72394",
+      "before": "before-weapon-close.webp",
+      "comparison": "comparison-weapon-close.webp"
+    },
+    {
+      "name": "blacksite-forecourt",
+      "after": "blacksite-forecourt.webp",
+      "capturedPngSha256": "37669fc98bb658c8867ec60a5cff51278b5ebf197675342c5bdf0839ad53877c",
+      "webpSha256": "81924bd794f5bed17e0a485093bb98caac90877ee04c935c7d3779510962d8fe",
+      "before": "before-blacksite-forecourt.webp",
+      "comparison": "comparison-blacksite-forecourt.webp"
+    },
+    {
+      "name": "map-0",
+      "after": "map-0.webp",
+      "capturedPngSha256": "d5e5f30eeb9551b293f532fc63280415876713f7d7307b5e68265cd45d019a54",
+      "webpSha256": "16e51e25e2abdd4ec5f3d21de743102f66a79512483278b4262224a9be5dae3b"
+    },
+    {
+      "name": "map-1",
+      "after": "map-1.webp",
+      "capturedPngSha256": "cc3608378cf4dea82bcae765a5040287f9067970d89c80af68ae142d50b305ff",
+      "webpSha256": "c2f89a567780288198546fd441406296924b77309c28529808d08f43bef70b52"
+    },
+    {
+      "name": "map-2",
+      "after": "map-2.webp",
+      "capturedPngSha256": "e31ca65d9bbf34faf8aa485f6bce8c9f9c212ea0e981ef54238c2270deb345a0",
+      "webpSha256": "d86ffd5c5bb949ee66fa675842ed8dc3a0c7520f010eb43c934c946e1711f2ab"
+    },
+    {
+      "name": "map-3",
+      "after": "map-3.webp",
+      "capturedPngSha256": "744f39c5876464634591b0496dd7bbc305b62fb975e661d7c3cf0c59f411f509",
+      "webpSha256": "eb6134365b62b4ec1d969ed61837f031feaa777a1208e52f04619a6f5b606aa7"
+    },
+    {
+      "name": "map-4",
+      "after": "map-4.webp",
+      "capturedPngSha256": "4ef9ce2e2cf9b5f556cd82de98d2bd0d60bf2d8bfbd819e9acab7551aaceaf87",
+      "webpSha256": "916637ab349cf650182e45f26111b3c5c842154552435e218fade02f5d1c8e51"
+    },
+    {
+      "name": "map-5",
+      "after": "map-5.webp",
+      "capturedPngSha256": "1f4397fa50dc2d78c0b74212ffa480f74f29c5114e167d4085616b661b03fd36",
+      "webpSha256": "556da06e29ea6efb7290f776addb786d713c38cbfdf959267a8ab1e412e38f3d"
+    },
+    {
+      "name": "map-6",
+      "after": "map-6.webp",
+      "capturedPngSha256": "007e0fc224b5a3ec064c25e4e28832509fe35cef3f0364564900905e37a6c1fc",
+      "webpSha256": "edf64cb2971a215e85f4fff1ed3b6476b74b5ea909cea3ba4ec99cadcc00e0ba"
+    },
+    {
+      "name": "map-7",
+      "after": "map-7.webp",
+      "capturedPngSha256": "03344ba6a65e5c5b2c33eb74a4feed154cc879b3479643601c28734cfa8ae048",
+      "webpSha256": "3ddeff6eae53e48c6ab4994ec491ba97f451cfdb421c2e5210a3b3b083948eb2"
+    },
+    {
+      "name": "map-8",
+      "after": "map-8.webp",
+      "capturedPngSha256": "670c77dd1b5eec6ed11a9bc08eefd726edf6b4b19c746f6fc2807d1251e5f710",
+      "webpSha256": "a7a99a46c241223723a1816a2c76b7123fbb4418b1ce147a5505f4568a477a7e"
+    },
+    {
+      "name": "map-9",
+      "after": "map-9.webp",
+      "capturedPngSha256": "49b623430992a608bfb73a1472dbb70d36f50496369f66265fec7e5b17e4ba23",
+      "webpSha256": "b13d65a14161ceb0814b04ef09c4824346d6a171d267d8fd47907c21ff76777a"
+    },
+    {
+      "name": "map-10",
+      "after": "map-10.webp",
+      "capturedPngSha256": "fd4fedfe6e40461de3b077216c63c047db8743eb65fb4a38ac76ea1dd7d03904",
+      "webpSha256": "807b793dd71ee0ba08d9f305166c3f86a0f63497be94dddbfe1e777eb5647dbd"
+    },
+    {
+      "name": "map-11",
+      "after": "map-11.webp",
+      "capturedPngSha256": "e0fd2a96c187f85798ff30926219c3effb90a3be35071c7c6f01af9315dc4113",
+      "webpSha256": "1cd78bf2bc9daf90bb6e22b6710311a8c073b70ff6d9389709a2d377424770ce"
+    },
+    {
+      "name": "map-12",
+      "after": "map-12.webp",
+      "capturedPngSha256": "38ea9eec80a89f950a6859cf9e89dfdc3b2b44c5a5c8d3ab0dd26878548f96d8",
+      "webpSha256": "85bb912db59a31f99de656d69860bf34611bd36960fd5207f23d4b77ecdca886"
+    },
+    {
+      "name": "map-13",
+      "after": "map-13.webp",
+      "capturedPngSha256": "ad59e82d09cdd6e37e9acfcc7084bc5d8ec483add01b96bc72f28b2d515f5216",
+      "webpSha256": "69ac612c8d55c7b2ad8042af8aedb7a99276a2f9edd9ec4a768c194c384ec8c5"
+    },
+    {
+      "name": "map-14",
+      "after": "map-14.webp",
+      "capturedPngSha256": "69b6945c40d1aaebc81e6cbfb85b407f4a13dfd4fe13d231bf87765e71c00cfe",
+      "webpSha256": "2cfba628f669e6f9e54a2a314b6f83d85d0b40dbae0bebbef0c6141178562b51"
+    },
+    {
+      "name": "map-15",
+      "after": "map-15.webp",
+      "capturedPngSha256": "4653391040e9ee541a302f5d6f531c8bad546a28974da29bbe5bce0e4abd9640",
+      "webpSha256": "38e1ca5d8f495c62e737d94cb8225f8727294aff0fc74f769e73d8c4c614897e"
+    }
+  ],
+  "mapSweep": "All 16 maps rendered without console errors or failed assets; menu camera views, not exhaustive map/combat acceptance."
+}

@@ -1,7 +1,7 @@
 // Presentation is built from the authoritative Arena. No art operation adds a
 // collider, changes a firing aperture, or moves an objective/navigation route.
 const industrialTag=/INDUSTRIAL|REFINERY|DOCKYARD|RAIL|TROPICAL/;
-const texturedMetal=new Set(['roof_truss','switchgear','vent','light_fixture','cooling_stack','cable_tray','pipe_rack','rooftop_hvac','duct_run','loading_shutter','drain_channel']);
+const texturedMetal=new Set(['roof_truss','switchgear','vent','light_fixture','cooling_stack','cable_tray','pipe_rack','rooftop_hvac','duct_run','loading_shutter','drain_channel','blacksite_hall_roof','blacksite_hall_cladding']);
 
 /** Recover the actual holes in a room wall at a requested height. Matching the
  * collider segments matters: Blacksite's open windows must never become glass,
@@ -117,8 +117,11 @@ export function productionWorld(arena,parts){
     // Near the roof edge, these change the silhouette from real player-height
     // approach cameras. Units buried at the middle of a flat roof are hidden.
     for(const sign of [-1,1]){
-     add(roof.x+sign*w*.34,roof.y+roof.h/2+.72,roof.z+d/2-1.8,3.0,1.44,2.0,'rooftop_hvac',{},roof);
-     add(roof.x+sign*w*.34,roof.y+roof.h/2+.23,roof.z+d/2-3.45,1.05,.46,2.0,'duct_run',{yaw:Math.PI/2},roof);
+     // Blacksite's units stand on the new roof slopes with a short supported
+     // duct connection. Other halls keep their original flat-roof mounts.
+     const support=id===14?.73:0;
+     add(roof.x+sign*w*.34,roof.y+roof.h/2+.72+support,roof.z+d/2-1.8,3.0,1.44,2.0,'rooftop_hvac',{},roof);
+     add(roof.x+sign*w*.34,roof.y+roof.h/2+.23+support,roof.z+d/2-3.45,1.05,.46,2.0,'duct_run',{yaw:Math.PI/2},roof);
     }
    }else add(roof.x-w*.25,roof.y+roof.h/2+.47,roof.z+d*.22,2.25,.94,1.55,'rooftop_hvac',{},roof);
   }
@@ -137,6 +140,19 @@ export function productionWorld(arena,parts){
    add(x,h*.5,z,3.4,h,3.4,'cooling_stack',{landscape:true});
  }
  if(id===14){
+  const hall=arena.blocks.find(p=>p.roof&&p.room&&p.x===0&&p.z===0);
+  if(hall){
+   // A purpose-built turbine-hall silhouette replaces the generic flat slab.
+   // The gable is visible from player height. Its entire envelope stays above
+   // the old roof; broad facade bands start above every firing aperture.
+   add(0,7.375,0,34.9,2.15,23.2,'blacksite_hall_roof',{productionRole:'turbine_hall_roof'},hall);
+   for(const axis of ['x','z'])for(const sign of [-1,1]){
+    const along=axis==='z'?34.28:22.16,edge=axis==='z'?11.135:17.135;
+    add(axis==='z'?0:sign*edge,4.60,axis==='z'?sign*edge:0,along,2.80,.19,
+     'blacksite_hall_cladding',{productionRole:'turbine_hall_cladding',
+      yaw:axis==='z'?(sign>0?Math.PI:0):(sign>0?-Math.PI/2:Math.PI/2)},hall);
+   }
+  }
   // Restricted facility service yards: broad coherent material areas make the
   // hall, elevated routes and container flanks read as one designed location.
   for(const sign of [-1,1]){
@@ -145,8 +161,10 @@ export function productionWorld(arena,parts){
    // A poured service forecourt and connected approach replace the uniform
    // asphalt foreground with a physically useful construction footprint. The
    // finish stays below the original contact-shadow/impact receiving height.
-   floor(0,sign*16.2,34,8.2,'concrete',{y:.029,color:[.90,.92,.88],productionRole:'service_apron'});
-   floor(0,sign*24,13.5,16,'concrete',{y:.029,color:[.83,.86,.82],productionRole:'service_approach'});
+   floor(0,sign*16.2,34,8.2,'concrete',{y:.029,blenderKind:'blacksite_service_apron',
+    blenderColour:true,yaw:sign>0?Math.PI:0,productionRole:'service_apron'});
+   floor(0,sign*26.1,13.5,11.8,'concrete',{y:.029,blenderKind:'blacksite_service_approach',
+    blenderColour:true,yaw:sign>0?Math.PI:0,productionRole:'service_approach'});
    for(const x of [-9.5,9.5])floor(x,sign*16.8,.14,5.8,'concrete',{
     y:.0305,surfaceLayer:4,color:[.74,.65,.38],productionRole:'painted_service_lane'});
    floor(0,sign*19.6,19.1,.14,'concrete',{

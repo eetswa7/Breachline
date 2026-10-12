@@ -28,6 +28,7 @@ const shots=[
  {name:'blacksite-interior',map:14,x:0,z:9,yaw:0,pitch:0},
  {name:'blacksite-yard',map:14,x:-31,z:25,yaw:-.12,pitch:0},
  {name:'blacksite-oblique',map:14,x:12,z:30,yaw:.40,pitch:-.015},
+ {name:'blacksite-forecourt',map:14,x:0,z:42,yaw:0,pitch:.02},
  {name:'blacksite-services',map:14,x:-5.5,z:8,yaw:-.95,pitch:0},
  {name:'weapon-close',map:14,x:0,z:27,yaw:0,pitch:0,weapon:1},
  {name:'operator-close',map:14,x:0,z:27,yaw:0,pitch:0,operator:true,actorX:-1.6,actorZ:22,operatorMotion:'stand'},
@@ -39,7 +40,9 @@ if(process.argv.includes('--all-weapons'))for(let weapon=0;weapon<30;weapon++)sh
 if(process.argv.includes('--weapon-sides'))for(let weapon=0;weapon<30;weapon++)shots.push({name:'weapon-side-'+weapon,map:14,menu:true,weapon});
 const results=[];
 try{
- const captureShots=process.argv.includes('--operators-only')?shots.filter(s=>s.operator):shots;
+ const selectedShot=process.argv.find(arg=>arg.startsWith('--shot='))?.slice(7);
+ const captureShots=selectedShot?shots.filter(s=>s.name===selectedShot):process.argv.includes('--maps-only')?shots.filter(s=>s.name.startsWith('map-')):process.argv.includes('--operators-only')?shots.filter(s=>s.operator):shots;
+ if(!captureShots.length)throw Error('No matching capture shots');
  for(const shot of captureShots){
   const stats=await page.evaluate(async shot=>{
    const {game,renderer,Game,Weapon}=window.art;

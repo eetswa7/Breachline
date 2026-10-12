@@ -12,7 +12,7 @@ test('every weapon inspection shows both sides and returns without changing its 
   const w=new Weapon(id),ammo=w.ammo,reserve=w.reserve,parts=inspectionPose(w),out={};
   assert.equal(parts.weight,0);assert(w.inspect());assert(!w.inspect(),'holding inspection cannot restart it');
   const duration=w.inspectTime;w.update(duration*.3);const first=inspectionPose(w,true,out);assert.equal(first,out);assert(first.weight>.99&&first.roll<-.5);
-  w.update(duration*.43);const second=inspectionPose(w);assert(second.weight>.99&&second.roll>.2);
+  w.update(duration*.43);const second=inspectionPose(w);assert(second.weight>.99&&second.roll>.5);assert(Math.abs(first.yaw+second.yaw)<1e-12);
   w.update(duration);assert.equal(w.inspectLeft,0);assert.deepEqual(inspectionPose(w),parts);
   assert.equal(w.ammo,ammo);assert.equal(w.reserve,reserve);assert.equal(w.reloadLeft,0);assert.equal(w.shotSerial,0);
   w.inspect();w.reset();assert.equal(w.inspectLeft,0);
@@ -23,7 +23,7 @@ test('inspection freezes during pause, declines during reload and cancels immedi
  const g=game(),p=g.player,w=p.weapon;
  g.update(1/60,{...emptyInput(),inspect:true});assert(w.inspectLeft>0);const left=w.inspectLeft;
  g.paused=true;g.update(1/30);assert.equal(w.inspectLeft,left);g.paused=false;
- for(const action of ['fire','ads','reload','swap','grenade','melee','interact']){
+ for(const action of ['fire','ads','reload','swap','grenade','melee','interact','jump','crouch']){
   const fresh=game(),wp=fresh.player.weapon;wp.ammo--;assert(wp.inspect());fresh.update(1/60,{...emptyInput(),[action]:true,firePressed:action==='fire'});assert.equal(wp.inspectLeft,0,action);
  }
  for(const state of ['sprinting','vault']){

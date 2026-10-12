@@ -1,0 +1,27 @@
+{
+  "scope": "Native full-detail static Blacksite assembly; scene counts, not physical device performance",
+  "actual_iphone_data": false,
+  "nativeSourceSha256": "704aac1727e7cc7896aa27dd7fb093dccc1cdbcb018551777a10a53d389ab3c2",
+  "productionInstances": 127,
+  "activeWorldBatches": 211,
+  "worldTriangles": 372014,
+  "newAssets": {
+    "blacksite_hall_roof": {
+      "near": 692,
+      "far": 188
+    },
+    "blacksite_hall_cladding": {
+      "near": 1028,
+      "far": 552
+    },
+    "blacksite_service_apron": {
+      "near": 283,
+      "far": 283
+    },
+    "blacksite_service_approach": {
+      "near": 289,
+      "far": 289
+    }
+  },
+  "reusedMaterialEncoding": "byte-exact retained ASTC; validated fallback pixels"
+}

@@ -82,10 +82,14 @@ test('operator sections are closed, outward, smooth and keep limb triangle cost 
 
 test('operator locomotion follows strafing and reverse travel while preserving the simulation pose',()=>{
  const g=course(),a=g.player;a.id=1;const x=a.x,y=a.y,z=a.z,yaw=a.yaw,pitch=a.pitch;
- actorModel(a,0);a.vx=3;a.animSpeed=3;a.stride=0;let p=actorModel(a,0);
+ actorModel(a,0);a.vx=3;
+ for(let frame=1;frame<=60;frame++)actorModel(a,frame/60);
+ a.stride=0;let p=actorModel(a,1);
  assert(Math.abs(p[4].x-a.renderBase[4].x)>.15);assert(Math.abs(p[4].z-a.renderBase[4].z)<1e-9);
- a.vx=0;a.vz=-3;p=actorModel(a,0);const forward=p[4].z-a.renderBase[4].z;
- a.vz=3;p=actorModel(a,0);assert(Math.abs(p[4].z-a.renderBase[4].z+forward)<1e-9);
- a.grounded=false;a.vy=6;p=actorModel(a,0);assert(p[4].y>.18&&p[5].y>.18);
+ a.vx=0;a.vz=-3;for(let frame=61;frame<=120;frame++)actorModel(a,frame/60);
+ a.stride=0;p=actorModel(a,2);const forward=p[4].z-a.renderBase[4].z;assert(forward<-.25);
+ a.vz=3;for(let frame=121;frame<=180;frame++)actorModel(a,frame/60);
+ a.stride=0;p=actorModel(a,3);assert(Math.abs(p[4].z-a.renderBase[4].z+forward)<.00001);
+ a.grounded=false;a.vy=6;p=actorModel(a,3);assert(p[4].y>.18&&p[5].y>.18);
  assert.deepEqual([a.x,a.y,a.z,a.yaw,a.pitch],[x,y,z,yaw,pitch]);
 });

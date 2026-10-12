@@ -11,7 +11,7 @@ import numpy as np
 from mathutils import Vector
 
 
-def bake_levels(scene,out,levels,preview,maps):
+def bake_levels(scene,out,levels,preview,maps,selected_maps=None):
     preview.hide_render=True
     old_samples=scene.cycles.samples;scene.cycles.samples=32
     scene.cycles.max_bounces=4;scene.cycles.diffuse_bounces=3
@@ -27,6 +27,7 @@ def bake_levels(scene,out,levels,preview,maps):
     sun_data=bpy.data.lights.new('Baked sunlight','SUN');sun_data.angle=.11
     sun=bpy.data.objects.new('Baked sunlight',sun_data);lights.objects.link(sun)
     for info,collection in zip(maps,levels.children):
+        if selected_maps is not None and info['id'] not in selected_maps:continue
         size=info['size'];collection.hide_viewport=False;collection.hide_render=False
         overcast=info['weather'] in ('overcast','rain')
         background.inputs['Color'].default_value=(*info['sky'],1)

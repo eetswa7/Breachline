@@ -42,6 +42,15 @@ and static level geometry have not changed. A full build is required for materia
 or lighting changes. `restore_bakes.py` recovers images through atomic writes;
 source and runtime segments carry length and integrity metadata.
 
+Material-preserving geometry iterations verify the freshly cropped fallback
+pixels against committed material containers, then retain the exact existing
+ASTC payloads. New production manifests also record the complete native material
+PNG hashes; a changed source or fallback rejects reuse. This path needs no ASTC
+encoder and still produces new lighting maps. For a change confined to one map,
+`npm run assets:blender -- --reuse-bakes --rebake-maps=14` rebakes Blacksite GI
+and retains the other fifteen packed Cycles images. Use that selective option
+only when those other maps' static geometry, materials and lighting are unchanged.
+
 ## Art and texture production
 
 The kit includes native bevels, Boolean receiver pockets and handguard vents,

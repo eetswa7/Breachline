@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Application} from '../dist/js/main.js';
 import {FramePacer} from '../dist/js/frame-pacer.js';
-import {emptyInput} from '../dist/js/engine.js';
+import {Game,emptyInput} from '../dist/js/engine.js';
 import {Weapon,defaultLoadout} from '../dist/js/weapons.js';
 
 function environment(){
@@ -66,6 +66,54 @@ test('the application keeps its 60 Hz simulation and single-use input edges at e
    for(let i=0;i<refresh*5;i++)app.frame(1000+i*1000/refresh);
    assert(Math.abs(steps-300)<=2,`${refresh} Hz / ${cap} FPS: ${steps} simulation steps`);assert.equal(jumps,1);assert(Math.abs(look-1)<.01);
    assert(Math.abs(renders-cap*5)<=1);
+  }
+ }finally{env.restore();}
+});
+
+
+function inspectionApplication(cap){
+ const {app}=fixture(),game=new Game({map:14},{seed:619}),p=game.player;
+ game.actors=[p];p.reset({x:0,y:0,z:27},0);game.rules.time=999;game.events=[];
+ app.playing=true;app.isTouch=false;app.store.data.settings.frameRate=cap;app.game=game;
+ app.input.controller={poll(){},connected:false,lost:false,edges:[]};
+ app.renderer.render=()=>true;app.renderer.recordFrame=()=>{};
+ const delivered=[],update=game.update.bind(game);let requests=0,samples=0;
+ const inspect=p.weapon.inspect.bind(p.weapon);p.weapon.inspect=()=>{requests++;return inspect();};
+ game.update=(dt,input)=>{delivered.push({...input});update(dt,input);};
+ app.input.sample=()=>({...emptyInput(),inspect:++samples===2});
+ return {app,game,delivered,requests:()=>requests};
+}
+
+test('application frame forwarding delivers an inspection edge once at either cap and it completes normally',()=>{
+ const env=environment();try{
+  globalThis.requestAnimationFrame=()=>0;
+  for(const refresh of [60,90,120])for(const cap of [30,60]){
+   const {app,game,delivered,requests}=inspectionApplication(cap);
+   for(let frame=0;frame<refresh*5;frame++)app.frame(1000+frame*1000/refresh);
+   assert.equal(delivered.filter(input=>input.inspect).length,1,`${refresh} Hz / ${cap} FPS must forward inspection once`);
+   assert.equal(requests(),1,'the real weapon inspection must start through Application.frame');
+   assert.equal(game.player.weapon.inspectLeft,0,'the inspection must finish without an edge replay');
+   assert.equal(game.player.weapon.ammo,game.player.weapon.capacity);
+  }
+ }finally{env.restore();}
+});
+
+test('application pending inspection survives frames without a simulation step and clears after first catch-up step',()=>{
+ const env=environment();try{
+  globalThis.requestAnimationFrame=()=>0;
+  for(const cap of [30,60]){
+   const {app,game,delivered,requests}=inspectionApplication(cap);
+   // Accept short displayed frames deliberately to exercise the accumulator's
+   // pending-edge path, independently of the selected rendering deadline.
+   app.framePacer={reset(){},accept:()=>true};
+   app.frame(1000);assert.equal(delivered.length,1);
+   app.frame(1004);app.frame(1008);assert.equal(delivered.length,1);
+   assert.equal(app.pending.inspect,true,'inspection must remain queued before a simulation tick');
+   app.frame(1080);assert(delivered.length>=5,'a long frame must catch up several simulation ticks');
+   assert.equal(delivered.filter(input=>input.inspect).length,1);assert.equal(requests(),1);assert(game.player.weapon.inspectLeft>0);
+   assert.equal(app.pending.inspect,false,'the first catch-up step must consume the edge');
+   app.frame(1147);assert.equal(delivered.filter(input=>input.inspect).length,1);
+   app.pending.inspect=true;app.pause();assert.equal(app.pending.inspect,false,'pause must clear a queued inspection');
   }
  }finally{env.restore();}
 });
