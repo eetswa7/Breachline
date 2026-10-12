@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=63';
-import {Navigation} from './navigation.js?v=63';
-import {SpawnDirector} from './spawns.js?v=63';
-import {MatchRules} from './modes.js?v=63';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=63';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=63';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=63';
-import {traceBullet} from './ballistics.js?v=63';
-import {beginVault,advanceVault} from './traversal.js?v=63';
-import {ejectCasing,updateCasings} from './casing-foley.js?v=63';
+import {Arena,MAPS} from './maps.js?v=64';
+import {Navigation} from './navigation.js?v=64';
+import {SpawnDirector} from './spawns.js?v=64';
+import {MatchRules} from './modes.js?v=64';
+import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=64';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=64';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=64';
+import {traceBullet} from './ballistics.js?v=64';
+import {beginVault,advanceVault} from './traversal.js?v=64';
+import {ejectCasing,updateCasings} from './casing-foley.js?v=64';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -68,7 +68,7 @@ export class Game {
   for(const a of this.actors){
    if(a.dead){if(this.rules.respawns){a.respawnLeft-=dt;if(a.respawnLeft<=0)this.spawn(a);}continue;}
    a.spawnProtection=Math.max(0,a.spawnProtection-dt);a.switchLeft=Math.max(0,a.switchLeft-dt);a.knifeCooldown=Math.max(0,a.knifeCooldown-dt);a.flashed=Math.max(0,a.flashed-dt);a.hitReact*=Math.exp(-dt*14);a.visualKick*=Math.exp(-dt*17);a.landKick*=Math.exp(-dt*9);
-   for(const w of a.weapons)if(w.update(dt)&&a.id===0)this.emit('reloadDone',{weapon:w.def.id});
+   for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)}):undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
    if(this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
   }
   if(!p.dead){
@@ -93,7 +93,7 @@ export class Game {
    if(interruptInspection)p.weapon.cancelInspection();
    else if(input.inspect&&p.ads<.12&&p.weapon.sinceShot>.2)p.weapon.inspect();
    if(input.reload&&p.weapon.reload())this.emit('reload',{source:0,weapon:p.weapon.def.id});
-   if(input.swap&&this.rules.mode.id!=='gun'){p.weapon.reloadLeft=0;p.weapon.burstRemaining=0;p.slot=1-p.slot;p.switchLeft=.32;this.emit('switch');}
+   if(input.swap&&this.rules.mode.id!=='gun'){this.emit('weaponFoleyCancel',{source:p.id,weapon:p.weapon.def.id});p.weapon.reloadLeft=0;p.weapon.burstRemaining=0;p.slot=1-p.slot;p.switchLeft=.32;this.emit('switch',{source:p.id,weapon:p.weapon.def.id});}
    if(input.autoReload&&p.weapon.ammo===0&&!p.weapon.reloadLeft&&p.weapon.reserve>0){if(p.weapon.reload())this.emit('reload',{source:0,weapon:p.weapon.def.id});}
    if((p.weapon.burstRemaining>0||input.fire&&(p.weapon.def.automatic||input.firePressed||input.repeatFire))&&!p.sprinting&&!p.vault)this.shoot(p,false);
    if(input.grenade)this.throwGrenade(p);
@@ -109,7 +109,7 @@ export class Game {
  shoot(a,bot=false){
   const w=a.weapon,d=w.def;if(a.dead||this.rules.phase!=='playing'||this.paused||a.switchLeft>0||w.cooldown>0)return false;
   if(d.id===12)return this.melee(a);
-  if(w.reloadLeft>0){if(d.shellReload&&w.ammo>0)w.reloadLeft=0;else return false;}
+  if(w.reloadLeft>0){if(d.shellReload&&w.ammo>0){w.reloadLeft=0;this.emit('weaponFoleyCancel',{source:a.id,weapon:d.id});}else return false;}
   if(w.ammo<=0){w.cooldown=.22;if(a.id===0)this.emit('empty');w.reload();return false;}
   if(d.burst){if(!w.burstRemaining)w.burstRemaining=d.burst;w.burstRemaining--;}
   w.cooldown=d.burst&&!w.burstRemaining?.28:d.interval;if(!(a.id===0&&this.debug.ammo))w.ammo--;a.spawnProtection=0;
@@ -149,12 +149,12 @@ export class Game {
   victim.health-=amount;victim.hitReact=Math.min(.16,(victim.hitReact??0)+amount/600);victim.lastDamage=this.time;
   if(victim.id===0){this.damageYaw=killer?Math.atan2(killer.x-victim.x,-(killer.z-victim.z)):victim.yaw;this.emit('hurt',{value:amount,angle:this.damageYaw});}
   if(victim.health>0)return;
-  victim.health=0;this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;this.rules.onDeath(victim,this);
+  victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;this.rules.onDeath(victim,this);
   if(victim.id===0)this.lastKiller=killer?.name??'FALL';
   if(killer&&killer.id!==victim.id){killer.kills++;killer.streak++;killer.bestStreak=Math.max(killer.bestStreak,killer.streak);
    if(killer.id===0){this.weaponKills[killer.weapon.def.id]=(this.weaponKills[killer.weapon.def.id]??0)+1;if(headshot)this.headshots++;}
    const weapon=killer.weapon.def.name;
-   if(this.rules.mode.id==='gun'){killer.gunStage++;if(killer.gunStage<GUN_ORDER.length){killer.weapons[0]=new Weapon(GUN_ORDER[killer.gunStage]);killer.slot=0;killer.switchLeft=.28;}}
+   if(this.rules.mode.id==='gun'){killer.gunStage++;if(killer.gunStage<GUN_ORDER.length){this.emit('weaponFoleyCancel',{source:killer.id,weapon:killer.weapons[0].def.id});killer.weapons[0]=new Weapon(GUN_ORDER[killer.gunStage]);killer.slot=0;killer.switchLeft=.28;}}
    this.rules.onKill(killer,victim,this);this.emit('kill',{source:killer.id,target:victim.id,text:`${killer.name}  ›  ${victim.name}`,weapon,headshot,streak:killer.streak,position:{x:victim.x,y:victim.y,z:victim.z}});
    for(const ally of this.actors)if(this.rules.mode.teams&&ally.id!==victim.id&&!ally.dead&&ally.team===victim.team&&distance(ally,victim)<12){ally.lastKnown={x:killer.x,y:killer.y,z:killer.z};ally.memory=5;ally.pathClock=0;}
   }else this.emit('kill',{source:-1,target:victim.id,text:`${victim.name}  ·  ${killer?'SELF DAMAGE':'FALL'}`,position:{x:victim.x,y:victim.y,z:victim.z}});
@@ -182,7 +182,7 @@ export class Game {
    for(const a of this.actors){const d=distance(a,g);if(a.dead||d>18||!this.arena.visible({...g,y:g.y+.2},this.eye(a)))continue;const facing=direction(a.yaw,a.pitch),eye=this.eye(a),dot=(facing.x*(g.x-eye.x)+facing.y*(g.y-eye.y)+facing.z*(g.z-eye.z))/(d||1);a.flashed=(dot>.15?3.5:.7)*(1-d/22);}
    this.emit('flash',{position:{...g}});return;
   }
-  this.emit('explosion',{position:{x:g.x,y:g.y,z:g.z},value:radius});const owner=this.actors.find(a=>a.id===g.owner)??null;
+  this.emit('explosion',{position:{x:g.x,y:g.y,z:g.z},value:radius,environmentalFire:!!g.breakable});const owner=this.actors.find(a=>a.id===g.owner)??null;
   for(const a of this.actors){let d=Math.hypot(a.x-g.x,a.y+.8-g.y,a.z-g.z);if(a.dead||d>radius)continue;if(!this.arena.visible({...g,y:g.y+.2},{x:a.x,y:a.y+.8,z:a.z}))continue;this.damage(a,damage*(1-d/radius),owner,false);}
  }
  spawnBot(){if(this.actors.length>=Math.max(12,this.teamSize*2))return;const id=this.actors.length,a=new Actor(id,1,id%6);this.actors.push(a);this.spawn(a);}

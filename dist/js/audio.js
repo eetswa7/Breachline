@@ -1,8 +1,18 @@
-import {WEAPONS} from './weapons.js?v=63';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=63';
+import {WEAPONS} from './weapons.js?v=64';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=64';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+// Regions reuse original recorded contacts/friction in the loaded bank. Native
+// buffer views are not copied, so every component cue shares the same PCM.
+const FOLEY={
+ release:{key:'reload',region:[.095,.145],volume:.43},extract:{key:'reload',region:[.16,.225],volume:.5},
+ handling:{key:'reload',region:[.50,.58],volume:.42},insert:{key:'reload',region:[.59,.65],volume:.44},
+ seat:{key:'seat',volume:.52},open:{key:'rack',region:[0,.27],volume:.49},close:{key:'rack',region:[.35,.83],volume:.57},
+ coverOpen:{key:'reload',region:[.095,.145],volume:.52},feed:{key:'reload',region:[.38,.59],volume:.46},
+ coverClose:{key:'reload',region:[.81,.91],volume:.58},chamberLoad:{key:'reload',region:[.33,.41],volume:.5},
+ cylinderClose:{key:'reload',region:[.77,.87],volume:.58},retrieve:{key:'reload',region:[0,.18],volume:.5}
+};
 const SHOTS=[
  [91,19,.32,1430],[69,12,.49,1020],[118,27,.24,1770],
  [137,37,.19,2180],[122,30,.25,1890],[52,9,.61,670],
@@ -14,7 +24,7 @@ const SHOTS=[
 ];
 function randomStream(seed){let n=seed>>>0;return()=>{n^=n<<13;n^=n>>>17;n^=n<<5;return(n>>>0)/2147483648-1;};}
 export class AudioSystem {
- constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.voicePriority=new WeakMap();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
+ constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.voicePriority=new WeakMap();this.voiceGroup=new WeakMap();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
  async start(){try{
   if(!this.context){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;this.context=new C({latencyHint:'interactive'});this.master=this.context.createGain();this.master.gain.value=this.settings.volume;if(this.context.createDynamicsCompressor){this.limiter=this.context.createDynamicsCompressor();this.limiter.threshold.value=-7;this.limiter.knee.value=5;this.limiter.ratio.value=5;this.limiter.attack.value=.003;this.limiter.release.value=.12;this.master.connect(this.limiter);this.limiter.connect(this.context.destination);}else this.master.connect(this.context.destination);this.build();this.makeRoom();}
   if(this.context.state==='suspended')await this.context.resume();this.muted=false;
@@ -43,15 +53,18 @@ export class AudioSystem {
     const close=(WEAPONS[id].shellReload||WEAPONS[id].kind==='SNIPER')&&t>.47?(low*1.6+Math.sin((t-.47)*7300)*.13)*Math.exp(-(t-.47)*72)*.17:0;
     return crack+pressure+blast+mech+shell+open+close;
    },7133+id*811);
-   const reload=WEAPONS[id].reload||.3;
-   synth(`reload${id}`,Math.max(.3,reload*.84),(t,n,low)=>{
-    const phase=t/reload,extract=phase>.13?(n-low)*Math.exp(-(phase-.13)*reload*65)*.21:0;
-    const handling=(n*.024+low*.15)*Math.sin(Math.min(1,phase/.85)*Math.PI);
-    const seat=phase>.69?(low*1.35+Math.sin((phase-.69)*reload*(1280+id*31))*.08)*Math.exp(-(phase-.69)*reload*61):0;
-    return WEAPONS[id].shellReload?(n*.1+low*.3)*Math.exp(-t*24):extract+handling+seat;
+   const reload=Math.max(.3,(WEAPONS[id].reload||.3)*.84);
+   synth(`reload${id}`,reload,(t,n,low)=>{
+    const contact=(at,weight)=>{const u=t-at;return u>=0?((n-low)*.6+low*1.3+Math.sin(u*(1280+id*31))*.10)*Math.exp(-u*88)*weight:0;};
+    if(WEAPONS[id].shellReload)return contact(.02,.16)+contact(.20,.23);
+    const friction=(at,span)=>{const u=t-at;return u>=0&&u<span?(n*.025+low*.14)*Math.sin(u/span*Math.PI):0;};
+    let sound=contact(reload*.105,.14)+contact(reload*.18,.22)+contact(reload*.61,.14)+contact(reload*.72,.29)+friction(reload*.19,.065)+friction(reload*.52,.13);
+    if(WEAPONS[id].kind==='LMG')sound+=contact(reload*.40,.18)+friction(reload*.49,reload*.1)+contact(reload*.85,.24);
+    if(WEAPONS[id].revolver)sound+=friction(reload*.36,.08)+contact(reload*.81,.2);
+    return sound;
    },1013+id*13);
    synth(`seat${id}`,.11,(t,n,low)=>low*Math.exp(-t*49)*.31+(n-low)*Math.exp(-t*95)*.065,931+id*37);
-   synth(`rack${id}`,.15,(t,n,low)=>(n-low)*Math.exp(-t*61)*.16+Math.sin(t*mechanical*3.14159)*Math.exp(-t*100)*.09,712+id*91);
+   synth(`rack${id}`,.15,(t,n,low)=>{const u=t*(.28/.15),contact=at=>u>=at?((n-low)*.16+Math.sin((u-at)*mechanical*3.14159)*.09)*Math.exp(-(u-at)*100):0;return contact(.008)+contact(.105)*1.3;},712+id*91);
   });
   synth('stepHard',.17,(t,n,low)=>low*Math.exp(-t*32)*.9+Math.sin(t*730)*Math.exp(-t*55)*.16);
   synth('stepGravel',.20,(t,n,low)=>(n*.12+low*.58)*Math.exp(-t*24)+Math.sin(t*520)*Math.exp(-t*48)*.065);
@@ -103,7 +116,7 @@ export class AudioSystem {
   }
   this.room=this.rooms.get('room').node;this.roomGain=this.rooms.get('room').gain;
  }
- play(key,{volume=1,pan=0,rate=1,indoor=false,distance=0,important=false,occluded=false}={}){
+ play(key,{volume=1,pan=0,rate=1,indoor=false,distance=0,important=false,occluded=false,region,group}={}){
   const c=this.context;if(!c||this.muted||c.state!=='running'||volume<.006)return;
   // Reserve ambient capacity and replace its oldest tail when a player shot
   // or hit cue needs the last voice. Cleanup remains idempotent on native end.
@@ -120,20 +133,26 @@ export class AudioSystem {
   if((distance>14||occluded)&&c.createBiquadFilter){filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=occluded?Math.max(600,1600/(1+distance*.018)):Math.max(1200,10500/(1+distance*.045));filter.Q.value=.45;source.connect(filter);filter.connect(gain);}else source.connect(gain);
   if(c.createStereoPanner){panner=c.createStereoPanner();panner.pan.value=clamp(pan,-1,1);gain.connect(panner);panner.connect(this.master);}else gain.connect(this.master);
   if(indoor&&this.room)gain.connect(this.rooms?.get(indoor==='hall'?'hall':'room')?.node??this.room);
-  this.voices++;this.active.add(source);this.voicePriority.set(source,important);let ended=false;
+  this.voices++;this.active.add(source);this.voicePriority.set(source,important);if(group)this.voiceGroup.set(source,group);let ended=false;
   source.onended=()=>{if(ended)return;ended=true;this.voices=Math.max(0,this.voices-1);this.active.delete(source);source.disconnect();gain.disconnect();filter?.disconnect();panner?.disconnect();};
-  source.start();
+  if(region&&Number.isFinite(buffer.duration)&&buffer.duration>0){
+   const offset=clamp(region[0],0,.995)*buffer.duration,duration=Math.max(.001,(clamp(region[1],region[0]+.001,1)*buffer.duration)-offset),seconds=duration/source.playbackRate.value,now=c.currentTime??0;
+   // Short edge ramps keep the selected transient intact without slicing clicks.
+   if(gain.gain.setValueAtTime&&gain.gain.linearRampToValueAtTime){const level=gain.gain.value;gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(level,now+Math.min(.002,seconds*.1));gain.gain.setValueAtTime(level,now+Math.max(.002,seconds-.006));gain.gain.linearRampToValueAtTime(0,now+seconds);}
+   source.start(0,offset,duration);
+  }else source.start();
  }
+ stopFoley(source,weapon){const group=source===undefined?null:`foley:${source}:${weapon}`;for(const voice of this.active){const tag=this.voiceGroup.get(voice);if(tag&&(group===null||tag===group)){try{voice.stop();}catch{}voice.onended?.();}}}
  haptic(ms){if(!this.settings.haptics||!navigator.vibrate)return;const now=performance.now();if(now-this.hapticAt<70)return;this.hapticAt=now;navigator.vibrate(ms);}
  events(events,game){
-  if(this.master)this.master.gain.value=this.settings.volume;let impacts=0,ballistic=0,cases=0;
+  if(this.master)this.master.gain.value=this.settings.volume;let impacts=0,ballistic=0,cases=0,foley=0;
   for(const e of events){
    const dx=e.position?e.position.x-game.player.x:0,dy=e.position?e.position.y-game.player.y:0,dz=e.position?e.position.z-game.player.z:0;
    const d=Math.hypot(dx,dy,dz),own=e.source===0;
-   const spatial=['shot','step','land','impact','ricochet','penetration','casing','explosion'].includes(e.type);
+   const spatial=['shot','step','land','impact','ricochet','penetration','casing','explosion','weaponFoley'].includes(e.type);
    // A local muzzle/boot stays immediate; the player's distant bullet contacts
    // still travel from their struck surface and pass through intervening cover.
-   const localSource=own&&['shot','step','land'].includes(e.type);
+   const localSource=own&&['shot','step','land','weaponFoley'].includes(e.type);
    const occluded=!!(!localSource&&spatial&&e.position&&d>2&&d<80&&game.arena.visible?.({x:game.player.x,y:game.player.y+1.55,z:game.player.z},{x:e.position.x,y:e.position.y+(e.type==='step'?1.1:.08),z:e.position.z})===false);
    const volume=(localSource||!e.position?1:clamp(1/(1+d*d*.004)-.015,0,.85))*(occluded?.48:1);
    const pan=e.position?Math.sin(Math.atan2(dx,-dz)-game.player.yaw):0;
@@ -145,9 +164,14 @@ export class AudioSystem {
     case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room});}break;
     case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play('casing'+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:e.shell?.77:.97+Math.random()*.06,distance:d,occluded,indoor:room});}break;
     case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room});if(d<14)this.haptic(30);break;
-    case 'reload':{const w=game.player.weapon,id=e.weapon??w.def.id;this.play(`reload${id}`,{volume:.7,rate:(WEAPONS[id].reload||.3)/Math.max(.1,w.reloadTime),indoor:roomAcoustics(game.arena,game.player)});break;}
-    case 'reloadDone':{const w=game.player.weapon,id=e.weapon??w.def.id;this.play(`${w.reloadStartedEmpty&&!w.def.shellReload?'rack':'seat'}${id}`,{volume:.55,indoor:roomAcoustics(game.arena,game.player)});this.haptic(9);break;}
-    case 'empty':case 'switch':this.play('click',{volume:.7});break;
+    case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){this.play(cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region,group:`foley:${e.source}:${e.weapon}`});}break;}
+    case 'weaponFoleyCancel':this.stopFoley(e.source,e.weapon);break;
+    case 'round':this.stopFoley();break;
+    // Finished reloads retain their haptic; seating/charging sounds already
+    // occurred at the real component contact and must not replay at ammo refill.
+    case 'reloadDone':if(own||e.source===undefined)this.haptic(9);break;
+    case 'switch':{const id=e.weapon??game.player.weapon.def.id;this.play(id===12?'whoosh':'reload'+id,{volume:.4,important:true,indoor:roomAcoustics(game.arena,game.player),region:id===12?[.12,.65]:FOLEY.handling.region,group:`foley:0:${id}`});break;}
+    case 'empty':this.play('click',{volume:.7,important:true});break;
     case 'hit':this.play('hit',{volume:e.headshot?1.1:.8,important:true});break;
     case 'kill':if(own)this.play('kill',{volume:.8,important:true});break;
     case 'hurt':this.play('hurt',{volume:.7,important:true});this.haptic(15);break;

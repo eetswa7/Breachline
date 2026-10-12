@@ -320,8 +320,12 @@ mandatory implementations.
   Renderer, materials, scene complexity and asset limitations were assessed.
 - [x] **Complete:** More efficient WebGL2 rendering. Batching, LOD, upload
   scheduling and shader preparation improved.
-- [ ] **Partial:** Consider/use WebGPU where practical. WebGL2 was retained; no
-  comparative WebGPU prototype or benchmark was completed.
+- [x] **Complete:** Consider/use WebGPU where practical. The optional backend
+  choice was evaluated against the actual GLSL/material, texture, profiler and
+  fallback dependencies. Retaining WebGL2 avoids an unproven migration while
+  asset production continues. This completes consideration, not a WebGPU port
+  or performance comparison. Completed 2026-10-13;
+  [decision and acceptance requirements](WEBGPU_DECISION64.md).
 - [x] **Complete:** Improved physically based shading. Material routing,
   reflectance, colour-space handling and baked-light response improved.
 - [ ] **Partial:** Better shadow/lighting techniques. Baked lighting improved;
@@ -554,3 +558,4 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-12 | Completed native visual acceptance of inspection and revised firing motion; implemented reviewed rigid-rig walk/run, crouch/aim and state blending. Advanced Blacksite architecture/ground treatment and hit/death poses while keeping broader art/animation requirements partial. All sixteen maps rendered; final validation is in the Release 61 report. | `20b987517c8c2d1685f301e509ad790d3c1b05ae`; [Release 61 evidence and remaining limits](ART_RELEASE61.md), [Blacksite](BLACKSITE61.md), [weapon motion](WEAPON_MOTION61.md), [character motion](CHARACTER_MOTION61.md). |
 | 2026-10-12 | Finished the requested 20 vs 20 rosters on Crossfire District and Blacksite; preserved smaller-map and Gun Game rosters. All 36 focused regressions and twelve full-roster native crowd fixtures passed. No art requirement newly completed; physical-device performance remains unverified. | `84e958af795113e0ce407dc111e3e54367aaf8b7`; [Release 62 roster evidence](ROSTERS62.md). |
 | 2026-10-12 | Rebuilt native receiver/stock/glove forms and first-person component-aware reload choreography. Reviewed 26 motion and 36 reload frames, including exact baseline comparisons. Corrected offline caching for the larger library; retained all thirty rigs, attachments and 40-player rosters. Updated the relevant partial explanations without claiming professional realism, anatomical grasp or physical-device performance. | `c51316ca2f4c07bf2a81f5c53ee5aced70b1322f`, `2884259ef473b2e7e0a635002982cb2329d34a98`, `325fd9e57182485a2ee8e4be725ccc483f454db3`; [Release 63 evidence and costs](ART_RELEASE63.md). |
+| 2026-10-13 | Completed the optional WebGPU consideration with an explicit source-based backend decision and future acceptance criteria. Retained the validated renderer; no WebGPU implementation or physical performance gain is claimed. | [WebGPU decision](WEBGPU_DECISION64.md); runtime/effect checkpoint follows. |
