@@ -6,7 +6,7 @@ maps retain 4 vs 4 and Gun Game retains its eight-player free-for-all roster.
 The authored home starts remain available; the existing connected spawn-pocket
 director separates the additional players and selects safe respawns.
 
-Validation on 13 October 2026:
+Validation on 12 October 2026 (UTC):
 
 - All 36 focused roster, attachment, Frontline, objective-mode and spawn tests
   passed, including all eight team modes on both large maps.

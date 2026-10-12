@@ -1,9 +1,11 @@
 // Actual native gameplay frames and temporal viewmodel validation. Chromium
 // SwiftShader is a visual/functionality gate, never an iPhone performance claim.
 import {createRequire} from 'node:module';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {spawn,execFileSync} from 'node:child_process';
 const require=createRequire(import.meta.url),{chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/playwright');
+const release=/const RELEASE='(\d+)'/.exec(await readFile('dist/js/boot.js','utf8'))[1],stage=process.argv[2]??`motion${release}`;
+if(!/^[a-z\d-]+$/i.test(stage))throw Error('Invalid capture stage');
 const origin=process.env.ART_TEST_ORIGIN??'http://127.0.0.1:4186';
 const server=process.env.ART_TEST_ORIGIN?null:spawn(process.execPath,['scripts/preview.mjs','--port','4186'],{stdio:['ignore','pipe','pipe']});
 if(server)await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('preview ready'))resolve();});server.on('error',reject);});
@@ -25,13 +27,13 @@ try{
   window.motion.step=(frames=1,input=emptyInput())=>{for(let frame=0;frame<frames;frame++){game.update(1/120,input);renderer.prepareWeapon(game,844/390,false);}};
  });
  console.log('Native renderer initialized');
- await mkdir('test-results/motion61',{recursive:true});
+ await mkdir(`test-results/${stage}`,{recursive:true});
  async function capture(name){
   const sample=await page.evaluate(name=>{
    const {game:g,renderer:r}=window.motion,p=g.player,w=p.weapon;r.shadowClock=1;r.render(g,1/120,false);
    return {name,weapon:w.def.name,id:w.def.id,time:g.time,inspectLeft:w.inspectLeft,ammo:w.ammo,shotSerial:w.shotSerial,pose:{...r.weaponPoseState},draws:r.drawCalls,triangles:r.triangles,nativeWeaponGroups:r.blenderWeaponGroups?.length??0,nativeHandGroups:r.blenderHandGroups?.length??0,loaded:r.loaded};
   },name);
-  await page.screenshot({path:`test-results/motion61/${name}.png`,timeout:120000});captures.push(sample);console.log(name,JSON.stringify(sample.pose));return sample;
+  await page.screenshot({path:`test-results/${stage}/${name}.png`,timeout:120000});captures.push(sample);console.log(name,JSON.stringify(sample.pose));return sample;
  }
  for(const id of [0,10,12,9]){
   await page.evaluate(id=>{const m=window.motion,p=m.reset(id);m.game.update(1/120,{...m.emptyInput(),inspect:true});},id);
@@ -60,7 +62,7 @@ try{
  validation.adsAlignment=ads.every(s=>s.pose.x===0&&s.pose.yaw===0&&s.pose.pitch===0&&s.pose.roll===0&&Math.abs(s.pose.y+.169)<1e-12);
  validation.nativePresentation=captures.every(s=>s.loaded&&s.nativeWeaponGroups>0&&s.nativeHandGroups>0);
  const report={kind:'software_WebGL_native_weapon_temporal_validation',actual_iphone_data:false,capturedAt:new Date().toISOString(),sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),distributionDirty:!!execFileSync('git',['status','--porcelain','--','dist'],{encoding:'utf8'}).trim(),viewport:{width:844,height:390},errors,requestFailures,validation,captures};
- await writeFile('docs/validation-weapon-motion61-browser.json',JSON.stringify(report,null,2)+'\n');
+ await writeFile(`docs/validation-weapon-${stage}-browser.json`,JSON.stringify(report,null,2)+'\n');
  if(errors.length||requestFailures.length||Object.entries(validation).some(([k,v])=>typeof v==='boolean'&&!v))throw Error(JSON.stringify({errors,requestFailures,validation}));
  console.log(JSON.stringify(validation));
 }finally{await browser?.close();server?.kill();}

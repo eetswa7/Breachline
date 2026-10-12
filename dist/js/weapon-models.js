@@ -438,6 +438,7 @@ export function weaponModel(w){
  // Give textured finishes the same small material palette on every weapon.
  for(const q of p)if(q.finishTile!==undefined)q.finishTile=Math.round(q.finishTile);
  for(let i=0;i<p.length;i++){const q=p[i];if(q.tag){q.baseX=q.x;q.baseY=q.y;q.baseZ=q.z;q.baseYaw=q.yaw;q.basePitch=q.pitch;q.baseRoll=q.roll;p.animated.push(i);}}
+ p.reloadRig=reloadRig(p);
  return p;
 }
 export function muzzlePosition(w){
@@ -445,34 +446,112 @@ export function muzzlePosition(w){
  return {x:0,y:w.def.kind==='PISTOL'?.03:.06,z:profile.barrel-(w.barrel===1?.146:w.barrel===3?.16:w.barrel===6?.10:w.barrel===2||w.barrel===5?.052:.02)};
 }
 function smooth(a,b,t){t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t);}
+
+// Native meshes weld each tag around its first member. Keep the fallback pieces
+// under that same rigid transform, including fingers and the complete sleeve.
+// Joint references and neutral rotations are cached only when constructing a rig.
+function movingGroup(parts,tag){
+ const members=[];let anchor=-1;
+ for(let i=0;i<parts.length;i++)if(parts[i].tag===tag){
+  const q=parts[i],cy=Math.cos(q.baseYaw),sy=Math.sin(q.baseYaw),cp=Math.cos(q.basePitch),sp=Math.sin(q.basePitch),cr=Math.cos(q.baseRoll),sr=Math.sin(q.baseRoll);
+  if(anchor<0)anchor=i;
+  members.push({index:i,rotation:[cy*cr+sy*sp*sr,-cy*sr+sy*sp*cr,sy*cp,cp*sr,cp*cr,-sp,-sy*cr+cy*sp*sr,sy*sr+cy*sp*cr,cy*cp]});
+ }
+ return anchor<0?null:{anchor,members};
+}
+function reloadRig(parts){
+ const hand=movingGroup(parts,parts.some(q=>q.tag==='pumpHand')?'pumpHand':'supportHand');
+ const magazine=movingGroup(parts,'magazine'),shell=movingGroup(parts,'loadShell'),cylinder=movingGroup(parts,'cylinder'),bolt=movingGroup(parts,'bolt'),slide=movingGroup(parts,'slide');
+ let action=-1,largest=0;
+ const actionTag=slide?'slide':'bolt';
+ for(let i=0;i<parts.length;i++)if(parts[i].tag===actionTag){const q=parts[i],volume=q.w*q.h*q.d;if(volume>largest){largest=volume;action=i;}}
+ return {hand,magazine,shell,cylinder,bolt,slide,action,lid:parts.findIndex(q=>q.tag==='lid'),belt:parts.findIndex(q=>q.tag==='belt'),contact:{x:0,y:0,z:0,roll:0,weight:0,phase:0,operation:'ready'}};
+}
+function moveRigid(parts,group,x,y,z,roll=0){
+ if(!group)return;
+ const anchor=parts[group.anchor],c=Math.cos(roll),s=Math.sin(roll);
+ for(const member of group.members){
+  const q=parts[member.index],dx=q.baseX-anchor.baseX,dy=q.baseY-anchor.baseY;
+  q.x=x+c*dx-s*dy;q.y=y+s*dx+c*dy;q.z=z+q.baseZ-anchor.baseZ;
+  if(!roll){q.yaw=q.baseYaw;q.pitch=q.basePitch;q.roll=q.baseRoll;continue;}
+  const b=member.rotation,r02=c*b[2]-s*b[5],r10=s*b[0]+c*b[3],r11=s*b[1]+c*b[4],r12=s*b[2]+c*b[5];
+  q.pitch=Math.asin(Math.max(-1,Math.min(1,-r12)));
+  if(Math.abs(r12)<.9999999){q.yaw=Math.atan2(r02,b[8]);q.roll=Math.atan2(r10,r11);}
+  else{q.yaw=Math.atan2(-b[6],c*b[0]-s*b[3]);q.roll=0;}
+ }
+}
+function reloadHand(parts,w,r,reloading,magRoll){
+ const rig=parts.reloadRig,contact=rig.contact;if(!rig.hand)return;
+ const hand=parts[rig.hand.anchor];contact.phase=r;contact.weight=0;contact.operation='ready';
+ contact.x=hand.baseX;contact.y=hand.baseY;contact.z=hand.baseZ;contact.roll=0;
+ if(!reloading)return;
+ const shell=w.def.shellReload,empty=w.reloadStartedEmpty!==false;
+ const reach=smooth(.015,.16,r)*(1-smooth(empty&&!shell&&!w.def.revolver?.94:.78,.995,r));
+ let x=hand.baseX,y=hand.baseY,z=hand.baseZ,roll=0,operation='reach';
+ if(rig.shell){
+  const q=parts[rig.shell.anchor];x=q.x-.023;y=q.y-.017;z=q.z+.014;roll=-.26;operation='shell';
+ }else if(rig.cylinder&&w.def.revolver){
+  const q=parts[rig.cylinder.anchor];x=q.x-.03;y=q.y+.004;z=q.z+.065;roll=.35;operation='cylinder';
+ }else if(rig.magazine){
+  const q=parts[rig.magazine.anchor],top=w.def.id===4;
+  const ox=-q.w*.5-.009,oy=top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(magRoll),s=Math.sin(magRoll);
+  x=q.x+c*ox-s*oy;y=q.y+s*ox+c*oy;z=q.z+oz;roll=-.35+magRoll;operation='magazine';
+ }
+ // Open the feed cover before taking the belt box, then close it after seating.
+ if(rig.lid>=0){
+  const lid=parts[rig.lid],open=(1-smooth(.20,.29,r)),close=smooth(.68,.75,r)*(1-smooth(.79,.84,r)),cover=Math.max(open,close);
+  x+=(lid.x-lid.w*.5-.011-x)*cover;y+=(lid.y+.024-y)*cover;z+=(lid.z+.045-z)*cover;roll+=(.18-roll)*cover;
+  if(cover>.5)operation='lid';
+ }
+ // A tactical reload leaves the closed action alone. Empty reloads finish at
+ // the selected charging handle or pistol slide, rather than in free space.
+ if(empty&&!shell&&!w.def.revolver&&rig.action>=0){
+  const q=parts[rig.action],rack=smooth(.76,.84,r),pistol=!!rig.slide;
+  const ax=q.x+(pistol?-.042:q.x<0?-.026:.026),ay=q.y+(pistol?.026:.007),az=q.z+.014;
+  x+=(ax-x)*rack;y+=(ay-y)*rack;z+=(az-z)*rack;roll+=((pistol?-.6:-.8)-roll)*rack;
+  if(rack>.5)operation=pistol?'slide':'bolt';
+ }
+ contact.x=x;contact.y=y;contact.z=z;contact.roll=roll;contact.weight=reach;contact.operation=operation;
+ moveRigid(parts,rig.hand,hand.baseX+(x-hand.baseX)*reach,hand.baseY+(y-hand.baseY)*reach,hand.baseZ+(z-hand.baseZ)*reach,roll*reach);
+}
 export function animateWeaponParts(parts,w,p,time){
+ const rig=parts.reloadRig;
  const reloading=w.reloadLeft>0,r=reloading?Math.max(0,Math.min(1,1-w.reloadLeft/w.reloadTime)):0;
  const shot=Math.max(0,w.sinceShot),slide=Math.max(0,1-shot/.075),boltOpen=smooth(.08,.18,shot)*(1-smooth(.42,.6,shot));
  const pump=smooth(.075,.22,shot)*(1-smooth(.38,.56,shot));
- const magDrop=reloading?smooth(.10,.28,r)*(1-smooth(.65,.83,r)):0;
- const leftReach=reloading?Math.sin(Math.PI*smooth(.07,.9,r)):0;
+ const covered=rig.lid>=0,magDrop=reloading?smooth(covered?.29:.18,covered?.43:.34,r)*(1-smooth(.58,.74,r)):0;
+ const leftReach=reloading?smooth(.08,.24,r)*(1-smooth(.74,.9,r)):0;
  const boltReload=reloading&&w.reloadStartedEmpty!==false?smooth(.82,.88,r)*(1-smooth(.9,.98,r)):0;
  const lid=reloading?smooth(.08,.24,r)*(1-smooth(.77,.93,r)):0;
- const emptySlide=w.ammo===0&&(!reloading||r<.87)?1:0;
+ const emptySlide=w.ammo===0?(reloading?1-smooth(.90,.96,r):1):0;
  for(const index of parts.animated){const q=parts[index];q.x=q.baseX;q.y=q.baseY;q.z=q.baseZ;q.yaw=q.baseYaw;q.pitch=q.basePitch;q.roll=q.baseRoll;
   switch(q.tag){
    case 'slide':q.z+=Math.max(slide,emptySlide)*.035;break;
    case 'bolt':q.z+=(w.def.kind==='SNIPER'||w.def.id===7?boltOpen*.068:slide*.026)+boltReload*.04;if(w.def.kind==='SNIPER'||w.def.id===7)q.roll-=(boltOpen+boltReload)*.68;break;
-   case 'pump':case 'pumpHand':q.z+=pump*.079;if(reloading&&q.tag==='pumpHand'){q.x-=leftReach*.035;q.y-=leftReach*.095;q.z+=leftReach*.27;q.roll-=leftReach*.5;}break;
+   case 'pump':case 'pumpHand':q.z+=pump*.079;break;
    case 'magazine':
     if(w.def.id===4){q.y+=magDrop*.155;q.x-=magDrop*.07;q.roll+=magDrop*.16;}
     else{q.y-=magDrop*(w.def.id===9?.23:.29);q.x-=magDrop*.045;q.z+=magDrop*.035;q.roll-=magDrop*.22;}
     break;
    case 'belt':q.y-=lid*.07;q.x-=magDrop*.09;break;
    case 'lid':{const angle=lid*1.10;q.pitch-=angle;q.y+=Math.sin(angle)*.145;q.z+=.145*(1-Math.cos(angle));break;}
-   case 'supportHand':
-    if(w.def.id===4){q.y+=leftReach*.16;q.x-=leftReach*.08;q.z+=leftReach*.09;q.roll+=leftReach*.5;}
-    else{q.y-=leftReach*.15;q.x-=leftReach*.05;q.z+=leftReach*(w.def.kind==='PISTOL'?.04:.23);q.roll-=leftReach*.5;}
-    break;
-   case 'loadShell':q.hidden=!reloading||r<.08||r>.87;q.x-=leftReach*.045;q.y-=leftReach*.035;q.z+=leftReach*.08;break;
+   case 'loadShell':q.hidden=!reloading||r<.08||r>.78;break;
    case 'hammer':q.pitch-=slide*.5;break;
    case 'cylinder':q.roll+=((w.capacity??6)-(w.ammo??6))*Math.PI/3;q.x-=leftReach*.07;q.y-=leftReach*.012;break;
   }
  }
+ const magRoll=magDrop*(w.def.id===4?.16:-.22);
+ if(rig.magazine&&magDrop){const q=parts[rig.magazine.anchor];moveRigid(parts,rig.magazine,q.x,q.y,q.z,magRoll);}
+ // Cycled actions use the same tag pivot in the native and compatibility paths.
+ if(rig.bolt&&(boltOpen||boltReload)&&(w.def.kind==='SNIPER'||w.def.id===7)){const q=parts[rig.bolt.anchor];moveRigid(parts,rig.bolt,q.x,q.y,q.z,-(boltOpen+boltReload)*.68);}
+ if(rig.shell&&reloading){
+  const q=parts[rig.shell.anchor],retrieve=1-smooth(.16,.38,r),feed=smooth(.40,.68,r);
+  moveRigid(parts,rig.shell,q.baseX-.045*retrieve-q.baseX*feed,q.baseY-.085*retrieve+.068*feed,q.baseZ+.08*retrieve-.031*feed);
+ }
+ if(rig.cylinder){
+  const q=parts[rig.cylinder.anchor],open=reloading?smooth(.10,.26,r)*(1-smooth(.74,.89,r)):0,turn=((w.capacity??6)-(w.ammo??6))*Math.PI/3;
+  if(open||turn)moveRigid(parts,rig.cylinder,q.baseX-open*.09,q.baseY-open*.012,q.baseZ+open*.008,turn);
+ }
+ reloadHand(parts,w,r,reloading,magRoll);
  return parts;
 }

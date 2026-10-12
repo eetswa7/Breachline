@@ -308,9 +308,9 @@ from art_geometry import author_shared,hero_part
 manifest['props']=author_shared(globals())
 from production_assets import author_production
 manifest['props']+=author_production(globals())
-from hero_models import author_heroes
+from hero_models import author_heroes,weapon_finish
 manifest['props']+=author_heroes(globals())
-manifest['artRevision']=5
+manifest['artRevision']=6
 manifest['authorship']='Original Blender mesh authoring and native Cycles colour/normal/physical bakes'
 
 
@@ -329,10 +329,27 @@ for weapon in INPUT['weapons']:
         vertices=[];triangles=[];colours=[];physical=[]
         for p in parts:
             authored_hand_colors=None;authored_hand_physical=None
+            finish_colours=None;finish_physical=None
             key='cylinder' if p.get('mesh')=='cylinder' else 'tube' if p.get('mesh')=='tube' else 'sphere' if p.get('mesh')=='sphere' else 'flat' if p.get('mesh')=='cube' else 'box'
             designed=hero_part(p,BASE,weapon)
             if section=='hands':
-                hand_kind=('sleeve_z' if p['d']>p['h'] else 'forearm') if p.get('tile')==9 and max(p['d'],p['h'])>.15 else 'palm' if p.get('mesh')=='sphere' and p['w']>.055 and p['h']>.06 and p['d']>.055 else 'finger' if p.get('mesh')=='sphere' and p['w']<.035 else None
+                hand_kind=None
+                if p.get('tile')==9 and max(p['d'],p['h'])>.15:
+                    hand_kind='sleeve_z' if p['d']>p['h'] else 'sleeve_y'
+                elif p.get('mesh')=='sphere':
+                    if p['w']>.055 and p['h']>.06 and p['d']>.055:hand_kind='palm'
+                    elif p['w']<.035:hand_kind='thumb' if p['h']>.055 else 'finger'
+                elif p.get('mesh')=='cube' and p.get('tile')==9 and p['w']<.03:
+                    # The continuous palm now owns the rounded knuckle pads.
+                    # Retain covered legacy members, without duplicate cubes.
+                    designed=([],[])
+                elif p.get('tile')==9 and p['w']>.08 and max(p['h'],p['d'])<.035:
+                    # The sewn native cuff owns this former straight overlay.
+                    designed=([],[])
+                elif p['w']>.08 and p['h']<.04 and p['d']>.07:
+                    hand_kind='cuff'
+                elif p['w']>.05 and p['h']<.028 and p['d']>.04:
+                    hand_kind='glove_band'
                 if hand_kind:
                     mesh=mesh_assets[hand_kind+'__near'].data;mesh.calc_loop_triangles()
                     designed=([conversion.inverted()@v.co for v in mesh.vertices],[tuple(t.vertices) for t in mesh.loop_triangles])
@@ -347,7 +364,10 @@ for weapon in INPUT['weapons']:
                             if rm:
                                 q=rm.data[loop.index].uv
                                 authored_hand_physical[loop.vertex_index]=(q.x,1-q.y)
-            v,t=designed or BASE[key];matrix=Matrix([p['matrix'][i:i+4] for i in range(0,16,4)]).transposed()
+            v,t=designed or BASE[key]
+            if section=='groups' and designed:
+                v,t,finish_colours,finish_physical=weapon_finish(p,(v,t),weapon)
+            matrix=Matrix([p['matrix'][i:i+4] for i in range(0,16,4)]).transposed()
             start=len(vertices);vertices.extend(matrix@(q if designed else manufactured_vertex(q,p,key)) for q in v)
             triangles.extend(tuple(i+start for i in tri) for tri in t)
             colour=p.get('color',(.2,.2,.2))
@@ -356,9 +376,10 @@ for weapon in INPUT['weapons']:
             else:
                 colour=tuple(.07+.93*x for x in colour)
             tint=tuple(linear(x) for x in colour)
-            colours.extend([tuple(x*y for x,y in zip(c,tint)) for c in authored_hand_colors] if authored_hand_colors else [tint]*len(v))
+            authored_colours=authored_hand_colors if authored_hand_colors is not None else finish_colours
+            colours.extend([tuple(min(1,x*y) for x,y in zip(c,tint)) for c in authored_colours] if authored_colours is not None else [tint]*len(v))
             coated=p.get('metal',0)>.45 and max(p.get('color',(1,1,1)))<.21
-            physical.extend(authored_hand_physical or [(p.get('rough',.6),.24 if coated else p.get('metal',0))]*len(v))
+            physical.extend(authored_hand_physical or finish_physical or [(p.get('rough',.6),.24 if coated else p.get('metal',0))]*len(v))
         ao=cavity(vertices,triangles,.18)
         local=[inverse@p for p in vertices]
         colours=[tuple(x*ao[i] for x in c) for i,c in enumerate(colours)]
