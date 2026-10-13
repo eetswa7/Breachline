@@ -303,8 +303,13 @@ as documented in the baseline JSON and validation report.
   lifted dust rim. Release 65 [native grenade frames and lifecycle evidence](ART_RELEASE65.md)
   verify visible expansion, expiry and pause/reset handling. Professional
   temporal effect quality remains open.
-- [ ] **Partial:** Smoke grenades and atmospheric smoke. Existing smoke gained
-  revised shading/rotation; no complete temporal acceptance review.
+- [ ] **Partial:** Smoke grenades and atmospheric smoke. Release 66 adds a
+  grounded expanding plume, bounded rolling lobes and advected density on the
+  existing instanced draw. Fourteen native lifecycle/visibility gates and actual
+  temporal gameplay images verify birth, expansion, concealment, fade, expiry,
+  pause and reset. Mature clouds remain smooth billboard fog; atmospheric and
+  professional effect quality remain open. Updated 2026-10-13 at `1f1a87f`;
+  [matched frames, costs and scope](SMOKE66.md).
 - [ ] **Partial:** Fire and environmental effects. Weather/ambient effects
   improved; authored fuel barrels now leave upright flames and smoke for twelve
   seconds with bounded quality/range scaling. [Native barrel aftermath](ART_RELEASE65.md)
@@ -591,3 +596,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-13 | Finished native review of Release 64 shock/fire/glass and component reload foley. Repaired unreachable inset facade glass with authoritative-owner contacts, then added bounded HRTF elevation/front-back audio, centred local cues and cached foley-onset trimming for Release 65. Updated partial explanations with actual gameplay images, native PCM/cleanup evidence and listening reels. No professional art, premium subjective audio or physical iPhone requirement newly completed. | Shader checkpoint `e3c3f6e`; native glass repair `1314646`; [integrated Release 65 evidence](ART_RELEASE65.md), [spatial audio](SPATIAL_AUDIO65.md), [final validation](validation-release65.json). |
 
 | 2026-10-13 | Completed bounded casing-audio coverage with original polymer-hull families and actual retained revolver case extraction/landings. Reduced correlated ground/masonry texture motifs while keeping broader art requirements partial. Native case/hull timelines, 44.1/48 kHz bank bounds, matched Blacksite material images, 35 focused checkpoint regressions, 58 shader variants and the isolated 84-module offline source check passed. | `a3eb9db`; [casing evidence](CASING_AUDIO66.md), [material evidence and remaining costs](WORLD_MATERIALS66.md). |
+
+| 2026-10-13 | Advanced smoke-grenade expansion, rolling cloud motion and density; reviewed fourteen actual native temporal/lifecycle gates and matched outdoor/inside frames. Existing AI visibility, capacity, expiry, collision, draw/pool/texture counts remain. Professional smoke quality stays partial; 29 focused root regressions and the isolated 84-module offline source check passed. | `1f1a87f`; [smoke gameplay evidence and costs](SMOKE66.md). |
