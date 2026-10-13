@@ -40,9 +40,9 @@ export class GlassDamageSystem {
  shot(event){
   const start=event.position,end=event.end;
   if(!start||!end||![start.x,start.y,start.z,end.x,end.y,end.z].every(Number.isFinite))return [];
-  // A rendered bullet segment ends at its real authoritative hit. No fracture
-  // can be recorded beyond cover or in an unglazed combat aperture.
-  const contacts=this.index.trace(start,end);
+  // Direct contacts follow the actual segment. Inset native facade contacts
+  // additionally require the exact authoritative stopped collider as owner.
+  const contacts=this.index.trace(start,end,event.stoppedBlock);
   for(const hit of contacts.slice(0,4))this.damage(hit);
   return contacts;
  }
