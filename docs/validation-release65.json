@@ -1,0 +1,186 @@
+{
+  "kind": "integrated_release65_software_validation",
+  "actual_iphone_data": false,
+  "capturedAt": "2026-10-13T03:31:34.874Z",
+  "build": {
+    "release": "65",
+    "commit": "e75eeed313dd04ad1d2b0b8851a06c73c38463b8",
+    "source_commit": "e75eeed313dd04ad1d2b0b8851a06c73c38463b8",
+    "content_sha256": "bdd7f07f44b64c247c6469c8ea86d0cf9d3b189367763b7d050ce1239c2b225d",
+    "commit_resolution": "source_commit"
+  },
+  "sourceCheckpoints": {
+    "shaders": "e3c3f6ecfa78a5766f711ebaddce5af396343915",
+    "glass": "1314646bcd4032cddf9d0f2fff4e110fd5ca18c0",
+    "release65": "e75eeed313dd04ad1d2b0b8851a06c73c38463b8",
+    "manifest": "bb095df941e6c1a21a451e102060377991766263"
+  },
+  "regressions": {
+    "tests": 384,
+    "passed": 384,
+    "failed": 0,
+    "duration_ms": 269745.416252
+  },
+  "distributionCheck": {
+    "modules": 83,
+    "passed": true,
+    "fingerprintVerified": true,
+    "browserRuntimeHashesVerified": true
+  },
+  "nativeEffects": {
+    "passed": 25,
+    "captures": 18,
+    "errors": [],
+    "requestFailures": [],
+    "legalGroundedCameraPlacement": true,
+    "gameplayPreservation": true
+  },
+  "componentAudio": {
+    "reloadCases": 58,
+    "generatedEvents": 367,
+    "nativeRegions": 191,
+    "maxDecodedSampleOnsetMs": 2.0181405895691613,
+    "onsetAmplitudeThreshold": 0.0001,
+    "prewarmedFoleyBuffers": 60,
+    "sharedBuffers": true,
+    "originalTailsPreserved": true,
+    "pauseCleanup": {
+      "contextState": "suspended",
+      "remainingVoices": 0,
+      "remainingSources": 0
+    }
+  },
+  "spatialAudio": {
+    "nativePlayback": {
+      "ambientVoices": 16,
+      "maximumVoices": 24,
+      "worldPanners": 24,
+      "localStereoPanners": 1,
+      "localMuzzleCentered": true,
+      "manualDistanceRolloffPreserved": true,
+      "emptyBatchListener": {
+        "position": [
+          5,
+          1.5499999523162842,
+          -2
+        ],
+        "forward": [
+          -0.592494547367096,
+          -0.4168708026409149,
+          -0.6893249750137329
+        ],
+        "up": [
+          -0.2717304527759552,
+          0.9089657664299011,
+          -0.3161389231681824
+        ]
+      },
+      "priorityReplacement": true,
+      "pauseCleanup": {
+        "contextState": "suspended",
+        "remainingVoices": 0,
+        "remainingSources": 0,
+        "nodesDisconnected": true
+      }
+    },
+    "distinctions": [
+      {
+        "a": "front",
+        "b": "back",
+        "correlation": 0.7931919454280336,
+        "normalizedRmsDifference": 0.6431299317742355
+      },
+      {
+        "a": "above",
+        "b": "below",
+        "correlation": 0.9199755889307,
+        "normalizedRmsDifference": 0.4000610230184891
+      },
+      {
+        "a": "left",
+        "b": "right",
+        "correlation": 0.05177036959756449,
+        "normalizedRmsDifference": 1.37711991518708
+      }
+    ],
+    "rotationEquivalence": [
+      {
+        "a": "front_after_half_turn",
+        "b": "back",
+        "correlation": 1,
+        "normalizedRmsDifference": 0
+      },
+      {
+        "a": "front_after_right_turn",
+        "b": "left",
+        "correlation": 1,
+        "normalizedRmsDifference": 0
+      },
+      {
+        "a": "front_while_looking_up",
+        "b": "below",
+        "correlation": 1,
+        "normalizedRmsDifference": 0
+      }
+    ]
+  },
+  "shaderCheck": {
+    "variants": 52,
+    "passed": 52
+  },
+  "application": {
+    "checks": [
+      "release_65_boot",
+      "legacy_measurements_preserved_obsolete_setup_removed",
+      "local_controls_without_account_setup",
+      "keyboard_inspection_through_application_frame",
+      "jump_cancels_live_inspection",
+      "held_swap_inspects_without_switch_through_real_touch_input",
+      "live_fire_cancels_inspection",
+      "normal_gameplay_recording_watermark",
+      "final_json_valid_actual_browser_frames",
+      "saved_session_selected_for_export",
+      "actual_json_download_preserves_saved_copy",
+      "saved_reports_survive_reload",
+      "offline_boot_and_json_download",
+      "scripted_test_isolated_cancelled_and_restored",
+      "removal_requires_confirmation",
+      "no_page_errors_or_report_network_requests"
+    ],
+    "errors": [],
+    "externalRequests": 0,
+    "reportWriteRequests": 0,
+    "offlineBootAndJsonExportVerified": true,
+    "containerGamepadBackendDisabled": true
+  },
+  "preserved": [
+    "16 maps",
+    "30 weapons and attachment contracts",
+    "11 modes",
+    "40-player large-map team rosters",
+    "ballistics, collision, AI, progression and controls",
+    "offline assets",
+    "Benchmark recording, saved reports, manual JSON export and stress cancellation",
+    "editable Blender source",
+    "release57-baseline at 454a5a26a8418fa8db1d3cc1ec197f7e56c56415"
+  ],
+  "evidence": [
+    "validation-effects64-browser.json",
+    "art-release64/manifest.json",
+    "validation-component-foley64-browser.json",
+    "art-release64/component-foley-preview.json",
+    "validation-spatial-audio65-browser.json",
+    "art-release65/spatial-audio-preview.json",
+    "validation-release64-shaders.json",
+    "validation-release65-benchmark-browser.json",
+    "ART_RELEASE65.md",
+    "SPATIAL_AUDIO65.md"
+  ],
+  "remainingLimits": [
+    "Full professional art overhaul incomplete",
+    "Planar fire and stylised fracture appearance",
+    "Simplified shared room responses and event-sampled source/attenuation",
+    "Individual HRTF localisation and premium audio quality unverified",
+    "Physical iPhone16 Pro Safari FPS, memory, audio latency and thermals unverified"
+  ]
+}

@@ -293,15 +293,25 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** Dust, sparks and particles. Shapes, rotation and shading
   improved; animated quality remains incompletely reviewed.
 - [ ] **Partial:** Explosions and shock effects. Existing explosions benefit from
-  particle changes; no new visual shockwave system.
+  particle changes; Release 64 adds a bounded world-space pressure front and
+  lifted dust rim. Release 65 [native grenade frames and lifecycle evidence](ART_RELEASE65.md)
+  verify visible expansion, expiry and pause/reset handling. Professional
+  temporal effect quality remains open.
 - [ ] **Partial:** Smoke grenades and atmospheric smoke. Existing smoke gained
   revised shading/rotation; no complete temporal acceptance review.
 - [ ] **Partial:** Fire and environmental effects. Weather/ambient effects
-  improved; persistent environmental flames were not implemented.
+  improved; authored fuel barrels now leave upright flames and smoke for twelve
+  seconds with bounded quality/range scaling. [Native barrel aftermath](ART_RELEASE65.md)
+  verifies the actual engine trigger, persistence, fade and cleanup. Fire is
+  cosmetic and the broader professional environmental-effect requirement remains open.
 - [ ] **Partial:** Rain, wet surfaces and puddles. Revised treatment exists;
   convincing realism remains incomplete.
 - [ ] **Partial:** Glass damage and material-specific impacts. Material impacts
-  exist; progressive glass fracture/damage production was not completed.
+  exist; native glazing now receives progressive clipped fracture overlays.
+  Release 65 repairs panes behind retained coarse facade collision using exact
+  stopped-owner provenance, without changing ballistics, collision or openings.
+  [Actual gameplay shots and preservation](ART_RELEASE65.md) cover the change;
+  physical shattering and professional fracture appearance remain unfinished.
 - [ ] **Partial:** More convincing visual recoil/movement. Native temporal
   review confirms weighted firing recovery and smoother inertia. The wider
   professional combat/effect presentation remains unfinished. Updated
@@ -462,7 +472,13 @@ These are Release 57 measurements, not measurements of Release 60.
   water and other surfaces. Eight families with five takes each; some surfaces
   share families and audible realism is unverified.
 - [ ] **Partial:** Detailed reloads, magazines, bolts and handling. Weapon-specific
-  designs exist; complete component-driven foley was not produced.
+  designs and component-driven magazine, shell, feed-cover, cylinder and charging
+  cues now follow the real reload timeline. Release 65 removes up to 159 ms of
+  recorded-region leading silence, retaining at most 2.018 ms to the validator's
+  −80 dBFS decoded-sample threshold. This is not device output latency.
+  [58 native reload timelines, region/cancellation checks and
+  listening reel](ART_RELEASE65.md) make this reviewable. Complete attachment
+  handling and premium audible realism remain unverified.
 - [ ] **Partial:** Shell-casing audio. Engine/render-synchronised landings now
   play hard, metal, wood, soft-ground and water families. Shotgun hulls share
   pitched takes and revolver reload dumping remains absent, so comprehensive
@@ -485,8 +501,12 @@ These are Release 57 measurements, not measurements of Release 60.
 - [x] **Complete:** Deep layered explosions with distance attenuation. Variants
   and attenuation implemented; subjective quality remains unverified.
 - [ ] **Partial:** Accurate spatial audio, directional cues, distance falloff
-  and occlusion. Horizontal stereo positioning/filtering exist; complete
-  3D/elevation/front-back presentation does not.
+  and occlusion. Release 65 adds native HRTF world positioning and full yaw/pitch
+  listening orientation, including elevation/front-back cues, centred local
+  sources and stereo/legacy Safari fallback. [Native PCM distinctions, head-turn
+  equivalence, voice bounds and listening evidence](SPATIAL_AUDIO65.md) verify
+  the functional path. Event-time attenuation, simplified shared room responses,
+  subjective localisation/realism and physical Safari performance remain open.
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
   volume. The bank was rebuilt and immediate-repeat avoidance implemented.
 - [x] **Complete:** Original/licensed assets with licences/attribution respected.
@@ -559,3 +579,4 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-12 | Finished the requested 20 vs 20 rosters on Crossfire District and Blacksite; preserved smaller-map and Gun Game rosters. All 36 focused regressions and twelve full-roster native crowd fixtures passed. No art requirement newly completed; physical-device performance remains unverified. | `84e958af795113e0ce407dc111e3e54367aaf8b7`; [Release 62 roster evidence](ROSTERS62.md). |
 | 2026-10-12 | Rebuilt native receiver/stock/glove forms and first-person component-aware reload choreography. Reviewed 26 motion and 36 reload frames, including exact baseline comparisons. Corrected offline caching for the larger library; retained all thirty rigs, attachments and 40-player rosters. Updated the relevant partial explanations without claiming professional realism, anatomical grasp or physical-device performance. | `c51316ca2f4c07bf2a81f5c53ee5aced70b1322f`, `2884259ef473b2e7e0a635002982cb2329d34a98`, `325fd9e57182485a2ee8e4be725ccc483f454db3`; [Release 63 evidence and costs](ART_RELEASE63.md). |
 | 2026-10-13 | Completed the optional WebGPU consideration with an explicit source-based backend decision and future acceptance criteria. Retained the validated renderer; no WebGPU implementation or physical performance gain is claimed. | [WebGPU decision](WEBGPU_DECISION64.md); runtime/effect checkpoint follows. |
+| 2026-10-13 | Finished native review of Release 64 shock/fire/glass and component reload foley. Repaired unreachable inset facade glass with authoritative-owner contacts, then added bounded HRTF elevation/front-back audio, centred local cues and cached foley-onset trimming for Release 65. Updated partial explanations with actual gameplay images, native PCM/cleanup evidence and listening reels. No professional art, premium subjective audio or physical iPhone requirement newly completed. | Shader checkpoint `e3c3f6e`; native glass repair `1314646`; [integrated Release 65 evidence](ART_RELEASE65.md), [spatial audio](SPATIAL_AUDIO65.md), [final validation](validation-release65.json). |
