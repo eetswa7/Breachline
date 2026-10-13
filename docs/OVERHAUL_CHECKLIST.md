@@ -107,8 +107,11 @@ as documented in the baseline JSON and validation report.
   `20b9875`; [native surfaces and gameplay review](BLACKSITE61.md).
 - [ ] **Partial:** Detailed terrain variation and realistic material blending.
   Variation exists; sophisticated terrain blending was not completed.
-- [ ] **Not complete:** Eliminate obvious repetition and unnatural terrain shapes.
-  Repeated surfaces and faceted distant terrain remain.
+- [ ] **Partial:** Eliminate obvious repetition and unnatural terrain shapes.
+  Release 66 breaks synchronized isotropic material motifs with deterministic
+  instance phase and registered albedo/normal/ORM blends, reviewed in matched
+  native gameplay frames. Geometry repetition and faceted distant terrain remain.
+  Updated 2026-10-13 at `a3eb9db`; [material images and costs](WORLD_MATERIALS66.md).
 
 ### Environmental props
 
@@ -145,8 +148,11 @@ as documented in the baseline JSON and validation report.
   stone. Families exist; some remain flat or insufficiently convincing.
 - [ ] **Partial:** Dirt, rust, scratches, dust, edge wear and weathering. Included
   in materials/some models, but not comprehensively finished.
-- [ ] **Partial:** Material variation that avoids repeated patterns. Variation
-  improved; obvious repetition remains.
+- [ ] **Partial:** Material variation that avoids repeated patterns. Release 66
+  translates and smoothly blends isotropic ground/masonry PBR maps together,
+  retaining authored grain, paint and hero finishes. Matched native Blacksite
+  frames show less synchronized mottling; wider library realism remains open.
+  Updated 2026-10-13 at `a3eb9db`; [gameplay comparisons](WORLD_MATERIALS66.md).
 - [ ] **Partial:** Detailed textures for prominent objects and first-person
   weapons. Higher-resolution finishes exist; close-ups still show limited variation.
 - [x] **Complete:** Higher resolutions where useful. Prominent weapon finishes
@@ -479,11 +485,14 @@ These are Release 57 measurements, not measurements of Release 60.
   [58 native reload timelines, region/cancellation checks and
   listening reel](ART_RELEASE65.md) make this reviewable. Complete attachment
   handling and premium audible realism remain unverified.
-- [ ] **Partial:** Shell-casing audio. Engine/render-synchronised landings now
-  play hard, metal, wood, soft-ground and water families. Shotgun hulls share
-  pitched takes and revolver reload dumping remains absent, so comprehensive
-  coverage is unfinished. Updated 2026-10-12 at `30682fc`;
-  [events, playback evidence and listening reel](BALLISTIC_AUDIO61.md).
+- [x] **Complete:** Shell-casing audio. Engine/render-synchronised contacts cover
+  hard, metal, wood, soft-ground and water with separate metallic-case and
+  polymer-hull families. Revolvers retain actual fired cases and dump them once
+  after cylinder opening; their rendered landings emit the corresponding cues.
+  Original timing, ammunition and the bounded pools remain. This completes
+  functional arsenal/contact coverage, not premium subjective realism or physical
+  latency. Completed 2026-10-13 at `a3eb9db`;
+  [gameplay timelines, native decode and listening reel](CASING_AUDIO66.md).
 - [ ] **Partial:** Attachment-specific audio. Suppressor variants exist; a complete
   attachment-specific handling library does not.
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
@@ -580,3 +589,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-12 | Rebuilt native receiver/stock/glove forms and first-person component-aware reload choreography. Reviewed 26 motion and 36 reload frames, including exact baseline comparisons. Corrected offline caching for the larger library; retained all thirty rigs, attachments and 40-player rosters. Updated the relevant partial explanations without claiming professional realism, anatomical grasp or physical-device performance. | `c51316ca2f4c07bf2a81f5c53ee5aced70b1322f`, `2884259ef473b2e7e0a635002982cb2329d34a98`, `325fd9e57182485a2ee8e4be725ccc483f454db3`; [Release 63 evidence and costs](ART_RELEASE63.md). |
 | 2026-10-13 | Completed the optional WebGPU consideration with an explicit source-based backend decision and future acceptance criteria. Retained the validated renderer; no WebGPU implementation or physical performance gain is claimed. | [WebGPU decision](WEBGPU_DECISION64.md); runtime/effect checkpoint follows. |
 | 2026-10-13 | Finished native review of Release 64 shock/fire/glass and component reload foley. Repaired unreachable inset facade glass with authoritative-owner contacts, then added bounded HRTF elevation/front-back audio, centred local cues and cached foley-onset trimming for Release 65. Updated partial explanations with actual gameplay images, native PCM/cleanup evidence and listening reels. No professional art, premium subjective audio or physical iPhone requirement newly completed. | Shader checkpoint `e3c3f6e`; native glass repair `1314646`; [integrated Release 65 evidence](ART_RELEASE65.md), [spatial audio](SPATIAL_AUDIO65.md), [final validation](validation-release65.json). |
+
+| 2026-10-13 | Completed bounded casing-audio coverage with original polymer-hull families and actual retained revolver case extraction/landings. Reduced correlated ground/masonry texture motifs while keeping broader art requirements partial. Native case/hull timelines, 44.1/48 kHz bank bounds, matched Blacksite material images, 35 focused checkpoint regressions, 58 shader variants and the isolated 84-module offline source check passed. | `a3eb9db`; [casing evidence](CASING_AUDIO66.md), [material evidence and remaining costs](WORLD_MATERIALS66.md). |
