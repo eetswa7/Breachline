@@ -5,6 +5,11 @@ repairs its unreachable native facade glazing, and adds the open spatial-audio
 feature from [the thirteen-section checklist](OVERHAUL_CHECKLIST.md).
 The full professional art overhaul and physical iPhone acceptance remain open.
 
+Release 65 is published at https://breachline.eetswa.chatgpt.site with the
+existing private audience. [Deployment provenance](deployment-release65.json)
+links the pushed GitHub source, exact Sites source/archive and successful
+publication to the validated runtime fingerprint.
+
 ## Actual gameplay effects
 
 Native gameplay images show a short world-space pressure rim and lifted dust

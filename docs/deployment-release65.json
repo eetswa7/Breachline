@@ -1,0 +1,18 @@
+{
+  "release": "65",
+  "runtime_sha256": "bdd7f07f44b64c247c6469c8ea86d0cf9d3b189367763b7d050ce1239c2b225d",
+  "github_source_commit": "f1423c08c542532519910aec714851f6be9d200e",
+  "site_source_commit": "84b931520e56055aac74cdf52d04b94253e1643c",
+  "site_project_id": "appgprj_6a9c80d1d8488191a2a26a846fb0c36e",
+  "saved_version_id": "appgprj_6a9c80d1d8488191a2a26a846fb0c36e~appgver_2f6c945e8db88191bd42d8cfdf836fc3",
+  "saved_version_number": 14,
+  "archive_sha256": "sha256:91f59dd9a1f486576119f4d6f83fe50e2fa94cf34884e01e474759ddfda54e7b",
+  "archive_file_count": 258,
+  "deployment_id": "appgdep_6acda6c835488191878294ee2a512d11",
+  "status": "succeeded",
+  "url": "https://breachline.eetswa.chatgpt.site",
+  "published_at": "2026-10-13T03:35:34.413302+00:00",
+  "audience": "existing owner-private access preserved",
+  "evidence": "validation-release65.json",
+  "actual_iphone_data": false
+}
