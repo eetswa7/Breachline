@@ -1,0 +1,134 @@
+{
+  "kind": "native_gameplay_effect_temporal_screenshots",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "featureStage": "effects64",
+  "runtimeRelease": "65",
+  "capturedAt": "2026-10-13T03:25:49.683Z",
+  "sourceCommit": "bb095df941e6c1a21a451e102060377991766263",
+  "runtimeSha256": {
+    "boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "engine.js": "24d88369a886ce707f8b10a2751348870318a50751524c41e1591d9255c27683",
+    "three-renderer.js": "a5d70ee9cc5c1f3baa39fb89b35642c9af12133fe54fc3bba6943331f12f3b07",
+    "explosion-shock.js": "666d2f1e1e50423f98e4e0efaa2028dc860afb4a72141a18679e0c7fa8f1d20b",
+    "environmental-fire.js": "45c86ef99e8c4c5e6c4c944e880813ed1993e59d08e60944d0ac31fb9a21b1cf",
+    "glass-damage.js": "9a8f4d4c380613669c671f14f3d08b9ea33097173ea2d10c3d193b7e8f08122a",
+    "glass-panels.js": "e111ebe6aac49bb6fa8ed527ca31f2cbd602c18e8d3e1047e9b500bea75435d3",
+    "blender-world.js": "07ab45b9a5981a2b410308a5f565ddabea5b090c12e10b54a3da2769040d0b71",
+    "maps.js": "0f6e7d0a6ddbfce60c26ce77bfda5978522991785a283dff2e0ad16c1f601133"
+  },
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "images": [
+    {
+      "path": "art-release64/grenade-before-front.png",
+      "bytes": 390983,
+      "sha256": "af4b6a61e9710cf2b1d8524ae4237583ba90d0cfd11e99aa01c45f8640a2ea66",
+      "name": "grenade-before-front"
+    },
+    {
+      "path": "art-release64/grenade-front-067ms.png",
+      "bytes": 393797,
+      "sha256": "9889e5615bcba6021ddb3a0796fe4a7c2928c8901502a76ac560badbc0a69959",
+      "name": "grenade-front-067ms"
+    },
+    {
+      "path": "art-release64/grenade-front-250ms.png",
+      "bytes": 398732,
+      "sha256": "e3451e3014d1071b92bcbe719568531212e6268b03f92edb4e4a9decdf41e2b2",
+      "name": "grenade-front-250ms"
+    },
+    {
+      "path": "art-release64/grenade-front-expired.png",
+      "bytes": 397755,
+      "sha256": "e6706b1d96349864f615861902c4a4c6af4a2ccdf0ca9a7693ef24fcb0a0fc4b",
+      "name": "grenade-front-expired"
+    },
+    {
+      "path": "art-release64/barrel-aftermath-200ms.png",
+      "bytes": 410876,
+      "sha256": "8c1a1c3077054682456d8ea1fe87ca5ed51bc4519d15d6f01bc4b4c6b14b51aa",
+      "name": "barrel-aftermath-200ms"
+    },
+    {
+      "path": "art-release64/barrel-aftermath-1s.png",
+      "bytes": 406201,
+      "sha256": "3a1c24c9a7000ffef630adf875ca53def8c1562a0bbda4f065a40d9fc91322e4",
+      "name": "barrel-aftermath-1s"
+    },
+    {
+      "path": "art-release64/barrel-aftermath-4s.png",
+      "bytes": 402054,
+      "sha256": "4cfedc54742ba43508e5919792fb02e89ba813220462213705684985108d9372",
+      "name": "barrel-aftermath-4s"
+    },
+    {
+      "path": "art-release64/barrel-aftermath-fade-10p5s.png",
+      "bytes": 401145,
+      "sha256": "60665e676a8f24bc7cbd1d04885d2ca57f2dc8f691df4e334d83b7a4882e1e63",
+      "name": "barrel-aftermath-fade-10p5s"
+    },
+    {
+      "path": "art-release64/barrel-aftermath-expired.png",
+      "bytes": 397228,
+      "sha256": "6c9739b5a22eb9a2f5f60213492d54e37081334323c9f33a0e23706dfebab231",
+      "name": "barrel-aftermath-expired"
+    },
+    {
+      "path": "art-release64/glass-map0-intact.png",
+      "bytes": 453857,
+      "sha256": "7b72f6567da8a4e574d5ceb6b05b9037d896f8609e2765538cd887a21f134824",
+      "name": "glass-map0-intact"
+    },
+    {
+      "path": "art-release64/glass-map0-first-hit.png",
+      "bytes": 454154,
+      "sha256": "eabe1ae0b581c83c7e8d2d706bcdf026ee517e735bc21f986b83fae0b09f54ea",
+      "name": "glass-map0-first-hit"
+    },
+    {
+      "path": "art-release64/glass-map0-progressive.png",
+      "bytes": 457928,
+      "sha256": "30fb0fb08b5c2b8fa42e46ea6a0e30a2bfdebeebfb6e4447f5644c28b0617d43",
+      "name": "glass-map0-progressive"
+    },
+    {
+      "path": "art-release64/glass-map0-round-reset.png",
+      "bytes": 453887,
+      "sha256": "cec7334c7d3f5140fbe456fcab480c1c0328818301ea8f1960694116249eb78a",
+      "name": "glass-map0-round-reset"
+    },
+    {
+      "path": "art-release64/glass-map14-intact.png",
+      "bytes": 524516,
+      "sha256": "2a0b9c99482522a8f5864b7abb5ec91fb58647ee2dcfbaf7f13417f0cb354ada",
+      "name": "glass-map14-intact"
+    },
+    {
+      "path": "art-release64/glass-map14-first-hit.png",
+      "bytes": 526342,
+      "sha256": "1195149ebd17fa391552461b0baddf8fb770473c31672417a5ab85bb4c5558a6",
+      "name": "glass-map14-first-hit"
+    },
+    {
+      "path": "art-release64/glass-map14-progressive.png",
+      "bytes": 531020,
+      "sha256": "b56f8ac5c74a1a7f5affa63c12bafe88c0a39ef2cefe5790f2f7c2512564d5f1",
+      "name": "glass-map14-progressive"
+    },
+    {
+      "path": "art-release64/glass-map14-round-reset.png",
+      "bytes": 527278,
+      "sha256": "bc4a1805e126ec5d7c19ab9d6121276fda261947949e4d0b73b98608595bf60e",
+      "name": "glass-map14-round-reset"
+    },
+    {
+      "path": "art-release64/low-quality-bounded-event-burst.png",
+      "bytes": 380051,
+      "sha256": "eb7ea3d7bcdba856663759adc85a1d147fb87d771f9da0e7ba9819463a62272d",
+      "name": "low-quality-bounded-event-burst"
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "sourceCommit": "bb095df941e6c1a21a451e102060377991766263",
+  "sourceDirty": true,
+  "modifiedFiles": [
+    "M docs/OVERHAUL_CHECKLIST.md",
+    "?? docs/ART_RELEASE65.md",
+    "?? docs/SPATIAL_AUDIO65.md",
+    "?? docs/art-release64/",
+    "?? docs/art-release65/",
+    "?? docs/validation-component-foley64-browser.json",
+    "?? docs/validation-effects64-browser.json",
+    "?? docs/validation-spatial-audio65-browser.json"
+  ],
+  "runtimeFiles": {
+    "dist/js/audio.js": "2ae2d3efa7a5c203030c11cecef3ee20211927e42f175d8c8b0cbe1bf2de610e",
+    "dist/js/spatial-audio.js": "bee073e5d364176b917a047eaba0355b8632aca5c9d7e3b1e877816efae468ec"
+  },
+  "browser": "154.0.8037.57",
+  "capturedAt": "2026-10-13T03:23:30.088Z",
+  "kind": "isolated_native_hrtf_direction_reel",
+  "sampleRate": 44100,
+  "channels": 2,
+  "durationSeconds": 10.440204081632652,
+  "normalized": false,
+  "headphonesRecommended": true,
+  "segments": [
+    {
+      "id": "front",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.007401456500802704,
+      "rmsRight": 0.007401456500802704,
+      "peak": 0.17127488553524017,
+      "firstAudibleSeconds": 0.35634920634920636,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 0.35,
+      "startSeconds": 0,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "back",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.0061055915730137324,
+      "rmsRight": 0.0061055915730137324,
+      "peak": 0.1263885796070099,
+      "firstAudibleSeconds": 0.35628117913832197,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 1.5100226757369613,
+      "startSeconds": 1.1600226757369614,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "above",
+      "position": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.006533934359205154,
+      "rmsRight": 0.006533934359205154,
+      "peak": 0.14133413136005402,
+      "firstAudibleSeconds": 0.35630385487528343,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 2.670045351473923,
+      "startSeconds": 2.3200453514739228,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "below",
+      "position": {
+        "x": 0,
+        "y": -10,
+        "z": 0
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.005846291333952522,
+      "rmsRight": 0.005846291333952522,
+      "peak": 0.11986186355352402,
+      "firstAudibleSeconds": 0.3563718820861678,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 3.8300680272108845,
+      "startSeconds": 3.4800680272108844,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "left",
+      "position": {
+        "x": -10,
+        "y": 0,
+        "z": 0
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.008996624721625894,
+      "rmsRight": 0.005989573317742539,
+      "peak": 0.22811751067638397,
+      "firstAudibleSeconds": 0.35607709750566896,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 4.990090702947845,
+      "startSeconds": 4.6400907029478455,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "right",
+      "position": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.005989573317742539,
+      "rmsRight": 0.008996624721625894,
+      "peak": 0.22811751067638397,
+      "firstAudibleSeconds": 0.35607709750566896,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 6.150113378684807,
+      "startSeconds": 5.800113378684808,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "front_after_half_turn",
+      "yaw": 3.141592653589793,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "matches": "back",
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 1.2246467991473532e-16,
+          "y": 0,
+          "z": 1
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.0061055915730137324,
+      "rmsRight": 0.0061055915730137324,
+      "peak": 0.1263885796070099,
+      "firstAudibleSeconds": 0.35628117913832197,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 7.310136054421768,
+      "startSeconds": 6.960136054421769,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "front_after_right_turn",
+      "yaw": 1.5707963267948966,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "matches": "left",
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 1,
+          "y": 0,
+          "z": -6.123233995736766e-17
+        },
+        "up": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      },
+      "rmsLeft": 0.008996624721625894,
+      "rmsRight": 0.005989573317742539,
+      "peak": 0.22811751067638397,
+      "firstAudibleSeconds": 0.35607709750566896,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 8.47015873015873,
+      "startSeconds": 8.12015873015873,
+      "durationSeconds": 1.1600226757369614
+    },
+    {
+      "id": "front_while_looking_up",
+      "pitch": 1.5707963267948966,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "matches": "below",
+      "listener": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "forward": {
+          "x": 0,
+          "y": 1,
+          "z": -6.123233995736766e-17
+        },
+        "up": {
+          "x": 0,
+          "y": 6.123233995736766e-17,
+          "z": 1
+        }
+      },
+      "rmsLeft": 0.005846291333952522,
+      "rmsRight": 0.005846291333952522,
+      "peak": 0.11986186355352402,
+      "firstAudibleSeconds": 0.3563718820861678,
+      "sourceStartSeconds": 0.35,
+      "sourceStartInReelSeconds": 9.63018140589569,
+      "startSeconds": 9.280181405895691,
+      "durationSeconds": 1.1600226757369614
+    }
+  ],
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "description": "The same shipped native-decoded mono shot at front, back, above, below, left, right, followed by head-turn/pitch equivalents. Browser HRTF stereo PCM, fixed equal gains, 350 ms preroll, no loudness normalization. Equal gains isolate direction; runtime event gain/cover processing and cleanup are validated separately."
+}

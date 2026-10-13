@@ -1,0 +1,1303 @@
+{
+  "kind": "software_WebGL_native_game_effects_temporal_validation",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "featureStage": "effects64",
+  "runtimeRelease": "65",
+  "capturedAt": "2026-10-13T03:25:49.683Z",
+  "sourceCommit": "bb095df941e6c1a21a451e102060377991766263",
+  "distributionDirty": false,
+  "runtimeSha256": {
+    "boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "engine.js": "24d88369a886ce707f8b10a2751348870318a50751524c41e1591d9255c27683",
+    "three-renderer.js": "a5d70ee9cc5c1f3baa39fb89b35642c9af12133fe54fc3bba6943331f12f3b07",
+    "explosion-shock.js": "666d2f1e1e50423f98e4e0efaa2028dc860afb4a72141a18679e0c7fa8f1d20b",
+    "environmental-fire.js": "45c86ef99e8c4c5e6c4c944e880813ed1993e59d08e60944d0ac31fb9a21b1cf",
+    "glass-damage.js": "9a8f4d4c380613669c671f14f3d08b9ea33097173ea2d10c3d193b7e8f08122a",
+    "glass-panels.js": "e111ebe6aac49bb6fa8ed527ca31f2cbd602c18e8d3e1047e9b500bea75435d3",
+    "blender-world.js": "07ab45b9a5981a2b410308a5f565ddabea5b090c12e10b54a3da2769040d0b71",
+    "maps.js": "0f6e7d0a6ddbfce60c26ce77bfda5978522991785a283dff2e0ad16c1f601133"
+  },
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "scenarioNotes": [
+    "Native Game and Renderer with shipped Blender world and authored weapon/hands.",
+    "Seeded player placement, no bots, god mode and fixed 1/120 s Game and Renderer.updateEffects simulation isolate reproducible cosmetic behavior between captured native render() frames.",
+    "Grenade is thrown and expires through native equipment physics; authored barrel is destroyed through Game.shoot.",
+    "Glass shots use actual engine shot events against native building glazing; no direct damage() calls.",
+    "Low quality event replay stresses bounded pools; it is separate from the gameplay trigger scenarios.",
+    "Software WebGL timings do not establish physical iPhone performance, frame pacing, or subjective visual acceptance."
+  ],
+  "errors": [],
+  "requestFailures": [],
+  "validation": {
+    "engineGrenadeFuse": true,
+    "grenadeEmitsShockWithoutFuelFire": true,
+    "shockAgesAndExpires": true,
+    "engineBarrelDestructionCreatesFuelFire": true,
+    "fireFlickersAndPersists": true,
+    "fireFadesAndExpires": true,
+    "pausedClocksExactlyFrozen": true,
+    "actualEngineShotFracturesNativeBuildingGlassMap0": true,
+    "coarseOriginalColliderRegressionMap0": true,
+    "glassRetainsCollisionAndOriginalPanesMap0": true,
+    "roundResetClearsGlassMap0": true,
+    "actualEngineShotFracturesNativeBuildingGlassMap14": true,
+    "coarseOriginalColliderRegressionMap14": true,
+    "glassRetainsCollisionAndOriginalPanesMap14": true,
+    "roundResetClearsGlassMap14": true,
+    "lowQualityPoolsAndDrawsBounded": true,
+    "pauseFreezesActiveShockAndFire": true,
+    "roundClearsAllNewEffects": true,
+    "arenaResetAndRebuildClearEffects": true,
+    "disposalRemovesEffectMeshes": true,
+    "nativePresentation": true,
+    "gameplayCameraPlacementLegal": true,
+    "webgl2": true,
+    "noBrowserOrNetworkErrors": true,
+    "runtimeUnchangedDuringCapture": true
+  },
+  "scenarios": {
+    "environment": {
+      "webgl2": true,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "nativeAssetsLoaded": true,
+      "textureEstimateBytes": 82779926,
+      "panels": 456,
+      "authoredBarrels": [
+        {
+          "x": -10,
+          "y": 0.65,
+          "z": 10,
+          "hp": 45
+        },
+        {
+          "x": 10,
+          "y": 0.65,
+          "z": -10,
+          "hp": 45
+        },
+        {
+          "x": -21,
+          "y": 0.65,
+          "z": -22,
+          "hp": 45
+        },
+        {
+          "x": 21,
+          "y": 0.65,
+          "z": 22,
+          "hp": 45
+        }
+      ]
+    },
+    "grenade": {
+      "frames": 277,
+      "event": {
+        "type": "explosion",
+        "time": 2.308333333333328,
+        "position": {
+          "x": 0,
+          "y": 0.12,
+          "z": 2.154804228188713
+        },
+        "value": 8,
+        "environmentalFire": false
+      },
+      "remainingGrenades": 0
+    },
+    "barrel": {
+      "shots": 2,
+      "destroyed": true,
+      "hp": -13,
+      "position": {
+        "x": -10,
+        "y": 0.65,
+        "z": 10
+      },
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "event": {
+        "type": "explosion",
+        "time": 2.9083333333333257,
+        "position": {
+          "x": -10,
+          "y": 0.65,
+          "z": 10
+        },
+        "value": 5.5,
+        "environmentalFire": true
+      }
+    },
+    "pause": {
+      "exactlyFrozen": true,
+      "gameTime": 3.908333333333322,
+      "activeFireLives": [
+        11.000000000000057
+      ],
+      "activeShockLives": []
+    },
+    "glass0": {
+      "selected": true,
+      "candidates": 168,
+      "attempts": 1,
+      "originalColliderMatch": true,
+      "facadeInsetBeyondAuthoritativeStop": 0.6389998197555542,
+      "panel": {
+        "centre": [
+          11.890000030398369,
+          1.7119998931884766,
+          9.138999819755554
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "width": 1.9200001657009125,
+        "height": 1.3439998626708984,
+        "part": {
+          "w": 10,
+          "h": 8,
+          "d": 9,
+          "surface": "stone"
+        }
+      },
+      "actualShot": {
+        "type": "shot",
+        "time": 0,
+        "position": {
+          "x": 11.890000030398369,
+          "y": 1.6600000000000001,
+          "z": 6.138999819755554
+        },
+        "end": {
+          "x": 11.88934079949441,
+          "y": 1.6996328155005849,
+          "z": 8.5
+        },
+        "stoppedBlock": {
+          "x": 15,
+          "y": 4,
+          "z": 13,
+          "w": 10,
+          "h": 8,
+          "d": 9,
+          "surface": "stone",
+          "renderMicroDetail": false
+        },
+        "source": 0,
+        "weapon": 0,
+        "suppressed": false,
+        "loudness": 1,
+        "indoor": false
+      },
+      "glassPanels": 400,
+      "first": {
+        "hits": 1,
+        "radius": 0.20500000000000002,
+        "shot": {
+          "type": "shot",
+          "time": 2.199999999999995,
+          "position": {
+            "x": 11.890000030398369,
+            "y": 1.6600000000000001,
+            "z": 6.138999819755554
+          },
+          "end": {
+            "x": 11.889990598206055,
+            "y": 1.70002908045591,
+            "z": 8.5
+          },
+          "stoppedBlock": {
+            "x": 15,
+            "y": 4,
+            "z": 13,
+            "w": 10,
+            "h": 8,
+            "d": 9,
+            "surface": "stone",
+            "renderMicroDetail": false
+          },
+          "source": 0,
+          "weapon": 0,
+          "suppressed": false,
+          "loudness": 1,
+          "indoor": false
+        }
+      },
+      "progressive": {
+        "hits": 6,
+        "radius": 0.53,
+        "collisionUnchanged": true,
+        "originalPanesRemain": true,
+        "instances": 1
+      },
+      "roundReset": {
+        "states": 0,
+        "instances": 0
+      }
+    },
+    "glass14": {
+      "selected": true,
+      "candidates": 192,
+      "attempts": 1,
+      "originalColliderMatch": true,
+      "facadeInsetBeyondAuthoritativeStop": 0.36919997768402624,
+      "panel": {
+        "centre": [
+          -46.617199924874306,
+          1.1983999048233045,
+          -44.230800022315975
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "width": 0.9984000495433776,
+        "height": 0.940799887847902,
+        "part": {
+          "w": 5.2,
+          "h": 5.6,
+          "d": 5.2,
+          "surface": "concrete"
+        }
+      },
+      "actualShot": {
+        "type": "shot",
+        "time": 0,
+        "position": {
+          "x": -46.617199924874306,
+          "y": 1.6600000000000001,
+          "z": -47.230800022315975
+        },
+        "end": {
+          "x": -46.61424165358274,
+          "y": 1.2545606027862934,
+          "z": -44.6
+        },
+        "stoppedBlock": {
+          "x": -45,
+          "y": 2.8,
+          "z": -42,
+          "w": 5.2,
+          "h": 5.6,
+          "d": 5.2,
+          "surface": "concrete",
+          "renderMicroDetail": false
+        },
+        "source": 0,
+        "weapon": 0,
+        "suppressed": false,
+        "loudness": 1,
+        "indoor": false
+      },
+      "glassPanels": 456,
+      "first": {
+        "hits": 1,
+        "radius": 0.20500000000000002,
+        "shot": {
+          "type": "shot",
+          "time": 2.199999999999995,
+          "position": {
+            "x": -46.617199924874306,
+            "y": 1.6600000000000001,
+            "z": -47.230800022315975
+          },
+          "end": {
+            "x": -46.61778435002729,
+            "y": 1.254636764210603,
+            "z": -44.6
+          },
+          "stoppedBlock": {
+            "x": -45,
+            "y": 2.8,
+            "z": -42,
+            "w": 5.2,
+            "h": 5.6,
+            "d": 5.2,
+            "surface": "concrete",
+            "renderMicroDetail": false
+          },
+          "source": 0,
+          "weapon": 0,
+          "suppressed": false,
+          "loudness": 1,
+          "indoor": false
+        }
+      },
+      "progressive": {
+        "hits": 6,
+        "radius": 0.53,
+        "collisionUnchanged": true,
+        "originalPanesRemain": true,
+        "instances": 1
+      },
+      "roundReset": {
+        "states": 0,
+        "instances": 0
+      }
+    },
+    "lowQuality": {
+      "quality": "low",
+      "highWater": {
+        "shock": 6,
+        "fire": 6,
+        "particlePool": 200
+      },
+      "frame": {
+        "time": 4.083333333333326,
+        "map": 14,
+        "playerPosition": {
+          "x": -46.617199924874306,
+          "y": 0,
+          "z": -47.230800022315975
+        },
+        "floor": 0,
+        "grounded": true,
+        "feetOnFloor": true,
+        "playerCollisionFree": true,
+        "eye": {
+          "x": -46.617199924874306,
+          "y": 1.6600000000000001,
+          "z": -47.230800022315975
+        },
+        "draws": 141,
+        "triangles": 266952,
+        "renderPasses": 2,
+        "effectDraws": {
+          "shock": 1,
+          "fire": 1,
+          "glass": 1
+        },
+        "shockInstances": 2,
+        "fireInstances": 6,
+        "glassInstances": 2,
+        "glassStates": 1,
+        "shockLives": [
+          0.42000000000000004,
+          0.42000000000000004,
+          0.42000000000000004,
+          0.42000000000000004,
+          0.42000000000000004,
+          0.42000000000000004
+        ],
+        "fireLives": [
+          11.9,
+          11.9,
+          11.9,
+          11.9,
+          11.9,
+          11.9
+        ],
+        "fireHeight": 1.4254230260849,
+        "fireAlpha": 0.5375000238418579,
+        "nativeWorldBatches": 282,
+        "nativeWeaponGroups": 3,
+        "nativeHandGroups": 2,
+        "loaded": true
+      },
+      "limits": {
+        "shock": 2,
+        "fire": 6,
+        "glass": 48
+      },
+      "shaderResources": {
+        "shockTransparent": true,
+        "fireTransparent": true,
+        "glassTransparent": false,
+        "shockDepthWrite": false,
+        "fireDepthWrite": false,
+        "glassCastsShadow": false
+      }
+    },
+    "pauseWithShock": {
+      "exactlyFrozen": true,
+      "activeShocks": 6,
+      "activeFires": 6
+    },
+    "cleanup": {
+      "round": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "rebuilt": {
+        "time": 4.083333333333326,
+        "map": 14,
+        "playerPosition": {
+          "x": -46.617199924874306,
+          "y": 0,
+          "z": -47.230800022315975
+        },
+        "floor": 0,
+        "grounded": true,
+        "feetOnFloor": true,
+        "playerCollisionFree": true,
+        "eye": {
+          "x": -46.617199924874306,
+          "y": 1.6600000000000001,
+          "z": -47.230800022315975
+        },
+        "draws": 145,
+        "triangles": 266962,
+        "renderPasses": 2,
+        "effectDraws": {
+          "shock": 0,
+          "fire": 0,
+          "glass": 0
+        },
+        "shockInstances": 0,
+        "fireInstances": 0,
+        "glassInstances": 0,
+        "glassStates": 0,
+        "shockLives": [],
+        "fireLives": [],
+        "fireHeight": 1.2097821235656738,
+        "fireAlpha": 0.5375000238418579,
+        "nativeWorldBatches": 282,
+        "nativeWeaponGroups": 3,
+        "nativeHandGroups": 2,
+        "loaded": true
+      },
+      "twice": {
+        "time": 4.083333333333326,
+        "map": 14,
+        "playerPosition": {
+          "x": -46.617199924874306,
+          "y": 0,
+          "z": -47.230800022315975
+        },
+        "floor": 0,
+        "grounded": true,
+        "feetOnFloor": true,
+        "playerCollisionFree": true,
+        "eye": {
+          "x": -46.617199924874306,
+          "y": 1.6600000000000001,
+          "z": -47.230800022315975
+        },
+        "draws": 139,
+        "triangles": 266890,
+        "renderPasses": 2,
+        "effectDraws": {
+          "shock": 0,
+          "fire": 0,
+          "glass": 0
+        },
+        "shockInstances": 0,
+        "fireInstances": 0,
+        "glassInstances": 0,
+        "glassStates": 0,
+        "shockLives": [],
+        "fireLives": [],
+        "fireHeight": 1.2097821235656738,
+        "fireAlpha": 0.5375000238418579,
+        "nativeWorldBatches": 282,
+        "nativeWeaponGroups": 3,
+        "nativeHandGroups": 2,
+        "loaded": true
+      },
+      "oldMeshCount": 14,
+      "afterMeshCount": 14,
+      "worldCount": 282,
+      "systemsRemoved": true,
+      "disposedShock": true,
+      "disposedFire": true
+    }
+  },
+  "captures": [
+    {
+      "name": "grenade-before-front",
+      "time": 2.308333333333328,
+      "map": 14,
+      "playerPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 8.154804228188713
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 8.154804228188713
+      },
+      "draws": 233,
+      "triangles": 273980,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 1,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 1,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [
+        0.52
+      ],
+      "fireLives": [],
+      "fireHeight": 0,
+      "fireAlpha": 0,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/grenade-before-front.png",
+      "bytes": 390983,
+      "sha256": "af4b6a61e9710cf2b1d8524ae4237583ba90d0cfd11e99aa01c45f8640a2ea66"
+    },
+    {
+      "name": "grenade-front-067ms",
+      "time": 2.3749999999999942,
+      "map": 14,
+      "playerPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 8.154804228188713
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 8.154804228188713
+      },
+      "draws": 227,
+      "triangles": 273920,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 1,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 1,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [
+        0.45333333333333325
+      ],
+      "fireLives": [],
+      "fireHeight": 0,
+      "fireAlpha": 0,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/grenade-front-067ms.png",
+      "bytes": 393797,
+      "sha256": "9889e5615bcba6021ddb3a0796fe4a7c2928c8901502a76ac560badbc0a69959"
+    },
+    {
+      "name": "grenade-front-250ms",
+      "time": 2.558333333333327,
+      "map": 14,
+      "playerPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 8.154804228188713
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 8.154804228188713
+      },
+      "draws": 227,
+      "triangles": 273920,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 1,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 1,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [
+        0.26999999999999935
+      ],
+      "fireLives": [],
+      "fireHeight": 0,
+      "fireAlpha": 0,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/grenade-front-250ms.png",
+      "bytes": 398732,
+      "sha256": "e3451e3014d1071b92bcbe719568531212e6268b03f92edb4e4a9decdf41e2b2"
+    },
+    {
+      "name": "grenade-front-expired",
+      "time": 2.9083333333333257,
+      "map": 14,
+      "playerPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 8.154804228188713
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 8.154804228188713
+      },
+      "draws": 226,
+      "triangles": 273820,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 0,
+      "fireAlpha": 0,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/grenade-front-expired.png",
+      "bytes": 397755,
+      "sha256": "e6706b1d96349864f615861902c4a4c6af4a2ccdf0ca9a7693ef24fcb0a0fc4b"
+    },
+    {
+      "name": "barrel-aftermath-200ms",
+      "time": 3.108333333333325,
+      "map": 14,
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -4,
+        "y": 1.6600000000000001,
+        "z": 10
+      },
+      "draws": 218,
+      "triangles": 271176,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 1,
+        "fire": 1,
+        "glass": 0
+      },
+      "shockInstances": 1,
+      "fireInstances": 6,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [
+        0.3199999999999995
+      ],
+      "fireLives": [
+        11.800000000000011
+      ],
+      "fireHeight": 1.350343108177185,
+      "fireAlpha": 0.8600000143051147,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/barrel-aftermath-200ms.png",
+      "bytes": 410876,
+      "sha256": "8c1a1c3077054682456d8ea1fe87ca5ed51bc4519d15d6f01bc4b4c6b14b51aa"
+    },
+    {
+      "name": "barrel-aftermath-1s",
+      "time": 3.908333333333322,
+      "map": 14,
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -4,
+        "y": 1.6600000000000001,
+        "z": 10
+      },
+      "draws": 217,
+      "triangles": 270984,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 1,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 6,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [
+        11.000000000000057
+      ],
+      "fireHeight": 1.240861177444458,
+      "fireAlpha": 0.8600000143051147,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/barrel-aftermath-1s.png",
+      "bytes": 406201,
+      "sha256": "3a1c24c9a7000ffef630adf875ca53def8c1562a0bbda4f065a40d9fc91322e4"
+    },
+    {
+      "name": "barrel-aftermath-4s",
+      "time": 6.908333333333466,
+      "map": 14,
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -4,
+        "y": 1.6600000000000001,
+        "z": 10
+      },
+      "draws": 217,
+      "triangles": 270946,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 1,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 6,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [
+        8.000000000000227
+      ],
+      "fireHeight": 1.2912439107894897,
+      "fireAlpha": 0.8600000143051147,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/barrel-aftermath-4s.png",
+      "bytes": 402054,
+      "sha256": "4cfedc54742ba43508e5919792fb02e89ba813220462213705684985108d9372"
+    },
+    {
+      "name": "barrel-aftermath-fade-10p5s",
+      "time": 13.408333333333212,
+      "map": 14,
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -4,
+        "y": 1.6600000000000001,
+        "z": 10
+      },
+      "draws": 217,
+      "triangles": 270946,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 1,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 6,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [
+        1.5000000000000373
+      ],
+      "fireHeight": 1.3980605602264404,
+      "fireAlpha": 0.4300000071525574,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/barrel-aftermath-fade-10p5s.png",
+      "bytes": 401145,
+      "sha256": "60665e676a8f24bc7cbd1d04885d2ca57f2dc8f691df4e334d83b7a4882e1e63"
+    },
+    {
+      "name": "barrel-aftermath-expired",
+      "time": 15.008333333333121,
+      "map": 14,
+      "playerPosition": {
+        "x": -4,
+        "y": 0,
+        "z": 10
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -4,
+        "y": 1.6600000000000001,
+        "z": 10
+      },
+      "draws": 216,
+      "triangles": 270934,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/barrel-aftermath-expired.png",
+      "bytes": 397228,
+      "sha256": "6c9739b5a22eb9a2f5f60213492d54e37081334323c9f33a0e23706dfebab231"
+    },
+    {
+      "name": "glass-map0-intact",
+      "time": 2.199999999999995,
+      "map": 0,
+      "playerPosition": {
+        "x": 11.890000030398369,
+        "y": 0,
+        "z": 6.138999819755554
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 11.890000030398369,
+        "y": 1.6600000000000001,
+        "z": 6.138999819755554
+      },
+      "draws": 171,
+      "triangles": 265278,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 180,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map0-intact.png",
+      "bytes": 453857,
+      "sha256": "7b72f6567da8a4e574d5ceb6b05b9037d896f8609e2765538cd887a21f134824"
+    },
+    {
+      "name": "glass-map0-first-hit",
+      "time": 2.8499999999999925,
+      "map": 0,
+      "playerPosition": {
+        "x": 11.890000030398369,
+        "y": 0,
+        "z": 6.138999819755554
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 11.890000030398369,
+        "y": 1.6600000000000001,
+        "z": 6.138999819755554
+      },
+      "draws": 167,
+      "triangles": 265212,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 1
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 1,
+      "glassStates": 1,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 180,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map0-first-hit.png",
+      "bytes": 454154,
+      "sha256": "eabe1ae0b581c83c7e8d2d706bcdf026ee517e735bc21f986b83fae0b09f54ea"
+    },
+    {
+      "name": "glass-map0-progressive",
+      "time": 4.083333333333326,
+      "map": 0,
+      "playerPosition": {
+        "x": 11.890000030398369,
+        "y": 0,
+        "z": 6.138999819755554
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 11.890000030398369,
+        "y": 1.6600000000000001,
+        "z": 6.138999819755554
+      },
+      "draws": 167,
+      "triangles": 265226,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 1
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 1,
+      "glassStates": 1,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 180,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map0-progressive.png",
+      "bytes": 457928,
+      "sha256": "30fb0fb08b5c2b8fa42e46ea6a0e30a2bfdebeebfb6e4447f5644c28b0617d43"
+    },
+    {
+      "name": "glass-map0-round-reset",
+      "time": 4.083333333333326,
+      "map": 0,
+      "playerPosition": {
+        "x": 11.890000030398369,
+        "y": 0,
+        "z": 6.138999819755554
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": 11.890000030398369,
+        "y": 1.6600000000000001,
+        "z": 6.138999819755554
+      },
+      "draws": 165,
+      "triangles": 265218,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 180,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map0-round-reset.png",
+      "bytes": 453887,
+      "sha256": "cec7334c7d3f5140fbe456fcab480c1c0328818301ea8f1960694116249eb78a"
+    },
+    {
+      "name": "glass-map14-intact",
+      "time": 2.199999999999995,
+      "map": 14,
+      "playerPosition": {
+        "x": -46.617199924874306,
+        "y": 0,
+        "z": -47.230800022315975
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -46.617199924874306,
+        "y": 1.6600000000000001,
+        "z": -47.230800022315975
+      },
+      "draws": 192,
+      "triangles": 355724,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map14-intact.png",
+      "bytes": 524516,
+      "sha256": "2a0b9c99482522a8f5864b7abb5ec91fb58647ee2dcfbaf7f13417f0cb354ada"
+    },
+    {
+      "name": "glass-map14-first-hit",
+      "time": 2.8499999999999925,
+      "map": 14,
+      "playerPosition": {
+        "x": -46.617199924874306,
+        "y": 0,
+        "z": -47.230800022315975
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -46.617199924874306,
+        "y": 1.6600000000000001,
+        "z": -47.230800022315975
+      },
+      "draws": 188,
+      "triangles": 355658,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 1
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 1,
+      "glassStates": 1,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map14-first-hit.png",
+      "bytes": 526342,
+      "sha256": "1195149ebd17fa391552461b0baddf8fb770473c31672417a5ab85bb4c5558a6"
+    },
+    {
+      "name": "glass-map14-progressive",
+      "time": 4.083333333333326,
+      "map": 14,
+      "playerPosition": {
+        "x": -46.617199924874306,
+        "y": 0,
+        "z": -47.230800022315975
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -46.617199924874306,
+        "y": 1.6600000000000001,
+        "z": -47.230800022315975
+      },
+      "draws": 188,
+      "triangles": 355672,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 1
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 1,
+      "glassStates": 1,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map14-progressive.png",
+      "bytes": 531020,
+      "sha256": "b56f8ac5c74a1a7f5affa63c12bafe88c0a39ef2cefe5790f2f7c2512564d5f1"
+    },
+    {
+      "name": "glass-map14-round-reset",
+      "time": 4.083333333333326,
+      "map": 14,
+      "playerPosition": {
+        "x": -46.617199924874306,
+        "y": 0,
+        "z": -47.230800022315975
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -46.617199924874306,
+        "y": 1.6600000000000001,
+        "z": -47.230800022315975
+      },
+      "draws": 186,
+      "triangles": 355664,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 0,
+        "fire": 0,
+        "glass": 0
+      },
+      "shockInstances": 0,
+      "fireInstances": 0,
+      "glassInstances": 0,
+      "glassStates": 0,
+      "shockLives": [],
+      "fireLives": [],
+      "fireHeight": 1.2542932033538818,
+      "fireAlpha": 1.150424648257856e-14,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/glass-map14-round-reset.png",
+      "bytes": 527278,
+      "sha256": "bc4a1805e126ec5d7c19ab9d6121276fda261947949e4d0b73b98608595bf60e"
+    },
+    {
+      "name": "low-quality-bounded-event-burst",
+      "time": 4.083333333333326,
+      "map": 14,
+      "playerPosition": {
+        "x": -46.617199924874306,
+        "y": 0,
+        "z": -47.230800022315975
+      },
+      "floor": 0,
+      "grounded": true,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "eye": {
+        "x": -46.617199924874306,
+        "y": 1.6600000000000001,
+        "z": -47.230800022315975
+      },
+      "draws": 141,
+      "triangles": 266952,
+      "renderPasses": 2,
+      "effectDraws": {
+        "shock": 1,
+        "fire": 1,
+        "glass": 1
+      },
+      "shockInstances": 2,
+      "fireInstances": 6,
+      "glassInstances": 2,
+      "glassStates": 1,
+      "shockLives": [
+        0.42000000000000004,
+        0.42000000000000004,
+        0.42000000000000004,
+        0.42000000000000004,
+        0.42000000000000004,
+        0.42000000000000004
+      ],
+      "fireLives": [
+        11.9,
+        11.9,
+        11.9,
+        11.9,
+        11.9,
+        11.9
+      ],
+      "fireHeight": 1.4254230260849,
+      "fireAlpha": 0.5375000238418579,
+      "nativeWorldBatches": 282,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "loaded": true,
+      "path": "art-release64/low-quality-bounded-event-burst.png",
+      "bytes": 380051,
+      "sha256": "eb7ea3d7bcdba856663759adc85a1d147fb87d771f9da0e7ba9819463a62272d"
+    }
+  ]
+}

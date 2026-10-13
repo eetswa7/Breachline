@@ -1,0 +1,630 @@
+{
+  "runtimeRelease": "65",
+  "sourceCommit": "bb095df941e6c1a21a451e102060377991766263",
+  "runtimeWorkingTreeDirty": false,
+  "runtimeHashes": {
+    "dist/js/boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "dist/js/audio.js": "2ae2d3efa7a5c203030c11cecef3ee20211927e42f175d8c8b0cbe1bf2de610e",
+    "dist/js/spatial-audio.js": "bee073e5d364176b917a047eaba0355b8632aca5c9d7e3b1e877816efae468ec",
+    "dist/js/audio-library.js": "e5157853945468ebd90d4129e7070c5dc582f276cd58126045dd9ea79f411092",
+    "dist/js/audio-files.js": "f0ccd1ee2038db8ca88c04cb42c5450e9f12aab91b9b7b6d0d1c83cb7a95ce4a",
+    "dist/js/weapons.js": "42f1dde4744fd936851a2843e87491a4f06ca1fe4c4d7deb0e06fe16c03d02ed",
+    "dist/js/engine.js": "24d88369a886ce707f8b10a2751348870318a50751524c41e1591d9255c27683",
+    "dist/js/weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e",
+    "dist/js/casing-foley.js": "5a6209e4531a92d7bc7da574b5ea273ec30d0c9c64b84d8b49b2d3d3bd99bb1c",
+    "dist/js/math.js": "fbfda73463c46140efcdc2c8ec553230bb4a91c9b271f0b8903f942da1db750a"
+  },
+  "browser": "154.0.8037.57",
+  "capturedAt": "2026-10-13T03:23:36.360Z",
+  "kind": "isolated_native_component_timeline_reel",
+  "sampleRate": 44100,
+  "durationSeconds": 35.09167800453515,
+  "decodedPeak": 0.09028873592615128,
+  "decodedRms": 0.0021795714013001233,
+  "dryLocalPlayer": true,
+  "normalized": false,
+  "segments": [
+    {
+      "weapon": 0,
+      "name": "Kestrel AR",
+      "empty": true,
+      "startSeconds": 0,
+      "durationSeconds": 2.3833333333333275,
+      "cues": [
+        {
+          "cue": "release",
+          "component": "magazine",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.43333333333333385
+        },
+        {
+          "cue": "extract",
+          "component": "magazine",
+          "phase": 0.34,
+          "cycle": 0,
+          "emittedSeconds": 0.8166666666666662
+        },
+        {
+          "cue": "handling",
+          "component": "magazine",
+          "phase": 0.52,
+          "cycle": 0,
+          "emittedSeconds": 1.2416666666666647
+        },
+        {
+          "cue": "insert",
+          "component": "magazine",
+          "phase": 0.64,
+          "cycle": 0,
+          "emittedSeconds": 1.524999999999997
+        },
+        {
+          "cue": "seat",
+          "component": "magazine",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 1.7666666666666628
+        },
+        {
+          "cue": "open",
+          "component": "bolt",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 1.9999999999999953
+        },
+        {
+          "cue": "close",
+          "component": "bolt",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 2.2416666666666614
+        }
+      ]
+    },
+    {
+      "weapon": 0,
+      "name": "Kestrel AR",
+      "empty": false,
+      "startSeconds": 3.0333333333333274,
+      "durationSeconds": 2.208333333333328,
+      "cues": [
+        {
+          "cue": "release",
+          "component": "magazine",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.4000000000000004
+        },
+        {
+          "cue": "extract",
+          "component": "magazine",
+          "phase": 0.34,
+          "cycle": 0,
+          "emittedSeconds": 0.7499999999999998
+        },
+        {
+          "cue": "handling",
+          "component": "magazine",
+          "phase": 0.52,
+          "cycle": 0,
+          "emittedSeconds": 1.1499999999999984
+        },
+        {
+          "cue": "insert",
+          "component": "magazine",
+          "phase": 0.64,
+          "cycle": 0,
+          "emittedSeconds": 1.4083333333333308
+        },
+        {
+          "cue": "seat",
+          "component": "magazine",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 1.63333333333333
+        }
+      ]
+    },
+    {
+      "weapon": 4,
+      "name": "Lynx PDW",
+      "empty": true,
+      "startSeconds": 5.891666666666655,
+      "durationSeconds": 1.9833333333333287,
+      "cues": [
+        {
+          "cue": "release",
+          "component": "topMagazine",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.3583333333333336
+        },
+        {
+          "cue": "extract",
+          "component": "topMagazine",
+          "phase": 0.34,
+          "cycle": 0,
+          "emittedSeconds": 0.675
+        },
+        {
+          "cue": "handling",
+          "component": "topMagazine",
+          "phase": 0.52,
+          "cycle": 0,
+          "emittedSeconds": 1.033333333333332
+        },
+        {
+          "cue": "insert",
+          "component": "topMagazine",
+          "phase": 0.64,
+          "cycle": 0,
+          "emittedSeconds": 1.274999999999998
+        },
+        {
+          "cue": "seat",
+          "component": "topMagazine",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 1.466666666666664
+        },
+        {
+          "cue": "open",
+          "component": "bolt",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 1.6666666666666632
+        },
+        {
+          "cue": "close",
+          "component": "bolt",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 1.8666666666666625
+        }
+      ]
+    },
+    {
+      "weapon": 5,
+      "name": "Breach 12",
+      "empty": true,
+      "startSeconds": 8.524999999999984,
+      "durationSeconds": 3.6749999999999896,
+      "cues": [
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 0,
+          "emittedSeconds": 0.06666666666666667
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 0,
+          "emittedSeconds": 0.3583333333333336
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 0,
+          "emittedSeconds": 0.40833333333333377
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 1,
+          "emittedSeconds": 0.591666666666667
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 1,
+          "emittedSeconds": 0.8833333333333326
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 1,
+          "emittedSeconds": 0.9333333333333325
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 2,
+          "emittedSeconds": 1.1166666666666651
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 2,
+          "emittedSeconds": 1.4083333333333308
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 2,
+          "emittedSeconds": 1.4583333333333306
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 3,
+          "emittedSeconds": 1.6416666666666633
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 3,
+          "emittedSeconds": 1.933333333333329
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 3,
+          "emittedSeconds": 1.9833333333333287
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 4,
+          "emittedSeconds": 2.1666666666666616
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 4,
+          "emittedSeconds": 2.4583333333333273
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 4,
+          "emittedSeconds": 2.508333333333327
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 5,
+          "emittedSeconds": 2.6916666666666598
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 5,
+          "emittedSeconds": 2.9833333333333254
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 5,
+          "emittedSeconds": 3.033333333333325
+        },
+        {
+          "cue": "retrieve",
+          "component": "shell",
+          "phase": 0.12,
+          "cycle": 6,
+          "emittedSeconds": 3.216666666666658
+        },
+        {
+          "cue": "insert",
+          "component": "shell",
+          "phase": 0.68,
+          "cycle": 6,
+          "emittedSeconds": 3.5083333333333235
+        },
+        {
+          "cue": "seat",
+          "component": "shell",
+          "phase": 0.78,
+          "cycle": 6,
+          "emittedSeconds": 3.5583333333333234
+        }
+      ]
+    },
+    {
+      "weapon": 9,
+      "name": "Atlas L",
+      "empty": true,
+      "startSeconds": 12.849999999999973,
+      "durationSeconds": 4.883333333333366,
+      "cues": [
+        {
+          "cue": "coverOpen",
+          "component": "feedCover",
+          "phase": 0.16,
+          "cycle": 0,
+          "emittedSeconds": 0.783333333333333
+        },
+        {
+          "cue": "release",
+          "component": "beltBox",
+          "phase": 0.31,
+          "cycle": 0,
+          "emittedSeconds": 1.5166666666666637
+        },
+        {
+          "cue": "extract",
+          "component": "beltBox",
+          "phase": 0.43,
+          "cycle": 0,
+          "emittedSeconds": 2.099999999999995
+        },
+        {
+          "cue": "feed",
+          "component": "belt",
+          "phase": 0.53,
+          "cycle": 0,
+          "emittedSeconds": 2.59166666666666
+        },
+        {
+          "cue": "insert",
+          "component": "beltBox",
+          "phase": 0.68,
+          "cycle": 0,
+          "emittedSeconds": 3.324999999999991
+        },
+        {
+          "cue": "seat",
+          "component": "beltBox",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 3.6166666666666565
+        },
+        {
+          "cue": "open",
+          "component": "bolt",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 4.099999999999993
+        },
+        {
+          "cue": "coverClose",
+          "component": "feedCover",
+          "phase": 0.86,
+          "cycle": 0,
+          "emittedSeconds": 4.199999999999998
+        },
+        {
+          "cue": "close",
+          "component": "bolt",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 4.5916666666666845
+        }
+      ]
+    },
+    {
+      "weapon": 10,
+      "name": "Sable P",
+      "empty": true,
+      "startSeconds": 18.38333333333334,
+      "durationSeconds": 1.4833333333333305,
+      "cues": [
+        {
+          "cue": "release",
+          "component": "magazine",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.26666666666666666
+        },
+        {
+          "cue": "extract",
+          "component": "magazine",
+          "phase": 0.34,
+          "cycle": 0,
+          "emittedSeconds": 0.508333333333334
+        },
+        {
+          "cue": "handling",
+          "component": "magazine",
+          "phase": 0.52,
+          "cycle": 0,
+          "emittedSeconds": 0.7749999999999997
+        },
+        {
+          "cue": "insert",
+          "component": "magazine",
+          "phase": 0.64,
+          "cycle": 0,
+          "emittedSeconds": 0.9499999999999991
+        },
+        {
+          "cue": "seat",
+          "component": "magazine",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 1.0999999999999985
+        },
+        {
+          "cue": "close",
+          "component": "slide",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 1.3916666666666642
+        }
+      ]
+    },
+    {
+      "weapon": 20,
+      "name": "Rampart 556",
+      "empty": true,
+      "startSeconds": 20.51666666666667,
+      "durationSeconds": 5.133333333333378,
+      "cues": [
+        {
+          "cue": "release",
+          "component": "magazine",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.9249999999999992
+        },
+        {
+          "cue": "extract",
+          "component": "magazine",
+          "phase": 0.34,
+          "cycle": 0,
+          "emittedSeconds": 1.7499999999999962
+        },
+        {
+          "cue": "handling",
+          "component": "magazine",
+          "phase": 0.52,
+          "cycle": 0,
+          "emittedSeconds": 2.674999999999993
+        },
+        {
+          "cue": "insert",
+          "component": "magazine",
+          "phase": 0.64,
+          "cycle": 0,
+          "emittedSeconds": 3.2833333333333243
+        },
+        {
+          "cue": "seat",
+          "component": "magazine",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 3.799999999999989
+        },
+        {
+          "cue": "open",
+          "component": "bolt",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 4.316666666666671
+        },
+        {
+          "cue": "close",
+          "component": "bolt",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 4.8250000000000295
+        }
+      ]
+    },
+    {
+      "weapon": 22,
+      "name": "Krait R",
+      "empty": true,
+      "startSeconds": 26.300000000000047,
+      "durationSeconds": 2.6083333333333267,
+      "cues": [
+        {
+          "cue": "open",
+          "component": "cylinder",
+          "phase": 0.18,
+          "cycle": 0,
+          "emittedSeconds": 0.47500000000000064
+        },
+        {
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "phase": 0.4,
+          "cycle": 0,
+          "emittedSeconds": 1.0416666666666654
+        },
+        {
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 2.1916666666666615
+        }
+      ]
+    },
+    {
+      "weapon": 27,
+      "name": "Sentinel 762",
+      "empty": true,
+      "startSeconds": 29.558333333333373,
+      "durationSeconds": 4.483333333333346,
+      "cues": [
+        {
+          "cue": "coverOpen",
+          "component": "feedCover",
+          "phase": 0.16,
+          "cycle": 0,
+          "emittedSeconds": 0.7249999999999999
+        },
+        {
+          "cue": "release",
+          "component": "beltBox",
+          "phase": 0.31,
+          "cycle": 0,
+          "emittedSeconds": 1.3916666666666642
+        },
+        {
+          "cue": "extract",
+          "component": "beltBox",
+          "phase": 0.43,
+          "cycle": 0,
+          "emittedSeconds": 1.933333333333329
+        },
+        {
+          "cue": "feed",
+          "component": "belt",
+          "phase": 0.53,
+          "cycle": 0,
+          "emittedSeconds": 2.3749999999999942
+        },
+        {
+          "cue": "insert",
+          "component": "beltBox",
+          "phase": 0.68,
+          "cycle": 0,
+          "emittedSeconds": 3.049999999999992
+        },
+        {
+          "cue": "seat",
+          "component": "beltBox",
+          "phase": 0.74,
+          "cycle": 0,
+          "emittedSeconds": 3.3166666666666575
+        },
+        {
+          "cue": "open",
+          "component": "bolt",
+          "phase": 0.84,
+          "cycle": 0,
+          "emittedSeconds": 3.766666666666656
+        },
+        {
+          "cue": "coverClose",
+          "component": "feedCover",
+          "phase": 0.86,
+          "cycle": 0,
+          "emittedSeconds": 3.8583333333333223
+        },
+        {
+          "cue": "close",
+          "component": "bolt",
+          "phase": 0.94,
+          "cycle": 0,
+          "emittedSeconds": 4.216666666666666
+        }
+      ]
+    }
+  ],
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "description": "Representative empty/tactical component timelines from real Weapon/Game reload events. Exact shipped native-decoded clips use gameplay regions, gains and edge ramps. Dry isolated local-player playback, without combat masking or loudness normalization."
+}
