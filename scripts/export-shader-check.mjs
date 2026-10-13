@@ -11,6 +11,8 @@ import {decodeBlenderLibrary,parseBlenderGLB,BlenderAssets} from '../dist/js/ble
 import {readRuntimeLibrary} from './asset-parts.mjs';
 import {billboardVertex,billboardFragment} from '../dist/js/particles.js';
 import {DecalSystem} from '../dist/js/decal-system.js';
+import {shockVertex,shockFragment} from '../dist/js/explosion-shock.js';
+import {fireVertex,fireFragment} from '../dist/js/environmental-fire.js';
 const counts={NUM_DIR_LIGHTS:1,NUM_POINT_LIGHTS:3,NUM_SPOT_LIGHTS:0,NUM_HEMI_LIGHTS:1,NUM_RECT_AREA_LIGHTS:0,NUM_DIR_LIGHT_SHADOWS:1,NUM_POINT_LIGHT_SHADOWS:0,NUM_SPOT_LIGHT_SHADOWS:0,NUM_SPOT_LIGHT_MAPS:0,NUM_SPOT_LIGHT_COORDS:0,NUM_SPOT_LIGHT_SHADOWS_WITH_MAPS:0,NUM_CLIPPING_PLANES:0,UNION_CLIPPING_PLANES:0};
 function expand(s){return s.replace(/#include <([\w_]+)>/g,(_,key)=>{if(!T.ShaderChunk[key])throw Error(key);return expand(T.ShaderChunk[key]);});}
 function finalise(s,lights){s=expand(s);for(const [k,v]of Object.entries(lights))s=s.replace(new RegExp('\\b'+k+'\\b','g'),String(v));return s.replace(/#pragma unroll_loop_start\s+for \( int i = (\d+); i < (\d+); i \+\+ \) \{([\s\S]+?)\}\s+#pragma unroll_loop_end/g,(_,a,b,body)=>Array.from({length:b-a},(_,i)=>body.replace(/\[\s*i\s*\]/g,'[ '+(Number(a)+i)+' ]').replace(/UNROLLED_LOOP_INDEX/g,String(Number(a)+i))).join(''));}
@@ -55,4 +57,14 @@ const fx={
  fragment:finalise(fxPrefix+'#define varying in\n#define texture2D texture\n#define gl_FragColor breachOutput\n#define TONE_MAPPING\nlayout(location=0) out vec4 breachOutput;\n'+T.ShaderChunk.colorspace_pars_fragment+'\nvec4 linearToOutputTexel(vec4 value){return sRGBTransferOETF(value);}\n'+T.ShaderChunk.tonemapping_pars_fragment+'\nvec3 toneMapping(vec3 color){return ACESFilmicToneMapping(color);}\n'+billboardFragment,{})
 };
 unique.set('billboards',{name:'effects/instanced-billboards',...fx});
+// Export the shipped Release 64 world-space programs too. Attribute declarations
+// live in the shaders; this gate checks their expanded GLSL, not a substitute.
+for(const [name,vertexShader,fragmentShader] of [
+ ['effects/explosion-shock',shockVertex,shockFragment],
+ ['effects/environmental-fire',fireVertex,fireFragment]
+]){
+ const vertex=finalise(fxPrefix+'#define attribute in\n#define varying out\nin vec3 position;in vec2 uv;\n'+vertexShader,{});
+ const fragment=finalise(fxPrefix+'#define varying in\n#define gl_FragColor breachOutput\n#define TONE_MAPPING\nlayout(location=0) out vec4 breachOutput;\n'+T.ShaderChunk.colorspace_pars_fragment+'\nvec4 linearToOutputTexel(vec4 value){return sRGBTransferOETF(value);}\n'+T.ShaderChunk.tonemapping_pars_fragment+'\nvec3 toneMapping(vec3 color){return ACESFilmicToneMapping(color);}\n'+fragmentShader,{});
+ unique.set(name,{name,vertex,fragment});
+}
 console.log(JSON.stringify([...unique.values()]));
