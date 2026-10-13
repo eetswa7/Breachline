@@ -381,7 +381,9 @@ export class Renderer {
       // Two-triangle floor finishes are cheap to submit together; retain spatial
       // chunks for 3D architecture where frustum culling saves substantial work.
       const cell=this.arena.info.size>50?48:32;
-      const chunk = p.ground ? 'ground' : p.mesh==='surface'?'surface':`${Math.floor(p.x / cell)}/${Math.floor(p.z / cell)}`;
+      // Centre a spatial cell on the map origin. Splitting at zero needlessly
+      // divides the central building into four otherwise identical batches.
+      const chunk = p.ground ? 'ground' : p.mesh==='surface'?'surface':`${Math.floor((p.x + cell*.5) / cell)}/${Math.floor((p.z + cell*.5) / cell)}`;
       const key = `${chunk}/${mesh}/${materialKey}`;
       if (!bins.has(key)) bins.set(key, []); bins.get(key).push(p);
     }

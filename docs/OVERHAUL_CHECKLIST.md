@@ -410,6 +410,9 @@ These are Release 57 measurements, not measurements of Release 60.
 - [x] **Complete:** Aggressive, visually intelligent LOD. Projected-size detail
   selection/hysteresis implemented.
 - [x] **Complete:** Efficient instancing/batching. Implemented/preserved.
+  Centred spatial cells restore the existing world-batch budget: the isolated
+  sixteen-map/49-view maximum decreases from 223 to 212 without new resources.
+  Updated 2026-10-14; [source comparison and pending native review](WORLD_BATCHES67.md).
 - [x] **Complete:** Baked lighting. Sixteen ground-lighting bakes.
 - [x] **Complete:** Efficient texture compression. ASTC/fallback formats included.
 - [ ] **Partial:** Occlusion/frustum culling. Frustum/spatial culling exists;
@@ -587,6 +590,7 @@ These are Release 57 measurements, not measurements of Release 60.
 ## Update log
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-14 | Rechecked the 397-test source baseline and restored its failing Blacksite world-batch budget with centred spatial cells. All sixteen maps and 49 scene fixtures stay within the existing 220-batch cap. Native visual integration and new production work follow; no broader art requirement newly completed. | [Batch evidence and limits](WORLD_BATCHES67.md). |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
 | 2026-10-12 | Implemented dedicated ricochet and penetration audio (complete within the documented cosmetic/event scope), surface-specific casing landings (partial), and weapon inspection/recoil/inertia (partial pending native temporal review). The staged usable source passed 88 focused regressions and the 78-module/offline check; all 408 sounds decoded and cleaned up in Chromium. | `30682fcd600d17ac4f9042692e63fdc2af225894`; [audio evidence](BALLISTIC_AUDIO61.md), [motion evidence](WEAPON_MOTION61.md). |
 | 2026-10-12 | Completed native visual acceptance of inspection and revised firing motion; implemented reviewed rigid-rig walk/run, crouch/aim and state blending. Advanced Blacksite architecture/ground treatment and hit/death poses while keeping broader art/animation requirements partial. All sixteen maps rendered; final validation is in the Release 61 report. | `20b987517c8c2d1685f301e509ad790d3c1b05ae`; [Release 61 evidence and remaining limits](ART_RELEASE61.md), [Blacksite](BLACKSITE61.md), [weapon motion](WEAPON_MOTION61.md), [character motion](CHARACTER_MOTION61.md). |
