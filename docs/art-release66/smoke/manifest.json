@@ -1,0 +1,120 @@
+{
+  "kind": "native_gameplay_smoke_temporal_comparison",
+  "actual_iphone_data": false,
+  "professional_visual_standard_met": false,
+  "capturedAt": "2026-10-13T08:16:36.492Z",
+  "beforeSourceCommit": "8ea3391a449cbf2562cf2f9e033d2cd327149098",
+  "afterSourceCommit": "4dd969cf5c34cef1bf013ff18c733f476b1c7f5f",
+  "beforeRuntimeSha256": {
+    "three-renderer.js": "f1976b300180a5dbeb4f6186607aea9f00f0ac0aaeb33d1cb2350b2c6b15c990",
+    "particles.js": "34f6b20b759ce4d29f537c66f69fc7ad0a9b023e939f5166bb55bb09c71030c0",
+    "engine.js": "c71c675c783473f4c35180b7e0d62c2d18a32d8558ebb17c2121a818685a9c74",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a"
+  },
+  "afterRuntimeSha256": {
+    "three-renderer.js": "8c192099c6f52854bb93523cb26129a51e95ef081006c331a90d89a962e998c1",
+    "particles.js": "290941107f4179f4838275b10de4c082d01e36dde4fdebfb9c2a58cd4e138dd7",
+    "engine.js": "c71c675c783473f4c35180b7e0d62c2d18a32d8558ebb17c2121a818685a9c74",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a"
+  },
+  "images": [
+    {
+      "name": "smoke-expansion-500ms",
+      "path": "before-smoke-expansion-500ms.png",
+      "bytes": 334846,
+      "sha256": "905c021b8eb96eb720793bd726d1dfc68e6c881282ffe90a22d9657cd7aa2408",
+      "stage": "before"
+    },
+    {
+      "name": "smoke-established-1300ms",
+      "path": "before-smoke-established-1300ms.png",
+      "bytes": 329701,
+      "sha256": "7adfe9ddc1b64127356ee41974e322d42d78fc605c0e426f5ff0ac032a39f44e",
+      "stage": "before"
+    },
+    {
+      "name": "smoke-inside",
+      "path": "before-smoke-inside.png",
+      "bytes": 262657,
+      "sha256": "c1fd79d6e30d6b005dcd5d822a2e1a401c5a3659cb5f530c80a67ef577078b67",
+      "stage": "before"
+    },
+    {
+      "name": "smoke-birth",
+      "path": "smoke-birth.png",
+      "bytes": 332139,
+      "sha256": "3620d51daf6291e910733e1b348c52a2943455374fb347306d8db3f262a9b94e",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-burst-100ms",
+      "path": "smoke-burst-100ms.png",
+      "bytes": 332806,
+      "sha256": "5c01479b1f38cd4e80ee6103a2e94b8e83659e4db6ec87b749bdb0970170bf62",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-expansion-500ms",
+      "path": "smoke-expansion-500ms.png",
+      "bytes": 333421,
+      "sha256": "02f4e5aa23bec6e0668d777c946e065f3600fa8f7628a96020b1be6c0393e7c1",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-established-1300ms",
+      "path": "smoke-established-1300ms.png",
+      "bytes": 327185,
+      "sha256": "88d8247e827dafb98edf0b1cc480ffbcf8e331b1db5253859a62451eaf27e206",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-roll-5s",
+      "path": "smoke-roll-5s.png",
+      "bytes": 326834,
+      "sha256": "a2789aa63a46f86d6d4d09ab43aef3eefce70527acbe4cbdaf2cf30ad676e1ff",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-hold-12s",
+      "path": "smoke-hold-12s.png",
+      "bytes": 327120,
+      "sha256": "ddda9ea93501aef9caa6be30f0cc18f9552ba2be9874a22167fd924fb0a83b94",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-fade-14p5s",
+      "path": "smoke-fade-14p5s.png",
+      "bytes": 330346,
+      "sha256": "0c6b2141ec67a43d79baf2e18ec3f9b7cb71efc9de9670bbfefa7c1c3986a8bd",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-final-15p9s",
+      "path": "smoke-final-15p9s.png",
+      "bytes": 332423,
+      "sha256": "6627b5521445960ac80128207df2d1caf85af991ef2ed380091f50c5650f5a99",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-expired-16p1s",
+      "path": "smoke-expired-16p1s.png",
+      "bytes": 332094,
+      "sha256": "ec3bb0ef314e0b2d71e35411e58afb8a76fd69a248d087e7880fc6e6aef0f6b6",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-inside",
+      "path": "smoke-inside.png",
+      "bytes": 95241,
+      "sha256": "607ed86372848f8c73611502ce8638b388e93ecdd0828d59f1506a2bf64d3e93",
+      "stage": "after"
+    },
+    {
+      "name": "smoke-low-quality",
+      "path": "smoke-low-quality.png",
+      "bytes": 254275,
+      "sha256": "da15c54e91710912725ae8dc702974df0d3296fc385efb664ec5ac8695853a44",
+      "stage": "after"
+    }
+  ]
+}

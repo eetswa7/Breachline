@@ -14,7 +14,7 @@ import {installMetricUV,patchMetricUV} from './surface-uv.js?v=65';
 import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=65';
 import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=65';
 import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=65';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=65';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=65';
 import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=65';
 import {DecalSystem} from './decal-system.js?v=65';
 import {ExplosionShockSystem} from './explosion-shock.js?v=65';
@@ -696,16 +696,7 @@ export class Renderer {
       const size=c.shell?.066:.048;
       count=this.writeBillboard(count,c.x,c.y,c.z,size,size*(c.shell?.38:.35),c.shell?.54:.63,c.shell?.19:.43,.12,Math.min(1,c.life*5),3+((c.life*.4+c.weapon*.13)%1));
     }
-    for (const smoke of game.smokes) {
-      const radius = Math.min(5.2, smoke.age * 4), alpha = Math.min(.8, smoke.age) * clamp((16 - smoke.age) / 3, 0, 1);
-      const layers = (QUALITY[this.quality] ?? QUALITY.medium).smokeLayers;
-      // Match eight layers' total opacity with fewer overlapping fragments.
-      const opacity = 1 - Math.pow(1 - alpha, 8 / layers);
-      for (let i = 0; i < layers; i++) { const angle = i * 2.399 + smoke.age * .07;
-        count = this.writeBillboard(count, smoke.x + Math.sin(angle) * radius * .34,
-          smoke.y + 1.25 + i % 3 * .48, smoke.z + Math.cos(angle) * radius * .34,
-          radius * 1.7, 3.7, .38, .41, .40, opacity, (i * .381966 + smoke.age * .008) % 1); }
-    }
+    count=grenadeSmokeBillboards(this,count,game.smokes);
     this.weatherField??={active:[],slots:Array.from({length:36},()=>({color:[0,0,0]}))};
     for(const p of weatherParticles(this,game.time??0,this.weatherField))count=this.writeBillboard(count,p.x,p.y,p.z,p.sizeX,p.sizeY,...p.color,p.alpha,p.kind+(p.yaw/(Math.PI*2)+1)%1);
     count=ambientDust(this,count,game.time??0);

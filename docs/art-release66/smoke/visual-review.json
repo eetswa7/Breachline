@@ -1,0 +1,82 @@
+{
+  "kind": "actual_native_smoke_frame_review",
+  "reviewedAt": "2026-10-13T08:18:40.462Z",
+  "actual_iphone_data": false,
+  "professional_visual_standard_met": false,
+  "reviewed": [
+    "before-smoke-burst-100ms.png",
+    "before-smoke-established-1300ms.png",
+    "before-smoke-inside.png",
+    "smoke-expansion-500ms.png",
+    "smoke-established-1300ms.png",
+    "smoke-roll-5s.png",
+    "smoke-fade-14p5s.png",
+    "smoke-inside.png",
+    "smoke-low-quality.png",
+    "before-smoke-expansion-500ms.png"
+  ],
+  "findings": [
+    "Fresh smoke expands from a compact ground plume instead of drawing an immediate tall narrow strip.",
+    "Established smoke remains a smoother billboard fog bank; temporal lobe motion and advected density improve it without establishing authored volumetric smoke quality.",
+    "The held cloud conceals facade detail more strongly in the actual matched frame.",
+    "The captured interior view veils the distant world completely while preserving the first-person gun. This is one viewpoint rather than all-angle visual acceptance.",
+    "Low quality retains four layers and complete engine smoke lifecycle."
+  ],
+  "limits": [
+    "Fixed-step software Chromium captures do not establish physical iPhone timing, sustained frame pacing, memory or thermal cost.",
+    "Authored animated smoke sheets, depth-buffer soft intersections, physically based volumetric light response and comprehensive indoor/outdoor all-angle acceptance remain open.",
+    "The bound below is sum of world-space quad areas; projected fragment overdraw has not been measured."
+  ],
+  "costs": {
+    "kind": "bounded_smoke_geometry_cost_estimate",
+    "actual_iphone_data": false,
+    "measured_projected_overdraw": false,
+    "addedTextures": 0,
+    "addedDraws": 0,
+    "addedRenderPasses": 0,
+    "addedPools": 0,
+    "sharedFxCapacity": 280,
+    "peakSmokeClouds": 8,
+    "shaderCost": "Two sin evaluations and one exp per smoke fragment beyond the previous density rotation; no additional texture sample. All existing kind-0 smoke particles share this treatment.",
+    "quality": {
+      "low": {
+        "layersPerCloud": 4,
+        "peakSmokeInstances": 32,
+        "peakSmokeAttributeUploadBytes": 1280,
+        "maxSampledQuadAreaRatioVsPrevious": 0.8470377755836496,
+        "maxSampledLateralRadiusRatio": 0.979118219601911
+      },
+      "medium": {
+        "layersPerCloud": 5,
+        "peakSmokeInstances": 40,
+        "peakSmokeAttributeUploadBytes": 1600,
+        "maxSampledQuadAreaRatioVsPrevious": 0.8423026178696738,
+        "maxSampledLateralRadiusRatio": 0.979118219601911
+      },
+      "high": {
+        "layersPerCloud": 6,
+        "peakSmokeInstances": 48,
+        "peakSmokeAttributeUploadBytes": 1920,
+        "maxSampledQuadAreaRatioVsPrevious": 0.8339428405757643,
+        "maxSampledLateralRadiusRatio": 0.979118219601911
+      },
+      "ultra": {
+        "layersPerCloud": 6,
+        "peakSmokeInstances": 48,
+        "peakSmokeAttributeUploadBytes": 1920,
+        "maxSampledQuadAreaRatioVsPrevious": 0.8339428405757643,
+        "maxSampledLateralRadiusRatio": 0.979118219601911
+      }
+    },
+    "analyticQuadAreaRatioUpperBoundVsPrevious": 0.9025588235294119,
+    "analyticLateralRadiusRatioUpperBound": 0.98
+  },
+  "matchedExpiredFrames": {
+    "byteIdentical": false,
+    "differentPixels": 9,
+    "totalPixels": 329160,
+    "maxChannelDelta": 1,
+    "meanChannelDelta": 0.000011139466115769434,
+    "notes": "Clear expired frames differ by only nine one-level channel pixels; comparisons retain the same native camera, assets and collision. This is a close matched comparison, not an assertion of byte-identical pixels."
+  }
+}

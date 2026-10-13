@@ -1,3 +1,5 @@
+import {QUALITY} from './graphics-quality.js?v=65';
+
 export const billboardVertex = `
 attribute vec3 instancePosition;
 attribute vec3 instanceTint;
@@ -48,6 +50,11 @@ void main(){
       if(radius>1.0)discard;
       float cs=cos(vSpin),sn=sin(vSpin);
       sampleUv=mat2(cs,sn,-sn,cs)*p*.5+.5;
+      // Advect the density inside the puff instead of rotating an unchanged
+      // stamp. The periodic phase remains continuous when instanceKind wraps;
+      // this uses the same single atlas lookup and shared instanced draw.
+      vec2 flow=vec2(sin(p.y*3.4+vSpin*2.0),sin(p.x*3.1-vSpin*2.0+.8));
+      sampleUv+=flow*.055*(1.0-radius);
     }
     // Keep filtering within a tile instead of leaking its neighbour's colour.
     vec4 stamp=texture2D(uBreachEffects,clamp(sampleUv,vec2(.004),vec2(.996))*.5+vec2(spark?.5:0.0,.5));
@@ -55,7 +62,8 @@ void main(){
     if(smoke){
       // The authored density texture shades a soft cloud volume; rotation breaks
       // the identical stamps without another sample, draw or particle layer.
-      shape=pow(max(0.0,shape),.72)*(1.0-smoothstep(.83,1.0,radius));
+      float density=pow(max(0.0,shape),.72);
+      shape=(1.0-exp(-density*2.2))*(1.0-smoothstep(.83,1.0,radius));
       float volume=sqrt(max(0.0,1.0-radius*radius));
       c*=.72+.28*clamp(volume*.65-p.y*.35+.25,0.0,1.0);
     }
@@ -75,6 +83,37 @@ void main(){
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`;
+
+// The engine owns positions, visibility radius, age, pause and expiry. Only
+// presentation is sampled here; no particle objects or renderer resources are
+// created. Keep the shipped 4/5/6 layers, opacity and eight-cloud capacity.
+export function grenadeSmokeBillboards(renderer,count,smokes){
+  const layers=(QUALITY[renderer.quality]??QUALITY.medium).smokeLayers;
+  for(let n=0;n<Math.min(8,smokes.length);n++){
+    const smoke=smokes[n],age=smoke.age;
+    if(!Number.isFinite(age)||age<=0||age>=16||!Number.isFinite(smoke.x)||!Number.isFinite(smoke.y)||!Number.isFinite(smoke.z))continue;
+    const radius=Math.min(5.2,age*4),growth=radius/5.2;
+    const alpha=Math.min(.8,age)*Math.max(0,Math.min(1,(16-age)/3));
+    const opacity=1-Math.pow(1-alpha,8/layers);
+    const value=smoke.x*.1031+smoke.z*.11369+smoke.y*.13787,seed=value-Math.floor(value);
+    // A short, narrow eruption grows into ground-hugging cloud lobes. Motion
+    // stays bounded rather than drifting the visible cloud away from AI cover.
+    const height=.65+3.05*Math.sqrt(growth);
+    for(let i=0;i<layers;i++){
+      const phase=seed*6.28318530718+i*2.39996322973,roll=age*(.30+i*.013)+phase;
+      const angle=phase+Math.sin(roll*.43)*.20,spread=radius*(.16+.025*Math.sin(roll));
+      const width=radius*(1.55+.04*Math.sin(roll*.77));
+      const tall=height*(.91+.055*Math.sin(roll*.91));
+      const lift=growth*(.06+.10*(1+Math.sin(roll*.68)));
+      const tint=.012*Math.sin(phase);
+      count=renderer.writeBillboard(count,smoke.x+Math.sin(angle)*spread,
+        smoke.y+tall*.44+lift,smoke.z+Math.cos(angle)*spread,
+        width,tall,.38+tint,.41+tint,.40+tint,opacity,
+        (seed+i*.38196601125+age*(.024+i*.0015))%1);
+    }
+  }
+  return count;
+}
 
 // Sparse motes reuse the existing effect draw and only appear by an interior lamp.
 export function ambientDust(renderer,count,time){
