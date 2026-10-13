@@ -1,6 +1,7 @@
 import {WEAPONS} from './weapons.js?v=65';
 import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=65';
 import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=65';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=65';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -46,7 +47,7 @@ const SHOTS=[
 ];
 function randomStream(seed){let n=seed>>>0;return()=>{n^=n<<13;n^=n>>>17;n^=n<<5;return(n>>>0)/2147483648-1;};}
 export class AudioSystem {
- constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.regionStarts=new WeakMap();this.voicePriority=new WeakMap();this.voiceGroup=new WeakMap();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
+ constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.regionStarts=new WeakMap();this.voicePriority=new WeakMap();this.voiceGroup=new WeakMap();this.worldAcoustics=new WorldAcoustics();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
  async start(){try{
   if(!this.context){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;this.context=new C({latencyHint:'interactive'});this.master=this.context.createGain();this.master.gain.value=this.settings.volume;if(this.context.createDynamicsCompressor){this.limiter=this.context.createDynamicsCompressor();this.limiter.threshold.value=-7;this.limiter.knee.value=5;this.limiter.ratio.value=5;this.limiter.attack.value=.003;this.limiter.release.value=.12;this.master.connect(this.limiter);this.limiter.connect(this.context.destination);}else this.master.connect(this.context.destination);this.build();this.makeRoom();}
   if(this.context.state==='suspended')await this.context.resume();this.muted=false;
@@ -153,7 +154,7 @@ export class AudioSystem {
   }
   this.room=this.rooms.get('room').node;this.roomGain=this.rooms.get('room').gain;
  }
- play(key,{volume=1,pan=0,rate=1,indoor=false,distance=0,important=false,occluded=false,region,group,position}={}){
+ play(key,{volume=1,pan=0,rate=1,indoor=false,distance=0,important=false,occluded=false,region,group,position,acoustics}={}){
   const c=this.context;if(!c||this.muted||c.state!=='running'||volume<.006)return;
   // Reserve ambient capacity and replace its oldest tail when a player shot
   // or hit cue needs the last voice. Cleanup remains idempotent on native end.
@@ -166,30 +167,39 @@ export class AudioSystem {
   const buffer=variants?.[take]??this.buffers.get(key);if(!buffer)return;
   this.variationLast.set(key,buffer);
   const source=c.createBufferSource(),gain=c.createGain();source.buffer=buffer;source.playbackRate.value=clamp(rate,.65,1.6);gain.gain.value=clamp(volume,0,1.4);
-  let filter=null,panner=null;
-  if((distance>14||occluded)&&c.createBiquadFilter){filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=occluded?Math.max(600,1600/(1+distance*.018)):Math.max(1200,10500/(1+distance*.045));filter.Q.value=.45;source.connect(filter);filter.connect(gain);}else source.connect(gain);
+  let filter=null,panner=null,envelope=null,worldVoice=null;
+  const tracked=!!(position&&acoustics),now=c.currentTime??0;
+  // A component's edge envelope stays separate from listener-dependent gain.
+  // This prevents movement/cover updates from overwriting its click-free end.
+  if(region&&tracked){envelope=c.createGain();envelope.gain.value=1;envelope.connect(gain);}
+  const input=envelope??gain;
+  if((tracked||distance>14||occluded)&&c.createBiquadFilter){filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=lowpassFrequency(distance,occluded,c.sampleRate??44100);filter.Q.value=.45;source.connect(filter);filter.connect(input);}else source.connect(input);
   if(position&&this.spatialReady)panner=createWorldPanner(c,position);
-  if(!panner&&c.createStereoPanner){panner=c.createStereoPanner();panner.pan.value=clamp(pan,-1,1);}
+  let stereo=null;if(!panner&&c.createStereoPanner){panner=c.createStereoPanner();panner.pan.value=clamp(pan,-1,1);stereo=panner;}
   if(panner){gain.connect(panner);panner.connect(this.master);}else gain.connect(this.master);
   if(indoor&&this.room)gain.connect(this.rooms?.get(indoor==='hall'?'hall':'room')?.node??this.room);
   this.voices++;this.active.add(source);this.voicePriority.set(source,important);if(group)this.voiceGroup.set(source,group);let ended=false;
-  source.onended=()=>{if(ended)return;ended=true;this.voices=Math.max(0,this.voices-1);this.active.delete(source);source.disconnect();gain.disconnect();filter?.disconnect();panner?.disconnect();};
+  source.onended=()=>{if(ended)return;ended=true;this.voices=Math.max(0,this.voices-1);this.active.delete(source);if(worldVoice)this.worldAcoustics.remove(worldVoice);source.disconnect();gain.disconnect();envelope?.disconnect();filter?.disconnect();panner?.disconnect();};
+  let seconds=(buffer.duration??0)/source.playbackRate.value;
+  const track=()=>{if(!tracked)return;const p=acoustics.listener;worldVoice={position:{x:position.x,y:position.y,z:position.z},gain,filter,stereo,level:acoustics.minimum?1:volume/acoustics.attenuation,minimum:acoustics.minimum??0,height:acoustics.height,occluded,coverAt:now,coverX:p.x,coverY:p.y,coverZ:p.z,updatedAt:now,seconds,endTime:now+seconds};this.worldAcoustics.add(worldVoice);};
   if(region&&Number.isFinite(buffer.duration)&&buffer.duration>0){
    const start=clamp(region[0],0,.995)*buffer.duration,end=clamp(region[1],region[0]+.001,1)*buffer.duration;
-   const offset=regionStart(buffer,start,end,this.regionStarts),duration=Math.max(.001,end-offset),seconds=duration/source.playbackRate.value,now=c.currentTime??0;
+   const offset=regionStart(buffer,start,end,this.regionStarts),duration=Math.max(.001,end-offset);seconds=duration/source.playbackRate.value;
    // Short edge ramps keep the selected transient intact without slicing clicks.
-   if(gain.gain.setValueAtTime&&gain.gain.linearRampToValueAtTime){const level=gain.gain.value;gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(level,now+Math.min(.002,seconds*.1));gain.gain.setValueAtTime(level,now+Math.max(.002,seconds-.006));gain.gain.linearRampToValueAtTime(0,now+seconds);}
+   const edge=envelope??gain;if(edge.gain.setValueAtTime&&edge.gain.linearRampToValueAtTime){const level=edge.gain.value;edge.gain.setValueAtTime(0,now);edge.gain.linearRampToValueAtTime(level,now+Math.min(.002,seconds*.1));edge.gain.setValueAtTime(level,now+Math.max(.002,seconds-.006));edge.gain.linearRampToValueAtTime(0,now+seconds);}
+   track();
    source.start(0,offset,duration);
-  }else source.start();
+  }else{track();source.start();}
  }
  stopFoley(source,weapon){const group=source===undefined?null:`foley:${source}:${weapon}`;for(const voice of this.active){const tag=this.voiceGroup.get(voice);if(tag&&(group===null||tag===group)){try{voice.stop();}catch{}voice.onended?.();}}}
  haptic(ms){if(!this.settings.haptics||!navigator.vibrate)return;const now=performance.now();if(now-this.hapticAt<70)return;this.hapticAt=now;navigator.vibrate(ms);}
  events(events,game){
   if(this.master)this.master.gain.value=this.settings.volume;let impacts=0,ballistic=0,cases=0,foley=0;
-  // This also runs for empty batches, keeping playing world tails aligned as
-  // the listener moves/looks. No audio-specific timer or per-voice updater.
+  // Empty batches update listener direction and bounded live world acoustics.
+  // No audio-specific timer, propagation delay or moving emitted wave origin.
   const p=game.player,eye=game.eye?.(p)??{x:p.x,y:p.y+(p.height??1.67)-.12,z:p.z};
   this.spatialReady=updateSpatialListener(this.context,listenerFrame(p,eye));
+  const budget=coverBudget();if(this.context?.state==='running'&&!this.muted)this.worldAcoustics.update(game,this.context,budget);
   for(const e of events){
    const dx=e.position?e.position.x-game.player.x:0,dy=e.position?e.position.y-game.player.y:0,dz=e.position?e.position.z-game.player.z:0;
    const d=Math.hypot(dx,dy,dz),own=e.source===0;
@@ -198,18 +208,19 @@ export class AudioSystem {
    // still travel from their struck surface and pass through intervening cover.
    const localSource=own&&['shot','step','land','weaponFoley'].includes(e.type);
    const position=spatial&&!localSource?e.position:undefined;
-   const occluded=!!(!localSource&&spatial&&e.position&&d>2&&d<80&&game.arena.visible?.({x:game.player.x,y:game.player.y+1.55,z:game.player.z},{x:e.position.x,y:e.position.y+(e.type==='step'?1.1:.08),z:e.position.z})===false);
-   const volume=(localSource||!e.position?1:clamp(1/(1+d*d*.004)-.015,0,.85))*(occluded?.48:1);
+   const height=e.type==='step'?1.1:.08,occluded=!!(position&&coverOcclusion(game,position,d,height,budget));
+   const volume=localSource||!e.position?1:distanceGain(d,occluded);
+   const acoustics=position?{attenuation:volume,minimum:e.type==='explosion'?.06:0,height,listener:p}:undefined;
    const pan=localSource?0:e.position?Math.sin(Math.atan2(dx,-dz)-game.player.yaw):0;
    const room=spatial?roomAcoustics(game.arena,e.position):null;
    switch(e.type){
-    case 'shot':this.play(`${e.suppressed?'suppressed':'shot'}${e.weapon}`,{volume:volume*(own?.85:.72)*(e.loudness??1),pan,rate:.985+Math.random()*.030,indoor:room??e.indoor,distance:d,important:own,occluded,position});if(own)this.haptic(8);break;
-    case 'step':case 'land':if(d<24){const hard=game.arena.indoors(e.position),map=game.arena.info?.id,tag=game.arena.info?.tag,soft=tag==='MIXED'||tag?.includes('FOREST'),land=e.type==='land';const actual=footstepSurface(game.arena,e.position);const sound=actual?'step'+actual:hard?'stepHard':map===8?'stepSnow':map===9?'stepQuarry':soft?'stepSoft':'stepGravel';this.play(sound,{volume:volume*(land?.65:own?.28:.48)*(e.value??1),pan,rate:land?.76:.94+Math.random()*.11,distance:d,important:land&&own,occluded,indoor:room,position});if(land&&own)this.haptic(Math.round(8+12*(e.value??0)));}break;
-    case 'impact':if(!e.ballisticAudio&&d<40&&impacts++<3){const s=e.surface,key=['steel','dark','blue','rust','brass'].includes(s)?'impactMetal':s==='wood'?'impactWood':s==='glass'?'impactGlass':s==='water'?'impactWater':'impactStone';this.play(key,{volume:volume*.34,pan,distance:d,occluded,position});}break;
-    case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position});}break;
-    case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play((e.shell?'hull':'casing')+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position});}break;
-    case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room,position});if(d<14)this.haptic(30);break;
-    case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){this.play(cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region,group:`foley:${e.source}:${e.weapon}`,position});}break;}
+    case 'shot':this.play(`${e.suppressed?'suppressed':'shot'}${e.weapon}`,{volume:volume*(own?.85:.72)*(e.loudness??1),pan,rate:.985+Math.random()*.030,indoor:room??e.indoor,distance:d,important:own,occluded,position,acoustics});if(own)this.haptic(8);break;
+    case 'step':case 'land':if(d<24){const hard=game.arena.indoors(e.position),map=game.arena.info?.id,tag=game.arena.info?.tag,soft=tag==='MIXED'||tag?.includes('FOREST'),land=e.type==='land';const actual=footstepSurface(game.arena,e.position);const sound=actual?'step'+actual:hard?'stepHard':map===8?'stepSnow':map===9?'stepQuarry':soft?'stepSoft':'stepGravel';this.play(sound,{volume:volume*(land?.65:own?.28:.48)*(e.value??1),pan,rate:land?.76:.94+Math.random()*.11,distance:d,important:land&&own,occluded,indoor:room,position,acoustics});if(land&&own)this.haptic(Math.round(8+12*(e.value??0)));}break;
+    case 'impact':if(!e.ballisticAudio&&d<40&&impacts++<3){const s=e.surface,key=['steel','dark','blue','rust','brass'].includes(s)?'impactMetal':s==='wood'?'impactWood':s==='glass'?'impactGlass':s==='water'?'impactWater':'impactStone';this.play(key,{volume:volume*.34,pan,distance:d,occluded,position,acoustics});}break;
+    case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
+    case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play((e.shell?'hull':'casing')+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
+    case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room,position,acoustics});if(d<14)this.haptic(30);break;
+    case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){this.play(cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region,group:`foley:${e.source}:${e.weapon}`,position,acoustics});}break;}
     case 'weaponFoleyCancel':this.stopFoley(e.source,e.weapon);break;
     case 'round':this.stopFoley();break;
     // Finished reloads retain their haptic; seating/charging sounds already

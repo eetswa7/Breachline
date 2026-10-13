@@ -481,7 +481,10 @@ These are Release 57 measurements, not measurements of Release 60.
 - [x] **Complete:** Mechanical detail, bass, sharp transients and distant tails.
   These production layers are included; their subjective quality remains unverified.
 - [ ] **Partial:** Indoor/outdoor/enclosed-space/distance acoustics. Outdoor,
-  room and warehouse responses exist; enclosure modelling remains simplified.
+  room and warehouse responses exist. Release 67 updates active world-tail
+  distance, filtering and cover as the listener moves, with bounded refresh and
+  native PCM/listening evidence. Enclosure modelling and shared wet-room tails
+  remain simplified. Updated 2026-10-14; [moving acoustics](AUDIO_ACOUSTICS67.md).
 - [ ] **Partial:** Realistic footsteps across concrete, gravel, metal, dirt,
   water and other surfaces. Eight families with five takes each; some surfaces
   share families and audible realism is unverified.
@@ -522,8 +525,11 @@ These are Release 57 measurements, not measurements of Release 60.
   listening orientation, including elevation/front-back cues, centred local
   sources and stereo/legacy Safari fallback. [Native PCM distinctions, head-turn
   equivalence, voice bounds and listening evidence](SPATIAL_AUDIO65.md) verify
-  the functional path. Event-time attenuation, simplified shared room responses,
-  subjective localisation/realism and physical Safari performance remain open.
+  the functional path. Release 67 replaces event-time-only tail attenuation and
+  filtering with live listener updates; native tests verify retreat, cover
+  insertion/removal, lateral direction and cleanup. Simplified shared room
+  responses, subjective localisation/realism and physical Safari performance
+  remain open. Updated 2026-10-14; [PCM and listening reel](AUDIO_ACOUSTICS67.md).
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
   volume. The bank was rebuilt and immediate-repeat avoidance implemented.
 - [x] **Complete:** Original/licensed assets with licences/attribution respected.
@@ -590,6 +596,7 @@ These are Release 57 measurements, not measurements of Release 60.
 ## Update log
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-14 | Implemented moving-listener world-tail gain/filter/cover updates, separate reload edge envelopes and bounded cover refresh. Fixed a filter reopening artifact found by native PCM review. All 33 focused audio/event regressions and five native movement/cover/listening fixtures pass; broader spatial/premium audio and physical Safari requirements remain partial or unverified. | [Moving acoustics evidence](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
 | 2026-10-14 | Rechecked the 397-test source baseline and restored its failing Blacksite world-batch budget with centred spatial cells. All sixteen maps and 49 scene fixtures stay within the existing 220-batch cap. Native visual integration and new production work follow; no broader art requirement newly completed. | [Batch evidence and limits](WORLD_BATCHES67.md). |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |
 | 2026-10-12 | Implemented dedicated ricochet and penetration audio (complete within the documented cosmetic/event scope), surface-specific casing landings (partial), and weapon inspection/recoil/inertia (partial pending native temporal review). The staged usable source passed 88 focused regressions and the 78-module/offline check; all 408 sounds decoded and cleaned up in Chromium. | `30682fcd600d17ac4f9042692e63fdc2af225894`; [audio evidence](BALLISTIC_AUDIO61.md), [motion evidence](WEAPON_MOTION61.md). |

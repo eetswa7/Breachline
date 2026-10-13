@@ -1,0 +1,531 @@
+{
+  "kind": "desktop_browser_live_world_acoustics_validation",
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "sampleRate": 44100,
+  "library": {
+    "recordings": 428,
+    "downloadBytes": 3794406,
+    "decodedBytes": 38208188
+  },
+  "nativePlayback": {
+    "initialGain": 0.6992856860160828,
+    "moved": {
+      "gain": 0.15583574771881104,
+      "cutoff": 4742.14501953125,
+      "position": [
+        0,
+        0,
+        -10
+      ]
+    },
+    "covered": {
+      "gain": 0.33256620168685913,
+      "cutoff": 1414.137451171875,
+      "occluded": true
+    },
+    "stationaryCoverRemoval": true,
+    "componentCancellation": true,
+    "playerPriorityReplacement": true,
+    "pauseCleanup": true
+  },
+  "costBounds": {
+    "existingRefreshMaximum": 4,
+    "sharedEmissionAndRefreshMaximum": 8,
+    "startRays": 8,
+    "maximumBatchRays": 4,
+    "maximumTracked": 24,
+    "updates": 2000,
+    "desktopUpdateMedianMs": 0,
+    "desktopUpdateP95Ms": 0.19999999995343387,
+    "desktopUpdateMaximumMs": 50.90000000002328
+  },
+  "nativeOffline": {
+    "sourceKey": "explosion",
+    "monoDirectRecording": true,
+    "prerollSeconds": 0.35,
+    "comparisons": [
+      {
+        "fixture": "listener_moves_30m_back",
+        "afterRmsRatio": 0.17287366238117516,
+        "afterDifferenceRmsRatio": 0.13607801965456653
+      },
+      {
+        "fixture": "cover_added",
+        "afterRmsRatio": 0.4851508366225908,
+        "afterDifferenceRmsRatio": 0.20128273612988287
+      },
+      {
+        "fixture": "cover_removed",
+        "afterRmsRatio": 0.9999007543210394,
+        "afterDifferenceRmsRatio": 0.9999287541365399
+      },
+      {
+        "fixture": "listener_moves_8m_left",
+        "afterRmsRatio": 0.8620585537397343,
+        "afterDifferenceRmsRatio": 0.9163581576357956
+      }
+    ],
+    "nonfiniteSamples": 0,
+    "naturalCleanup": true
+  },
+  "listeningPreview": {
+    "kind": "native_dynamic_tail_reel",
+    "sampleRate": 44100,
+    "channels": 2,
+    "durationSeconds": 10.5,
+    "normalized": false,
+    "headphonesRecommended": true,
+    "segments": [
+      {
+        "id": "fixed_front_reference",
+        "startSeconds": 0,
+        "durationSeconds": 2.1,
+        "sourceStartSeconds": 0.35,
+        "listenerChangeSeconds": 0.65,
+        "rmsLeft": 0.026958981016928778,
+        "rmsRight": 0.026958981016928778,
+        "afterRms": 0.0055970375620418775,
+        "afterRmsLeft": 0.0055970375620418775,
+        "afterRmsRight": 0.0055970375620418775,
+        "afterDifferenceRms": 0.0007414062622250107,
+        "peak": 0.34532690048217773,
+        "states": [
+          {
+            "time": 0.6501587301587302,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6675736961451247,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6849886621315193,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7024036281179138,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7169160997732427,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7343310657596371,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7517460317460317,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7691609977324263,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          }
+        ]
+      },
+      {
+        "id": "listener_moves_30m_back",
+        "z": 30,
+        "startSeconds": 2.1,
+        "durationSeconds": 2.1,
+        "sourceStartSeconds": 0.35,
+        "listenerChangeSeconds": 0.65,
+        "rmsLeft": 0.02622555228430216,
+        "rmsRight": 0.02622555228430216,
+        "afterRms": 0.0009675803818351833,
+        "afterRmsLeft": 0.0009675803818351833,
+        "afterRmsRight": 0.0009675803818351833,
+        "afterDifferenceRms": 0.00010088909592307371,
+        "peak": 0.34532690048217773,
+        "states": [
+          {
+            "time": 0.6501587301587302,
+            "gain": 0.4442388713359833,
+            "cutoff": 12757.0693359375,
+            "occluded": false
+          },
+          {
+            "time": 0.6675736961451247,
+            "gain": 0.28162863850593567,
+            "cutoff": 8238.017578125,
+            "occluded": false
+          },
+          {
+            "time": 0.6849886621315193,
+            "gain": 0.2006036788225174,
+            "cutoff": 5986.27685546875,
+            "occluded": false
+          },
+          {
+            "time": 0.7024036281179138,
+            "gain": 0.16023078560829163,
+            "cutoff": 4864.28564453125,
+            "occluded": false
+          },
+          {
+            "time": 0.7169160997732427,
+            "gain": 0.14257343113422394,
+            "cutoff": 4373.57568359375,
+            "occluded": false
+          },
+          {
+            "time": 0.7343310657596371,
+            "gain": 0.13131563365459442,
+            "cutoff": 4060.713623046875,
+            "occluded": false
+          },
+          {
+            "time": 0.7517460317460317,
+            "gain": 0.12570612132549286,
+            "cutoff": 3904.821533203125,
+            "occluded": false
+          },
+          {
+            "time": 0.7691609977324263,
+            "gain": 0.12291102856397629,
+            "cutoff": 3827.14404296875,
+            "occluded": false
+          }
+        ]
+      },
+      {
+        "id": "cover_added",
+        "afterBlocked": true,
+        "startSeconds": 4.2,
+        "durationSeconds": 2.1,
+        "sourceStartSeconds": 0.35,
+        "listenerChangeSeconds": 0.65,
+        "rmsLeft": 0.026581013937902707,
+        "rmsRight": 0.026581013937902707,
+        "afterRms": 0.0027154074558326828,
+        "afterRmsLeft": 0.0027154074558326828,
+        "afterRmsRight": 0.0027154074558326828,
+        "afterDifferenceRms": 0.00014923228104447958,
+        "peak": 0.34532690048217773,
+        "states": [
+          {
+            "time": 0.6501587301587302,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6675736961451247,
+            "gain": 0.6992856860160828,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6849886621315193,
+            "gain": 0.5168449878692627,
+            "cutoff": 10568.6142578125,
+            "occluded": true
+          },
+          {
+            "time": 0.7024036281179138,
+            "gain": 0.4259389340877533,
+            "cutoff": 5946.40185546875,
+            "occluded": true
+          },
+          {
+            "time": 0.7169160997732427,
+            "gain": 0.3861805498600006,
+            "cutoff": 3924.8466796875,
+            "occluded": true
+          },
+          {
+            "time": 0.7343310657596371,
+            "gain": 0.3608317971229553,
+            "cutoff": 2635.9638671875,
+            "occluded": true
+          },
+          {
+            "time": 0.7517460317460317,
+            "gain": 0.34820109605789185,
+            "cutoff": 1993.7427978515625,
+            "occluded": true
+          },
+          {
+            "time": 0.7691609977324263,
+            "gain": 0.3419075012207031,
+            "cutoff": 1673.73876953125,
+            "occluded": true
+          }
+        ]
+      },
+      {
+        "id": "cover_removed",
+        "beforeBlocked": true,
+        "startSeconds": 6.3,
+        "durationSeconds": 2.1,
+        "sourceStartSeconds": 0.35,
+        "listenerChangeSeconds": 0.65,
+        "rmsLeft": 0.01384171616454064,
+        "rmsRight": 0.01384171616454064,
+        "afterRms": 0.005596482080248865,
+        "afterRmsLeft": 0.005596482080248865,
+        "afterRmsRight": 0.005596482080248865,
+        "afterDifferenceRms": 0.0007413534400956838,
+        "peak": 0.1624421328306198,
+        "states": [
+          {
+            "time": 0.6501587301587302,
+            "gain": 0.33565714955329895,
+            "cutoff": 1355.9322509765625,
+            "occluded": true
+          },
+          {
+            "time": 0.6675736961451247,
+            "gain": 0.33565714955329895,
+            "cutoff": 1355.9322509765625,
+            "occluded": true
+          },
+          {
+            "time": 0.6849886621315193,
+            "gain": 0.5180978775024414,
+            "cutoff": 10632.318359375,
+            "occluded": false
+          },
+          {
+            "time": 0.7024036281179138,
+            "gain": 0.6090039610862732,
+            "cutoff": 15254.5302734375,
+            "occluded": false
+          },
+          {
+            "time": 0.7169160997732427,
+            "gain": 0.6487623453140259,
+            "cutoff": 17276.0859375,
+            "occluded": false
+          },
+          {
+            "time": 0.7343310657596371,
+            "gain": 0.6741110682487488,
+            "cutoff": 18564.96875,
+            "occluded": false
+          },
+          {
+            "time": 0.7517460317460317,
+            "gain": 0.6867417693138123,
+            "cutoff": 19207.189453125,
+            "occluded": false
+          },
+          {
+            "time": 0.7691609977324263,
+            "gain": 0.693035364151001,
+            "cutoff": 19527.193359375,
+            "occluded": false
+          }
+        ]
+      },
+      {
+        "id": "listener_moves_8m_left",
+        "x": -8,
+        "startSeconds": 8.4,
+        "durationSeconds": 2.1,
+        "sourceStartSeconds": 0.35,
+        "listenerChangeSeconds": 0.65,
+        "rmsLeft": 0.02661934872704007,
+        "rmsRight": 0.026904512725896258,
+        "afterRms": 0.004824974105960789,
+        "afterRmsLeft": 0.004073591210504772,
+        "afterRmsRight": 0.005474176184238419,
+        "afterDifferenceRms": 0.0006793936765121524,
+        "peak": 0.34532690048217773,
+        "states": [
+          {
+            "time": 0.6501587301587302,
+            "gain": 0.6506584286689758,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6675736961451247,
+            "gain": 0.6196551322937012,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.6849886621315193,
+            "gain": 0.6042068600654602,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7024036281179138,
+            "gain": 0.5965093374252319,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7169160997732427,
+            "gain": 0.5931428074836731,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7343310657596371,
+            "gain": 0.5909963846206665,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7517460317460317,
+            "gain": 0.5899268984794617,
+            "cutoff": 19845,
+            "occluded": false
+          },
+          {
+            "time": 0.7691609977324263,
+            "gain": 0.5893939733505249,
+            "cutoff": 19845,
+            "occluded": false
+          }
+        ]
+      }
+    ],
+    "file": "docs/art-release67/world-acoustics-preview.m4a"
+  },
+  "provenance": {
+    "sourceCommit": "3d36f643889639284519a53c9d92149131b2971a",
+    "sourceDirty": true,
+    "modifiedFiles": [
+      "M authoring/blender/environment_models.py",
+      " M authoring/blender/source/breachline-assets.part000.bin",
+      " M authoring/blender/source/breachline-assets.part001.bin",
+      " M authoring/blender/source/breachline-assets.part002.bin",
+      " M authoring/blender/source/breachline-assets.part003.bin",
+      " M authoring/blender/source/breachline-assets.part004.bin",
+      " M authoring/blender/source/breachline-assets.part005.bin",
+      " M authoring/blender/source/breachline-assets.part006.bin",
+      " M authoring/blender/source/breachline-assets.part007.bin",
+      " M authoring/blender/source/breachline-assets.part008.bin",
+      " M authoring/blender/source/breachline-assets.part009.bin",
+      " M authoring/blender/source/breachline-assets.part010.bin",
+      " M authoring/blender/source/breachline-assets.part011.bin",
+      " M authoring/blender/source/breachline-assets.part012.bin",
+      " M authoring/blender/source/breachline-assets.part013.bin",
+      " M authoring/blender/source/breachline-assets.part014.bin",
+      " M authoring/blender/source/breachline-assets.part015.bin",
+      " M authoring/blender/source/breachline-assets.part016.bin",
+      " M authoring/blender/source/breachline-assets.part017.bin",
+      " M authoring/blender/source/breachline-assets.part018.bin",
+      " M authoring/blender/source/breachline-assets.part019.bin",
+      " M authoring/blender/source/breachline-assets.part020.bin",
+      " M authoring/blender/source/breachline-assets.part021.bin",
+      " M authoring/blender/source/breachline-assets.part022.bin",
+      " M authoring/blender/source/breachline-assets.part023.bin",
+      " M authoring/blender/source/breachline-assets.part024.bin",
+      " M authoring/blender/source/breachline-assets.part025.bin",
+      " M authoring/blender/source/breachline-assets.part026.bin",
+      " M authoring/blender/source/breachline-assets.part027.bin",
+      " M authoring/blender/source/breachline-assets.part028.bin",
+      " M authoring/blender/source/breachline-assets.part029.bin",
+      " M authoring/blender/source/breachline-assets.part030.bin",
+      " M authoring/blender/source/breachline-assets.part031.bin",
+      " M authoring/blender/source/breachline-assets.part032.bin",
+      " M authoring/blender/source/breachline-assets.part033.bin",
+      " M authoring/blender/source/breachline-assets.part034.bin",
+      " M authoring/blender/source/breachline-assets.part035.bin",
+      " M authoring/blender/source/breachline-assets.part036.bin",
+      " M authoring/blender/source/breachline-assets.part037.bin",
+      " M authoring/blender/source/breachline-assets.part038.bin",
+      " M authoring/blender/source/breachline-assets.part039.bin",
+      " M authoring/blender/source/breachline-assets.part040.bin",
+      " M authoring/blender/source/breachline-assets.part041.bin",
+      " M authoring/blender/source/breachline-assets.part042.bin",
+      " M authoring/blender/source/breachline-assets.part043.bin",
+      " M authoring/blender/source/breachline-assets.part044.bin",
+      " M authoring/blender/source/breachline-assets.part045.bin",
+      " M authoring/blender/source/breachline-assets.part046.bin",
+      " M authoring/blender/source/breachline-assets.part047.bin",
+      " M authoring/blender/source/breachline-assets.part048.bin",
+      " M authoring/blender/source/breachline-assets.part049.bin",
+      " M authoring/blender/source/breachline-assets.part050.bin",
+      " M authoring/blender/source/breachline-assets.part051.bin",
+      " M authoring/blender/source/breachline-assets.part052.bin",
+      " M authoring/blender/source/breachline-assets.part053.bin",
+      " M authoring/blender/source/breachline-assets.part054.bin",
+      " M authoring/blender/source/breachline-assets.part055.bin",
+      " M authoring/blender/source/breachline-assets.part056.bin",
+      " M authoring/blender/source/breachline-assets.part057.bin",
+      " M authoring/blender/source/breachline-assets.part058.bin",
+      " M authoring/blender/source/breachline-assets.part059.bin",
+      " M authoring/blender/source/breachline-assets.part060.bin",
+      " M authoring/blender/source/breachline-assets.part061.bin",
+      " M authoring/blender/source/breachline-assets.part062.bin",
+      " M authoring/blender/source/breachline-assets.part063.bin",
+      " M authoring/blender/source/breachline-assets.part064.bin",
+      " M authoring/blender/source/breachline-assets.part065.bin",
+      " M authoring/blender/source/breachline-assets.part066.bin",
+      " M authoring/blender/source/breachline-assets.part067.bin",
+      " M authoring/blender/source/breachline-assets.part068.bin",
+      " M authoring/blender/source/breachline-assets.part069.bin",
+      " M authoring/blender/source/breachline-assets.part070.bin",
+      " M authoring/blender/source/breachline-assets.part071.bin",
+      " M authoring/blender/source/breachline-assets.part072.bin",
+      " M authoring/blender/source/breachline-assets.part073.bin",
+      " M authoring/blender/source/breachline-assets.part074.bin",
+      " M authoring/blender/source/breachline-assets.part075.bin",
+      " M authoring/blender/source/breachline-assets.part076.bin",
+      " M authoring/blender/source/breachline-assets.part077.bin",
+      " M authoring/blender/source/breachline-assets.part078.bin",
+      " M authoring/blender/source/breachline-assets.part079.bin",
+      " M authoring/blender/source/breachline-assets.part080.bin",
+      " M authoring/blender/source/breachline-assets.part081.bin",
+      " M authoring/blender/source/manifest.json",
+      " M dist/assets/blender/breachline-library.part000.bin",
+      " M dist/assets/blender/breachline-library.part001.bin",
+      " M dist/assets/blender/breachline-library.part002.bin",
+      " M dist/assets/blender/breachline-library.part003.bin",
+      " M dist/assets/blender/breachline-library.part004.bin",
+      " M dist/assets/blender/breachline-library.part005.bin",
+      " M dist/assets/blender/breachline-library.part006.bin",
+      " M dist/assets/blender/manifest.json",
+      " M dist/assets/production/lightmap-14.part000.bin",
+      " M dist/assets/production/manifest.json",
+      " M dist/js/audio.js",
+      " M dist/js/production-world.js",
+      " M dist/js/three-renderer.js",
+      " M tests/production-world.test.mjs",
+      "?? dist/js/firing-effects.js",
+      "?? dist/js/world-acoustics.js",
+      "?? docs/OPTICS67.md",
+      "?? docs/art-release67/",
+      "?? docs/validation-world-acoustics67-browser.json",
+      "?? scripts/check-blacksite-browser.mjs",
+      "?? scripts/check-firing-effects-browser.mjs",
+      "?? scripts/check-optics-browser.mjs",
+      "?? scripts/check-world-acoustics-browser.mjs",
+      "?? scripts/prepare-optics-evidence.py",
+      "?? tests/blacksite67.test.mjs",
+      "?? tests/firing-effects.test.mjs",
+      "?? tests/world-acoustics.test.mjs"
+    ],
+    "runtimeFiles": {
+      "dist/js/audio.js": "a415b8a5a016f4524d6cb7fa7cb4b2f61f37ec7f81e54cbf5be3ff0750535b1b",
+      "dist/js/world-acoustics.js": "abee6cf3a79d87db5f9083bee9e2a1d8651416f56da1b20c89361e4610238171",
+      "dist/js/spatial-audio.js": "bee073e5d364176b917a047eaba0355b8632aca5c9d7e3b1e877816efae468ec"
+    },
+    "browser": "154.0.8037.57",
+    "capturedAt": "2026-10-13T13:17:36.335Z"
+  }
+}
