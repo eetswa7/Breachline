@@ -1,6 +1,6 @@
-import {clamp,lerp} from './math.js?v=64';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=64';
-export {ATTACHMENTS} from './attachments.js?v=64';
+import {clamp,lerp} from './math.js?v=65';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=65';
+export {ATTACHMENTS} from './attachments.js?v=65';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],

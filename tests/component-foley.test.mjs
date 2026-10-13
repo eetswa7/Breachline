@@ -105,6 +105,34 @@ test('native buffer regions retain shared PCM, bounded sources, short envelopes 
  assert.equal(audio.voices,0);assert.equal(audio.active.size,0);assert(nodes.every(n=>n.gain.calls.at(-1)[1]===0));assert.equal(audio.buffers.size,1,'regions allocate no decoded sample copies');
 });
 
+test('decoded region playback removes leading silence once, retains stereo contacts and tail, and leaves nonregion shots intact',()=>{
+ const sources=[],node=()=>({gain:{value:1},pan:{value:0},playbackRate:{value:1},connect(){},disconnect(){},start(...args){this.startArgs=args;}});
+ const audio=new AudioSystem({volume:1});audio.context={state:'running',createBufferSource(){const n=node();sources.push(n);return n;},createGain:node};audio.master=node();
+ const silent=new Float32Array(10000),contact=new Float32Array(10000);contact[750]=.1;contact[751]=.2;contact[4499]=.03;
+ let reads=0;const buffer={duration:2,length:10000,sampleRate:5000,numberOfChannels:2,getChannelData(ch){reads++;return ch?contact:silent;}};
+ audio.buffers.set('reload0',buffer);audio.buffers.set('shot0',buffer);
+ for(let i=0;i<4;i++)audio.play('reload0',{region:[.05,.45]});
+ assert.equal(reads,2,'the same stereo region must scan PCM once');
+ for(const source of sources){
+  const [,offset,duration]=source.startArgs;assert.equal(source.buffer,buffer,'no decoded PCM copy');
+  assert(offset>=.1);assert((.15-offset)>=0&&(.15-offset)<=.003,'contact starts within three milliseconds');
+  assert(Math.abs(offset+duration-.9)<1e-6,'the entire authored tail is retained');
+  assert(offset*5000<750&&4499<(offset+duration)*5000,'first contact and final tail sample both survive');
+ }
+ audio.play('shot0');assert.deepEqual(sources.at(-1).startArgs,[]);assert.equal(reads,2,'whole shots must not scan or trim');
+ assert(contact[750]>.09&&contact[751]>.19&&contact[4499]>.029,'shared decoded PCM remains unchanged');
+});
+
+test('an inaudible region scans at most 200 milliseconds once and retains its original bounds',()=>{
+ const sources=[],node=()=>({gain:{value:1},playbackRate:{value:1},connect(){},disconnect(){},start(...args){this.startArgs=args;}});
+ const audio=new AudioSystem({volume:1});audio.context={state:'running',createBufferSource(){const n=node();sources.push(n);return n;},createGain:node};audio.master=node();
+ let reads=0,channelRequests=0;const data=new Proxy(new Float32Array(100000),{get(target,key){if(/^\d+$/.test(String(key)))reads++;return Reflect.get(target,key,target);}});
+ const buffer={duration:10,length:100000,sampleRate:10000,numberOfChannels:1,getChannelData(){channelRequests++;return data;}};audio.buffers.set('reload0',buffer);
+ for(let i=0;i<8;i++)audio.play('reload0',{region:[0,1]});
+ assert.equal(channelRequests,1);assert(reads<=2000,'leading scan has a fixed per-region frame budget');
+ assert(sources.every(source=>source.startArgs[1]===0&&source.startArgs[2]===10));
+});
+
 test('canceling component playback stops only its matching tails and rounds clear all foley',()=>{
  const sources=[],node=()=>({gain:{value:1},pan:{value:0},playbackRate:{value:1},connect(){},disconnect(){},start(){},stop(){this.stopped=true;}});
  const audio=new AudioSystem({volume:1});audio.context={state:'running',createBufferSource:()=>{const n=node();sources.push(n);return n;},createGain:node};audio.master=node();audio.buffers.set('reload0',{duration:2});audio.buffers.set('shot0',{});
