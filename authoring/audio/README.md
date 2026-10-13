@@ -15,17 +15,20 @@ npm run assets:audio
 node scripts/release.mjs 59
 ```
 
-Requirements: Python with NumPy/SciPy and FFmpeg. The output is 408 recordings
+Requirements: Python with NumPy/SciPy and FFmpeg. The output is 428 synthesized takes
 in two segmented sound-bank files, plus per-clip offsets, durations and mastering
 metrics. Four unsuppressed and three suppressed variations exist for every weapon;
 reload, seat and rack actions accompany them. Boots cover eight surface families
 (including wooden floors) with five heel/toe/scuff takes each. Impacts cover five
 materials with four debris takes each, and explosions have four layered variations.
 `ballistic-foley.json` adds editable ricochet, penetration and casing floor-contact
-designs: eleven material/event families with four takes each. Their runtime
+designs: sixteen material/event families with four takes each, including five
+separate polymer shotgun-hull families. Their runtime
 events follow real cover contacts and bounded cosmetic case positions; full
 behavior, limits and an isolated listening reel are in
-[`BALLISTIC_AUDIO61.md`](../../docs/BALLISTIC_AUDIO61.md). The melee weapon keeps
+[`BALLISTIC_AUDIO61.md`](../../docs/BALLISTIC_AUDIO61.md) and the completed bounded
+case/hull coverage, revolver extraction timelines and listening reel in
+[`CASING_AUDIO66.md`](../../docs/CASING_AUDIO66.md). The melee weapon keeps
 its own swing/action treatment.
 
 Safari decodes M4A natively. The loader performs two decoder jobs at a time and
@@ -39,10 +42,10 @@ responses roll off high frequencies over their short decay and use two convoluti
 for the entire scene. These are designed sounds, not field recordings. Hardware audio
 latency and loudspeaker response still require physical device listening.
 
-The bank downloads 3,715,912 bytes and decodes to 37,432,028 bytes of mono PCM
-in the recorded Release 61 Chromium validation at 44.1 kHz. This is about 5.5%
-more decoded memory than the Release 60 364-take bank. Native
-48 kHz PCM stays below the regression allowance of 40 MiB. This is an audio
+The bank downloads 3,794,406 bytes and decodes to 38,208,188 bytes of mono PCM
+in the recorded Release 66 Chromium validation at 44.1 kHz. Native 48 kHz
+decoding allocates 41,587,060 bytes, below the regression allowance of 40 MiB
+by 355,980 bytes. Further bank growth needs a new budget review. This is an audio
 allocation bound, not a measured Safari process-memory limit.
 
 `node scripts/check-audio-browser.mjs` decodes every bank record with the browser,
@@ -52,3 +55,5 @@ the 24-source cap and verifies source cleanup. The captured result is
 not an iPhone benchmark or a subjective listening review.
 Use `--output docs/validation-ballistic-audio61-browser.json` to record the
 current checkpoint separately and preserve the earlier evidence.
+Use `--sample-rate 48000 --output docs/validation-audio66-48k-browser.json`
+to measure native resampling and bank memory at 48 kHz separately.

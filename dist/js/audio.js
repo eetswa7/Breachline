@@ -122,6 +122,15 @@ export class AudioSystem {
     (t>.064?(soft?low:n-low)*Math.exp(-u*120)*.07:0)+
     (family==='Metal'?Math.sin(t*16237)*Math.exp(-t*42)*.023:0);
   },19937+family.charCodeAt(0)*23);
+  // Plastic hull compression/scuff and its short brass-head tick are authored
+  // separately from the brighter thin-wall metallic case, including at startup.
+  for(const family of ['Hard','Metal','Wood','Soft','Water'])synth('hull'+family,.22,(t,n,low)=>{
+   const soft=family==='Soft'||family==='Water',u=Math.max(0,t-.052);
+   return low*Math.exp(-t*(soft?65:115))*.18+(soft?low:n-low)*Math.exp(-t*215)*(soft?.025:.065)+
+    (t>.052?low*Math.exp(-u*155)*.055:0)+
+    (family==='Water'?(n-low)*Math.exp(-t*52)*(1-Math.exp(-t*450))*.055:0)+
+    (family==='Metal'?Math.sin(t*9137)*Math.exp(-t*95)*.012:0);
+  },27127+family.charCodeAt(0)*29);
   synth('click',.07,(t,n,low)=>(n-low)*Math.exp(-t*95)*.22);
   synth('hit',.085,t=>(Math.sin(t*6.283185*1710)+Math.sin(t*6.283185*2330)*.3)*Math.exp(-t*59)*.13);
   synth('kill',.19,t=>(Math.sin(t*6.283185*1210)+Math.sin(t*6.283185*1815)*.55)*Math.exp(-t*22)*.12);
@@ -198,7 +207,7 @@ export class AudioSystem {
     case 'step':case 'land':if(d<24){const hard=game.arena.indoors(e.position),map=game.arena.info?.id,tag=game.arena.info?.tag,soft=tag==='MIXED'||tag?.includes('FOREST'),land=e.type==='land';const actual=footstepSurface(game.arena,e.position);const sound=actual?'step'+actual:hard?'stepHard':map===8?'stepSnow':map===9?'stepQuarry':soft?'stepSoft':'stepGravel';this.play(sound,{volume:volume*(land?.65:own?.28:.48)*(e.value??1),pan,rate:land?.76:.94+Math.random()*.11,distance:d,important:land&&own,occluded,indoor:room,position});if(land&&own)this.haptic(Math.round(8+12*(e.value??0)));}break;
     case 'impact':if(!e.ballisticAudio&&d<40&&impacts++<3){const s=e.surface,key=['steel','dark','blue','rust','brass'].includes(s)?'impactMetal':s==='wood'?'impactWood':s==='glass'?'impactGlass':s==='water'?'impactWater':'impactStone';this.play(key,{volume:volume*.34,pan,distance:d,occluded,position});}break;
     case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position});}break;
-    case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play('casing'+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:e.shell?.77:.97+Math.random()*.06,distance:d,occluded,indoor:room,position});}break;
+    case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play((e.shell?'hull':'casing')+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position});}break;
     case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room,position});if(d<14)this.haptic(30);break;
     case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){this.play(cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region,group:`foley:${e.source}:${e.weapon}`,position});}break;}
     case 'weaponFoleyCancel':this.stopFoley(e.source,e.weapon);break;

@@ -1,0 +1,1351 @@
+{
+  "kind": "software_WebGL_native_world_material_comparison",
+  "actual_iphone_data": false,
+  "capturedAt": "2026-10-13T08:07:48.271Z",
+  "stage": "materials66-preliminary",
+  "runtimeRelease": "65",
+  "sourceCommit": "8ea3391a449cbf2562cf2f9e033d2cd327149098",
+  "distributionDirty": true,
+  "runtimeSha256": {
+    "boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "three-renderer.js": "f1976b300180a5dbeb4f6186607aea9f00f0ac0aaeb33d1cb2350b2c6b15c990",
+    "world-material-variation.js": "27b6083ba897937c29b7b60b64518d7269a34106870a1c5e82cc98f0ddc8ecc4",
+    "surface-uv.js": "850b32697839c8c099c5ec73499e83e3ab64644701d9cbbba4f38eeaf7852add",
+    "material-detail.js": "b01b1c63c6ae6c6759ecff382c81e7513e88ef59a65fd48b2ce55b4ef611269a",
+    "blender-material.js": "aa8fef55fe5955f178a30ef86a7675cc1d440eb151cf45b33d624be47acd9667",
+    "production-lighting.js": "7da325769e5db2402c20e4abbbdf15b02755c39f9b5ac34de712a5dcd448c3d9",
+    "blender-world.js": "07ab45b9a5981a2b410308a5f565ddabea5b090c12e10b54a3da2769040d0b71",
+    "production-world.js": "17088a39a5e5e7c0dd2f7b2f1044fc4a0ccaac38e89810d744d837da2310af5f",
+    "maps.js": "0f6e7d0a6ddbfce60c26ce77bfda5978522991785a283dff2e0ad16c1f601133"
+  },
+  "runtimeEndSha256": {
+    "boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "three-renderer.js": "f1976b300180a5dbeb4f6186607aea9f00f0ac0aaeb33d1cb2350b2c6b15c990",
+    "world-material-variation.js": "27b6083ba897937c29b7b60b64518d7269a34106870a1c5e82cc98f0ddc8ecc4",
+    "surface-uv.js": "850b32697839c8c099c5ec73499e83e3ab64644701d9cbbba4f38eeaf7852add",
+    "material-detail.js": "b01b1c63c6ae6c6759ecff382c81e7513e88ef59a65fd48b2ce55b4ef611269a",
+    "blender-material.js": "aa8fef55fe5955f178a30ef86a7675cc1d440eb151cf45b33d624be47acd9667",
+    "production-lighting.js": "7da325769e5db2402c20e4abbbdf15b02755c39f9b5ac34de712a5dcd448c3d9",
+    "blender-world.js": "07ab45b9a5981a2b410308a5f565ddabea5b090c12e10b54a3da2769040d0b71",
+    "production-world.js": "17088a39a5e5e7c0dd2f7b2f1044fc4a0ccaac38e89810d744d837da2310af5f",
+    "maps.js": "0f6e7d0a6ddbfce60c26ce77bfda5978522991785a283dff2e0ad16c1f601133"
+  },
+  "nativeSourceSha256": "f8010780c63829ed9a47e29b7e0dea688aabaed1a33b9a8b77562863a0b3ce87",
+  "viewport": {
+    "width": 844,
+    "height": 390,
+    "deviceScaleFactor": 1
+  },
+  "environment": {
+    "webgl2": true,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "nativeAssetsLoaded": true,
+    "comparison": "One native renderer and a shared shader uniform; identical gameplay state, camera, quality and time. No image post-processing."
+  },
+  "errors": [],
+  "requestFailures": [],
+  "validation": {
+    "nativeGroundedGameplay": true,
+    "originalStatePreserved": true,
+    "sameFrameComparison": true,
+    "materialChangeVisible": true,
+    "sceneCountsUnchanged": true,
+    "allQualitiesCaptured": true,
+    "qualityPolicyMatches": true,
+    "allMapNativePrograms": null,
+    "noBrowserErrors": true,
+    "runtimeSourceStayedFixed": true
+  },
+  "comparisons": [
+    {
+      "name": "blacksite-approach-high",
+      "map": 14,
+      "quality": "high",
+      "before": "art-release66/materials/blacksite-approach-high-before.png",
+      "after": "art-release66/materials/blacksite-approach-high-after.png",
+      "pixelsChanged": true,
+      "disabledReturnsExactPixels": true,
+      "authoritativeStatePreserved": true,
+      "costsPreserved": true,
+      "costDelta": {
+        "draws": 0,
+        "triangles": 0,
+        "shadowDraws": 0,
+        "renderPasses": 0,
+        "activeWorldBatches": 0,
+        "selectedWorldTriangles": 0,
+        "textureEstimateBytes": 0
+      },
+      "legalCamera": true,
+      "nativePresentation": true,
+      "noGlErrors": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "eligibleActiveWorldBatches": 60,
+      "detailUniform": 1
+    },
+    {
+      "name": "blacksite-interior-high",
+      "map": 14,
+      "quality": "high",
+      "before": "art-release66/materials/blacksite-interior-high-before.png",
+      "after": "art-release66/materials/blacksite-interior-high-after.png",
+      "pixelsChanged": true,
+      "disabledReturnsExactPixels": true,
+      "authoritativeStatePreserved": true,
+      "costsPreserved": true,
+      "costDelta": {
+        "draws": 0,
+        "triangles": 0,
+        "shadowDraws": 0,
+        "renderPasses": 0,
+        "activeWorldBatches": 0,
+        "selectedWorldTriangles": 0,
+        "textureEstimateBytes": 0
+      },
+      "legalCamera": true,
+      "nativePresentation": true,
+      "noGlErrors": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "eligibleActiveWorldBatches": 62,
+      "detailUniform": 1
+    },
+    {
+      "name": "blacksite-forecourt-high",
+      "map": 14,
+      "quality": "high",
+      "before": "art-release66/materials/blacksite-forecourt-high-before.png",
+      "after": "art-release66/materials/blacksite-forecourt-high-after.png",
+      "pixelsChanged": true,
+      "disabledReturnsExactPixels": true,
+      "authoritativeStatePreserved": true,
+      "costsPreserved": true,
+      "costDelta": {
+        "draws": 0,
+        "triangles": 0,
+        "shadowDraws": 0,
+        "renderPasses": 0,
+        "activeWorldBatches": 0,
+        "selectedWorldTriangles": 0,
+        "textureEstimateBytes": 0
+      },
+      "legalCamera": true,
+      "nativePresentation": true,
+      "noGlErrors": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "eligibleActiveWorldBatches": 61,
+      "detailUniform": 1
+    }
+  ],
+  "captures": [
+    {
+      "name": "blacksite-approach-high-before",
+      "path": "art-release66/materials/blacksite-approach-high-before.png",
+      "bytes": 415970,
+      "sha256": "4aa2ef4e2b809751c476b8439076617f8f43795bca7ec2baedf54c4e800a665d",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": false,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 27,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 27
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 27,
+        "yaw": 0,
+        "pitch": 0.02,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 27
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "71107e2ead04e813165730e067624f9570979d0a3fdd55ed44447b73a2e0799f",
+      "draws": 277,
+      "triangles": 269120,
+      "shadowDraws": 149,
+      "renderPasses": 2,
+      "activeWorldBatches": 219,
+      "selectedWorldTriangles": 197254,
+      "eligibleActiveWorldBatches": 60,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 30,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-approach-high-before.png"
+    },
+    {
+      "name": "blacksite-approach-high-after",
+      "path": "art-release66/materials/blacksite-approach-high-after.png",
+      "bytes": 411623,
+      "sha256": "cf3290a468509e10a166d7177b50b85fd5262cebcecbd0f20035ff0c2c5f5772",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": true,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 27,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 27
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 27,
+        "yaw": 0,
+        "pitch": 0.02,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 27
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "2da289c5309eb7c48b8e28299b44e2068bdf7e414e94164f3720023982334058",
+      "draws": 277,
+      "triangles": 269120,
+      "shadowDraws": 149,
+      "renderPasses": 2,
+      "activeWorldBatches": 219,
+      "selectedWorldTriangles": 197254,
+      "eligibleActiveWorldBatches": 60,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 30,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-approach-high-after.png"
+    },
+    {
+      "name": "blacksite-interior-high-before",
+      "path": "art-release66/materials/blacksite-interior-high-before.png",
+      "bytes": 345752,
+      "sha256": "4c16931a00975e8d42d9e82703538fe1257b3874c902cdca72356ee46ad21a68",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": false,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 9,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 9
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 9,
+        "yaw": 0,
+        "pitch": 0,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 9
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "deb5989e2e8fb074b3c85dc6e075c2602898947ad60b48fa84ef8335bde1aa5c",
+      "draws": 230,
+      "triangles": 256456,
+      "shadowDraws": 143,
+      "renderPasses": 2,
+      "activeWorldBatches": 221,
+      "selectedWorldTriangles": 208498,
+      "eligibleActiveWorldBatches": 62,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 34,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-interior-high-before.png"
+    },
+    {
+      "name": "blacksite-interior-high-after",
+      "path": "art-release66/materials/blacksite-interior-high-after.png",
+      "bytes": 342839,
+      "sha256": "94a97051f33dc01207a5626ea0d7226b317a812db3e91e3cb0769df2078f6b29",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": true,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 9,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 9
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 9,
+        "yaw": 0,
+        "pitch": 0,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 9
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "d31824816f6bf6cb497b62d1aa9b16459fc4f40a8379823d0987525755474a5f",
+      "draws": 230,
+      "triangles": 256456,
+      "shadowDraws": 143,
+      "renderPasses": 2,
+      "activeWorldBatches": 221,
+      "selectedWorldTriangles": 208498,
+      "eligibleActiveWorldBatches": 62,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 34,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-interior-high-after.png"
+    },
+    {
+      "name": "blacksite-forecourt-high-before",
+      "path": "art-release66/materials/blacksite-forecourt-high-before.png",
+      "bytes": 339615,
+      "sha256": "c4cb280903ca4d80a1be4b9b5ac40aa43bb0f1c543a0c91dc0a55ebdfb31ef6a",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": false,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 42,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 42
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 42,
+        "yaw": 0,
+        "pitch": 0.02,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 42
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "da8aca4322505779ea6a590787f6cfb245f94cae71919457dfd308738f5b620d",
+      "draws": 265,
+      "triangles": 241968,
+      "shadowDraws": 118,
+      "renderPasses": 2,
+      "activeWorldBatches": 219,
+      "selectedWorldTriangles": 177426,
+      "eligibleActiveWorldBatches": 61,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 34,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-forecourt-high-before.png"
+    },
+    {
+      "name": "blacksite-forecourt-high-after",
+      "path": "art-release66/materials/blacksite-forecourt-high-after.png",
+      "bytes": 336755,
+      "sha256": "91f0c1027dcb750a97722bd89f73fdd4be02b5d0c8dedf3def12c92440461b60",
+      "map": 14,
+      "mapName": "BLACKSITE",
+      "quality": "high",
+      "enabled": true,
+      "detailUniform": 1,
+      "gameTime": 2,
+      "placement": {
+        "requested": {
+          "x": 0,
+          "z": 42,
+          "y": 0
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 42
+        },
+        "adjusted": false
+      },
+      "player": {
+        "x": 0,
+        "y": 0,
+        "z": 42,
+        "yaw": 0,
+        "pitch": 0.02,
+        "grounded": true
+      },
+      "eye": {
+        "x": 0,
+        "y": 1.6600000000000001,
+        "z": 42
+      },
+      "floor": 0,
+      "feetOnFloor": true,
+      "playerCollisionFree": true,
+      "cameraMatchesPlayerEye": true,
+      "framebuffer": {
+        "width": 844,
+        "height": 390
+      },
+      "pixelSha256": "fc405122467709283a80e40be44ffbab019e3981293826982a8b54187b752e2d",
+      "draws": 265,
+      "triangles": 241968,
+      "shadowDraws": 118,
+      "renderPasses": 2,
+      "activeWorldBatches": 219,
+      "selectedWorldTriangles": 177426,
+      "eligibleActiveWorldBatches": 61,
+      "eligibleInstances": 236,
+      "materials": [
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/room-ground-bounce-v4/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2/vertex-rm-v2/general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/plain/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        },
+        {
+          "key": "world/world-metric-uv-v4//packed-orm-blender-v2//general-reflectance/base-reflectance/dry/cycles-ground-v2/epoxy/haze-v2/isotropic-variation-v1",
+          "eligible": true,
+          "maxSamplesPerMap": 2,
+          "lowSamplesPerMap": 1,
+          "phase": true,
+          "alignedPBR": true,
+          "explicitMipDerivatives": true
+        }
+      ],
+      "textureEstimateBytes": 82779926,
+      "shaderPrograms": 34,
+      "nativeAssetsLoaded": true,
+      "nativeWeaponGroups": 3,
+      "glError": 0,
+      "programsRunnable": true,
+      "originalCapturePath": "work/materials66-preliminary/blacksite-forecourt-high-after.png"
+    }
+  ],
+  "mapSweep": [],
+  "scope": "Unmodified native gameplay screenshots and GL compile/scene-count evidence. Bots are removed solely to hold paired fixture scenes fixed. Shader material sampling increases at medium/high/ultra; equal draws, triangles and texture estimates do not mean equal GPU cost. These measurements do not establish professional visual acceptance, physical Safari memory, iPhone frame time or thermal performance.",
+  "artifactRelocation": {
+    "imagesCopiedByteExactly": true,
+    "originalReportPath": "work/materials66-preliminary/validation.json",
+    "scope": "Capture paths now refer to committed documentation artifacts; runtime metadata and image bytes are unchanged."
+  }
+}

@@ -234,6 +234,26 @@ def ballistic_contacts():
                     x += contact(t,rng,start,.17,p['contactHz']*1.19,.006)
                     x += granular(t,rng,start+.007,.092,p['grains'],.027,p['grainBand'],.004)
                     if family == 'Wood': x = filtered(x,4800)
+                elif event == 'hull':
+                    # A hollow polymer tube has a dull compressive contact and
+                    # drag; its short brass head supplies only a quiet edge tick.
+                    # These are independent synthesized designs, never pitched cases.
+                    plastic = p['plasticHz']*rng.uniform(.88,1.12)
+                    x = contact(t,rng,.002,p['plasticWeight'],plastic,.009,.42)
+                    x += contact(t,rng,.004,p['headWeight'],p['headHz'],.003)
+                    for bounce, delay in enumerate(p['bounces']):
+                        x += contact(t,rng,delay*rng.uniform(.90,1.10),p['plasticWeight']*.43**(bounce+1),plastic*rng.uniform(.7,1.2),.006,.52)
+                    if family == 'Water':
+                        x = filtered(x,2000)
+                        x += noise(rng,len(t),p['scuffBand'])*envelope(t,.002,.002,.024)*.038
+                        x += granular(t,rng,.029,.055,4,.008,(900,3800),.007)
+                    else:
+                        x += noise(rng,len(t),p['scuffBand'])*envelope(t,.015,.006,.018)*(.022 if family=='Soft' else .012)
+                        if family == 'Soft': x = filtered(x,1800)
+                        elif family == 'Wood': x = filtered(x,3900)
+                        elif family == 'Metal':
+                            x += sum(np.sin(math.tau*f*t)*envelope(t,.004,.0004,.012)*.0025
+                                     for f in (2197,3763))
                 else:
                     x = contact(t,rng,.002,p['contactWeight'],p['contactHz']*rng.uniform(.91,1.09),p['decay'])
                     for bounce, delay in enumerate(p['bounces']):

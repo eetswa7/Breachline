@@ -62,7 +62,7 @@ try{
    }
    check(!w.reloadLeft,'Reload never completed: '+id);
    const direct=new Weapon(id);direct.ammo=empty?0:direct.capacity-1;check(direct.reload(),'Direct reload did not start: '+id);
-   const predicted=[];while(direct.reloadLeft>0)direct.update(step,e=>predicted.push(e));
+   const predicted=[];while(direct.reloadLeft>0)direct.update(step,e=>{if(e.cue!=='caseDump')predicted.push(e);});
    const signature=e=>[e.phase,e.cue,e.component,e.cycle,e.empty].join('/');
    check(events.map(signature).join('|')===predicted.map(signature).join('|'),'Game and Weapon timeline disagree: '+id);
    check(w.ammo===w.capacity,'Engine reload lost ammunition: '+id);

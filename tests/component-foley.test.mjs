@@ -43,7 +43,7 @@ test('top-loader, feed covers/belt boxes, drums and revolver use their actual na
  assert(components(4).filter(e=>e.cue==='seat').every(e=>e.component==='topMagazine'));
  for(const id of [9,27])assert.deepEqual(components(id).filter(e=>['coverOpen','feed','coverClose'].includes(e.cue)).map(e=>e.component),['feedCover','belt','feedCover']);
  assert(!components(20).some(e=>e.component==='feedCover'||e.component==='belt'),'Rampart reloads a drum, not a feed cover');
- assert.deepEqual(components(22).map(e=>[e.cue,e.component]),[['open','cylinder'],['chamberLoad','cylinder'],['cylinderClose','cylinder']]);
+ assert.deepEqual(components(22).map(e=>[e.cue,e.component]),[['open','cylinder'],['caseDump','cylinder'],['chamberLoad','cylinder'],['cylinderClose','cylinder']]);
 });
 
 test('shell foley repeats per loaded round, stops on exhausted reserve and survives a large phase crossing',()=>{

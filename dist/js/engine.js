@@ -7,7 +7,7 @@ import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=65';
 import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=65';
 import {traceBullet} from './ballistics.js?v=65';
 import {beginVault,advanceVault} from './traversal.js?v=65';
-import {ejectCasing,updateCasings} from './casing-foley.js?v=65';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=65';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -68,7 +68,7 @@ export class Game {
   for(const a of this.actors){
    if(a.dead){if(this.rules.respawns){a.respawnLeft-=dt;if(a.respawnLeft<=0)this.spawn(a);}continue;}
    a.spawnProtection=Math.max(0,a.spawnProtection-dt);a.switchLeft=Math.max(0,a.switchLeft-dt);a.knifeCooldown=Math.max(0,a.knifeCooldown-dt);a.flashed=Math.max(0,a.flashed-dt);a.hitReact*=Math.exp(-dt*14);a.visualKick*=Math.exp(-dt*17);a.landKick*=Math.exp(-dt*9);
-   for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)}):undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
+   for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>{if(cue.cue==='caseDump')dumpRevolverCases(this,a,w,cue.count,this.eye(a));else this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)});}:undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
    if(this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
   }
   if(!p.dead){

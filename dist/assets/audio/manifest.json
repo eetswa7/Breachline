@@ -4394,9 +4394,219 @@
         "attackRms": 0.017459115013480186
       }
     ],
-    "explosion": [
+    "hullHard": [
       {
         "offset": 3590592,
+        "bytes": 4015,
+        "variant": 0,
+        "duration": 0.22,
+        "pcmPeak": 0.05211606249213219,
+        "pcmRms": 0.004557955078780651,
+        "spectralCentroidHz": 1359.9461206436213,
+        "attackRms": 0.01303095743060112
+      },
+      {
+        "offset": 3594607,
+        "bytes": 3998,
+        "variant": 1,
+        "duration": 0.22,
+        "pcmPeak": 0.0738036036491394,
+        "pcmRms": 0.005700933281332254,
+        "spectralCentroidHz": 1367.6935464118324,
+        "attackRms": 0.017041103914380074
+      },
+      {
+        "offset": 3598605,
+        "bytes": 4211,
+        "variant": 2,
+        "duration": 0.22,
+        "pcmPeak": 0.04829585924744606,
+        "pcmRms": 0.004335038363933563,
+        "spectralCentroidHz": 1745.8858356731014,
+        "attackRms": 0.012139338068664074
+      },
+      {
+        "offset": 3602816,
+        "bytes": 4028,
+        "variant": 3,
+        "duration": 0.22,
+        "pcmPeak": 0.07048060745000839,
+        "pcmRms": 0.004860854707658291,
+        "spectralCentroidHz": 1479.576263852594,
+        "attackRms": 0.01444610022008419
+      }
+    ],
+    "hullMetal": [
+      {
+        "offset": 3606844,
+        "bytes": 3528,
+        "variant": 0,
+        "duration": 0.22,
+        "pcmPeak": 0.07344037294387817,
+        "pcmRms": 0.005585388280451298,
+        "spectralCentroidHz": 1922.7639438158837,
+        "attackRms": 0.01673181727528572
+      },
+      {
+        "offset": 3610372,
+        "bytes": 3990,
+        "variant": 1,
+        "duration": 0.22,
+        "pcmPeak": 0.07026831060647964,
+        "pcmRms": 0.005490882787853479,
+        "spectralCentroidHz": 1915.5118922691793,
+        "attackRms": 0.016680369153618813
+      },
+      {
+        "offset": 3614362,
+        "bytes": 4054,
+        "variant": 2,
+        "duration": 0.22,
+        "pcmPeak": 0.053989775478839874,
+        "pcmRms": 0.004744045902043581,
+        "spectralCentroidHz": 1971.2422673216688,
+        "attackRms": 0.01328766904771328
+      },
+      {
+        "offset": 3618416,
+        "bytes": 3742,
+        "variant": 3,
+        "duration": 0.22,
+        "pcmPeak": 0.07123737782239914,
+        "pcmRms": 0.00574819790199399,
+        "spectralCentroidHz": 1733.676010614802,
+        "attackRms": 0.017391962930560112
+      }
+    ],
+    "hullWood": [
+      {
+        "offset": 3622158,
+        "bytes": 3666,
+        "variant": 0,
+        "duration": 0.22,
+        "pcmPeak": 0.03107880987226963,
+        "pcmRms": 0.003818636294454336,
+        "spectralCentroidHz": 825.4779792511993,
+        "attackRms": 0.00935410987585783
+      },
+      {
+        "offset": 3625824,
+        "bytes": 3614,
+        "variant": 1,
+        "duration": 0.22,
+        "pcmPeak": 0.04177805781364441,
+        "pcmRms": 0.004136966075748205,
+        "spectralCentroidHz": 816.1313583229362,
+        "attackRms": 0.012303391471505165
+      },
+      {
+        "offset": 3629438,
+        "bytes": 3680,
+        "variant": 2,
+        "duration": 0.22,
+        "pcmPeak": 0.03503870964050293,
+        "pcmRms": 0.0037048656959086657,
+        "spectralCentroidHz": 782.8101436002839,
+        "attackRms": 0.010271728038787842
+      },
+      {
+        "offset": 3633118,
+        "bytes": 3716,
+        "variant": 3,
+        "duration": 0.22,
+        "pcmPeak": 0.036726802587509155,
+        "pcmRms": 0.003517522243782878,
+        "spectralCentroidHz": 799.6754674657544,
+        "attackRms": 0.01001010462641716
+      }
+    ],
+    "hullSoft": [
+      {
+        "offset": 3636834,
+        "bytes": 3642,
+        "variant": 0,
+        "duration": 0.22,
+        "pcmPeak": 0.02660047635436058,
+        "pcmRms": 0.00275044864974916,
+        "spectralCentroidHz": 855.274586037248,
+        "attackRms": 0.0051711671985685825
+      },
+      {
+        "offset": 3640476,
+        "bytes": 3639,
+        "variant": 1,
+        "duration": 0.22,
+        "pcmPeak": 0.022310979664325714,
+        "pcmRms": 0.002884195651859045,
+        "spectralCentroidHz": 716.935060084986,
+        "attackRms": 0.0066876779310405254
+      },
+      {
+        "offset": 3644115,
+        "bytes": 3614,
+        "variant": 2,
+        "duration": 0.22,
+        "pcmPeak": 0.020534444600343704,
+        "pcmRms": 0.002658664947375655,
+        "spectralCentroidHz": 709.8850565163048,
+        "attackRms": 0.006451277993619442
+      },
+      {
+        "offset": 3647729,
+        "bytes": 3713,
+        "variant": 3,
+        "duration": 0.22,
+        "pcmPeak": 0.025783084332942963,
+        "pcmRms": 0.0027335798367857933,
+        "spectralCentroidHz": 762.6893674080537,
+        "attackRms": 0.006117456592619419
+      }
+    ],
+    "hullWater": [
+      {
+        "offset": 3651442,
+        "bytes": 4271,
+        "variant": 0,
+        "duration": 0.22,
+        "pcmPeak": 0.05933801457285881,
+        "pcmRms": 0.006474883761256933,
+        "spectralCentroidHz": 3615.13882572426,
+        "attackRms": 0.017936786636710167
+      },
+      {
+        "offset": 3655713,
+        "bytes": 4369,
+        "variant": 1,
+        "duration": 0.22,
+        "pcmPeak": 0.06637135148048401,
+        "pcmRms": 0.006783674005419016,
+        "spectralCentroidHz": 3522.423390419046,
+        "attackRms": 0.019331004470586777
+      },
+      {
+        "offset": 3660082,
+        "bytes": 4537,
+        "variant": 2,
+        "duration": 0.22,
+        "pcmPeak": 0.07052505761384964,
+        "pcmRms": 0.0063452646136283875,
+        "spectralCentroidHz": 3708.9860712654904,
+        "attackRms": 0.017743388190865517
+      },
+      {
+        "offset": 3664619,
+        "bytes": 4467,
+        "variant": 3,
+        "duration": 0.22,
+        "pcmPeak": 0.06149293854832649,
+        "pcmRms": 0.006137561984360218,
+        "spectralCentroidHz": 3600.1306200597724,
+        "attackRms": 0.016590675339102745
+      }
+    ],
+    "explosion": [
+      {
+        "offset": 3669086,
         "bytes": 31594,
         "variant": 0,
         "duration": 1.55,
@@ -4406,7 +4616,7 @@
         "attackRms": 0.2309759557247162
       },
       {
-        "offset": 3622186,
+        "offset": 3700680,
         "bytes": 32133,
         "variant": 1,
         "duration": 1.55,
@@ -4416,7 +4626,7 @@
         "attackRms": 0.22332347929477692
       },
       {
-        "offset": 3654319,
+        "offset": 3732813,
         "bytes": 31003,
         "variant": 2,
         "duration": 1.55,
@@ -4426,7 +4636,7 @@
         "attackRms": 0.21390466392040253
       },
       {
-        "offset": 3685322,
+        "offset": 3763816,
         "bytes": 30590,
         "variant": 3,
         "duration": 1.55,
@@ -4437,8 +4647,8 @@
       }
     ]
   },
-  "bytes": 3715912,
-  "sha256": "626aa7d1c72a9899435c9b2b2de4926cd1bb5443767dfeda107b62b261c4fac0",
+  "bytes": 3794406,
+  "sha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
   "files": [
     {
       "path": "sound-bank.part000.bin",
@@ -4447,8 +4657,8 @@
     },
     {
       "path": "sound-bank.part001.bin",
-      "bytes": 1618762,
-      "sha256": "0fc1f66758c3a7cc4ee1cfe394eb1829fad8cb2c741e906d6039c0f20a7eeae9"
+      "bytes": 1697256,
+      "sha256": "53c31ce51d7f9bf1f887bfdb4a0bfa9a4ce08104e88b449a50ac2185a0721da4"
     }
   ]
 }

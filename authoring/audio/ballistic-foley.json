@@ -15,5 +15,12 @@
     "Wood": {"duration":0.28,"contactHz":1350,"contactWeight":0.090,"decay":0.007,"bounces":[0.051,0.116]},
     "Soft": {"duration":0.28,"contactHz":520,"contactWeight":0.039,"decay":0.014,"bounces":[]},
     "Water": {"duration":0.28,"contactHz":1750,"contactWeight":0.032,"decay":0.014,"bounces":[]}
+  },
+  "hull": {
+    "Hard": {"duration":0.22,"plasticHz":620,"plasticWeight":0.095,"headHz":3400,"headWeight":0.026,"bounces":[0.050,0.121],"scuffBand":[190,2200]},
+    "Metal": {"duration":0.22,"plasticHz":840,"plasticWeight":0.098,"headHz":4200,"headWeight":0.035,"bounces":[0.045,0.109],"scuffBand":[280,2700]},
+    "Wood": {"duration":0.22,"plasticHz":390,"plasticWeight":0.080,"headHz":2100,"headWeight":0.015,"bounces":[0.060],"scuffBand":[130,1400]},
+    "Soft": {"duration":0.22,"plasticHz":250,"plasticWeight":0.038,"headHz":1200,"headWeight":0.004,"bounces":[],"scuffBand":[120,1600]},
+    "Water": {"duration":0.22,"plasticHz":430,"plasticWeight":0.028,"headHz":1800,"headWeight":0.006,"bounces":[],"scuffBand":[420,5700]}
   }
 }

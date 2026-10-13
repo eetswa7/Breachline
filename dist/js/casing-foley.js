@@ -18,7 +18,8 @@ export function casingSurface(arena,position,floorSurface){
 export function ejectCasing(game,actor,weapon,origin){
  const d=weapon.def;
  // Revolvers keep fired cases in their cylinder. Pump/bolt actions eject later.
- if(d.kind==='MELEE'||d.revolver)return;
+ if(d.kind==='MELEE')return;
+ if(d.revolver){weapon.spentCases=Math.min(weapon.capacity,(weapon.spentCases??0)+1);return;}
  const list=game.casings,own=actor.id===game.player.id;
  if(!own&&Math.hypot(actor.x-game.player.x,actor.z-game.player.z)>22)return;
  if(list.length>=CASING_CAPACITY){
@@ -31,6 +32,32 @@ export function ejectCasing(game,actor,weapon,origin){
   vx:rightX*speed+actor.vx*.28,vy:1.15+Math.cos(phase)*.12,vz:rightZ*speed+actor.vz*.28,
   source:actor.id,weapon:d.id,shell:d.kind==='SHOTGUN',delay:d.shellReload?.24:d.kind==='SNIPER'?.30:0,
   life:2.1,landed:false});
+}
+
+// Called once at the simulation crossing after the cylinder swings fully open.
+// Individual cases share the rendered/landed pool; no pre-recorded floor rattle
+// plays at the hand, and interruption after extraction cannot dump them twice.
+export function dumpRevolverCases(game,actor,weapon,count,origin){
+ if(!weapon.def.revolver)return;
+ const own=actor.id===game.player.id;
+ if(!own&&Math.hypot(actor.x-game.player.x,actor.z-game.player.z)>22)return;
+ const total=Math.min(weapon.capacity,Math.max(0,Math.floor(count))),list=game.casings;
+ const rx=Math.cos(actor.yaw),rz=Math.sin(actor.yaw),fx=Math.sin(actor.yaw),fz=-Math.cos(actor.yaw);
+ const position={x:origin.x-rx*.15+fx*.30,y:origin.y-.23,z:origin.z-rz*.15+fz*.30};
+ let ejected=0;
+ for(let i=0;i<total;i++){
+  if(list.length>=CASING_CAPACITY){
+   if(!own)break;
+   const ambient=list.findIndex(c=>c.source!==game.player.id);list.splice(ambient<0?0:ambient,1);
+  }
+  const phase=(weapon.shotSerial??0)*1.73+actor.id*2.11+i*2.399;
+  const side=-.34+Math.sin(phase)*.20,forward=.12+Math.cos(phase)*.14;
+  list.push({x:position.x+rx*Math.sin(phase)*.018,y:position.y+Math.cos(phase)*.014,z:position.z+rz*Math.sin(phase)*.018,
+   vx:rx*side+fx*forward+actor.vx*.28,vy:.08+Math.cos(phase)*.12,vz:rz*side+fz*forward+actor.vz*.28,
+   source:actor.id,weapon:weapon.def.id,shell:false,dump:true,delay:0,life:2.1,landed:false});
+  ejected++;
+ }
+ if(ejected)game.emit('casingDump',{position,source:actor.id,weapon:weapon.def.id,count:ejected,phase:.28});
 }
 
 export function updateCasings(game,dt){

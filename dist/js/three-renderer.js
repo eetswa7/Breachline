@@ -11,6 +11,7 @@ import {WEAPONS} from './weapons.js?v=65';
 import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=65';
 import {patchAtmosphere} from './atmosphere.js?v=65';
 import {installMetricUV,patchMetricUV} from './surface-uv.js?v=65';
+import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=65';
 import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=65';
 import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=65';
 import {billboardVertex,billboardFragment,ambientDust,weatherParticles} from './particles.js?v=65';
@@ -112,6 +113,7 @@ export class Renderer {
     // The primary path waits for its required native library. Historical CPU
     // fixtures supply their own kit; the game allocates no duplicate mesh kit.
     this.geometry = {};
+    this.worldMaterialVariationEnabled={value:1};this.worldMaterialVariationDetail={value:1};
     this.materials = new Map(); this.depthMaterials = new Map(); this.textures = []; this.partData = new WeakMap();
     this.bannerTexture=objectiveBannerTexture();this.textures.push(this.bannerTexture);
     this.worldBatches = []; this.actorBatches = new Map(); this.weaponBatches = new Map();
@@ -225,7 +227,7 @@ export class Renderer {
   materialKey(p, category) {
     const m = this.partMaterial(p);
     if(p.objectiveBanner)return `${category}/objective-banner-v1`;
-    return m.keys[category] ?? (m.keys[category] = `${category}/${p.surface==='snow'?'snow-grain-v1':p.surface==='water'&&p.surfaceLayer===2?'puddle-v1':'general-surface'}/${p.operatorWeapon?'operator-weapon':'general'}/${this.blenderAssets?.key(p,category)?'blender':['ridge','conifer','strata'].includes(p.mesh)?p.mesh:'regular'}/${p.blenderWind?'plant-wind':'still'}/${p.blenderVertexMaterial?'vertex-material':'uniform-material'}/${(category==='weapon'||p.operatorWeapon)&&p.blenderColour&&p.blenderVertexMaterial?'native-hero-reflectance':'general-reflectance'}/${category==='world'&&m.pattern===9&&p.blenderVertexMaterial?'authored-paint':'base-reflectance'}/${p.productionGround?'baked-ground':'live-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/${p.wet?'wet':'dry'}/${p.surfaceLayer??0}/${!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'hard-bevel':'regular'}/${m.pattern}/${category === 'weapon'||p.operatorWeapon ? m.finishTile ?? -1 : -1}/${Math.round(m.rough * 10) / 10}/${Math.round(m.metal * 10) / 10}/${m.emissive > 0 ? m.emissive : 0}/${p.surface==='water'?2:p.surface === 'glass' ? 1 : 0}`);
+    return m.keys[category] ?? (m.keys[category] = `${category}/${p.surface==='snow'?'snow-grain-v1':p.surface==='water'&&p.surfaceLayer===2?'puddle-v1':'general-surface'}/${p.operatorWeapon?'operator-weapon':'general'}/${this.blenderAssets?.key(p,category)?'blender':['ridge','conifer','strata'].includes(p.mesh)?p.mesh:'regular'}/${p.blenderWind?'plant-wind':'still'}/${p.blenderVertexMaterial?'vertex-material':'uniform-material'}/${(category==='weapon'||p.operatorWeapon)&&p.blenderColour&&p.blenderVertexMaterial?'native-hero-reflectance':'general-reflectance'}/${category==='world'&&m.pattern===9&&p.blenderVertexMaterial?'authored-paint':'base-reflectance'}/${worldMaterialVariationEligible(p,category,m)?'isotropic-variation-v1':'authored-pattern'}/${p.productionGround?'baked-ground':'live-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/${p.wet?'wet':'dry'}/${p.surfaceLayer??0}/${!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'hard-bevel':'regular'}/${m.pattern}/${category === 'weapon'||p.operatorWeapon ? m.finishTile ?? -1 : -1}/${Math.round(m.rough * 10) / 10}/${Math.round(m.metal * 10) / 10}/${m.emissive > 0 ? m.emissive : 0}/${p.surface==='water'?2:p.surface === 'glass' ? 1 : 0}`);
   }
 
   makeMaterial(p, category) {
@@ -233,6 +235,7 @@ export class Renderer {
     if (this.materials.has(key)) return this.materials.get(key);
     const m = this.partMaterial(p), leaf = p.leaf !== undefined, water=p.surface==='water', snow=p.surface==='snow', puddle=water&&p.surfaceLayer===2, tile = Math.round(m.pattern - 1);
     const hero=category==='weapon'||p.operatorWeapon;
+    const variation=worldMaterialVariationEligible(p,category,m);
     const finish = hero && Number.isInteger(m.finishTile) ? this.weaponMaps?.[m.finishTile] : null;
     const nativeHero=!!(hero&&finish&&p.blenderColour&&p.blenderVertexMaterial);
     const maps = p.objectiveBanner?null:snow?this.surfaceMaps[6]:finish ?? (!leaf && tile >= 0 ? this.surfaceMaps[tile] : null);
@@ -302,6 +305,14 @@ export class Renderer {
     // the viewmodel use different uniforms even when their Three defines match.
     // Epoxy's diffuse patch also differs from ordinary concrete.
     mat.customProgramCacheKey=()=>`${category}/${previousKey}/${puddle?'puddle-v1':water?'water-v2':snow?'snow-grain-v1':!this.blenderAssets&&category==='weapon'&&hardWeaponBevel(p)?'metric-bevel':''}/packed-orm-${maps?maps.baked?'blender-v2':'v2':'none'}/${p.blenderVertexMaterial&&!snow&&!puddle?'vertex-rm-v2':''}/${nativeHero?'native-hero-reflectance-v1':'general-reflectance'}/${category==='world'&&tile===8&&p.blenderVertexMaterial?'authored-paint-v1':'base-reflectance'}/${p.wet?'wet':'dry'}/${p.productionGround?'cycles-ground-v2':category==='world'?'room-ground-bounce-v4':category==='actor'?'room-lightfield-v2':'hero-lighting'}/${p.productionEpoxy?'epoxy':'plain'}/haze-v2`;
+    if(variation){
+      this.worldMaterialVariationEnabled??={value:1};
+      this.worldMaterialVariationDetail??={value:this.quality==='low'?0:1};
+      const before=mat.onBeforeCompile,programKey=mat.customProgramCacheKey();
+      mat.onBeforeCompile=shader=>{before(shader);patchWorldMaterialVariation(shader,this.worldMaterialVariationEnabled,this.worldMaterialVariationDetail);};
+      mat.customProgramCacheKey=()=>programKey+'/isotropic-variation-v1';
+      mat.userData.worldMaterialVariation={eligible:true,maxSamplesPerMap:2,lowSamplesPerMap:1,phase:true,alignedPBR:true,explicitMipDerivatives:true};
+    }
     if(p.objectiveBanner){const before=mat.onBeforeCompile,key=mat.customProgramCacheKey();
       mat.onBeforeCompile=shader=>{before(shader);patchObjectiveBanner(shader,this.windTime??{value:0});};
       mat.customProgramCacheKey=()=>key+'/objective-textile-v2';
@@ -522,6 +533,7 @@ export class Renderer {
     const q = QUALITY[this.quality] ?? QUALITY.medium;
     if (!force && this.appliedQuality === this.quality) return;
     this.appliedQuality = this.quality; this.renderer.shadowMap.enabled = q.shadow > 0;
+    if(this.worldMaterialVariationDetail)this.worldMaterialVariationDetail.value=this.quality==='low'?0:1;
     if (q.shadow && this.sun.shadow.mapSize.x !== q.shadow) {
       this.sun.shadow.map?.dispose(); this.sun.shadow.map = null;
       this.sun.shadow.mapSize.set(q.shadow, q.shadow); this.sun.shadow.needsUpdate = true;

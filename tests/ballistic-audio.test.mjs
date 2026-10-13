@@ -4,12 +4,20 @@ import {Game,emptyInput} from '../dist/js/engine.js';
 import {Weapon} from '../dist/js/weapons.js';
 import {traceBullet} from '../dist/js/ballistics.js';
 import {AudioSystem} from '../dist/js/audio.js';
-import {CASING_CAPACITY,casingSurface,ejectCasing,updateCasings} from '../dist/js/casing-foley.js';
+import {CASING_CAPACITY,casingSurface,ejectCasing,dumpRevolverCases,updateCasings} from '../dist/js/casing-foley.js';
+import {weaponModel,animateWeaponParts} from '../dist/js/weapon-models.js';
+import {AUDIO_BANK} from '../dist/js/audio-files.js';
 
 function lane(){
  const g=new Game({}, {seed:61012});g.actors=[g.player,g.actors[4]];g.arena.blocks=[];g.arena.visualFloorCells=null;
  const p=g.player,t=g.actors[1];p.reset({x:0,y:0,z:0},0);t.reset({x:0,y:0,z:-8},0);p.spawnProtection=t.spawnProtection=0;
  p.weapons[0]=new Weapon(0);p.weapon.spread=()=>0;g.events.length=0;return {g,p,t};
+}
+function advance(g,seconds){for(let t=0;t<seconds;t+=1/120)g.update(Math.min(1/120,seconds-t));}
+function firedRevolver(shots=3){
+ const {g,p}=lane();g.actors=[p];p.weapons[0]=new Weapon(22);p.yaw=Math.PI/2;
+ for(let i=0;i<shots;i++){p.weapon.cooldown=0;assert(g.shoot(p));}
+ g.events.length=0;return {g,p,w:p.weapon};
 }
 
 test('actual cover exit emits one penetration cue and preserves reduced enemy damage and entry visuals',()=>{
@@ -74,7 +82,54 @@ test('ballistic and casing sounds remain material-specific, occluded, directiona
 
 test('new ballistic events have finite startup buffers before native library decoding',()=>{
  const audio=new AudioSystem({});audio.context={sampleRate:4000,createBuffer(c,n,r){const a=new Float32Array(n);return {getChannelData:()=>a};}};audio.build();
- for(const key of ['ricochetMetal','ricochetStone','penetrationMetal','penetrationStone','penetrationWood','penetrationGlass','casingHard','casingMetal','casingWood','casingSoft','casingWater']){
+ for(const key of ['ricochetMetal','ricochetStone','penetrationMetal','penetrationStone','penetrationWood','penetrationGlass','casingHard','casingMetal','casingWood','casingSoft','casingWater','hullHard','hullMetal','hullWood','hullSoft','hullWater']){
   const samples=audio.buffers.get(key)?.getChannelData(0);assert(samples?.length);assert(samples.every(Number.isFinite));assert(samples.some(n=>n!==0));
  }
+});
+
+test('actual revolver shots retain only fired cases and dump once after the visible cylinder opens without early ammo refill',()=>{
+ const {g,p,w}=firedRevolver(),ammo=w.ammo,reserve=w.reserve;
+ assert.equal(w.spentCases,3);assert.equal(g.casings.length,0);assert(w.reload());
+ advance(g,w.reloadTime*.279);assert.equal(g.casings.length,0);assert.equal(w.spentCases,3);
+ advance(g,w.reloadTime*.003);
+ const dump=g.events.filter(e=>e.type==='casingDump');assert.equal(dump.length,1);assert.equal(dump[0].count,3);assert.equal(dump[0].phase,.28);
+ assert.equal(g.casings.length,3);assert(g.casings.every(c=>c.dump&&!c.shell&&c.delay===0&&c.weapon===22));assert.equal(w.spentCases,0);
+ assert.equal(w.ammo,ammo);assert.equal(w.reserve,reserve);
+ const parts=weaponModel(w);animateWeaponParts(parts,w,p,g.time);const cylinder=parts[parts.reloadRig.cylinder.anchor];assert.equal(cylinder.x,cylinder.baseX-.09);
+ advance(g,w.reloadTime*.717);assert.equal(w.ammo,ammo,'refill stays at the original completion');
+ advance(g,w.reloadTime*.002);assert.equal(w.ammo,w.capacity);assert.equal(w.reserve,reserve-3);
+ assert.equal(g.events.filter(e=>e.type==='casingDump').length,1);assert.equal(g.events.filter(e=>e.type==='casing'&&e.weapon===22).length,3);
+ assert(g.events.filter(e=>e.type==='casing'&&e.weapon===22).every(e=>e.surface==='Hard'&&!e.shell));
+});
+
+test('pause and cancellation preserve undumped cases, and restarting after extraction cannot double dump',()=>{
+ const {g,w}=firedRevolver(2);assert(w.reload());advance(g,w.reloadTime*.1);
+ g.paused=true;const left=w.reloadLeft;advance(g,2);assert.equal(w.reloadLeft,left);assert.equal(w.spentCases,2);assert.equal(g.casings.length,0);
+ g.paused=false;g.update(1/120,{...emptyInput(),swap:true});assert.equal(w.reloadLeft,0);assert.equal(w.spentCases,2);
+ assert(w.reload());advance(g,w.reloadTime*.3);assert.equal(w.spentCases,0);assert.equal(g.events.filter(e=>e.type==='casingDump').length,1);
+ // The actor still holds its other slot; only the interrupted weapon is changed.
+ w.reloadLeft=0;assert(w.reload());advance(g,w.reloadTime+.01);
+ assert.equal(g.events.filter(e=>e.type==='casingDump').length,1);assert.equal(g.events.filter(e=>e.type==='casing'&&e.weapon===22).length,2);
+ w.reset();assert.equal(w.spentCases,0);g.resetRound();assert.equal(g.casings.length,0);
+});
+
+test('revolver case dumps retain capacity and local priority, reject distant actors and consume no gameplay randomness',()=>{
+ const {g,p}=lane(),same=lane().g,w=new Weapon(22),origin=g.eye(p),bot={id:2,x:0,z:0,yaw:0,vx:0,vz:0};
+ for(let i=0;i<CASING_CAPACITY;i++)ejectCasing(g,bot,new Weapon(0),origin);
+ dumpRevolverCases(g,bot,w,w.capacity,origin);assert.equal(g.casings.length,CASING_CAPACITY);assert(!g.casings.some(c=>c.dump));
+ dumpRevolverCases(g,p,w,w.capacity+100,origin);assert.equal(g.casings.length,CASING_CAPACITY);assert.equal(g.casings.filter(c=>c.dump&&c.source===0).length,w.capacity);assert.equal(g.events.find(e=>e.type==='casingDump').count,w.capacity);
+ for(let i=0;i<w.capacity+10;i++)ejectCasing(g,p,w,origin);assert.equal(w.spentCases,w.capacity,'retained count never exceeds cylinder capacity');
+ assert.equal(g.random(),same.random());g.casings.length=0;bot.x=23;dumpRevolverCases(g,bot,w,w.capacity,origin);assert.equal(g.casings.length,0);
+ w.spentCases=2;w.ammo=0;w.reload();const events=[];w.update(w.reloadTime+.1,e=>events.push(e));assert.equal(events.filter(e=>e.cue==='caseDump').length,1);assert.equal(events.find(e=>e.cue==='caseDump').count,2);assert.equal(w.spentCases,0);
+});
+
+test('shotgun hulls select independent material recordings at normal rate and share the three-contact/ambient voice budget',()=>{
+ const audio=new AudioSystem({volume:1}),played=[];audio.play=(key,options)=>played.push({key,...options});
+ const game={player:{x:0,y:0,z:0,yaw:0},arena:{visible:()=>true}},position={x:1,y:0,z:0};
+ for(const surface of ['Hard','Metal','Wood','Soft','Water']){
+  played.length=0;audio.events([{type:'casing',source:0,surface,position,value:1,shell:true},{type:'casing',source:0,surface,position,value:1,shell:false}],game);
+  assert.deepEqual(played.map(p=>p.key),['hull'+surface,'casing'+surface]);assert(played.every(p=>p.rate>=.97&&p.rate<=1.03&&!p.important));
+  const cases=AUDIO_BANK.sounds['casing'+surface],hulls=AUDIO_BANK.sounds['hull'+surface];assert.equal(hulls?.length,4);assert(hulls.every((take,i)=>take.duration!==cases[i].duration&&take.spectralCentroidHz!==cases[i].spectralCentroidHz));
+ }
+ played.length=0;audio.events(Array.from({length:12},(_,i)=>({type:'casing',source:0,surface:'Metal',position,shell:i%2===0})),game);assert.equal(played.length,3);
 });

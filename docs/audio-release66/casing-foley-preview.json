@@ -1,0 +1,1299 @@
+{
+  "sourceCommit": "8ea3391a449cbf2562cf2f9e033d2cd327149098",
+  "sourceDirty": true,
+  "modifiedFiles": [
+    "M authoring/audio/ballistic-foley.json",
+    " M authoring/audio/build_audio.py",
+    " M dist/assets/audio/manifest.json",
+    " M dist/assets/audio/sound-bank.part001.bin",
+    " M dist/js/audio-files.js",
+    " M dist/js/audio.js",
+    " M dist/js/casing-foley.js",
+    " M dist/js/engine.js",
+    " M dist/js/three-renderer.js",
+    " M dist/js/weapons.js",
+    " M scripts/check-audio-browser.mjs",
+    " M scripts/check-component-foley-browser.mjs",
+    " M tests/ballistic-audio.test.mjs",
+    " M tests/component-foley.test.mjs",
+    " M tests/production-audio.test.mjs",
+    "?? dist/js/world-material-variation.js",
+    "?? docs/audio-release66/",
+    "?? docs/validation-audio66-browser.json",
+    "?? scripts/check-casing-audio-browser.mjs",
+    "?? scripts/check-smoke-browser.mjs",
+    "?? scripts/check-world-materials-browser.mjs",
+    "?? tests/smoke-presentation.test.mjs",
+    "?? tests/world-material-variation.test.mjs"
+  ],
+  "runtimeFiles": {
+    "dist/js/audio.js": "cd0f549de345dd9235670169aa73ba51ff4025ade7b0e6ec8733e07997939e4b",
+    "dist/js/audio-files.js": "b5cf65e37ed6ede19f4e2a2031344120cb123ceaa1994053204e2a971a6f5c0a",
+    "dist/js/engine.js": "c71c675c783473f4c35180b7e0d62c2d18a32d8558ebb17c2121a818685a9c74",
+    "dist/js/weapons.js": "a656c387ef5d41e35a8cbc1687818ee4cf941a0c7fb589e78afe99f4b412e0a8",
+    "dist/js/casing-foley.js": "4de9a89f148e7b88cdc876764d905943d0185a842b51b839de2713ee14211b10",
+    "dist/js/weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e",
+    "dist/js/three-renderer.js": "f1976b300180a5dbeb4f6186607aea9f00f0ac0aaeb33d1cb2350b2c6b15c990"
+  },
+  "browser": "154.0.8037.57",
+  "capturedAt": "2026-10-13T08:08:03.051Z",
+  "sampleRate": 44100,
+  "channels": 2,
+  "durationSeconds": 50.250136054421766,
+  "segments": [
+    {
+      "kind": "unity_gain_case_then_hull_comparisons",
+      "normalized": false,
+      "cues": [
+        {
+          "key": "casingHard",
+          "take": 0,
+          "startSeconds": 0,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullHard",
+          "take": 0,
+          "startSeconds": 0.63,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingHard",
+          "take": 1,
+          "startSeconds": 1.2,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullHard",
+          "take": 1,
+          "startSeconds": 1.83,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingHard",
+          "take": 2,
+          "startSeconds": 2.4,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullHard",
+          "take": 2,
+          "startSeconds": 3.03,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingHard",
+          "take": 3,
+          "startSeconds": 3.5999999999999996,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullHard",
+          "take": 3,
+          "startSeconds": 4.2299999999999995,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingMetal",
+          "take": 0,
+          "startSeconds": 4.8,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullMetal",
+          "take": 0,
+          "startSeconds": 5.43,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingMetal",
+          "take": 1,
+          "startSeconds": 6,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullMetal",
+          "take": 1,
+          "startSeconds": 6.63,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingMetal",
+          "take": 2,
+          "startSeconds": 7.2,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullMetal",
+          "take": 2,
+          "startSeconds": 7.83,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingMetal",
+          "take": 3,
+          "startSeconds": 8.4,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullMetal",
+          "take": 3,
+          "startSeconds": 9.030000000000001,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWood",
+          "take": 0,
+          "startSeconds": 9.600000000000001,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWood",
+          "take": 0,
+          "startSeconds": 10.230000000000002,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWood",
+          "take": 1,
+          "startSeconds": 10.800000000000002,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWood",
+          "take": 1,
+          "startSeconds": 11.430000000000003,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWood",
+          "take": 2,
+          "startSeconds": 12.000000000000004,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWood",
+          "take": 2,
+          "startSeconds": 12.630000000000004,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWood",
+          "take": 3,
+          "startSeconds": 13.200000000000005,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWood",
+          "take": 3,
+          "startSeconds": 13.830000000000005,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingSoft",
+          "take": 0,
+          "startSeconds": 14.400000000000006,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullSoft",
+          "take": 0,
+          "startSeconds": 15.030000000000006,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingSoft",
+          "take": 1,
+          "startSeconds": 15.600000000000007,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullSoft",
+          "take": 1,
+          "startSeconds": 16.230000000000008,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingSoft",
+          "take": 2,
+          "startSeconds": 16.800000000000008,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullSoft",
+          "take": 2,
+          "startSeconds": 17.430000000000007,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingSoft",
+          "take": 3,
+          "startSeconds": 18.000000000000007,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullSoft",
+          "take": 3,
+          "startSeconds": 18.630000000000006,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWater",
+          "take": 0,
+          "startSeconds": 19.200000000000006,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWater",
+          "take": 0,
+          "startSeconds": 19.830000000000005,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWater",
+          "take": 1,
+          "startSeconds": 20.400000000000006,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWater",
+          "take": 1,
+          "startSeconds": 21.030000000000005,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWater",
+          "take": 2,
+          "startSeconds": 21.600000000000005,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWater",
+          "take": 2,
+          "startSeconds": 22.230000000000004,
+          "durationSeconds": 0.22
+        },
+        {
+          "key": "casingWater",
+          "take": 3,
+          "startSeconds": 22.800000000000004,
+          "durationSeconds": 0.28
+        },
+        {
+          "key": "hullWater",
+          "take": 3,
+          "startSeconds": 23.430000000000003,
+          "durationSeconds": 0.22
+        }
+      ],
+      "startSeconds": 0,
+      "durationSeconds": 24.00002267573696,
+      "peak": 0.1102655902504921,
+      "rms": 0.003226271918096473
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "revolver_reload_Hard",
+      "weapon": 22,
+      "surface": "Hard",
+      "room": false,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "cylinderAtDump": {
+        "x": -0.09,
+        "baseX": 0,
+        "fullyOpen": true,
+        "ammo": 3,
+        "reserve": 30
+      },
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.47500000000000064,
+          "phase": 0.18,
+          "cue": "open",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casingDump",
+          "time": 0.7333333333333332,
+          "position": {
+            "x": -0.15659828568277775,
+            "y": 1.4300000000000002,
+            "z": -0.296609131553995
+          },
+          "source": 0,
+          "weapon": 22,
+          "count": 3,
+          "phase": 0.28
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.4,
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casing",
+          "time": 1.2583333333333313,
+          "position": {
+            "x": -0.40445134007924677,
+            "y": 0,
+            "z": -0.2919927442889003
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Hard",
+          "value": 0.7497330531804673
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.22195599563572285,
+            "y": 0,
+            "z": -0.38135001869730484
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Hard",
+          "value": 0.7540818592595684
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.45944345622251737,
+            "y": 0,
+            "z": -0.39132812975762166
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Hard",
+          "value": 0.7506915626340597
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1916666666666615,
+          "phase": 0.84,
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "rack22",
+          "time": 0.8250000000000006,
+          "volume": 0.49,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 1.3916666666666653,
+          "volume": 0.5,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "casingHard",
+          "time": 1.6083333333333312,
+          "volume": 0.11473638571220382,
+          "rate": 0.9876797082472604,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingHard",
+          "time": 1.6249999999999978,
+          "volume": 0.114958174822238,
+          "rate": 0.9968316230386157,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingHard",
+          "time": 1.6249999999999978,
+          "volume": 0.11478526969433704,
+          "rate": 1.0021045813853782,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 2.5416666666666616,
+          "volume": 0.58,
+          "important": true,
+          "indoor": null
+        }
+      ],
+      "startSeconds": 24.00002267573696,
+      "durationSeconds": 4.150022675736961,
+      "peak": 0.06066019460558891,
+      "rms": 0.001254713654061839
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "revolver_reload_Metal",
+      "weapon": 22,
+      "surface": "Metal",
+      "room": true,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "cylinderAtDump": {
+        "x": -0.09,
+        "baseX": 0,
+        "fullyOpen": true,
+        "ammo": 3,
+        "reserve": 30
+      },
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.47500000000000064,
+          "phase": 0.18,
+          "cue": "open",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casingDump",
+          "time": 0.7333333333333332,
+          "position": {
+            "x": -0.15659828568277775,
+            "y": 1.4300000000000002,
+            "z": -0.296609131553995
+          },
+          "source": 0,
+          "weapon": 22,
+          "count": 3,
+          "phase": 0.28
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.4,
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casing",
+          "time": 1.2583333333333313,
+          "position": {
+            "x": -0.40445134007924677,
+            "y": 0,
+            "z": -0.2919927442889003
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Metal",
+          "value": 0.7497330531804673
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.22195599563572285,
+            "y": 0,
+            "z": -0.38135001869730484
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Metal",
+          "value": 0.7540818592595684
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.45944345622251737,
+            "y": 0,
+            "z": -0.39132812975762166
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Metal",
+          "value": 0.7506915626340597
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1916666666666615,
+          "phase": 0.84,
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "rack22",
+          "time": 0.8250000000000006,
+          "volume": 0.49,
+          "important": true,
+          "indoor": "room"
+        },
+        {
+          "key": "reload22",
+          "time": 1.3916666666666653,
+          "volume": 0.5,
+          "important": true,
+          "indoor": "room"
+        },
+        {
+          "key": "casingMetal",
+          "time": 1.6083333333333312,
+          "volume": 0.11473638571220382,
+          "rate": 0.9946313869880375,
+          "important": false,
+          "indoor": "room"
+        },
+        {
+          "key": "casingMetal",
+          "time": 1.6249999999999978,
+          "volume": 0.114958174822238,
+          "rate": 0.9826743002905756,
+          "important": false,
+          "indoor": "room"
+        },
+        {
+          "key": "casingMetal",
+          "time": 1.6249999999999978,
+          "volume": 0.11478526969433704,
+          "rate": 0.9880971187830009,
+          "important": false,
+          "indoor": "room"
+        },
+        {
+          "key": "reload22",
+          "time": 2.5416666666666616,
+          "volume": 0.58,
+          "important": true,
+          "indoor": "room"
+        }
+      ],
+      "startSeconds": 28.150045351473924,
+      "durationSeconds": 4.150022675736961,
+      "peak": 0.06066097691655159,
+      "rms": 0.0012576454269562166
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "revolver_reload_Wood",
+      "weapon": 22,
+      "surface": "Wood",
+      "room": false,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "cylinderAtDump": {
+        "x": -0.09,
+        "baseX": 0,
+        "fullyOpen": true,
+        "ammo": 3,
+        "reserve": 30
+      },
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.47500000000000064,
+          "phase": 0.18,
+          "cue": "open",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casingDump",
+          "time": 0.7333333333333332,
+          "position": {
+            "x": -0.15659828568277775,
+            "y": 1.4300000000000002,
+            "z": -0.296609131553995
+          },
+          "source": 0,
+          "weapon": 22,
+          "count": 3,
+          "phase": 0.28
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.4,
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casing",
+          "time": 1.2583333333333313,
+          "position": {
+            "x": -0.40445134007924677,
+            "y": 0,
+            "z": -0.2919927442889003
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Wood",
+          "value": 0.7497330531804673
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.22195599563572285,
+            "y": 0,
+            "z": -0.38135001869730484
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Wood",
+          "value": 0.7540818592595684
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.45944345622251737,
+            "y": 0,
+            "z": -0.39132812975762166
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Wood",
+          "value": 0.7506915626340597
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1916666666666615,
+          "phase": 0.84,
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "rack22",
+          "time": 0.8250000000000006,
+          "volume": 0.49,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 1.3916666666666653,
+          "volume": 0.5,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "casingWood",
+          "time": 1.6083333333333312,
+          "volume": 0.11473638571220382,
+          "rate": 0.9981714193715598,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingWood",
+          "time": 1.6249999999999978,
+          "volume": 0.114958174822238,
+          "rate": 1.0159466522921148,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingWood",
+          "time": 1.6249999999999978,
+          "volume": 0.11478526969433704,
+          "rate": 0.9957497664644291,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 2.5416666666666616,
+          "volume": 0.58,
+          "important": true,
+          "indoor": null
+        }
+      ],
+      "startSeconds": 32.300068027210884,
+      "durationSeconds": 4.150022675736961,
+      "peak": 0.06066019460558891,
+      "rms": 0.0012631401496788718
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "revolver_reload_Soft",
+      "weapon": 22,
+      "surface": "Soft",
+      "room": false,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "cylinderAtDump": {
+        "x": -0.09,
+        "baseX": 0,
+        "fullyOpen": true,
+        "ammo": 3,
+        "reserve": 30
+      },
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.47500000000000064,
+          "phase": 0.18,
+          "cue": "open",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casingDump",
+          "time": 0.7333333333333332,
+          "position": {
+            "x": -0.15659828568277775,
+            "y": 1.4300000000000002,
+            "z": -0.296609131553995
+          },
+          "source": 0,
+          "weapon": 22,
+          "count": 3,
+          "phase": 0.28
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.4,
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casing",
+          "time": 1.2583333333333313,
+          "position": {
+            "x": -0.40445134007924677,
+            "y": 0,
+            "z": -0.2919927442889003
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Soft",
+          "value": 0.7497330531804673
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.22195599563572285,
+            "y": 0,
+            "z": -0.38135001869730484
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Soft",
+          "value": 0.7540818592595684
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.45944345622251737,
+            "y": 0,
+            "z": -0.39132812975762166
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Soft",
+          "value": 0.7506915626340597
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1916666666666615,
+          "phase": 0.84,
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "rack22",
+          "time": 0.8250000000000006,
+          "volume": 0.49,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 1.3916666666666653,
+          "volume": 0.5,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "casingSoft",
+          "time": 1.6083333333333312,
+          "volume": 0.11473638571220382,
+          "rate": 0.9823326466583284,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingSoft",
+          "time": 1.6249999999999978,
+          "volume": 0.114958174822238,
+          "rate": 0.9735519498140999,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingSoft",
+          "time": 1.6249999999999978,
+          "volume": 0.11478526969433704,
+          "rate": 1.0149512318702478,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 2.5416666666666616,
+          "volume": 0.58,
+          "important": true,
+          "indoor": null
+        }
+      ],
+      "startSeconds": 36.45009070294785,
+      "durationSeconds": 4.150022675736961,
+      "peak": 0.06066019460558891,
+      "rms": 0.0012541076494211906
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "revolver_reload_Water",
+      "weapon": 22,
+      "surface": "Water",
+      "room": false,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "cylinderAtDump": {
+        "x": -0.09,
+        "baseX": 0,
+        "fullyOpen": true,
+        "ammo": 3,
+        "reserve": 30
+      },
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.47500000000000064,
+          "phase": 0.18,
+          "cue": "open",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casingDump",
+          "time": 0.7333333333333332,
+          "position": {
+            "x": -0.15659828568277775,
+            "y": 1.4300000000000002,
+            "z": -0.296609131553995
+          },
+          "source": 0,
+          "weapon": 22,
+          "count": 3,
+          "phase": 0.28
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.4,
+          "cue": "chamberLoad",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "casing",
+          "time": 1.2583333333333313,
+          "position": {
+            "x": -0.40445134007924677,
+            "y": 0,
+            "z": -0.2919927442889003
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Water",
+          "value": 0.7497330531804673
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.22195599563572285,
+            "y": 0,
+            "z": -0.38135001869730484
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Water",
+          "value": 0.7540818592595684
+        },
+        {
+          "type": "casing",
+          "time": 1.274999999999998,
+          "position": {
+            "x": -0.45944345622251737,
+            "y": 0,
+            "z": -0.39132812975762166
+          },
+          "source": 0,
+          "weapon": 22,
+          "shell": false,
+          "surface": "Water",
+          "value": 0.7506915626340597
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1916666666666615,
+          "phase": 0.84,
+          "cue": "cylinderClose",
+          "component": "cylinder",
+          "weapon": 22,
+          "cycle": 0,
+          "empty": false,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "rack22",
+          "time": 0.8250000000000006,
+          "volume": 0.49,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 1.3916666666666653,
+          "volume": 0.5,
+          "important": true,
+          "indoor": null
+        },
+        {
+          "key": "casingWater",
+          "time": 1.6083333333333312,
+          "volume": 0.11473638571220382,
+          "rate": 0.9766412331479283,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingWater",
+          "time": 1.6249999999999978,
+          "volume": 0.114958174822238,
+          "rate": 1.0084834151610185,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "casingWater",
+          "time": 1.6249999999999978,
+          "volume": 0.11478526969433704,
+          "rate": 1.0204482737189355,
+          "important": false,
+          "indoor": null
+        },
+        {
+          "key": "reload22",
+          "time": 2.5416666666666616,
+          "volume": 0.58,
+          "important": true,
+          "indoor": null
+        }
+      ],
+      "startSeconds": 40.60011337868481,
+      "durationSeconds": 4.150022675736961,
+      "peak": 0.06066019460558891,
+      "rms": 0.0012560394071887571
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "pump_shot_and_hull_Hard",
+      "weapon": 5,
+      "surface": "Hard",
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "events": [
+        {
+          "type": "shot",
+          "time": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          },
+          "end": {
+            "x": -3.2472528608003746,
+            "y": 4.345573522130685,
+            "z": -139.9365679288843
+          },
+          "stoppedBlock": null,
+          "source": 0,
+          "weapon": 5,
+          "suppressed": false,
+          "loudness": 1,
+          "indoor": false
+        },
+        {
+          "type": "casing",
+          "time": 0.9416666666666658,
+          "position": {
+            "x": 1.3844552318965146,
+            "y": 0,
+            "z": -0.03884212757263077
+          },
+          "source": 0,
+          "weapon": 5,
+          "shell": true,
+          "surface": "Hard",
+          "value": 0.7985714285714288
+        }
+      ],
+      "playback": [
+        {
+          "key": "shot5",
+          "time": 0.35,
+          "volume": 0.85,
+          "rate": 1.0110068815114395,
+          "important": true,
+          "indoor": false
+        },
+        {
+          "key": "hullHard",
+          "time": 1.2916666666666656,
+          "volume": 0.11722714285714286,
+          "rate": 0.9790751344360418,
+          "important": false,
+          "indoor": null
+        }
+      ],
+      "startSeconds": 44.750136054421766,
+      "durationSeconds": 2.75,
+      "peak": 0.2858572006225586,
+      "rms": 0.010922225140402772
+    },
+    {
+      "kind": "actual_gameplay_events",
+      "id": "autoloading_shot_and_hull_Metal",
+      "weapon": 6,
+      "surface": "Metal",
+      "room": true,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.35,
+      "events": [
+        {
+          "type": "shot",
+          "time": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          },
+          "end": {
+            "x": -3.845007480958504,
+            "y": 4.840205946259683,
+            "z": -139.91105105605757
+          },
+          "stoppedBlock": null,
+          "source": 0,
+          "weapon": 6,
+          "suppressed": false,
+          "loudness": 1,
+          "indoor": true
+        },
+        {
+          "type": "casing",
+          "time": 0.7,
+          "position": {
+            "x": 1.3849788041892575,
+            "y": 0,
+            "z": -0.007662372118978356
+          },
+          "source": 0,
+          "weapon": 6,
+          "shell": true,
+          "surface": "Metal",
+          "value": 0.7985714285714288
+        }
+      ],
+      "playback": [
+        {
+          "key": "shot6",
+          "time": 0.35,
+          "volume": 0.85,
+          "rate": 1.0128930720006148,
+          "important": true,
+          "indoor": "room"
+        },
+        {
+          "key": "hullMetal",
+          "time": 1.0499999999999998,
+          "volume": 0.11722714285714286,
+          "rate": 0.9723354415777612,
+          "important": false,
+          "indoor": "room"
+        }
+      ],
+      "startSeconds": 47.500136054421766,
+      "durationSeconds": 2.75,
+      "peak": 0.25660786032676697,
+      "rms": 0.009811254598743028
+    }
+  ],
+  "file": "docs/audio-release66/casing-foley-preview.m4a",
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "description": "Forty exact decoded AAC takes at unity gain (case then hull), followed by five actual revolver reload timelines and pump/autoloading shotgun shots with actual landings. Runtime sections use production gains, native Web Audio world panners and shared room responses. No normalization. Generated listening evidence has not been subjectively reviewed."
+}
