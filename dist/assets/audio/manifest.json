@@ -4645,10 +4645,208 @@
         "spectralCentroidHz": 853.947255370755,
         "attackRms": 0.2519972026348114
       }
+    ],
+    "attachmentFastExtract": [
+      {
+        "offset": 3794406,
+        "bytes": 2042,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.07953651249408722,
+        "pcmRms": 0.009415721520781517,
+        "spectralCentroidHz": 3697.5626536499267,
+        "attackRms": 0.015948493033647537
+      },
+      {
+        "offset": 3796448,
+        "bytes": 2062,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.09439219534397125,
+        "pcmRms": 0.010894807986915112,
+        "spectralCentroidHz": 4104.320147831925,
+        "attackRms": 0.018475079908967018
+      }
+    ],
+    "attachmentFastMove": [
+      {
+        "offset": 3798510,
+        "bytes": 2055,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.032590191811323166,
+        "pcmRms": 0.004372005816549063,
+        "spectralCentroidHz": 3370.4120929133583,
+        "attackRms": 0.0071396795101463795
+      },
+      {
+        "offset": 3800565,
+        "bytes": 1986,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.023083193227648735,
+        "pcmRms": 0.004219686146825552,
+        "spectralCentroidHz": 3366.1142142089316,
+        "attackRms": 0.006886839866638184
+      }
+    ],
+    "attachmentFastSeat": [
+      {
+        "offset": 3802551,
+        "bytes": 2035,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.1552124172449112,
+        "pcmRms": 0.016315234825015068,
+        "spectralCentroidHz": 3723.0661390028854,
+        "attackRms": 0.027712108567357063
+      },
+      {
+        "offset": 3804586,
+        "bytes": 2018,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.18686354160308838,
+        "pcmRms": 0.019816825166344643,
+        "spectralCentroidHz": 3497.800199402789,
+        "attackRms": 0.03368983417749405
+      }
+    ],
+    "attachmentExtendedExtract": [
+      {
+        "offset": 3806604,
+        "bytes": 2097,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.1366579532623291,
+        "pcmRms": 0.018120290711522102,
+        "spectralCentroidHz": 2286.002896014999,
+        "attackRms": 0.030434949323534966
+      },
+      {
+        "offset": 3808701,
+        "bytes": 2092,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.10313533246517181,
+        "pcmRms": 0.0175942275673151,
+        "spectralCentroidHz": 2099.0087821116153,
+        "attackRms": 0.029562905430793762
+      }
+    ],
+    "attachmentExtendedMove": [
+      {
+        "offset": 3810793,
+        "bytes": 2052,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.04140559211373329,
+        "pcmRms": 0.0061900196596980095,
+        "spectralCentroidHz": 1948.4739620386893,
+        "attackRms": 0.010003374889492989
+      },
+      {
+        "offset": 3812845,
+        "bytes": 2070,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.03587435185909271,
+        "pcmRms": 0.006508329883217812,
+        "spectralCentroidHz": 2026.6750355788336,
+        "attackRms": 0.010619664564728737
+      }
+    ],
+    "attachmentExtendedSeat": [
+      {
+        "offset": 3814915,
+        "bytes": 2095,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.25894278287887573,
+        "pcmRms": 0.03256464749574661,
+        "spectralCentroidHz": 1976.4882644397007,
+        "attackRms": 0.054980285465717316
+      },
+      {
+        "offset": 3817010,
+        "bytes": 2100,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.20622693002223969,
+        "pcmRms": 0.029164865612983704,
+        "spectralCentroidHz": 1966.1763980311866,
+        "attackRms": 0.04915197566151619
+      }
+    ],
+    "attachmentDrumExtract": [
+      {
+        "offset": 3819110,
+        "bytes": 2075,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.13623376190662384,
+        "pcmRms": 0.021371964365243912,
+        "spectralCentroidHz": 1625.8304808609898,
+        "attackRms": 0.03590787947177887
+      },
+      {
+        "offset": 3821185,
+        "bytes": 2097,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.10423822700977325,
+        "pcmRms": 0.018055623397231102,
+        "spectralCentroidHz": 1589.715764304757,
+        "attackRms": 0.029960693791508675
+      }
+    ],
+    "attachmentDrumMove": [
+      {
+        "offset": 3823282,
+        "bytes": 2067,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.04058442637324333,
+        "pcmRms": 0.007891512475907803,
+        "spectralCentroidHz": 1417.076605020033,
+        "attackRms": 0.01284592691808939
+      },
+      {
+        "offset": 3825349,
+        "bytes": 2071,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.05112917348742485,
+        "pcmRms": 0.007262309547513723,
+        "spectralCentroidHz": 1574.1219994652374,
+        "attackRms": 0.011535127647221088
+      }
+    ],
+    "attachmentDrumSeat": [
+      {
+        "offset": 3827420,
+        "bytes": 2099,
+        "variant": 0,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.1659477949142456,
+        "pcmRms": 0.024141106754541397,
+        "spectralCentroidHz": 1590.3386856228215,
+        "attackRms": 0.039871882647275925
+      },
+      {
+        "offset": 3829519,
+        "bytes": 2108,
+        "variant": 1,
+        "duration": 0.05798185941043084,
+        "pcmPeak": 0.1461557298898697,
+        "pcmRms": 0.02398800104856491,
+        "spectralCentroidHz": 1561.6795641500962,
+        "attackRms": 0.03948349133133888
+      }
     ]
   },
-  "bytes": 3794406,
-  "sha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
+  "bytes": 3831627,
+  "sha256": "9d935f8e4da4d178a5f435e5ae1abecbd8b088243e8f74da644eff35d0c7bcc7",
   "files": [
     {
       "path": "sound-bank.part000.bin",
@@ -4657,8 +4855,8 @@
     },
     {
       "path": "sound-bank.part001.bin",
-      "bytes": 1697256,
-      "sha256": "53c31ce51d7f9bf1f887bfdb4a0bfa9a4ce08104e88b449a50ac2185a0721da4"
+      "bytes": 1734477,
+      "sha256": "f849a97eb8b4d197b7f2f0add7d087ecdb02029a93f3f1ee511fb469c8f3e773"
     }
   ]
 }

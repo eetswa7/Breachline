@@ -1,0 +1,10 @@
+{
+  "description": "Original deterministic moving-magazine contacts, with no third-party samples. Fixed attachment installation is not simulated.",
+  "durationSeconds": 0.058,
+  "variants": 2,
+  "families": {
+    "Fast": {"contactHz": 2150, "weight": 0.13, "decay": 0.007, "rubBand": [600, 5200], "rubWeight": 0.019},
+    "Extended": {"contactHz": 1120, "weight": 0.18, "decay": 0.010, "rubBand": [230, 3000], "rubWeight": 0.028},
+    "Drum": {"contactHz": 710, "weight": 0.23, "decay": 0.012, "rubBand": [160, 2300], "rubWeight": 0.034}
+  }
+}

@@ -1,6 +1,6 @@
-import {clamp,lerp} from './math.js?v=65';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=65';
-export {ATTACHMENTS} from './attachments.js?v=65';
+import {clamp,lerp} from './math.js?v=67';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=67';
+export {ATTACHMENTS} from './attachments.js?v=67';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],
@@ -72,7 +72,7 @@ export class Weapon {
  reload(){if(this.reloadLeft>0||this.ammo>=this.capacity||this.reserve<=0||this.def.id===12)return false;this.cancelInspection();this.burstRemaining=0;this.reloadStartedEmpty=this.ammo===0;this.reloadLeft=this.reloadTime;this.reloadFoley=reloadFoleyStages(this);this.reloadFoleyIndex=0;this.reloadCycle=0;return true;}
  update(dt,onFoley){this.cooldown=Math.max(0,this.cooldown-dt);this.inspectLeft=Math.max(0,this.inspectLeft-dt);this.sinceShot+=dt;if(this.sinceShot>.4)this.shotIndex=0;if(this.reloadLeft<=0)return false;this.reloadLeft-=dt;
   const phase=clamp(1-this.reloadLeft/this.reloadTime,0,1);
-  while(this.reloadFoleyIndex<this.reloadFoley.length&&this.reloadFoley[this.reloadFoleyIndex].phase<=phase){const stage=this.reloadFoley[this.reloadFoleyIndex++],count=stage.cue==='caseDump'?this.spentCases:undefined;if(stage.cue==='caseDump')this.spentCases=0;onFoley?.({...stage,weapon:this.def.id,cycle:this.reloadCycle,empty:this.reloadStartedEmpty,...(count===undefined?{}:{count})});}
+  while(this.reloadFoleyIndex<this.reloadFoley.length&&this.reloadFoley[this.reloadFoleyIndex].phase<=phase){const stage=this.reloadFoley[this.reloadFoleyIndex++],count=stage.cue==='caseDump'?this.spentCases:undefined;if(stage.cue==='caseDump')this.spentCases=0;onFoley?.({...stage,weapon:this.def.id,magazine:this.magazine,handling:this.grip,cycle:this.reloadCycle,empty:this.reloadStartedEmpty,...(count===undefined?{}:{count})});}
   if(this.reloadLeft>0)return false;const n=Math.min(this.def.shellReload?1:this.capacity-this.ammo,this.reserve);this.ammo+=n;this.reserve-=n;this.reloadLeft=this.def.shellReload&&this.ammo<this.capacity&&this.reserve>0?this.reloadTime:0;if(this.reloadLeft>0){this.reloadFoleyIndex=0;this.reloadCycle++;}return true;}
  damage(d,part='body'){return this.def.damage*this.modifiers.damage*lerp(1,.48,clamp((d-this.range)/(this.range*1.1),0,1))*(part==='head'?(this.def.kind==='SNIPER'?2:1.9)*this.modifiers.head:part==='leg'?.75:1);}
  spread(ads,moving,crouched){return this.def.spread*lerp(1,this.def.kind==='SNIPER'?.003:.16,ads)*lerp(this.modifiers.hip,this.modifiers.aim,ads)*(moving?1.45*this.modifiers.moving:1)*(crouched?.72:1)*(crouched&&!moving?this.modifiers.bracedSpread:1)*(this.sinceShot>.35&&!moving?.45:1)*(this.def.automatic?1+clamp((this.shotIndex-2)/12,0,.38):1);}

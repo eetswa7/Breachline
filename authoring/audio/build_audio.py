@@ -8,6 +8,7 @@ from pathlib import Path
 import concurrent.futures, hashlib, json, math, shutil, subprocess, tempfile, wave
 import numpy as np
 from scipy.signal import butter, sosfilt
+from attachment_foley import render_attachment_foley
 
 RATE = 44100
 root = Path('dist/assets/audio'); root.mkdir(parents=True, exist_ok=True)
@@ -283,6 +284,9 @@ for variant in range(4):
     x += noise(rng,len(t),[300,3100])*envelope(t,.032,.014,.16)*.06
     x += granular(t,rng,.085,.71,28,.035,(700,4300),.008)
     register('explosion',variant,x)
+
+render_attachment_foley(RATE, json.loads(Path('authoring/audio/attachment-foley.json').read_text()),
+                        noise, envelope, contact, register)
 
 def encode(sound):
     key,variant,x = sound; name = key+'-'+str(variant)

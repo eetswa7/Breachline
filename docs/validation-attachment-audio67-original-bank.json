@@ -1,0 +1,9 @@
+{
+  "previousRecordings": 428,
+  "previousBankBytes": 3794406,
+  "previousBankSha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
+  "unchangedOriginalPrefixSha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
+  "currentBankBytes": 3831627,
+  "addedBankBytes": 37221,
+  "originalRecordingsUnchanged": true
+}

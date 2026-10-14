@@ -1,6 +1,6 @@
 // Render-only assembly of the Blender kit. The simulation's arena objects,
 // collision, objectives and navigation stay authoritative.
-import {productionWorld} from './production-world.js?v=65';
+import {productionWorld} from './production-world.js?v=67';
 export function blenderWorld(arena){
  const visual=(p,options)=>Object.assign(Object.create(p),{blenderPrepared:null,...options});
  const buildings=arena.blocks.filter(p=>!p.ground&&!p.roof&&p.h>5&&p.w>4&&p.d>4);

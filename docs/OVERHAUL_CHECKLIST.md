@@ -237,7 +237,12 @@ as documented in the baseline JSON and validation report.
   and gameplay recoil remain preserved. Completed 2026-10-12 at `20b9875`;
   [motion images and preservation checks](WEAPON_MOTION61.md).
 - [ ] **Partial:** Muzzle flashes, shell ejections and smoke. Effects exist and
-  particle presentation improved; firing emitters were largely retained.
+  particle presentation improved. Release 67 adds bounded expanding/fading
+  family-specific first-person flashes and gas puffs, retaining the single
+  existing sprite/light and one pooled gas emission per shot. Suppressed flame,
+  aiming, ammunition and gameplay casing emission remain authoritative. Native
+  frame review is pending; the existing coarse emitter placement and overall
+  professional effect quality remain unfinished. Updated 2026-10-14.
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
   components. First-person component-following hand groups now share coherent
   native/fallback pivots and empty-only action targets. Finger grasp and real
@@ -505,8 +510,15 @@ These are Release 57 measurements, not measurements of Release 60.
   functional arsenal/contact coverage, not premium subjective realism or physical
   latency. Completed 2026-10-13 at `a3eb9db`;
   [gameplay timelines, native decode and listening reel](CASING_AUDIO66.md).
-- [ ] **Partial:** Attachment-specific audio. Suppressor variants exist; a complete
-  attachment-specific handling library does not.
+- [ ] **Partial:** Attachment-specific audio. Original suppressor variants and
+  fast/extended/drum magazine extraction, manipulation/insertion and seating
+  now follow the existing actual reload contacts, including the retained
+  handling-slot extension. Stock latches, bolts, shells, cylinders and feed
+  covers retain their weapon cues. Eighteen new takes preserve the original
+  428 recordings and the decoded-bank budget at both 44.1 and 48 kHz. Fixed
+  attachment fitting, unsupported pistol attachment geometry and premium
+  subjective realism remain unfinished/unverified. Updated 2026-10-14;
+  [native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
 - [x] **Complete:** Ricochet audio. Dedicated original metal/mineral variants
@@ -613,3 +625,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-13 | Advanced smoke-grenade expansion, rolling cloud motion and density; reviewed fourteen actual native temporal/lifecycle gates and matched outdoor/inside frames. Existing AI visibility, capacity, expiry, collision, draw/pool/texture counts remain. Professional smoke quality stays partial; 29 focused root regressions and the isolated 84-module offline source check passed. | `1f1a87f`; [smoke gameplay evidence and costs](SMOKE66.md). |
 
 | 2026-10-14 | Recorded the pushed moving-listener acoustics implementation and its native playback, five PCM fixtures, listening reel and source/ray/voice bounds. Rechecked all 33 focused acoustics/spatial/production/ballistic regressions. Updated the two relevant partial requirements with the implementation commit; premium audio, enclosure modelling and physical iPhone acceptance remain open. | `0ec0b66c8fd33d0731564b02a8098b5f639bc4ed`; [moving acoustics evidence and remaining limits](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
+
+| 2026-10-14 | Added original fast/extended/drum magazine contacts at existing reload crossings, preserving all original recordings, phase/ammunition contracts, voice limits and the decoded-bank budget at 44.1/48 kHz. Added bounded family-specific first-person flash/gas samples and shared Canvas flash gating; native frame review remains pending. Updated the relevant partial explanations. Release 67 packages both new modules for offline installation. | [Attachment contacts, native playback and listening evidence](ATTACHMENT_AUDIO67.md); implementation checkpoint follows. |

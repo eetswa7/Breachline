@@ -1,0 +1,2046 @@
+{
+  "sourceCommit": "4ab41b6569d6cf7750bb0d3d4708ece42516f9ed",
+  "sourceDirty": true,
+  "runtimeFiles": {
+    "dist/js/audio.js": "f27aebab062bde4311f4d350ad142b274dfc44e03dd8d447f05d08dbb0271e2f",
+    "dist/js/attachment-audio.js": "cbb60b10fa28ca572b0c452a6166ab6b25db73a6c4f79dfcaaf3f881838aca62",
+    "dist/js/audio-files.js": "847e31757460e0f25f324ae274a036587487b7382e43c6aa7c2fa39398e92414",
+    "dist/js/engine.js": "c71c675c783473f4c35180b7e0d62c2d18a32d8558ebb17c2121a818685a9c74",
+    "dist/js/weapons.js": "331c635d0168f8e2a1c7c04f3c88470c182884685a79f433f1529fbdd3c7bcab",
+    "dist/js/weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e",
+    "authoring/audio/attachment-foley.json": "f30a65a30b56d510687ff23baceae4ec9b559aac5d5f459dcb752893aba0c43e",
+    "authoring/audio/attachment_foley.py": "72f9e905b9686a62de8b59086dbfac226db7f3a21bc585c6ce689aae97e89137"
+  },
+  "browser": "154.0.8037.57",
+  "capturedAt": "2026-10-14T06:16:34.503Z",
+  "sampleRate": 44100,
+  "channels": 2,
+  "durationSeconds": 37.011156462585035,
+  "segments": [
+    {
+      "kind": "unity_gain_attachment_takes",
+      "normalized": false,
+      "cues": [
+        {
+          "key": "attachmentFastExtract",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.06834542006254196,
+          "rms": 0.009302502636773697,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 0
+        },
+        {
+          "key": "attachmentFastExtract",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.08925706148147583,
+          "rms": 0.010748517506068976,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 0.33798185941043085
+        },
+        {
+          "key": "attachmentFastMove",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.030897879973053932,
+          "rms": 0.004351336563981301,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 0.6759637188208617
+        },
+        {
+          "key": "attachmentFastMove",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.021965356543660164,
+          "rms": 0.004161216760909336,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 1.0139455782312925
+        },
+        {
+          "key": "attachmentFastSeat",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.15295690298080444,
+          "rms": 0.015809841846692905,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 1.3519274376417234
+        },
+        {
+          "key": "attachmentFastSeat",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.17410039901733398,
+          "rms": 0.019213377633128772,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 1.6899092970521543
+        },
+        {
+          "key": "attachmentExtendedExtract",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.13372990489006042,
+          "rms": 0.018822651950677158,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 2.027891156462585
+        },
+        {
+          "key": "attachmentExtendedExtract",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.10635905712842941,
+          "rms": 0.01768796136667392,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 2.365873015873016
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.0411667563021183,
+          "rms": 0.006337228410202706,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 2.703854875283447
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.03556782379746437,
+          "rms": 0.006568200841388901,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 3.0418367346938777
+        },
+        {
+          "key": "attachmentExtendedSeat",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.2539654076099396,
+          "rms": 0.03268948624462294,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 3.3798185941043086
+        },
+        {
+          "key": "attachmentExtendedSeat",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.21267154812812805,
+          "rms": 0.029121003797412986,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 3.7178004535147395
+        },
+        {
+          "key": "attachmentDrumExtract",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.13403883576393127,
+          "rms": 0.02164594842298431,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 4.05578231292517
+        },
+        {
+          "key": "attachmentDrumExtract",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.10141658037900925,
+          "rms": 0.01858567904635018,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 4.393764172335601
+        },
+        {
+          "key": "attachmentDrumMove",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.04008633643388748,
+          "rms": 0.008091706974452688,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 4.731746031746032
+        },
+        {
+          "key": "attachmentDrumMove",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.05222679302096367,
+          "rms": 0.007303664076941063,
+          "firstAudibleSeconds": 0.000022675736961451248,
+          "startSeconds": 5.069727891156463
+        },
+        {
+          "key": "attachmentDrumSeat",
+          "take": 0,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.16622141003608704,
+          "rms": 0.02435457175408965,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 5.407709750566894
+        },
+        {
+          "key": "attachmentDrumSeat",
+          "take": 1,
+          "frames": 2557,
+          "durationSeconds": 0.05798185941043084,
+          "peak": 0.14407937228679657,
+          "rms": 0.024694732803584328,
+          "firstAudibleSeconds": 0,
+          "startSeconds": 5.7456916099773245
+        }
+      ],
+      "startSeconds": 0,
+      "durationSeconds": 6.083673469387755,
+      "peak": 0.2539654076099396,
+      "rms": 0.0073448382475245514
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "rifle_stock",
+      "weapon": 0,
+      "magazine": 0,
+      "reloadTimeSeconds": 2.3800000000000003,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.43333333333333385,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.8166666666666662,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.2416666666666647,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.524999999999997,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.7666666666666628,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.9999999999999953,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.2416666666666614,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload0",
+          "time": 0.7133333333333338,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "reload0",
+          "time": 1.0966666666666662,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0.16,
+            0.225
+          ]
+        },
+        {
+          "key": "reload0",
+          "time": 1.5216666666666647,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0.5,
+            0.58
+          ]
+        },
+        {
+          "key": "reload0",
+          "time": 1.804999999999997,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0.59,
+            0.65
+          ]
+        },
+        {
+          "key": "seat0",
+          "time": 2.046666666666663,
+          "volume": 0.52,
+          "important": true
+        },
+        {
+          "key": "rack0",
+          "time": 2.2799999999999954,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.521666666666661,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 6.083673469387755,
+      "durationSeconds": 3.26,
+      "peak": 0.07676806300878525,
+      "rms": 0.002266114398690443
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "rifle_fast",
+      "weapon": 0,
+      "magazine": 1,
+      "reloadTimeSeconds": 1.6184000000000003,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.29166666666666674,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.5583333333333338,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.8416666666666661,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.1999999999999982,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.3666666666666643,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.524999999999997,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 1,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload0",
+          "time": 0.5716666666666668,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentFastExtract",
+          "time": 0.8383333333333338,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentFastMove",
+          "time": 1.1216666666666661,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentFastMove",
+          "time": 1.3216666666666654,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentFastSeat",
+          "time": 1.4799999999999982,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 1.6466666666666643,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 1.804999999999997,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 9.343673469387754,
+      "durationSeconds": 2.4984126984126984,
+      "peak": 0.07211969047784805,
+      "rms": 0.002060903051222507
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "rifle_extended",
+      "weapon": 0,
+      "magazine": 2,
+      "reloadTimeSeconds": 2.6656000000000004,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.483333333333334,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.9083333333333325,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.3916666666666642,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.7083333333333297,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.9749999999999954,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.2416666666666614,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.508333333333327,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload0",
+          "time": 0.7633333333333341,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentExtendedExtract",
+          "time": 1.1883333333333326,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "time": 1.6716666666666642,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "time": 1.9883333333333297,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedSeat",
+          "time": 2.2549999999999955,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.521666666666661,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.788333333333327,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 11.842086167800453,
+      "durationSeconds": 3.5456009070294785,
+      "peak": 0.07393179833889008,
+      "rms": 0.002105006141989578
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "rifle_drum",
+      "weapon": 0,
+      "magazine": 3,
+      "reloadTimeSeconds": 3.0464000000000007,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.5500000000000005,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.0416666666666654,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.5916666666666635,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.9499999999999955,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.258333333333328,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.56666666666666,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.866666666666659,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload0",
+          "time": 0.8300000000000005,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentDrumExtract",
+          "time": 1.3216666666666654,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumMove",
+          "time": 1.8716666666666635,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumMove",
+          "time": 2.2299999999999955,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumSeat",
+          "time": 2.538333333333328,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.8466666666666605,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 3.1466666666666594,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 15.387687074829932,
+      "durationSeconds": 3.9264172335600906,
+      "peak": 0.07866203039884567,
+      "rms": 0.0019493132647161351
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "top_loader_drum",
+      "weapon": 4,
+      "magazine": 3,
+      "reloadTimeSeconds": 2.5344,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.4583333333333339,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "topMagazine",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.866666666666666,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "topMagazine",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.3249999999999977,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "topMagazine",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.6249999999999967,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "topMagazine",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.883333333333329,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "topMagazine",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.1333333333333284,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.3833333333333275,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 4,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload4",
+          "time": 0.738333333333334,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentDrumExtract",
+          "time": 1.146666666666666,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumMove",
+          "time": 1.6049999999999978,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumMove",
+          "time": 1.9049999999999967,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentDrumSeat",
+          "time": 2.163333333333329,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack4",
+          "time": 2.4133333333333287,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack4",
+          "time": 2.663333333333328,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 19.31410430839002,
+      "durationSeconds": 3.414421768707483,
+      "peak": 0.07026617974042892,
+      "rms": 0.0019871756853156773
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "belt_box_extended",
+      "weapon": 9,
+      "magazine": 2,
+      "reloadTimeSeconds": 5.4656,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.8749999999999993,
+          "phase": 0.16,
+          "cue": "coverOpen",
+          "component": "feedCover",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.6999999999999964,
+          "phase": 0.31,
+          "cue": "release",
+          "component": "beltBox",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.3583333333333276,
+          "phase": 0.43,
+          "cue": "extract",
+          "component": "beltBox",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.8999999999999924,
+          "phase": 0.53,
+          "cue": "feed",
+          "component": "belt",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 3.716666666666656,
+          "phase": 0.68,
+          "cue": "insert",
+          "component": "beltBox",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 4.049999999999991,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "beltBox",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 4.5916666666666845,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 4.708333333333357,
+          "phase": 0.86,
+          "cue": "coverClose",
+          "component": "feedCover",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 5.141666666666712,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 9,
+          "magazine": 2,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload9",
+          "time": 1.1549999999999994,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "reload9",
+          "time": 1.9799999999999964,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentExtendedExtract",
+          "time": 2.6383333333333274,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "reload9",
+          "time": 3.1799999999999926,
+          "volume": 0.46,
+          "important": true,
+          "region": [
+            0.38,
+            0.59
+          ]
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "time": 3.9966666666666564,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedSeat",
+          "time": 4.329999999999991,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack9",
+          "time": 4.871666666666685,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "reload9",
+          "time": 4.988333333333357,
+          "volume": 0.58,
+          "important": true,
+          "region": [
+            0.81,
+            0.91
+          ]
+        },
+        {
+          "key": "rack9",
+          "time": 5.421666666666712,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 22.728526077097506,
+      "durationSeconds": 6.345600907029478,
+      "peak": 0.09028873592615128,
+      "rms": 0.0018784790237456512
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "legacy_extended",
+      "weapon": 0,
+      "magazine": 0,
+      "handling": 4,
+      "reloadTimeSeconds": 2.737,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.5000000000000007,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.9333333333333325,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.4249999999999974,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.7583333333333295,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.0333333333333288,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.2999999999999945,
+          "phase": 0.84,
+          "cue": "open",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 2.5749999999999935,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "bolt",
+          "weapon": 0,
+          "magazine": 0,
+          "handling": 4,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload0",
+          "time": 0.7800000000000007,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "attachmentExtendedExtract",
+          "time": 1.2133333333333325,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "time": 1.7049999999999974,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedMove",
+          "time": 2.0383333333333296,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "attachmentExtendedSeat",
+          "time": 2.313333333333329,
+          "volume": 0.52,
+          "important": true,
+          "region": [
+            0,
+            1
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.5799999999999947,
+          "volume": 0.49,
+          "important": true,
+          "region": [
+            0,
+            0.27
+          ]
+        },
+        {
+          "key": "rack0",
+          "time": 2.8549999999999933,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 29.074126984126984,
+      "durationSeconds": 3.6170068027210887,
+      "peak": 0.07470555603504181,
+      "rms": 0.00210998452700576
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "pistol_drum_unchanged",
+      "weapon": 10,
+      "magazine": 3,
+      "reloadTimeSeconds": 1.8944,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.3416666666666669,
+          "phase": 0.18,
+          "cue": "release",
+          "component": "magazine",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.6500000000000001,
+          "phase": 0.34,
+          "cue": "extract",
+          "component": "magazine",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.9916666666666656,
+          "phase": 0.52,
+          "cue": "handling",
+          "component": "magazine",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.2166666666666648,
+          "phase": 0.64,
+          "cue": "insert",
+          "component": "magazine",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.4083333333333308,
+          "phase": 0.74,
+          "cue": "seat",
+          "component": "magazine",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 1.7833333333333294,
+          "phase": 0.94,
+          "cue": "close",
+          "component": "slide",
+          "weapon": 10,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload10",
+          "time": 0.6216666666666669,
+          "volume": 0.43,
+          "important": true,
+          "region": [
+            0.095,
+            0.145
+          ]
+        },
+        {
+          "key": "reload10",
+          "time": 0.9300000000000002,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0.16,
+            0.225
+          ]
+        },
+        {
+          "key": "reload10",
+          "time": 1.2716666666666656,
+          "volume": 0.42,
+          "important": true,
+          "region": [
+            0.5,
+            0.58
+          ]
+        },
+        {
+          "key": "reload10",
+          "time": 1.4966666666666648,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0.59,
+            0.65
+          ]
+        },
+        {
+          "key": "seat10",
+          "time": 1.6883333333333308,
+          "volume": 0.52,
+          "important": true
+        },
+        {
+          "key": "rack10",
+          "time": 2.0633333333333295,
+          "volume": 0.57,
+          "important": true,
+          "region": [
+            0.35,
+            0.83
+          ]
+        }
+      ],
+      "startSeconds": 32.69113378684807,
+      "durationSeconds": 2.774421768707483,
+      "peak": 0.06904784590005875,
+      "rms": 0.0021298205891215802
+    },
+    {
+      "kind": "actual_reload_timeline",
+      "id": "pump_shell_unchanged",
+      "weapon": 5,
+      "magazine": 3,
+      "reloadTimeSeconds": 0.6656000000000001,
+      "masterGain": 0.8,
+      "normalized": false,
+      "prerollSeconds": 0.28,
+      "events": [
+        {
+          "type": "weaponFoley",
+          "time": 0.08333333333333333,
+          "phase": 0.12,
+          "cue": "retrieve",
+          "component": "shell",
+          "weapon": 5,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.4583333333333339,
+          "phase": 0.68,
+          "cue": "insert",
+          "component": "shell",
+          "weapon": 5,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        },
+        {
+          "type": "weaponFoley",
+          "time": 0.5250000000000006,
+          "phase": 0.78,
+          "cue": "seat",
+          "component": "shell",
+          "weapon": 5,
+          "magazine": 3,
+          "handling": 0,
+          "cycle": 0,
+          "empty": true,
+          "source": 0,
+          "position": {
+            "x": 0,
+            "y": 1.6600000000000001,
+            "z": 0
+          }
+        }
+      ],
+      "playback": [
+        {
+          "key": "reload5",
+          "time": 0.36333333333333334,
+          "volume": 0.5,
+          "important": true,
+          "region": [
+            0,
+            0.18
+          ]
+        },
+        {
+          "key": "reload5",
+          "time": 0.738333333333334,
+          "volume": 0.44,
+          "important": true,
+          "region": [
+            0.34,
+            0.58
+          ]
+        },
+        {
+          "key": "seat5",
+          "time": 0.8050000000000006,
+          "volume": 0.52,
+          "important": true
+        }
+      ],
+      "startSeconds": 35.465555555555554,
+      "durationSeconds": 1.5456009070294785,
+      "peak": 0.06508420407772064,
+      "rms": 0.0021006880889414565
+    }
+  ],
+  "file": "docs/audio-release67/magazine-contacts-44100.m4a",
+  "actual_iphone_data": false,
+  "subjective_listening_review": false,
+  "description": "Eighteen decoded original attachment takes at unity gain, followed by nine actual reload timelines at the production cue gains with unchanged releases, bolts, feed covers, pistol/shell actions and ammunition conservation. No normalization. Listening evidence has not been subjectively reviewed."
+}

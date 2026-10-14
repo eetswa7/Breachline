@@ -1,7 +1,8 @@
-import {WEAPONS} from './weapons.js?v=65';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=65';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=65';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=65';
+import {WEAPONS} from './weapons.js?v=67';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=67';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=67';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=67';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=67';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -60,6 +61,7 @@ export class AudioSystem {
     for(const cue of Object.values(FOLEY))if(cue.region&&key.startsWith(cue.key))regionStart(buffer,cue.region[0]*buffer.duration,cue.region[1]*buffer.duration,this.regionStarts);
     if(key==='reload5'||key==='reload18')regionStart(buffer,.34*buffer.duration,.58*buffer.duration,this.regionStarts);
    }
+   if(key.startsWith('attachment'))regionStart(buffer,0,buffer.duration,this.regionStarts);
   }).then(stats=>{this.libraryStats=stats;}).catch(error=>{this.libraryError=error.message;});
  }catch{}}
  build(){
@@ -138,6 +140,7 @@ export class AudioSystem {
   synth('explosion',1.5,(t,n,low)=>low*Math.exp(-t*4.2)*2.6+(1-t/.005)*Math.exp(-t/.005)*.6+(n-low)*Math.exp(-t*160)*.38);
   synth('hurt',.18,(t,n,low)=>low*Math.exp(-t*22)*.79);
   synth('whoosh',.24,(t,n,low)=>(low*.65+n*.09)*Math.sin(t/.24*Math.PI)*.30);
+  for(const [key,buffer] of buildAttachmentFoley(c))this.buffers.set(key,buffer);
  }
  makeRoom(){
   const c=this.context;if(!c.createConvolver)return;
@@ -220,7 +223,7 @@ export class AudioSystem {
     case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
     case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play((e.shell?'hull':'casing')+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
     case 'explosion':this.play('explosion',{volume:Math.max(.06,volume),pan,distance:d,important:true,occluded,indoor:room,position,acoustics});if(d<14)this.haptic(30);break;
-    case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){this.play(cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region,group:`foley:${e.source}:${e.weapon}`,position,acoustics});}break;}
+    case 'weaponFoley':{const cue=FOLEY[e.cue];if(cue&&(own||d<18&&foley++<3)){const attachment=attachmentFoleyCue(e,WEAPONS[e.weapon]);this.play(attachment?.key??cue.key+e.weapon,{volume:volume*cue.volume*(own?1:.46),pan,distance:d,important:own,occluded,indoor:room,region:attachment?.region??(e.component==='shell'&&e.cue==='insert'?[.34,.58]:cue.region),group:`foley:${e.source}:${e.weapon}`,position,acoustics});}break;}
     case 'weaponFoleyCancel':this.stopFoley(e.source,e.weapon);break;
     case 'round':this.stopFoley();break;
     // Finished reloads retain their haptic; seating/charging sounds already
