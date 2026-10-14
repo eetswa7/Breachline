@@ -66,13 +66,12 @@ test('Blacksite complete hall replaces visual proxies while preserving authorita
  assert(!rebuilt.some(p=>!p.productionArt&&oldWalls.includes(sourceOf(p))),'destroying the hall cannot resurrect its suppressed legacy wall proxies');
 });
 
-function segmentHitsGeometry(geometry,matrix,start,end){
- const inverse=matrix.clone().invert(),from=start.clone().applyMatrix4(inverse),to=end.clone().applyMatrix4(inverse),length=from.distanceTo(to),ray=new THREE.Ray(from,to.sub(from).normalize());
- if(!ray.intersectsBox(geometry.boundingBox))return false;
- const position=geometry.getAttribute('position'),indices=geometry.index,a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),hit=new THREE.Vector3();
+function prismHitsGeometry(geometry,matrix,prism){
+ if(!prism.intersectsBox(geometry.boundingBox.clone().applyMatrix4(matrix)))return false;
+ const position=geometry.getAttribute('position'),indices=geometry.index,triangle=new THREE.Triangle();
  for(let i=0;i<indices.count;i+=3){
-  a.fromBufferAttribute(position,indices.getX(i));b.fromBufferAttribute(position,indices.getX(i+1));c.fromBufferAttribute(position,indices.getX(i+2));
-  if(ray.intersectTriangle(a,b,c,false,hit)&&from.distanceTo(hit)<=length+1e-6)return true;
+  triangle.a.fromBufferAttribute(position,indices.getX(i)).applyMatrix4(matrix);triangle.b.fromBufferAttribute(position,indices.getX(i+1)).applyMatrix4(matrix);triangle.c.fromBufferAttribute(position,indices.getX(i+2)).applyMatrix4(matrix);
+  if(prism.intersectsTriangle(triangle))return true;
  }
  return false;
 }
@@ -80,6 +79,12 @@ function segmentHitsGeometry(geometry,matrix,start,end){
 test('Blacksite complete native walls and ceiling keep their collision envelopes at both authored LODs',async()=>{
  const models=await geometries(),parts=blenderWorld(new Arena(14)),walls=parts.filter(p=>p.productionRole==='turbine_hall_wall'),ceiling=parts.find(p=>p.productionRole==='turbine_hall_ceiling');
  assert.equal(walls.length,4);assert(ceiling);
+ for(const sign of [-1,1]){
+  const long=walls.find(p=>p.blenderKind==='blacksite_hall_wall_long'&&Math.sign(p.z)===sign),short=walls.find(p=>p.blenderKind==='blacksite_hall_wall_short'&&Math.sign(p.x)===sign);
+  assert(long&&short,'one complete shell at each authoritative cardinal wall');
+  assert.deepEqual([long.x,long.y,long.z,long.w,long.h,long.d,long.yaw],[0,3,sign*11,34,6,.4,sign>0?Math.PI:0]);
+  assert.deepEqual([short.x,short.y,short.z,short.w,short.h,short.d,short.yaw],[sign*17,3,0,22,6,.4,sign>0?-Math.PI/2:Math.PI/2]);
+ }
  for(const p of [...walls,ceiling])for(const level of ['near','far']){
   const name=p.blenderKind+'__'+level,g=models.get(name);assert(g,`${name} must ship in the native library`);assert(g.index.count>0);
   for(const axis of ['x','y','z'])assert(g.boundingBox.min[axis]>=-.5001&&g.boundingBox.max[axis]<=.5001,`${name}: authored ${axis} envelope`);
@@ -97,12 +102,11 @@ test('Blacksite complete native facade leaves all door and window apertures empt
  for(const level of ['near','far']){
   const rendered=[...walls,...frames].map(p=>{const geometry=models.get(p.blenderKind+'__'+level);assert(geometry,`${p.blenderKind} ${level}`);return {p,geometry,matrix:matrixFor(p)};});
   for(const frame of frames){
-   const opening=frame.productionOpening,normal=new THREE.Vector3(opening.axis==='x'?1:0,0,opening.axis==='z'?1:0);
-   for(const along of [-.499,-.25,0,.25,.499])for(const vertical of [.002,.25,.5,.75,.998]){
-    const point=new THREE.Vector3(opening.x,opening.bottom+(opening.top-opening.bottom)*vertical,opening.z);point[opening.axis==='z'?'x':'z']+=along*opening.width;
-    const start=point.clone().addScaledVector(normal,-.8),end=point.clone().addScaledVector(normal,.8);
-    for(const {p,geometry,matrix} of rendered)assert(!segmentHitsGeometry(geometry,matrix,start,end),`${p.blenderKind} ${level} obstructs ${opening.axis} aperture at ${along}/${vertical}`);
-   }
+   const opening=frame.productionOpening,centre=new THREE.Vector3(opening.x,(opening.bottom+opening.top)/2,opening.z),size=new THREE.Vector3(opening.axis==='z'?opening.width-.002:1.6,opening.top-opening.bottom-.002,opening.axis==='x'?opening.width-.002:1.6),prism=new THREE.Box3().setFromCenterAndSize(centre,size);
+   // A triangle/volume intersection checks every point inside the aperture,
+   // including narrow obstructions that a regular ray grid could miss. The
+   // 1 mm inset excludes the actual solid sill, jamb and lintel boundary.
+   for(const {p,geometry,matrix} of rendered)assert(!prismHitsGeometry(geometry,matrix,prism),`${p.blenderKind} ${level} obstructs the ${opening.axis} aperture volume`);
   }
  }
  // Four actual cardinal entries remain passable for the real player capsule;

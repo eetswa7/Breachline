@@ -1,0 +1,19 @@
+{
+  "kind": "focused_blacksite_architecture_regressions",
+  "testFile": "tests/blacksite68.test.mjs",
+  "testFileSha256": "1029005b5b00a40502b28b7f0515834b18a8c6049715a3853e788b7f78ae5988",
+  "command": "node --test tests/blacksite68.test.mjs",
+  "runtimeSourceCommit": "b9c3fa8",
+  "passed": 4,
+  "failed": 0,
+  "durationMilliseconds": 6896.785984,
+  "coverage": [
+    "Exact effective presentation properties and source bindings on all other fifteen maps against df2e14e",
+    "Original Blacksite authoritative geometry, cover, spawns, routes and objectives; suppression of old visual proxies",
+    "Destroyed-source inheritance and no old wall resurrection when rebuilding a destroyed hall",
+    "Exact cardinal wall transforms and native near/far wall/ceiling envelopes",
+    "Triangle intersection against the complete door/window aperture volume, inset one millimetre from solid boundaries, at both native LODs",
+    "Four original cardinal doorway routes remain clear for the actual standing player capsule"
+  ],
+  "scope": "Shipped native geometry and authoritative simulation regression checks. These do not establish subjective professional art quality or physical device performance."
+}
