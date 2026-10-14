@@ -1,0 +1,228 @@
+{
+  "kind": "integrated_release67_software_validation",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "subjective_listening_review": false,
+  "capturedAt": "2026-10-14T06:47:17.481Z",
+  "build": {
+    "release": "67",
+    "commit": "1e9ae1d471ab8671b48821c49e1cd7d9b6897303",
+    "source_commit": "1e9ae1d471ab8671b48821c49e1cd7d9b6897303",
+    "content_sha256": "f2ea60bcc7c6c6de7cd03aefcd70d329774e85137078f4f05fd61ca3f314f1d5",
+    "commit_resolution": "source_commit"
+  },
+  "sourceCheckpoints": {
+    "movingAcoustics": "0ec0b66c8fd33d0731564b02a8098b5f639bc4ed",
+    "production": "23fedbc5f5019fc3d6125d56ccabdb9329aa93cf",
+    "bounds": "1e9ae1d471ab8671b48821c49e1cd7d9b6897303",
+    "provenance": "5a7d7c6b33b21294016627020bc6fee1caff6ccc"
+  },
+  "regressions": {
+    "tests": 417,
+    "passed": 417,
+    "failed": 0,
+    "duration_ms": 246210.791242
+  },
+  "distribution": {
+    "modules": 87,
+    "files": 260,
+    "fingerprintVerified": true,
+    "cleanRuntime": true,
+    "attachmentCaptureSourceMatches": {
+      "docs/validation-attachment-audio67-44100-browser.json": {
+        "dist/js/audio.js": "only_import_version_65_to_67",
+        "dist/js/attachment-audio.js": "byte_exact",
+        "dist/js/audio-files.js": "byte_exact",
+        "dist/js/engine.js": "only_import_version_65_to_67",
+        "dist/js/weapons.js": "only_import_version_65_to_67",
+        "dist/js/weapon-models.js": "byte_exact",
+        "authoring/audio/attachment-foley.json": "byte_exact",
+        "authoring/audio/attachment_foley.py": "byte_exact"
+      },
+      "docs/validation-attachment-audio67-48000-browser.json": {
+        "dist/js/audio.js": "only_import_version_65_to_67",
+        "dist/js/attachment-audio.js": "byte_exact",
+        "dist/js/audio-files.js": "byte_exact",
+        "dist/js/engine.js": "only_import_version_65_to_67",
+        "dist/js/weapons.js": "only_import_version_65_to_67",
+        "dist/js/weapon-models.js": "byte_exact",
+        "authoring/audio/attachment-foley.json": "byte_exact",
+        "authoring/audio/attachment_foley.py": "byte_exact"
+      }
+    },
+    "firingSnapshotMatchesFinalRuntime": true,
+    "imageHashesVerified": 68
+  },
+  "shaders": {
+    "variants": 58,
+    "passed": 58,
+    "finalShaderInputByteExact": true,
+    "evidence": "validation-release67-shaders.json"
+  },
+  "world": {
+    "maps": 16,
+    "sourceViews": 49,
+    "previousSourceMaximum": 223,
+    "sourceMaximum": 212,
+    "nativeCellMaximum": 210,
+    "cellGates": {
+      "nativeMaps": true,
+      "nativeLegalGameplay": true,
+      "nativeWorldBatchBudget": true,
+      "unchangedCamerasAndAppearance": true,
+      "perInstanceDetailPreserved": true,
+      "sameTextureAndPassBudget": true,
+      "conservativeCulling": false,
+      "frustumCullingExercised": true,
+      "noBrowserOrGlErrors": true
+    },
+    "historicalBoundsDiagnosticRetained": true,
+    "correctedBoundsViews": 9,
+    "correctedBoundsGates": {
+      "nativeMaps": true,
+      "nativeLegalGameplay": true,
+      "nativeWorldBatchBudget": true,
+      "unchangedCamerasAndAppearance": true,
+      "perInstanceDetailPreserved": true,
+      "sameTextureAndPassBudget": true,
+      "conservativeCulling": true,
+      "frustumCullingExercised": true,
+      "noBrowserOrGlErrors": true
+    },
+    "correctedBoundsImagesPixelExact": true,
+    "sourceProfile": "profile-release67-scene-profile.json",
+    "cellEvidence": "art-release67/world-batches/cells/validation.json",
+    "correctedBoundsEvidence": "art-release67/world-batches/bounds/validation.json"
+  },
+  "firing": {
+    "weapons": 30,
+    "gates": {
+      "nativeOneShotOneGasParticle": true,
+      "nativeGasAndFlashExpire": true,
+      "thirtyWeaponsFiniteAndBounded": true,
+      "nativePresentation": true,
+      "gameplayCamerasLegal": true,
+      "webgl2": true,
+      "noBrowserOrNetworkErrors": true,
+      "suppressedAndBladeNoFlash": true,
+      "pauseFreezesAgeAndEffects": true,
+      "menuClearsFlash": true,
+      "opticAndScopePreserved": true,
+      "lowKeepsSingleGasAndFlash": true,
+      "botRetainsFlashAndThreeTracers": true,
+      "fiveFamiliesFlashExpandsAndFades": true,
+      "familySizedGas": true,
+      "matchedControlsRetainResources": true,
+      "fullPitchGasVelocity": true
+    },
+    "captures": 18,
+    "matchedResources": {
+      "textureEstimateBytes": 82779926,
+      "textures": 85,
+      "glTextures": 92,
+      "effectPool": 200,
+      "billboardCapacity": 280,
+      "sceneChildren": 14,
+      "weaponSceneChildren": 5
+    },
+    "visualReview": "art-release67/firing/visual-review.json",
+    "visualGain": "Modest muzzle glint/light fading and subtle gas; professional firing remains partial.",
+    "evidence": "art-release67/firing/validation-after.json"
+  },
+  "attachmentAudio": {
+    "rates": [
+      {
+        "sampleRate": 44100,
+        "recordings": 446,
+        "downloadBytes": 3831627,
+        "decodedBytes": 38392292,
+        "newAttachmentDecodedBytes": 184104,
+        "decodedHeadroomBytes": 3550748,
+        "nativePlayback": {
+          "batchAdmitted": 4,
+          "singleVoiceReplacement": true,
+          "playerPriority": true,
+          "localCancellation": true,
+          "hearingCutoffMetres": 18,
+          "naturalCleanup": true,
+          "peakVoices": 24,
+          "pauseCleanup": true,
+          "remainingVoices": 0,
+          "remainingSources": 0
+        },
+        "evidence": "docs/validation-attachment-audio67-44100-browser.json"
+      },
+      {
+        "sampleRate": 48000,
+        "recordings": 446,
+        "downloadBytes": 3831627,
+        "decodedBytes": 41787436,
+        "newAttachmentDecodedBytes": 200376,
+        "decodedHeadroomBytes": 155604,
+        "nativePlayback": {
+          "batchAdmitted": 4,
+          "singleVoiceReplacement": true,
+          "playerPriority": true,
+          "localCancellation": true,
+          "hearingCutoffMetres": 18,
+          "naturalCleanup": true,
+          "peakVoices": 24,
+          "pauseCleanup": true,
+          "remainingVoices": 0,
+          "remainingSources": 0
+        },
+        "evidence": "docs/validation-attachment-audio67-48000-browser.json"
+      }
+    ],
+    "originalBank": {
+      "previousRecordings": 428,
+      "previousBankBytes": 3794406,
+      "previousBankSha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
+      "unchangedOriginalPrefixSha256": "9913a0c1a387f78d2f452674e9892e645409cd50b2a40f6772a89111a24284b0",
+      "currentBankBytes": 3831627,
+      "addedBankBytes": 37221,
+      "originalRecordingsUnchanged": true
+    },
+    "subjectiveListeningReview": false
+  },
+  "application": {
+    "checks": [
+      "release_67_boot",
+      "legacy_measurements_preserved_obsolete_setup_removed",
+      "local_controls_without_account_setup",
+      "keyboard_inspection_through_application_frame",
+      "jump_cancels_live_inspection",
+      "held_swap_inspects_without_switch_through_real_touch_input",
+      "live_fire_cancels_inspection",
+      "normal_gameplay_recording_watermark",
+      "final_json_valid_actual_browser_frames",
+      "saved_session_selected_for_export",
+      "actual_json_download_preserves_saved_copy",
+      "saved_reports_survive_reload",
+      "offline_boot_and_json_download",
+      "scripted_test_isolated_cancelled_and_restored",
+      "removal_requires_confirmation",
+      "no_page_errors_or_report_network_requests"
+    ],
+    "normalSessionFrames": 39,
+    "steadyFrames": 34,
+    "jsonDownloadVerified": true,
+    "errors": [],
+    "externalRequests": 0,
+    "writeRequests": 0,
+    "evidence": "validation-release67-benchmark-browser.json"
+  },
+  "preservation": {
+    "maps": 16,
+    "weapons": 30,
+    "modes": 11,
+    "release57Baseline": "454a5a26a8418fa8db1d3cc1ec197f7e56c56415",
+    "runtimeSourcePushed": true,
+    "hostingPublicationPerformed": false
+  },
+  "remaining": [
+    "Professional overall graphics and effects quality",
+    "Broader attachment handling and premium subjective audio",
+    "Physical iPhone/Safari performance, frame pacing, memory, thermal and output-latency acceptance"
+  ]
+}

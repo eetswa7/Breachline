@@ -1,0 +1,127 @@
+{
+  "kind": "native_firing67_visual_review",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "sourceCommit": "5a7d7c6b33b21294016627020bc6fee1caff6ccc",
+  "baselineRendererCommit": "0ec0b66c8fd33d0731564b02a8098b5f639bc4ed",
+  "reviewedAll18ImagesWithViewImage": true,
+  "reviewedImages": [
+    "before-rifle-birth-0ms.png",
+    "before-rifle-peak-8ms.png",
+    "before-rifle-fade-25ms.png",
+    "before-rifle-gas-150ms.png",
+    "after-pistol-peak-8ms.png",
+    "after-pistol-gas-150ms.png",
+    "after-rifle-birth-0ms.png",
+    "after-rifle-peak-8ms.png",
+    "after-rifle-fade-25ms.png",
+    "after-rifle-gas-150ms.png",
+    "after-shotgun-peak-8ms.png",
+    "after-shotgun-gas-150ms.png",
+    "after-sniper-peak-8ms.png",
+    "after-sniper-gas-150ms.png",
+    "after-smg-peak-8ms.png",
+    "after-smg-gas-150ms.png",
+    "after-suppressor.png",
+    "after-low-shotgun-peak.png"
+  ],
+  "nativeAfterGatesPassed": 17,
+  "baselineGatesPassed": 7,
+  "verdict": "Bounded timing and family-presentation improvement; professional firing requirement remains partial.",
+  "visibleObservations": [
+    "Matched rifle birth/peak/fade images show a small muzzle glint and a less constant lighting pulse. Much of the flash is occluded by the authored barrel in this normal hip-fire camera; the gain is modest.",
+    "At 25ms, sampled rifle opacity falls from the baseline constant1 to0.480 and light from0.9 to0.432; the rendered front weapon/hand lighting softens.",
+    "Rifle gas at150ms is a faint haze. Its matched difference has maximum9 channel levels and only3 pixels differ by more than8. This does not establish a major gas-quality improvement.",
+    "Current pistol, shotgun, sniper and SMG peak/gas frames retain native weapon/hands and silhouettes. Shotgun/sniper show a muzzle-edge glint; none demonstrates a detailed authored flame animation.",
+    "The low-quality shotgun preserves the glint/pulse at reduced resolution. Suppressor frame has no flame or flash-light contribution."
+  ],
+  "limitations": [
+    "The sprite still uses one static atlas tile. Width/height/rotation/opacity sampling is not an authored animated muzzle-flame sheet.",
+    "Gas retains the existing approximate eye-forward origin (0.85m ahead,0.13m lower), rather than the animated barrel or suppressor-tip transform. It can be visually detached from the model muzzle.",
+    "Only one exterior Blacksite gameplay viewpoint and five representative families have reviewed frames; the all30 coverage is numeric/native prepareWeapon coverage.",
+    "The harness renders the native3D Game/Renderer without the separate HUD. Scope gates establish magnified world-only rendering and zero sprite submission, not reticle/UI visual approval.",
+    "Bot preservation checks count native shot particles; broad third-person distance/light visual acceptance remains open.",
+    "No authored sparks, heat distortion, barrel-linked gas sheets or broad interior/exterior lighting acceptance is added.",
+    "SwiftShader is software WebGL evidence; no new physical iPhone frame-time, thermal, sustained pacing or memory claim follows."
+  ],
+  "matchedRiflePixelDifferences": [
+    {
+      "stage": "birth-0ms",
+      "changedPixels": 4831,
+      "pixelsAbove8": 416,
+      "maxChannelDifference": 56,
+      "boundingBox": [
+        385,
+        227,
+        503,
+        309
+      ]
+    },
+    {
+      "stage": "peak-8ms",
+      "changedPixels": 5495,
+      "pixelsAbove8": 167,
+      "maxChannelDifference": 28,
+      "boundingBox": [
+        384,
+        227,
+        625,
+        389
+      ]
+    },
+    {
+      "stage": "fade-25ms",
+      "changedPixels": 7815,
+      "pixelsAbove8": 830,
+      "maxChannelDifference": 50,
+      "boundingBox": [
+        381,
+        226,
+        639,
+        389
+      ]
+    },
+    {
+      "stage": "gas-150ms",
+      "changedPixels": 10013,
+      "pixelsAbove8": 3,
+      "maxChannelDifference": 9,
+      "boundingBox": [
+        364,
+        190,
+        478,
+        308
+      ]
+    }
+  ],
+  "costs": {
+    "newDraws": 0,
+    "newTextures": 0,
+    "newSprites": 0,
+    "newParticlePools": 0,
+    "newRenderPasses": 0,
+    "matchedResources": {
+      "textureEstimateBytes": 82779926,
+      "textures": 85,
+      "glTextures": 92,
+      "effectPool": 200,
+      "billboardCapacity": 280,
+      "sceneChildren": 14,
+      "weaponSceneChildren": 5
+    },
+    "matchedRifleFlashActiveDraws": {
+      "before": 227,
+      "after": 227
+    },
+    "matchedRifleFlashExpiredDraws": {
+      "before": 226,
+      "after": 226
+    },
+    "renderPasses": 2,
+    "maxFlashAreaRelativeToPriorFamilySquare": 0.902,
+    "gasParticlesPerNativePlayerShot": 1,
+    "existingPlayerGasMaximumLifeSeconds": 0.42,
+    "areaBoundIsProjectedOverdrawMeasurement": false,
+    "physicalDevicePerformanceMeasured": false
+  }
+}

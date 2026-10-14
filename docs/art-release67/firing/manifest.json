@@ -1,0 +1,151 @@
+{
+  "kind": "native_gameplay_firing_screenshots",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "capturedAt": "2026-10-14T06:35:39.822Z",
+  "sourceCommit": "5a7d7c6b33b21294016627020bc6fee1caff6ccc",
+  "baselineCommit": "0ec0b66c8fd33d0731564b02a8098b5f639bc4ed",
+  "runtimeSha256": {
+    "three-renderer.js": "021b48b0fdf181e63ab87a1b8eccd316b5a9313f3a79ec4ea38f7fbf28228790",
+    "firing-presentation.js": "b87ea740aab61b6b433ff745f27adc9873ce748aef1cc08326d50daa471e2d61",
+    "particles.js": "b32fd21aef58cb161583175706d5a31e518a4a511a9dc2bb49f3b4fcf44a9163",
+    "engine.js": "8da650a345686b2caa656d7dcb96343ba1aff38859cc4ace82b260b143f40cfd",
+    "weapons.js": "bd5a2093dc47cea88339174e917189a9f3863cdd34b3c9ac0016cbca3f017f08",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a",
+    "aim.js": "ab04d3b6f567129e992aaf2c09a833204ec69f22dbea1c388abd67fe3b926b9d",
+    "weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e"
+  },
+  "snapshotRoutesAllJS": true,
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "images": [
+    {
+      "variant": "before",
+      "name": "Kestrel AR",
+      "path": "before-rifle-birth-0ms.png",
+      "bytes": 389912,
+      "sha256": "204ecd94053672a6bf698605fc186f6ca4c6507b67fa756ad2787825111d9585"
+    },
+    {
+      "variant": "before",
+      "name": "Kestrel AR",
+      "path": "before-rifle-peak-8ms.png",
+      "bytes": 389977,
+      "sha256": "f0d47de331b410cc1889715e36697c7b82836c5426ccc6c7faf335d8bc00c305"
+    },
+    {
+      "variant": "before",
+      "name": "Kestrel AR",
+      "path": "before-rifle-fade-25ms.png",
+      "bytes": 389710,
+      "sha256": "d3ec7461493285c899d9206f1d1e598950daa3759342bec1ecef4cb13f8d2963"
+    },
+    {
+      "variant": "before",
+      "name": "Kestrel AR",
+      "path": "before-rifle-gas-150ms.png",
+      "bytes": 390216,
+      "sha256": "eb593f33fe53aaebcd81f68f251061a6a4be7654e89c919fb3edefb6c49a363c"
+    },
+    {
+      "variant": "after",
+      "name": "Sable P",
+      "path": "after-pistol-peak-8ms.png",
+      "bytes": 386494,
+      "sha256": "80ab7bd68511723eb099e0c63a95ccc18add335e3fef62948fadcf92e1786f1a"
+    },
+    {
+      "variant": "after",
+      "name": "Sable P",
+      "path": "after-pistol-gas-150ms.png",
+      "bytes": 385133,
+      "sha256": "3f4f34e220b5bb25a21106edbb21412fc0510030788aaf95f003fb12e74eb819"
+    },
+    {
+      "variant": "after",
+      "name": "Kestrel AR",
+      "path": "after-rifle-birth-0ms.png",
+      "bytes": 389744,
+      "sha256": "f126cffb7c348329548f695f03d1c4aa42a91b81ce96e6168b3459a897e8b54a"
+    },
+    {
+      "variant": "after",
+      "name": "Kestrel AR",
+      "path": "after-rifle-peak-8ms.png",
+      "bytes": 389925,
+      "sha256": "bc1c07ef6b4b949cad4672590b0457db2e432557630263f8e94050f7c2503298"
+    },
+    {
+      "variant": "after",
+      "name": "Kestrel AR",
+      "path": "after-rifle-fade-25ms.png",
+      "bytes": 389290,
+      "sha256": "133e9b93cd9ae42eba5835dd435c6366c88aeaf10bc367d249cab1d55ee1697d"
+    },
+    {
+      "variant": "after",
+      "name": "Kestrel AR",
+      "path": "after-rifle-gas-150ms.png",
+      "bytes": 390044,
+      "sha256": "a0173ce67dae549ff430ab58bae20751d7989ff51a2b9b66b5ed40a98ffda133"
+    },
+    {
+      "variant": "after",
+      "name": "Breach 12",
+      "path": "after-shotgun-peak-8ms.png",
+      "bytes": 375416,
+      "sha256": "0d1534efad63bfe9126e79fffac148c1d56de41798011e309cbc7c512df500d2"
+    },
+    {
+      "variant": "after",
+      "name": "Breach 12",
+      "path": "after-shotgun-gas-150ms.png",
+      "bytes": 376830,
+      "sha256": "9f6ec73f6620ae9d54ef0d0679094744add0287c664473692c8b7f6b79368835"
+    },
+    {
+      "variant": "after",
+      "name": "Longbow M",
+      "path": "after-sniper-peak-8ms.png",
+      "bytes": 365882,
+      "sha256": "8c321ed91247ec2cab6a823c24fdde3efa195c7395ddeab8f619a99c33ff792d"
+    },
+    {
+      "variant": "after",
+      "name": "Longbow M",
+      "path": "after-sniper-gas-150ms.png",
+      "bytes": 370502,
+      "sha256": "4039124fc014c84b4af323dc35242aa4609dc94505d4439f3a9211ba1726b50a"
+    },
+    {
+      "variant": "after",
+      "name": "Vesper 9",
+      "path": "after-smg-peak-8ms.png",
+      "bytes": 389352,
+      "sha256": "1e2a5f247dd5e1c5a1fb2d6b05e3c2e7a7b709a7de0cbcdb4664b07d29b8c20f"
+    },
+    {
+      "variant": "after",
+      "name": "Vesper 9",
+      "path": "after-smg-gas-150ms.png",
+      "bytes": 389096,
+      "sha256": "7b2779942a0c67857c3874c7629f4e4d2ba3a8c322f5bc15a331d98516bcd042"
+    },
+    {
+      "variant": "after",
+      "name": "Kestrel AR",
+      "path": "after-suppressor.png",
+      "bytes": 388570,
+      "sha256": "32e2dcf72486d449e4486bc8666eb165072fdf67e28fd761f79e52df9c50c774"
+    },
+    {
+      "variant": "after",
+      "name": "Breach 12",
+      "path": "after-low-shotgun-peak.png",
+      "bytes": 302772,
+      "sha256": "41287f80572e2eede0eb4a7a47cb7ff199f9a7adbbacf1a952033c564afc01ec"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "Offline GLSL ES compile/link only; no rendered frames or iPhone validation",
+  "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "version": "OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1",
+  "variants": 58,
+  "passed": 58,
+  "failures": [],
+  "actual_iphone_data": false,
+  "shaderInputSha256": "6c6935f481b5e07ddc35ca5508b98295d2caa2db7308baf595458187c2009705",
+  "finalShaderInputByteExact": true
+}

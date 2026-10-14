@@ -1,0 +1,4868 @@
+{
+  "kind": "software_WebGL_native_firing_temporal_validation",
+  "actual_iphone_data": false,
+  "subjective_visual_approval": false,
+  "capturedAt": "2026-10-14T06:33:27.711Z",
+  "sourceCommit": "5a7d7c6b33b21294016627020bc6fee1caff6ccc",
+  "distributionDirty": false,
+  "baselineCommit": "0ec0b66c8fd33d0731564b02a8098b5f639bc4ed",
+  "variant": "before",
+  "runtimeSha256": {
+    "three-renderer.js": "bcb7dc7b9bf52c64ae6d11d8ad5b2569d5a7f5dab78279e5c6c5f0123cc46344",
+    "firing-presentation.js": "b87ea740aab61b6b433ff745f27adc9873ce748aef1cc08326d50daa471e2d61",
+    "particles.js": "b32fd21aef58cb161583175706d5a31e518a4a511a9dc2bb49f3b4fcf44a9163",
+    "engine.js": "8da650a345686b2caa656d7dcb96343ba1aff38859cc4ace82b260b143f40cfd",
+    "weapons.js": "bd5a2093dc47cea88339174e917189a9f3863cdd34b3c9ac0016cbca3f017f08",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a",
+    "aim.js": "ab04d3b6f567129e992aaf2c09a833204ec69f22dbea1c388abd67fe3b926b9d",
+    "weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e"
+  },
+  "allModuleSha256": {
+    "actor-pose.js": "54e9f0056108e408aff6370528f667681b7d82131db1aa8bc6e8dc4a98023e72",
+    "ai.js": "fe173da4fd2a31dfba97c64272d3d997a44f8a6632340e1dc4a8c49821586e8a",
+    "aim-assist.js": "626cc19f387e2404fcc87f485f888256ec1ee0e68adefa8e340b02b7b0dfd486",
+    "aim.js": "ab04d3b6f567129e992aaf2c09a833204ec69f22dbea1c388abd67fe3b926b9d",
+    "atmosphere.js": "25d85701dd577177f48a87c961eb83e9c780a3ee31a5b0f1d1cbd2ecee966ba7",
+    "attachment-audio.js": "cbb60b10fa28ca572b0c452a6166ab6b25db73a6c4f79dfcaaf3f881838aca62",
+    "attachments.js": "df19007d395200cbf14902a8264ac77008d348529e53fc68d7f87017a640c8aa",
+    "audio-files.js": "847e31757460e0f25f324ae274a036587487b7382e43c6aa7c2fa39398e92414",
+    "audio-library.js": "13161cc5332905c68e09f6f37856273142219c9c7e8ba9d8fee36de4890b1a95",
+    "audio.js": "2e4bf98a16bf2df1a0de82a4107bb7f5611ec754a324dade79c28e7c98b732bb",
+    "ballistics.js": "c68f62a6f60910b06734ddf3b32cfba4565eb9a86f4b0ef0793a2b9901c9026d",
+    "battlegrounds.js": "5b74bfb1fc5bdbea01fb5561ed8d544242904b320214ab9e7b09b5026bf19409",
+    "benchmark-build.js": "2fb422df2818cf0a1edbad0d4f8d45084749897d38e6f018996c4dd59fe5c38d",
+    "benchmark-export.js": "d3893d519a0d151154150a23e81d914e53d93adbb95622c2cc72cbde68ecd7c2",
+    "benchmark-methodology.js": "2d3a152a902a039cb89f0562b910f32ef5a263e15109714e47f5010f25e208c2",
+    "benchmark-recorder.js": "e04435d3d878464ae57724041039985b5f5e549767da8b575cbe07251736ee33",
+    "benchmark-stats.js": "425caf1a971c979b75931a88227c64da600214097b27419a2508de46a1350a74",
+    "benchmark-store.js": "23db27d6c750fecee29af63402ea90cb6832057da37cfeb6f66458029dc7b83e",
+    "benchmark-stress.js": "a4b9f87b789dfcec677b5801b84dae2db878709dcfe416c56a87d1af4a207835",
+    "benchmark.js": "14247eee3752c7e1eea1bec44967f69dcc40e58f59aa8fa332acc74d61f2149d",
+    "blender-assets.js": "f5bbc23da07dd5cac3f5e450dfefbb44ce02470be2a970593dd54fcb9a29ab24",
+    "blender-files.js": "dc65d6a22befc7cffbd117f402474e55fe27e8bfb7a9f21b8779420dc95e21cd",
+    "blender-kind.js": "250313e4346421f0c95cb248a945952d01791d9b38a4f7d8a2030dc9b18b2536",
+    "blender-material.js": "aa8fef55fe5955f178a30ef86a7675cc1d440eb151cf45b33d624be47acd9667",
+    "blender-world.js": "f325f9f7ae9a0c5a33ef9f40e78f1d9c63919d211d14230fae0599a4c9761ad8",
+    "boot.js": "3395f35fac20c82dddfc583f871088c4f3aa680ff911291acb5894d2665fbcb2",
+    "casing-foley.js": "4de9a89f148e7b88cdc876764d905943d0185a842b51b839de2713ee14211b10",
+    "combat-identity.js": "08deede98eb4b11853abdfab36663b8a9129657c3d957682d2551366974e03db",
+    "compatibility-renderer.js": "4b9e9204bf223573ee3ce1ae35715dcf489fffa687f46c5f1dfcd2535a572548",
+    "decal-system.js": "afacb521b1868ddd3f033f5fefe2f05c16a7b7f5f2299e7ff0d8bdfcf8bdc5e8",
+    "engine.js": "8da650a345686b2caa656d7dcb96343ba1aff38859cc4ace82b260b143f40cfd",
+    "environment-probes.js": "373beca091cc193d8576f203145b362d7903f41eeb4c051a802bc1397cef0b10",
+    "environmental-fire.js": "45c86ef99e8c4c5e6c4c944e880813ed1993e59d08e60944d0ac31fb9a21b1cf",
+    "explosion-shock.js": "666d2f1e1e50423f98e4e0efaa2028dc860afb4a72141a18679e0c7fa8f1d20b",
+    "firing-presentation.js": "b87ea740aab61b6b433ff745f27adc9873ce748aef1cc08326d50daa471e2d61",
+    "frame-pacer.js": "2ea2d813159e42d1aa357468d408f0d37060167423eeb8ae4fd6f03d5060cb43",
+    "gamepad.js": "d7f5706447f430481aa3e8a317ce4e70f1ed9b11367ece95496df203e825d703",
+    "geometry.js": "422910f567ba7b5afaa375e96661474b196f22bbe2f9b162d6dbb05c66d870f9",
+    "glass-damage.js": "623c5c84addc013b8c447751ed7bd9b90999b3f67003708fa7a5931c13370abc",
+    "glass-panels.js": "a791061123928befc014eed85acf0645e5fb5369036c1099996fddd10ea85943",
+    "graphics-profiler.js": "142a78b39764e244505803ef7ce27e3f0a53cf7a653e9053b671f3cdd3dd5a52",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a",
+    "input.js": "8f9fc64d6c6fc0c5fcae6b87bfcd1751528b0f2d63ca15750691316618782265",
+    "lighting-field.js": "8d9c2a49a34ebff8a9815b4a4016f453b960d6a8dac68abcfa7f69d090c4126f",
+    "main.js": "fad08532b7e4b1a8a70ce86096355bd12c527d54626ba3b816e830b1b943dfcd",
+    "maps.js": "747af5547dc71b5d84427c1102c6cbe2366fe60c06c0cb1c7732723e9db2c1c3",
+    "material-detail.js": "5ac2e96c054a8cd792998b2b734f0148edb28f16206e0113ac5f97c804de36e7",
+    "math.js": "fbfda73463c46140efcdc2c8ec553230bb4a91c9b271f0b8903f942da1db750a",
+    "meshes.js": "9a0651510ce0263b430a596151e933638182cfcd043b11be3562686b0b150114",
+    "modes.js": "e4b328d8872186e8f4336cdb23a6aa17d4be49bd75b12b702e05883c1754c308",
+    "navigation.js": "97567321ab72833a14d37d71f11f883bb824665f9bb4ffe0637821f96ea9a4c1",
+    "nuketown.js": "4db59524bbf3bf4753b305640add87990304d9b1703a97d6c18c4b716389a573",
+    "objective-banner.js": "2bd30a8b0846a3a84159f8f3945d1c14cc2d84b8bce58246f78ef91699455e33",
+    "operator-detail.js": "8c425b6c7ac4999881dbaa7a2dc311d73b7d7ba6a6affe6139a5d98fcf04a1f5",
+    "operator-meshes.js": "c1264467a86d02b0354bf0326c06d16f8ba43faada6199049d2b0cac561a513f",
+    "particles.js": "b32fd21aef58cb161583175706d5a31e518a4a511a9dc2bb49f3b4fcf44a9163",
+    "production-files.js": "13ab38789358a68f7d5b0911f7bdd762303e053b33847bcec30c5a173dd55ace",
+    "production-lighting.js": "7da325769e5db2402c20e4abbbdf15b02755c39f9b5ac34de712a5dcd448c3d9",
+    "production-textures.js": "240779c8d02380038e61296ac12f7cb88586a318784988dae4c3bfea81b726c6",
+    "production-world.js": "17088a39a5e5e7c0dd2f7b2f1044fc4a0ccaac38e89810d744d837da2310af5f",
+    "ray-grid.js": "6eee03baeee56924abb3e220462608c197d14f30b567482b8d6529625eebf866",
+    "render-budget.js": "5c90d7b1af989fda1f7daff4feb0a88cc5944e0756e7fedcd5d731bd1f752ca9",
+    "render-pipeline.js": "561e59a53ab8b5cb321166b7659f52dd0f5607ae9303353b49688dfc01931c90",
+    "room-lights.js": "bd25f80ac035ac2060428f9beb019074ad0a3715d3945d2f58cd430bbaa3d4c1",
+    "save.js": "c8ea255aee8c4655c498c45aa760f10360eeca454e9396c821d79f256ad8ed10",
+    "scene-lod.js": "9f4e7d860cb4f1101d2669d77386d1862a0c40297ff3e93cfbc6dad2c10362f5",
+    "shadow-system.js": "e6ced689953377ae065e566e5b8d8d283fd10febfdf8f6bbf924398bb8cdb6b8",
+    "spatial-audio.js": "bee073e5d364176b917a047eaba0355b8632aca5c9d7e3b1e877816efae468ec",
+    "spawns.js": "208b51d3ecca6564bfa7429a3c7ea3dd3bc4c6c1f319406513fa7ee24047da0e",
+    "surface-placement.js": "1566e699f89c470cf672dcb6165fc374d5f900af0c62c95172db0ee6b12b6143",
+    "surface-uv.js": "850b32697839c8c099c5ec73499e83e3ab64644701d9cbbba4f38eeaf7852add",
+    "textures.js": "25c7a6ffcc3e7502bb94b8fed1ce1cf59bf40f4500f9521cd54832eb65e09996",
+    "three-renderer.js": "bcb7dc7b9bf52c64ae6d11d8ad5b2569d5a7f5dab78279e5c6c5f0123cc46344",
+    "traversal.js": "aceadf7c8c6775e00fdf959243dff479b4d282848bfbfa2b62b59e04d651d079",
+    "ui.js": "f8ffa732017ccb33edf32f1ba170e2885195920aebe635af87ec573aae43f0fc",
+    "water-material.js": "10a20b9d54eb73caeb1a66aba3402b9f9cde07f5b0c1e514816b3c39f89913e1",
+    "weapon-clearance.js": "13cd92b3af261769d332241475ad855e3a2f5af1f0b64d086b4aed4e8bd4ebcb",
+    "weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e",
+    "weapon-surface.js": "bcb81478e51cd667784ac496c177609cbe06eb31990e3907c3ed17c054d6b5ed",
+    "weapons.js": "bd5a2093dc47cea88339174e917189a9f3863cdd34b3c9ac0016cbca3f017f08",
+    "world-acoustics.js": "abee6cf3a79d87db5f9083bee9e2a1d8651416f56da1b20c89361e4610238171",
+    "world-detail.js": "6b94a48f8c1d0125a9044d79818bda2479eb8b384098f8f48362301982077e8c",
+    "world-material-variation.js": "63cb747c8ab26e1e2f6839d55bb96fa93bc195cee671a2b0ac88c6b0951c8105"
+  },
+  "snapshotRoutesAllJS": true,
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "scenarioNotes": [
+    "Actual shipped Game.shoot, Game.update and Renderer.render with Blacksite original collision, native Blender weapon/hands/world.",
+    "Seeded grounded player at x0/z23, pitched upward .14 rad, no AI, god mode and fixed 1/120 s native simulation isolate shot presentation. Other engine events dispatch normally.",
+    "Matched before controls replace only three-renderer.js from the stated baseline commit; all other modules are identical byte snapshots.",
+    "Rifle timeline and evidence frames use actual Renderer.render. Uncaptured intermediate family samples are marked rendered:false and use native prepareWeapon/updateEffects without submitting a draw.",
+    "Scope gates count real Sprite draw submissions; stale unused object state is not treated as visible flame.",
+    "The all-30 matrix uses native shooting and prepareWeapon; bounded sampler stress is additional to the actual frame timelines.",
+    "Bot counts use actual Game.shoot on a scripted actor. No synthetic impact/explosion emitters are used.",
+    "Software WebGL does not establish physical iPhone performance, sustained frame pacing or professional visual acceptance."
+  ],
+  "errors": [],
+  "requestFailures": [],
+  "validation": {
+    "nativeOneShotOneGasParticle": true,
+    "nativeGasAndFlashExpire": true,
+    "thirtyWeaponsFiniteAndBounded": true,
+    "nativePresentation": true,
+    "gameplayCamerasLegal": true,
+    "webgl2": true,
+    "noBrowserOrNetworkErrors": true
+  },
+  "scenarios": {
+    "environment": {
+      "webgl2": true,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "nativeAssetsLoaded": true
+    },
+    "families": {
+      "pistol": {
+        "before": {
+          "name": "Sable P",
+          "rendered": true,
+          "time": 0,
+          "age": 10,
+          "id": 10,
+          "kind": "PISTOL",
+          "ammo": 15,
+          "barrel": 0,
+          "optic": 0,
+          "ads": 0,
+          "menu": false,
+          "paused": false,
+          "scope": false,
+          "cameraFov": 42.38617142258535,
+          "flash": {
+            "visible": false,
+            "opacity": 1,
+            "width": 0.1,
+            "height": 0.1,
+            "rotation": 0,
+            "light": 0,
+            "draws": 0
+          },
+          "gas": [],
+          "instances": 0,
+          "draws": 230,
+          "triangles": 262208,
+          "renderPasses": 2,
+          "resources": {
+            "textureEstimateBytes": 82779926,
+            "textures": 85,
+            "glTextures": 92,
+            "effectPool": 200,
+            "billboardCapacity": 280,
+            "sceneChildren": 14,
+            "weaponSceneChildren": 5
+          },
+          "feetOnFloor": true,
+          "grounded": true,
+          "collisionFree": true,
+          "loaded": true,
+          "nativeWorldBatches": 255,
+          "nativeWeaponGroups": 3,
+          "nativeHandGroups": 2
+        },
+        "shot": {
+          "success": true,
+          "ammoBefore": 15,
+          "ammoAfter": 14,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0026084514720693397,
+                0.25,
+                -0.44395428859192304
+              ],
+              "position": {
+                "x": -0.004927075002797641,
+                "y": 1.6687759560723725,
+                "z": 22.161419677104146
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 0,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.011632752875163807,
+              "y": 3.409199156552683,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 10,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "timeline": [
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0,
+            "age": 0,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.42,
+                "max": 0.42,
+                "x": -0.004927075002797641,
+                "y": 1.6687759560723725,
+                "z": 22.161419677104146,
+                "vx": -0.0026084514720693397,
+                "vy": 0.25,
+                "vz": -0.44395428859192304
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0.008333333333333333,
+            "age": 0.008333333333333333,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.4116666666666666,
+                "max": 0.42,
+                "x": -0.004948812098398219,
+                "y": 1.670859289405706,
+                "z": 22.157720058032545,
+                "vx": -0.0026084514720693397,
+                "vy": 0.25,
+                "vz": -0.44395428859192304
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0.025,
+            "age": 0.025,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.3949999999999999,
+                "max": 0.42,
+                "x": -0.004992286289599374,
+                "y": 1.6750259560723728,
+                "z": 22.150320819889345,
+                "vx": -0.0026084514720693397,
+                "vy": 0.25,
+                "vz": -0.44395428859192304
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0.049999999999999996,
+            "age": 0.049999999999999996,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.36999999999999983,
+                "max": 0.42,
+                "x": -0.005057497576401108,
+                "y": 1.6812759560723731,
+                "z": 22.139221962674544,
+                "vx": -0.0026084514720693397,
+                "vy": 0.25,
+                "vz": -0.44395428859192304
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0.15,
+            "age": 0.15,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.2699999999999995,
+                "max": 0.42,
+                "x": -0.005318342723608041,
+                "y": 1.7062759560723744,
+                "z": 22.09482653381534,
+                "vx": -0.0026084514720693397,
+                "vy": 0.25,
+                "vz": -0.44395428859192304
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Sable P",
+            "rendered": false,
+            "time": 0.45000000000000057,
+            "age": 0.45000000000000057,
+            "id": 10,
+            "kind": "PISTOL",
+            "ammo": 14,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.1,
+              "height": 0.1,
+              "rotation": 0,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [],
+            "instances": 2,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          }
+        ]
+      },
+      "rifle": {
+        "before": {
+          "name": "Kestrel AR",
+          "rendered": true,
+          "time": 0.45000000000000057,
+          "age": 10,
+          "id": 0,
+          "kind": "RIFLE",
+          "ammo": 30,
+          "barrel": 0,
+          "optic": 0,
+          "ads": 0,
+          "menu": false,
+          "paused": false,
+          "scope": false,
+          "cameraFov": 42.38617142258535,
+          "flash": {
+            "visible": false,
+            "opacity": 1,
+            "width": 0.16,
+            "height": 0.16,
+            "rotation": 0,
+            "light": 0,
+            "draws": 0
+          },
+          "gas": [],
+          "instances": 0,
+          "draws": 225,
+          "triangles": 271728,
+          "renderPasses": 2,
+          "resources": {
+            "textureEstimateBytes": 82779926,
+            "textures": 85,
+            "glTextures": 92,
+            "effectPool": 200,
+            "billboardCapacity": 280,
+            "sceneChildren": 14,
+            "weaponSceneChildren": 5
+          },
+          "feetOnFloor": true,
+          "grounded": true,
+          "collisionFree": true,
+          "loaded": true,
+          "nativeWorldBatches": 255,
+          "nativeWeaponGroups": 3,
+          "nativeHandGroups": 2
+        },
+        "shot": {
+          "success": true,
+          "ammoBefore": 30,
+          "ammoAfter": 29,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0,
+                0.25,
+                -0.44443153358502985
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.6633054070323872,
+                "z": 22.160518214339387
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 0.45000000000000057,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.044410159813583684,
+              "y": 3.2930872805219846,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 0,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "timeline": [
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.45000000000000057,
+            "age": 0,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": 1
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.42,
+                "max": 0.42,
+                "x": 0,
+                "y": 1.6633054070323872,
+                "z": 22.160518214339387,
+                "vx": 0,
+                "vy": 0.25,
+                "vz": -0.44443153358502985
+              }
+            ],
+            "instances": 7,
+            "draws": 227,
+            "triangles": 271746,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2,
+            "path": "before-rifle-birth-0ms.png",
+            "bytes": 389912,
+            "sha256": "204ecd94053672a6bf698605fc186f6ca4c6507b67fa756ad2787825111d9585"
+          },
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.4583333333333339,
+            "age": 0.008333333333333333,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": 1
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.4116666666666666,
+                "max": 0.42,
+                "x": 0,
+                "y": 1.6653887403657206,
+                "z": 22.15681461822618,
+                "vx": 0,
+                "vy": 0.25,
+                "vz": -0.44443153358502985
+              }
+            ],
+            "instances": 7,
+            "draws": 227,
+            "triangles": 271746,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2,
+            "path": "before-rifle-peak-8ms.png",
+            "bytes": 389977,
+            "sha256": "f0d47de331b410cc1889715e36697c7b82836c5426ccc6c7faf335d8bc00c305"
+          },
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.47500000000000064,
+            "age": 0.025,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": 1
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.3949999999999999,
+                "max": 0.42,
+                "x": 0,
+                "y": 1.6695554070323875,
+                "z": 22.14940742599976,
+                "vx": 0,
+                "vy": 0.25,
+                "vz": -0.44443153358502985
+              }
+            ],
+            "instances": 7,
+            "draws": 227,
+            "triangles": 271746,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2,
+            "path": "before-rifle-fade-25ms.png",
+            "bytes": 389710,
+            "sha256": "d3ec7461493285c899d9206f1d1e598950daa3759342bec1ecef4cb13f8d2963"
+          },
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.5000000000000007,
+            "age": 0.049999999999999996,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": 0
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.36999999999999983,
+                "max": 0.42,
+                "x": 0,
+                "y": 1.6758054070323878,
+                "z": 22.138296637660137,
+                "vx": 0,
+                "vy": 0.25,
+                "vz": -0.44443153358502985
+              }
+            ],
+            "instances": 7,
+            "draws": 226,
+            "triangles": 271744,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.6000000000000003,
+            "age": 0.15,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": 0
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.2699999999999995,
+                "max": 0.42,
+                "x": 0,
+                "y": 1.700805407032389,
+                "z": 22.093853484301636,
+                "vx": 0,
+                "vy": 0.25,
+                "vz": -0.44443153358502985
+              }
+            ],
+            "instances": 7,
+            "draws": 226,
+            "triangles": 271744,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2,
+            "path": "before-rifle-gas-150ms.png",
+            "bytes": 390216,
+            "sha256": "eb593f33fe53aaebcd81f68f251061a6a4be7654e89c919fb3edefb6c49a363c"
+          },
+          {
+            "name": "Kestrel AR",
+            "rendered": true,
+            "time": 0.8999999999999992,
+            "age": 0.45000000000000057,
+            "id": 0,
+            "kind": "RIFLE",
+            "ammo": 29,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 0,
+              "light": 0,
+              "draws": 0
+            },
+            "gas": [],
+            "instances": 2,
+            "draws": 226,
+            "triangles": 271734,
+            "renderPasses": 2,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          }
+        ]
+      },
+      "shotgun": {
+        "before": {
+          "name": "Breach 12",
+          "rendered": true,
+          "time": 0.8999999999999992,
+          "age": 10,
+          "id": 5,
+          "kind": "SHOTGUN",
+          "ammo": 7,
+          "barrel": 0,
+          "optic": 0,
+          "ads": 0,
+          "menu": false,
+          "paused": false,
+          "scope": false,
+          "cameraFov": 42.38617142258535,
+          "flash": {
+            "visible": false,
+            "opacity": 1,
+            "width": 0.23,
+            "height": 0.23,
+            "rotation": 0,
+            "light": 0,
+            "draws": 0
+          },
+          "gas": [],
+          "instances": 0,
+          "draws": 225,
+          "triangles": 265312,
+          "renderPasses": 2,
+          "resources": {
+            "textureEstimateBytes": 82779926,
+            "textures": 85,
+            "glTextures": 92,
+            "effectPool": 200,
+            "billboardCapacity": 280,
+            "sceneChildren": 14,
+            "weaponSceneChildren": 5
+          },
+          "feetOnFloor": true,
+          "grounded": true,
+          "collisionFree": true,
+          "loaded": true,
+          "nativeWorldBatches": 255,
+          "nativeWeaponGroups": 4,
+          "nativeHandGroups": 2
+        },
+        "shot": {
+          "success": true,
+          "ammoBefore": 7,
+          "ammoAfter": 6,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.012355931586961352,
+                0.25,
+                -0.44040414878245593
+              ],
+              "position": {
+                "x": -0.023338981886482552,
+                "y": 1.7030320859190615,
+                "z": 22.16812549674425
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 0.8999999999999992,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.11906954980896352,
+              "y": 3.157893670848895,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 5,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 8
+        },
+        "timeline": [
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 0.8999999999999992,
+            "age": 0,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.42,
+                "max": 0.42,
+                "x": -0.023338981886482552,
+                "y": 1.7030320859190615,
+                "z": 22.16812549674425,
+                "vx": -0.012355931586961352,
+                "vy": 0.25,
+                "vz": -0.44040414878245593
+              }
+            ],
+            "instances": 25,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 0.9083333333333325,
+            "age": 0.008333333333333333,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.4116666666666666,
+                "max": 0.42,
+                "x": -0.023441947983040563,
+                "y": 1.705115419252395,
+                "z": 22.164455462171063,
+                "vx": -0.012355931586961352,
+                "vy": 0.25,
+                "vz": -0.44040414878245593
+              }
+            ],
+            "instances": 25,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 0.9249999999999992,
+            "age": 0.025,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.3949999999999999,
+                "max": 0.42,
+                "x": -0.023647880176156585,
+                "y": 1.7092820859190618,
+                "z": 22.15711539302469,
+                "vx": -0.012355931586961352,
+                "vy": 0.25,
+                "vz": -0.44040414878245593
+              }
+            ],
+            "instances": 25,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 0.9499999999999991,
+            "age": 0.049999999999999996,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.36999999999999983,
+                "max": 0.42,
+                "x": -0.02395677846583062,
+                "y": 1.7155320859190621,
+                "z": 22.14610528930513,
+                "vx": -0.012355931586961352,
+                "vy": 0.25,
+                "vz": -0.44040414878245593
+              }
+            ],
+            "instances": 25,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 1.0499999999999987,
+            "age": 0.15,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.2699999999999995,
+                "max": 0.42,
+                "x": -0.02519237162452675,
+                "y": 1.7405320859190634,
+                "z": 22.10206487442689,
+                "vx": -0.012355931586961352,
+                "vy": 0.25,
+                "vz": -0.44040414878245593
+              }
+            ],
+            "instances": 25,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Breach 12",
+            "rendered": false,
+            "time": 1.3499999999999976,
+            "age": 0.45000000000000057,
+            "id": 5,
+            "kind": "SHOTGUN",
+            "ammo": 6,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.23,
+              "height": 0.23,
+              "rotation": 0,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [],
+            "instances": 9,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 4,
+            "nativeHandGroups": 2
+          }
+        ]
+      },
+      "sniper": {
+        "before": {
+          "name": "Longbow M",
+          "rendered": true,
+          "time": 1.3499999999999976,
+          "age": 10,
+          "id": 7,
+          "kind": "SNIPER",
+          "ammo": 5,
+          "barrel": 0,
+          "optic": 3,
+          "ads": 0,
+          "menu": false,
+          "paused": false,
+          "scope": false,
+          "cameraFov": 42.38617142258535,
+          "flash": {
+            "visible": false,
+            "opacity": 1,
+            "width": 0.16,
+            "height": 0.16,
+            "rotation": 0,
+            "light": 0,
+            "draws": 0
+          },
+          "gas": [],
+          "instances": 0,
+          "draws": 229,
+          "triangles": 271820,
+          "renderPasses": 2,
+          "resources": {
+            "textureEstimateBytes": 82779926,
+            "textures": 85,
+            "glTextures": 92,
+            "effectPool": 200,
+            "billboardCapacity": 280,
+            "sceneChildren": 14,
+            "weaponSceneChildren": 5
+          },
+          "feetOnFloor": true,
+          "grounded": true,
+          "collisionFree": true,
+          "loaded": true,
+          "nativeWorldBatches": 255,
+          "nativeWeaponGroups": 3,
+          "nativeHandGroups": 2
+        },
+        "shot": {
+          "success": true,
+          "ammoBefore": 5,
+          "ammoAfter": 4,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.010640496350062126,
+                0.25,
+                -0.43882758330264293
+              ],
+              "position": {
+                "x": 0.020098715327895127,
+                "y": 1.7171538331863485,
+                "z": 22.171103453761674
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 1.3499999999999976,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.05340583598344829,
+              "y": 3.179957629578386,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 7,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "timeline": [
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.3499999999999976,
+            "age": 0,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.42,
+                "max": 0.42,
+                "x": 0.020098715327895127,
+                "y": 1.7171538331863485,
+                "z": 22.171103453761674,
+                "vx": 0.010640496350062126,
+                "vy": 0.25,
+                "vz": -0.43882758330264293
+              }
+            ],
+            "instances": 6,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.358333333333331,
+            "age": 0.008333333333333333,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.4116666666666666,
+                "max": 0.42,
+                "x": 0.02018738613081231,
+                "y": 1.719237166519682,
+                "z": 22.16744655723415,
+                "vx": 0.010640496350062126,
+                "vy": 0.25,
+                "vz": -0.43882758330264293
+              }
+            ],
+            "instances": 6,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.3749999999999976,
+            "age": 0.025,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.3949999999999999,
+                "max": 0.42,
+                "x": 0.020364727736646677,
+                "y": 1.7234038331863488,
+                "z": 22.160132764179103,
+                "vx": 0.010640496350062126,
+                "vy": 0.25,
+                "vz": -0.43882758330264293
+              }
+            ],
+            "instances": 6,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.3999999999999975,
+            "age": 0.049999999999999996,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.36999999999999983,
+                "max": 0.42,
+                "x": 0.020630740145398226,
+                "y": 1.7296538331863491,
+                "z": 22.149162074596532,
+                "vx": 0.010640496350062126,
+                "vy": 0.25,
+                "vz": -0.43882758330264293
+              }
+            ],
+            "instances": 6,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.4999999999999971,
+            "age": 0.15,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.2699999999999995,
+                "max": 0.42,
+                "x": 0.021694789780404424,
+                "y": 1.7546538331863504,
+                "z": 22.105279316266248,
+                "vx": 0.010640496350062126,
+                "vy": 0.25,
+                "vz": -0.43882758330264293
+              }
+            ],
+            "instances": 6,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Longbow M",
+            "rendered": false,
+            "time": 1.799999999999996,
+            "age": 0.45000000000000057,
+            "id": 7,
+            "kind": "SNIPER",
+            "ammo": 4,
+            "barrel": 0,
+            "optic": 3,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 0,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [],
+            "instances": 2,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          }
+        ]
+      },
+      "smg": {
+        "before": {
+          "name": "Vesper 9",
+          "rendered": true,
+          "time": 1.799999999999996,
+          "age": 10,
+          "id": 3,
+          "kind": "SMG",
+          "ammo": 36,
+          "barrel": 0,
+          "optic": 0,
+          "ads": 0,
+          "menu": false,
+          "paused": false,
+          "scope": false,
+          "cameraFov": 42.38617142258535,
+          "flash": {
+            "visible": false,
+            "opacity": 1,
+            "width": 0.16,
+            "height": 0.16,
+            "rotation": 0,
+            "light": 0,
+            "draws": 0
+          },
+          "gas": [],
+          "instances": 0,
+          "draws": 225,
+          "triangles": 265814,
+          "renderPasses": 2,
+          "resources": {
+            "textureEstimateBytes": 82779926,
+            "textures": 85,
+            "glTextures": 92,
+            "effectPool": 200,
+            "billboardCapacity": 280,
+            "sceneChildren": 14,
+            "weaponSceneChildren": 5
+          },
+          "feetOnFloor": true,
+          "grounded": true,
+          "collisionFree": true,
+          "loaded": true,
+          "nativeWorldBatches": 255,
+          "nativeWeaponGroups": 3,
+          "nativeHandGroups": 2
+        },
+        "shot": {
+          "success": true,
+          "ammoBefore": 36,
+          "ammoAfter": 35,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.00041562567060824854,
+                0.25,
+                -0.4446244290530665
+              ],
+              "position": {
+                "x": 0.0007850707111489139,
+                "y": 1.6609879325122754,
+                "z": 22.160153856233098
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 1.799999999999996,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.04281265785914336,
+              "y": 3.4018891632050376,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 3,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "timeline": [
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 1.799999999999996,
+            "age": 0,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.42,
+                "max": 0.42,
+                "x": 0.0007850707111489139,
+                "y": 1.6609879325122754,
+                "z": 22.160153856233098,
+                "vx": 0.00041562567060824854,
+                "vy": 0.25,
+                "vz": -0.4446244290530665
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 1.8083333333333294,
+            "age": 0.008333333333333333,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.4116666666666666,
+                "max": 0.42,
+                "x": 0.0007885342584039826,
+                "y": 1.6630712658456088,
+                "z": 22.156448652657655,
+                "vx": 0.00041562567060824854,
+                "vy": 0.25,
+                "vz": -0.4446244290530665
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 1.824999999999996,
+            "age": 0.025,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": true,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0.9,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.3949999999999999,
+                "max": 0.42,
+                "x": 0.00079546135291412,
+                "y": 1.6672379325122757,
+                "z": 22.14903824550677,
+                "vx": 0.00041562567060824854,
+                "vy": 0.25,
+                "vz": -0.4446244290530665
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 1.8499999999999959,
+            "age": 0.049999999999999996,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.36999999999999983,
+                "max": 0.42,
+                "x": 0.0008058519946793262,
+                "y": 1.673487932512276,
+                "z": 22.13792263478044,
+                "vx": 0.00041562567060824854,
+                "vy": 0.25,
+                "vz": -0.4446244290530665
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 1.9499999999999955,
+            "age": 0.15,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 2.4,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [
+              {
+                "size": 0.07,
+                "life": 0.2699999999999995,
+                "max": 0.42,
+                "x": 0.0008474145617401509,
+                "y": 1.6984879325122773,
+                "z": 22.093460191875128,
+                "vx": 0.00041562567060824854,
+                "vy": 0.25,
+                "vz": -0.4446244290530665
+              }
+            ],
+            "instances": 7,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          },
+          {
+            "name": "Vesper 9",
+            "rendered": false,
+            "time": 2.2499999999999947,
+            "age": 0.45000000000000057,
+            "id": 3,
+            "kind": "SMG",
+            "ammo": 35,
+            "barrel": 0,
+            "optic": 0,
+            "ads": 0,
+            "menu": false,
+            "paused": false,
+            "scope": false,
+            "cameraFov": 42.38617142258535,
+            "flash": {
+              "visible": false,
+              "opacity": 1,
+              "width": 0.16,
+              "height": 0.16,
+              "rotation": 0,
+              "light": 0,
+              "draws": null
+            },
+            "gas": [],
+            "instances": 2,
+            "draws": null,
+            "triangles": null,
+            "renderPasses": null,
+            "resources": {
+              "textureEstimateBytes": 82779926,
+              "textures": 85,
+              "glTextures": 92,
+              "effectPool": 200,
+              "billboardCapacity": 280,
+              "sceneChildren": 14,
+              "weaponSceneChildren": 5
+            },
+            "feetOnFloor": true,
+            "grounded": true,
+            "collisionFree": true,
+            "loaded": true,
+            "nativeWorldBatches": 255,
+            "nativeWeaponGroups": 3,
+            "nativeHandGroups": 2
+          }
+        ]
+      }
+    },
+    "allWeapons": [
+      {
+        "id": 0,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 30,
+          "ammoAfter": 29,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0,
+                0.25,
+                -0.44443153358502985
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.6633054070323872,
+                "z": 22.160518214339387
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.2499999999999947,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.0014807965948977332,
+              "y": 3.3619749970013517,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 0,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 1,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 24,
+          "ammoAfter": 23,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.004636998584547289,
+                0.25,
+                -0.44367035353554507
+              ],
+              "position": {
+                "x": 0.008758775104144878,
+                "y": 1.671793991554428,
+                "z": 22.161955998877303
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.258333333333328,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.07177959080631174,
+              "y": 3.3419700731859248,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 1,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 2,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 32,
+          "ammoAfter": 31,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.0025110241690392927,
+                0.25,
+                -0.4446811444009145
+              ],
+              "position": {
+                "x": 0.004743045652629774,
+                "y": 1.660215218397338,
+                "z": 22.160046727242715
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.2666666666666613,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.02682887888286038,
+              "y": 3.3599657471163185,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 2,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 3,
+        "kind": "SMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 36,
+          "ammoAfter": 35,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.00041562567060824854,
+                0.25,
+                -0.4446244290530665
+              ],
+              "position": {
+                "x": 0.0007850707111489139,
+                "y": 1.6609879325122754,
+                "z": 22.160153856233098
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.2749999999999946,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.06507895303063332,
+              "y": 3.2467429582979417,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 3,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.052,
+          "life": 0.28,
+          "forward": 0.45,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 4,
+        "kind": "SMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 28,
+          "ammoAfter": 27,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0016726415649041492,
+                0.25,
+                -0.44487366301229053
+              ],
+              "position": {
+                "x": -0.003159434067041171,
+                "y": 1.657896417384174,
+                "z": 22.159683080976784
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.283333333333328,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.07293033920554114,
+              "y": 3.29156352760937,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 4,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.052,
+          "life": 0.28,
+          "forward": 0.45,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 5,
+        "kind": "SHOTGUN",
+        "suppressed": false,
+        "pellets": 8,
+        "shot": {
+          "success": true,
+          "ammoBefore": 7,
+          "ammoAfter": 6,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.012355931586961352,
+                0.25,
+                -0.44040414878245593
+              ],
+              "position": {
+                "x": -0.023338981886482552,
+                "y": 1.7030320859190615,
+                "z": 22.16812549674425
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.291666666666661,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.013720340392477841,
+              "y": 3.0532223103896525,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 5,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 8
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.23,
+          "height": 0.23,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.07,
+          "life": 0.42,
+          "forward": 0.72,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 6,
+        "kind": "SHOTGUN",
+        "suppressed": false,
+        "pellets": 8,
+        "shot": {
+          "success": true,
+          "ammoBefore": 8,
+          "ammoAfter": 7,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0024475545559838425,
+                0.25,
+                -0.4423970970737
+              ],
+              "position": {
+                "x": -0.004623158605747258,
+                "y": 1.6855189796477785,
+                "z": 22.16436103886079
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.2999999999999945,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.21058494720398105,
+              "y": 3.3502368546678385,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 6,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 8
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.23,
+          "height": 0.23,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.07,
+          "life": 0.42,
+          "forward": 0.72,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 7,
+        "kind": "SNIPER",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 5,
+          "ammoAfter": 4,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.010640496350062126,
+                0.25,
+                -0.43882758330264293
+              ],
+              "position": {
+                "x": 0.020098715327895127,
+                "y": 1.7171538331863485,
+                "z": 22.171103453761674
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.308333333333328,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.22909554006150532,
+              "y": 3.106816819113086,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 7,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.065,
+          "life": 0.4,
+          "forward": 0.68,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 8,
+        "kind": "MARKSMAN",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 15,
+          "ammoAfter": 14,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.00749246547140565,
+                0.25,
+                -0.4428265224296698
+              ],
+              "position": {
+                "x": 0.014152434779321783,
+                "y": 1.68050229989906,
+                "z": 22.16354990207729
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.316666666666661,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.053171200631311547,
+              "y": 3.478527982691827,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 8,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.58,
+          "lift": 0.26
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 9,
+        "kind": "LMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 80,
+          "ammoAfter": 79,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.0018939936831824926,
+                0.25,
+                -0.4440311597775931
+              ],
+              "position": {
+                "x": 0.0035775436237891526,
+                "y": 1.6679372920268913,
+                "z": 22.161274475975656
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.3249999999999944,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.09491818515209471,
+              "y": 3.1686464365886158,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 9,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.065,
+          "life": 0.4,
+          "forward": 0.6,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 10,
+        "kind": "PISTOL",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 15,
+          "ammoAfter": 14,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0026084514720693397,
+                0.25,
+                -0.44395428859192304
+              ],
+              "position": {
+                "x": -0.004927075002797641,
+                "y": 1.6687759560723725,
+                "z": 22.161419677104146
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.3333333333333277,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.1415178478448283,
+              "y": 3.3312452029273087,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 10,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.1,
+          "height": 0.1,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.045,
+          "life": 0.26,
+          "forward": 0.36,
+          "lift": 0.2
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 11,
+        "kind": "PISTOL",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 7,
+          "ammoAfter": 6,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.012102173808863236,
+                0.25,
+                -0.4407742271904711
+              ],
+              "position": {
+                "x": -0.02285966163896389,
+                "y": 1.6997019031936658,
+                "z": 22.167426459751333
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.341666666666661,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.10363937654441416,
+              "y": 3.4404209617127193,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 11,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.1,
+          "height": 0.1,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.045,
+          "life": 0.26,
+          "forward": 0.36,
+          "lift": 0.2
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 12,
+        "kind": "MELEE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 1,
+          "ammoAfter": 1,
+          "shotEvents": 0,
+          "gasCalls": [],
+          "pellets": 1
+        },
+        "flash": {
+          "visible": false,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0
+        },
+        "gas": {
+          "size": 0,
+          "life": 0,
+          "forward": 0,
+          "lift": 0
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 13,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 27,
+          "ammoAfter": 26,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.0015124293712603521,
+                0.25,
+                -0.4443922016371333
+              ],
+              "position": {
+                "x": 0.002856811034602887,
+                "y": 1.6637419195183671,
+                "z": 22.16059250801875
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.3583333333333276,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.006985835727623299,
+              "y": 3.350064023456161,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 13,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 14,
+        "kind": "SMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 24,
+          "ammoAfter": 23,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.004371082852693061,
+                0.25,
+                -0.44408068303204634
+              ],
+              "position": {
+                "x": 0.008256489832864672,
+                "y": 1.667165599259088,
+                "z": 22.16118093205058
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.366666666666661,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.08155916058750932,
+              "y": 3.3264769939104024,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 14,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.052,
+          "life": 0.28,
+          "forward": 0.45,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 15,
+        "kind": "MARKSMAN",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 20,
+          "ammoAfter": 19,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.004022588496128288,
+                0.25,
+                -0.4434185456965484
+              ],
+              "position": {
+                "x": 0.00759822271490899,
+                "y": 1.6746426717167031,
+                "z": 22.16243163590652
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.3749999999999942,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.025596964205011327,
+              "y": 3.284337950373172,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 15,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.58,
+          "lift": 0.26
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 16,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 24,
+          "ammoAfter": 23,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0012084739541875086,
+                0.25,
+                -0.4441787182715791
+              ],
+              "position": {
+                "x": -0.002282673024576405,
+                "y": 1.6662595509628892,
+                "z": 22.160995754375907
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.3833333333333275,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.01662943394456531,
+              "y": 3.34855922340512,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 16,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 17,
+        "kind": "SMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 40,
+          "ammoAfter": 39,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0023015663874357693,
+                0.25,
+                -0.4448083716256574
+              ],
+              "position": {
+                "x": -0.004347403176267564,
+                "y": 1.6586694601791225,
+                "z": 22.159806409151535
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.391666666666661,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.1337100692107982,
+              "y": 3.3267477682331936,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 17,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.052,
+          "life": 0.28,
+          "forward": 0.45,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 18,
+        "kind": "SHOTGUN",
+        "suppressed": false,
+        "pellets": 7,
+        "shot": {
+          "success": true,
+          "ammoBefore": 6,
+          "ammoAfter": 5,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.01026389604640447,
+                0.25,
+                -0.4400878255312432
+              ],
+              "position": {
+                "x": -0.019387359198763998,
+                "y": 1.7063595001347736,
+                "z": 22.16872299621876
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.399999999999994,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.12100335954252796,
+              "y": 3.4020346125576975,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 18,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 7
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.23,
+          "height": 0.23,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.07,
+          "life": 0.42,
+          "forward": 0.72,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 19,
+        "kind": "SNIPER",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 6,
+          "ammoAfter": 5,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.002803995257717611,
+                0.25,
+                -0.4376224706186507
+              ],
+              "position": {
+                "x": 0.0052964354867999315,
+                "y": 1.7279165376855543,
+                "z": 22.173379777720328
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4083333333333274,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.00032154506351117127,
+              "y": 3.3372746515076983,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 19,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.065,
+          "life": 0.4,
+          "forward": 0.68,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 20,
+        "kind": "LMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 100,
+          "ammoAfter": 99,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.003191536449292419,
+                0.25,
+                -0.4444200739613754
+              ],
+              "position": {
+                "x": 0.0060284577375523465,
+                "y": 1.6633054070323872,
+                "z": 22.16053986029518
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4166666666666607,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.09509286820846075,
+              "y": 3.3734312008018996,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 20,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.065,
+          "life": 0.4,
+          "forward": 0.6,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 21,
+        "kind": "SMG",
+        "suppressed": true,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 30,
+          "ammoAfter": 29,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.0021720794250258317,
+                0.25,
+                -0.444739857635237
+              ],
+              "position": {
+                "x": 0.00410281669171546,
+                "y": 1.659519681442152,
+                "z": 22.159935824466775
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.424999999999994,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.0658303334965195,
+              "y": 3.4195619503699732,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 21,
+            "suppressed": true,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": false,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0
+        },
+        "gas": {
+          "size": 0.0416,
+          "life": 0.28,
+          "forward": 0.24750000000000003,
+          "lift": 0.192
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 22,
+        "kind": "PISTOL",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 6,
+          "ammoAfter": 5,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.00012788754103056264,
+                0.25,
+                -0.43983049207944547
+              ],
+              "position": {
+                "x": -0.00024156535527995165,
+                "y": 1.709684092602246,
+                "z": 22.169209070516604
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4333333333333274,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.077929651812269,
+              "y": 3.431824907327521,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 22,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.1,
+          "height": 0.1,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.045,
+          "life": 0.26,
+          "forward": 0.36,
+          "lift": 0.2
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 23,
+        "kind": "PISTOL",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 20,
+          "ammoAfter": 19,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0029582787478936645,
+                0.25,
+                -0.444421687850167
+              ],
+              "position": {
+                "x": -0.005587859857132477,
+                "y": 1.6633054070323872,
+                "z": 22.160536811838572
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4416666666666607,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.03458475904917024,
+              "y": 3.303626622674418,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 23,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.1,
+          "height": 0.1,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.045,
+          "life": 0.26,
+          "forward": 0.36,
+          "lift": 0.2
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 24,
+        "kind": "RIFLE",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 25,
+          "ammoAfter": 24,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.004327572459645463,
+                0.25,
+                -0.4439467356595023
+              ],
+              "position": {
+                "x": -0.008174303534885874,
+                "y": 1.668708868044579,
+                "z": 22.161433943754272
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.449999999999994,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.03391913204060866,
+              "y": 3.343756114286248,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 24,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.52,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 25,
+        "kind": "SMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 50,
+          "ammoAfter": 49,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0002681779564515644,
+                0.25,
+                -0.4449388313890316
+              ],
+              "position": {
+                "x": -0.0005065583621862883,
+                "y": 1.6571232663377056,
+                "z": 22.15955998515405
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4583333333333273,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.12120901498371857,
+              "y": 3.3455134659500336,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 25,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.052,
+          "life": 0.28,
+          "forward": 0.45,
+          "lift": 0.24
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 26,
+        "kind": "SHOTGUN",
+        "suppressed": false,
+        "pellets": 8,
+        "shot": {
+          "success": true,
+          "ammoBefore": 10,
+          "ammoAfter": 9,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.007881772137795852,
+                0.25,
+                -0.4416607265913726
+              ],
+              "position": {
+                "x": 0.014887791815836608,
+                "y": 1.6921991457567724,
+                "z": 22.165751960882965
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4666666666666606,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.19686310010947292,
+              "y": 3.5329016114916794,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 26,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 8
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.23,
+          "height": 0.23,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.07,
+          "life": 0.42,
+          "forward": 0.72,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 27,
+        "kind": "LMG",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 60,
+          "ammoAfter": 59,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.005619730774900811,
+                0.25,
+                -0.4435201078535438
+              ],
+              "position": {
+                "x": 0.010615047019257088,
+                "y": 1.6733358358337953,
+                "z": 22.16223979627664
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.474999999999994,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.06792768482108219,
+              "y": 3.3892219590119845,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 27,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.065,
+          "life": 0.4,
+          "forward": 0.6,
+          "lift": 0.28
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 28,
+        "kind": "MARKSMAN",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 12,
+          "ammoAfter": 11,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                0.001568226230970807,
+                0.25,
+                -0.4435862833030516
+              ],
+              "position": {
+                "x": 0.0029622051029448574,
+                "y": 1.6729671778922057,
+                "z": 22.162114798205348
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.483333333333327,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": 0.030834153649230416,
+              "y": 3.1851817058212273,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 28,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.16,
+          "height": 0.16,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.06,
+          "life": 0.36,
+          "forward": 0.58,
+          "lift": 0.26
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      },
+      {
+        "id": 29,
+        "kind": "PISTOL",
+        "suppressed": false,
+        "pellets": 1,
+        "shot": {
+          "success": true,
+          "ammoBefore": 12,
+          "ammoAfter": 11,
+          "shotEvents": 1,
+          "gasCalls": [
+            {
+              "event": "shot",
+              "kind": 0,
+              "size": 0.07,
+              "life": 0.42,
+              "velocity": [
+                -0.0038416204756087846,
+                0.25,
+                -0.44357242026556165
+              ],
+              "position": {
+                "x": -0.007256394231705481,
+                "y": 1.6729671778922057,
+                "z": 22.162140983942827
+              }
+            }
+          ],
+          "nativeShot": {
+            "type": "shot",
+            "time": 2.4916666666666605,
+            "position": {
+              "x": 0,
+              "y": 1.6600000000000001,
+              "z": 23
+            },
+            "end": {
+              "x": -0.030376953854958564,
+              "y": 3.398956590449378,
+              "z": 11.2
+            },
+            "stoppedBlock": {
+              "x": 0,
+              "y": 4.325,
+              "z": 11,
+              "w": 3.8,
+              "h": 3.35,
+              "d": 0.4,
+              "surface": "steel",
+              "aperture": true,
+              "renderMicroDetail": false
+            },
+            "source": 0,
+            "weapon": 29,
+            "suppressed": false,
+            "loudness": 1,
+            "indoor": false
+          },
+          "pellets": 1
+        },
+        "flash": {
+          "visible": true,
+          "opacity": 1,
+          "width": 0.1,
+          "height": 0.1,
+          "light": 0.9
+        },
+        "gas": {
+          "size": 0.045,
+          "life": 0.26,
+          "forward": 0.36,
+          "lift": 0.2
+        },
+        "finite": true,
+        "bounded": true,
+        "expiry": true
+      }
+    ]
+  },
+  "captures": [
+    {
+      "name": "Kestrel AR",
+      "rendered": true,
+      "time": 0.45000000000000057,
+      "age": 0,
+      "id": 0,
+      "kind": "RIFLE",
+      "ammo": 29,
+      "barrel": 0,
+      "optic": 0,
+      "ads": 0,
+      "menu": false,
+      "paused": false,
+      "scope": false,
+      "cameraFov": 42.38617142258535,
+      "flash": {
+        "visible": true,
+        "opacity": 1,
+        "width": 0.16,
+        "height": 0.16,
+        "rotation": 2.4,
+        "light": 0.9,
+        "draws": 1
+      },
+      "gas": [
+        {
+          "size": 0.07,
+          "life": 0.42,
+          "max": 0.42,
+          "x": 0,
+          "y": 1.6633054070323872,
+          "z": 22.160518214339387,
+          "vx": 0,
+          "vy": 0.25,
+          "vz": -0.44443153358502985
+        }
+      ],
+      "instances": 7,
+      "draws": 227,
+      "triangles": 271746,
+      "renderPasses": 2,
+      "resources": {
+        "textureEstimateBytes": 82779926,
+        "textures": 85,
+        "glTextures": 92,
+        "effectPool": 200,
+        "billboardCapacity": 280,
+        "sceneChildren": 14,
+        "weaponSceneChildren": 5
+      },
+      "feetOnFloor": true,
+      "grounded": true,
+      "collisionFree": true,
+      "loaded": true,
+      "nativeWorldBatches": 255,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "path": "before-rifle-birth-0ms.png",
+      "bytes": 389912,
+      "sha256": "204ecd94053672a6bf698605fc186f6ca4c6507b67fa756ad2787825111d9585"
+    },
+    {
+      "name": "Kestrel AR",
+      "rendered": true,
+      "time": 0.4583333333333339,
+      "age": 0.008333333333333333,
+      "id": 0,
+      "kind": "RIFLE",
+      "ammo": 29,
+      "barrel": 0,
+      "optic": 0,
+      "ads": 0,
+      "menu": false,
+      "paused": false,
+      "scope": false,
+      "cameraFov": 42.38617142258535,
+      "flash": {
+        "visible": true,
+        "opacity": 1,
+        "width": 0.16,
+        "height": 0.16,
+        "rotation": 2.4,
+        "light": 0.9,
+        "draws": 1
+      },
+      "gas": [
+        {
+          "size": 0.07,
+          "life": 0.4116666666666666,
+          "max": 0.42,
+          "x": 0,
+          "y": 1.6653887403657206,
+          "z": 22.15681461822618,
+          "vx": 0,
+          "vy": 0.25,
+          "vz": -0.44443153358502985
+        }
+      ],
+      "instances": 7,
+      "draws": 227,
+      "triangles": 271746,
+      "renderPasses": 2,
+      "resources": {
+        "textureEstimateBytes": 82779926,
+        "textures": 85,
+        "glTextures": 92,
+        "effectPool": 200,
+        "billboardCapacity": 280,
+        "sceneChildren": 14,
+        "weaponSceneChildren": 5
+      },
+      "feetOnFloor": true,
+      "grounded": true,
+      "collisionFree": true,
+      "loaded": true,
+      "nativeWorldBatches": 255,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "path": "before-rifle-peak-8ms.png",
+      "bytes": 389977,
+      "sha256": "f0d47de331b410cc1889715e36697c7b82836c5426ccc6c7faf335d8bc00c305"
+    },
+    {
+      "name": "Kestrel AR",
+      "rendered": true,
+      "time": 0.47500000000000064,
+      "age": 0.025,
+      "id": 0,
+      "kind": "RIFLE",
+      "ammo": 29,
+      "barrel": 0,
+      "optic": 0,
+      "ads": 0,
+      "menu": false,
+      "paused": false,
+      "scope": false,
+      "cameraFov": 42.38617142258535,
+      "flash": {
+        "visible": true,
+        "opacity": 1,
+        "width": 0.16,
+        "height": 0.16,
+        "rotation": 2.4,
+        "light": 0.9,
+        "draws": 1
+      },
+      "gas": [
+        {
+          "size": 0.07,
+          "life": 0.3949999999999999,
+          "max": 0.42,
+          "x": 0,
+          "y": 1.6695554070323875,
+          "z": 22.14940742599976,
+          "vx": 0,
+          "vy": 0.25,
+          "vz": -0.44443153358502985
+        }
+      ],
+      "instances": 7,
+      "draws": 227,
+      "triangles": 271746,
+      "renderPasses": 2,
+      "resources": {
+        "textureEstimateBytes": 82779926,
+        "textures": 85,
+        "glTextures": 92,
+        "effectPool": 200,
+        "billboardCapacity": 280,
+        "sceneChildren": 14,
+        "weaponSceneChildren": 5
+      },
+      "feetOnFloor": true,
+      "grounded": true,
+      "collisionFree": true,
+      "loaded": true,
+      "nativeWorldBatches": 255,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "path": "before-rifle-fade-25ms.png",
+      "bytes": 389710,
+      "sha256": "d3ec7461493285c899d9206f1d1e598950daa3759342bec1ecef4cb13f8d2963"
+    },
+    {
+      "name": "Kestrel AR",
+      "rendered": true,
+      "time": 0.6000000000000003,
+      "age": 0.15,
+      "id": 0,
+      "kind": "RIFLE",
+      "ammo": 29,
+      "barrel": 0,
+      "optic": 0,
+      "ads": 0,
+      "menu": false,
+      "paused": false,
+      "scope": false,
+      "cameraFov": 42.38617142258535,
+      "flash": {
+        "visible": false,
+        "opacity": 1,
+        "width": 0.16,
+        "height": 0.16,
+        "rotation": 2.4,
+        "light": 0,
+        "draws": 0
+      },
+      "gas": [
+        {
+          "size": 0.07,
+          "life": 0.2699999999999995,
+          "max": 0.42,
+          "x": 0,
+          "y": 1.700805407032389,
+          "z": 22.093853484301636,
+          "vx": 0,
+          "vy": 0.25,
+          "vz": -0.44443153358502985
+        }
+      ],
+      "instances": 7,
+      "draws": 226,
+      "triangles": 271744,
+      "renderPasses": 2,
+      "resources": {
+        "textureEstimateBytes": 82779926,
+        "textures": 85,
+        "glTextures": 92,
+        "effectPool": 200,
+        "billboardCapacity": 280,
+        "sceneChildren": 14,
+        "weaponSceneChildren": 5
+      },
+      "feetOnFloor": true,
+      "grounded": true,
+      "collisionFree": true,
+      "loaded": true,
+      "nativeWorldBatches": 255,
+      "nativeWeaponGroups": 3,
+      "nativeHandGroups": 2,
+      "path": "before-rifle-gas-150ms.png",
+      "bytes": 390216,
+      "sha256": "eb593f33fe53aaebcd81f68f251061a6a4be7654e89c919fb3edefb6c49a363c"
+    }
+  ]
+}

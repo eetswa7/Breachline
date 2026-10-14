@@ -1,6 +1,19 @@
 # BREACHLINE
 
-**Latest checkpoint: Release 63.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 67.** 30 weapons, 16 maps and 11 modes.
+
+## Release 67: attachment contacts, firing presentation and world bounds
+
+Fast, extended and drum magazines have original extraction, manipulation and
+seating sounds at their actual reload contacts. Expanding/fading first-person
+flashes and family-sized gas puffs retain the existing sprite, light and effect
+pool. Active world sounds follow listener distance and changing cover. Centred
+world batches reduce the established scene maximum from 223 to 212; shared
+near/far bounds keep simplified native rock silhouettes inside their batches.
+
+See [the integrated evidence and remaining limits](docs/ART_RELEASE67.md) and
+[the updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md). The wider
+professional art/sound standard and physical iPhone acceptance remain open.
 
 ## Release 63: native hero forms and component-aware reloads
 

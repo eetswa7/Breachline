@@ -1,0 +1,363 @@
+{
+  "kind": "native_gameplay_cell_only_world_batch_screenshots",
+  "actual_iphone_data": false,
+  "sourceCommit": "4ab41b6569d6cf7750bb0d3d4708ece42516f9ed",
+  "runtimeSha256": {
+    "actor-pose.js": "128b37f3faf7d9a8d3a19186465526433c62a759d862272f15a45c0566b4ee4a",
+    "ai.js": "c86d5604dbf632392272f37793b4c4b078db5cc9a3658f09599c0f69a7a36413",
+    "aim-assist.js": "a1ae3bdd7bb6116ad067a82edbdc5c10a162f74557fd669be65ffbbbfd8da4b6",
+    "aim.js": "794fe85608c976a03f6bc8027209ca1eb8b1b0a4b4ceabd1cfdd7153e7b035ad",
+    "atmosphere.js": "25d85701dd577177f48a87c961eb83e9c780a3ee31a5b0f1d1cbd2ecee966ba7",
+    "attachment-audio.js": "a2f56b50e003a52aaa7edb8608ce96d31a9b6b78cf3d1839b82d264164aa3312",
+    "attachments.js": "df19007d395200cbf14902a8264ac77008d348529e53fc68d7f87017a640c8aa",
+    "audio-files.js": "847e31757460e0f25f324ae274a036587487b7382e43c6aa7c2fa39398e92414",
+    "audio-library.js": "e5157853945468ebd90d4129e7070c5dc582f276cd58126045dd9ea79f411092",
+    "audio.js": "f27aebab062bde4311f4d350ad142b274dfc44e03dd8d447f05d08dbb0271e2f",
+    "ballistics.js": "83966b51b48e6ca2d06261e04979a80194f049851eb29ca41fee4731681c18bd",
+    "battlegrounds.js": "5b74bfb1fc5bdbea01fb5561ed8d544242904b320214ab9e7b09b5026bf19409",
+    "benchmark-build.js": "57390e0825045674597243e89912e30a08f9e849c39eff6e6419d17b57e84a45",
+    "benchmark-export.js": "d3893d519a0d151154150a23e81d914e53d93adbb95622c2cc72cbde68ecd7c2",
+    "benchmark-methodology.js": "2d3a152a902a039cb89f0562b910f32ef5a263e15109714e47f5010f25e208c2",
+    "benchmark-recorder.js": "b08ebc3d06000a6dfc42b94081aa09efb1e46edb062a6c3fc5c4f67dd1e63bf6",
+    "benchmark-stats.js": "425caf1a971c979b75931a88227c64da600214097b27419a2508de46a1350a74",
+    "benchmark-store.js": "23db27d6c750fecee29af63402ea90cb6832057da37cfeb6f66458029dc7b83e",
+    "benchmark-stress.js": "f1f4539caf0e4cd48ae627d65bf815f9fcceb1d6099833f83de5085b907c432a",
+    "benchmark.js": "6a9b62899cecf3ccf52cb614df2a1d5771e3eaa9efac691309bb99bdebf05b2a",
+    "blender-assets.js": "e6d652680cb3827013bc03cf1cec1da97e7c43a9e43942834f555244601c300a",
+    "blender-files.js": "dc65d6a22befc7cffbd117f402474e55fe27e8bfb7a9f21b8779420dc95e21cd",
+    "blender-kind.js": "250313e4346421f0c95cb248a945952d01791d9b38a4f7d8a2030dc9b18b2536",
+    "blender-material.js": "aa8fef55fe5955f178a30ef86a7675cc1d440eb151cf45b33d624be47acd9667",
+    "blender-world.js": "07ab45b9a5981a2b410308a5f565ddabea5b090c12e10b54a3da2769040d0b71",
+    "boot.js": "c0f07b627b1e790ee3d18451cbade135f72c26ab7713627f016bccae7670b68b",
+    "casing-foley.js": "4de9a89f148e7b88cdc876764d905943d0185a842b51b839de2713ee14211b10",
+    "combat-identity.js": "08deede98eb4b11853abdfab36663b8a9129657c3d957682d2551366974e03db",
+    "compatibility-renderer.js": "8af5c8340430ca3b56c5fdb5309be79103e57f5a291b6e8b21ca832e335a76f5",
+    "decal-system.js": "afacb521b1868ddd3f033f5fefe2f05c16a7b7f5f2299e7ff0d8bdfcf8bdc5e8",
+    "engine.js": "c71c675c783473f4c35180b7e0d62c2d18a32d8558ebb17c2121a818685a9c74",
+    "environment-probes.js": "373beca091cc193d8576f203145b362d7903f41eeb4c051a802bc1397cef0b10",
+    "environmental-fire.js": "45c86ef99e8c4c5e6c4c944e880813ed1993e59d08e60944d0ac31fb9a21b1cf",
+    "explosion-shock.js": "666d2f1e1e50423f98e4e0efaa2028dc860afb4a72141a18679e0c7fa8f1d20b",
+    "firing-presentation.js": "b87ea740aab61b6b433ff745f27adc9873ce748aef1cc08326d50daa471e2d61",
+    "frame-pacer.js": "2ea2d813159e42d1aa357468d408f0d37060167423eeb8ae4fd6f03d5060cb43",
+    "gamepad.js": "d7f5706447f430481aa3e8a317ce4e70f1ed9b11367ece95496df203e825d703",
+    "geometry.js": "032d06116f2d2569b15a111c151bd73695db5e755b0078cf74bcc08da9265422",
+    "glass-damage.js": "9a8f4d4c380613669c671f14f3d08b9ea33097173ea2d10c3d193b7e8f08122a",
+    "glass-panels.js": "e111ebe6aac49bb6fa8ed527ca31f2cbd602c18e8d3e1047e9b500bea75435d3",
+    "graphics-profiler.js": "142a78b39764e244505803ef7ce27e3f0a53cf7a653e9053b671f3cdd3dd5a52",
+    "graphics-quality.js": "5e0bc1667981342565c06a40a8ddc434e1352f011dfac7104dd34b3551f7989a",
+    "input.js": "66d43026ebb368806046eeab92f973d98ba841f03530cca64d992a9eb7860b7e",
+    "lighting-field.js": "094f2b8d53068b0d77325419c3a42493cb9e89163dcc880f5735baec9635e2f3",
+    "main.js": "6d1894e950dc46d5d3517d11ebfd3c208f2b8256b480289c6a7b175838d9afb7",
+    "maps.js": "0f6e7d0a6ddbfce60c26ce77bfda5978522991785a283dff2e0ad16c1f601133",
+    "material-detail.js": "b01b1c63c6ae6c6759ecff382c81e7513e88ef59a65fd48b2ce55b4ef611269a",
+    "math.js": "fbfda73463c46140efcdc2c8ec553230bb4a91c9b271f0b8903f942da1db750a",
+    "meshes.js": "9a0651510ce0263b430a596151e933638182cfcd043b11be3562686b0b150114",
+    "modes.js": "4632190b8e70d73dd541e89811069e6c9fb771e2f81bcecdf81e18cfb89a06c8",
+    "navigation.js": "7e3c180086182a361f9fb477f8971ff84f5b5bade80a302e2d2bc053b0a6607d",
+    "nuketown.js": "4db59524bbf3bf4753b305640add87990304d9b1703a97d6c18c4b716389a573",
+    "objective-banner.js": "2bd30a8b0846a3a84159f8f3945d1c14cc2d84b8bce58246f78ef91699455e33",
+    "operator-detail.js": "f8e7f1d3d3778b9bca467abab0f3bfd24ba34588f8f198e085dc905deb692cf5",
+    "operator-meshes.js": "c1264467a86d02b0354bf0326c06d16f8ba43faada6199049d2b0cac561a513f",
+    "particles.js": "290941107f4179f4838275b10de4c082d01e36dde4fdebfb9c2a58cd4e138dd7",
+    "production-files.js": "13ab38789358a68f7d5b0911f7bdd762303e053b33847bcec30c5a173dd55ace",
+    "production-lighting.js": "7da325769e5db2402c20e4abbbdf15b02755c39f9b5ac34de712a5dcd448c3d9",
+    "production-textures.js": "662629ad622adad899e6ae8ce7160a5e36c94315b1e44dd5c839b58de55cd119",
+    "production-world.js": "17088a39a5e5e7c0dd2f7b2f1044fc4a0ccaac38e89810d744d837da2310af5f",
+    "ray-grid.js": "6d4ddf20baf5c3a64b7bd7ae759ffd73417e339ea33a488ef8fb3b101ccfea48",
+    "render-budget.js": "5c90d7b1af989fda1f7daff4feb0a88cc5944e0756e7fedcd5d731bd1f752ca9",
+    "render-pipeline.js": "561e59a53ab8b5cb321166b7659f52dd0f5607ae9303353b49688dfc01931c90",
+    "room-lights.js": "bd25f80ac035ac2060428f9beb019074ad0a3715d3945d2f58cd430bbaa3d4c1",
+    "save.js": "fa7d900d89519207e1fca748aab62631de2a893bf77891e5b9eb21f88fc440b1",
+    "scene-lod.js": "9f4e7d860cb4f1101d2669d77386d1862a0c40297ff3e93cfbc6dad2c10362f5",
+    "shadow-system.js": "e6ced689953377ae065e566e5b8d8d283fd10febfdf8f6bbf924398bb8cdb6b8",
+    "spatial-audio.js": "bee073e5d364176b917a047eaba0355b8632aca5c9d7e3b1e877816efae468ec",
+    "spawns.js": "208b51d3ecca6564bfa7429a3c7ea3dd3bc4c6c1f319406513fa7ee24047da0e",
+    "surface-placement.js": "1566e699f89c470cf672dcb6165fc374d5f900af0c62c95172db0ee6b12b6143",
+    "surface-uv.js": "850b32697839c8c099c5ec73499e83e3ab64644701d9cbbba4f38eeaf7852add",
+    "textures.js": "aa65955008fb99b4fa2f47ce9f34db4069d87444f46a067772083922a45ba64a",
+    "three-renderer.js": "c020444c83bdbc86357e171c5369073e314ded72f472b90d8c273a338c7d6969",
+    "traversal.js": "94c07d5a88aae447ba153618093d93346f12e266405d80930ab11cec443e33f4",
+    "ui.js": "690591aecce8330fc944d3cb443a127d2e8883ed8670a08687439fc1bf973d80",
+    "water-material.js": "10a20b9d54eb73caeb1a66aba3402b9f9cde07f5b0c1e514816b3c39f89913e1",
+    "weapon-clearance.js": "ad3e755487f4a01a99957fd51bff27268b5a6919cf8bf44f8d04acfd00c5a1ad",
+    "weapon-models.js": "75e092f398acafd835f85f1764b27addea6f78b7d4273c65b6c4f8c2224c778e",
+    "weapon-surface.js": "bcb81478e51cd667784ac496c177609cbe06eb31990e3907c3ed17c054d6b5ed",
+    "weapons.js": "331c635d0168f8e2a1c7c04f3c88470c182884685a79f433f1529fbdd3c7bcab",
+    "world-acoustics.js": "abee6cf3a79d87db5f9083bee9e2a1d8651416f56da1b20c89361e4610238171",
+    "world-detail.js": "c9947c542a1800a79d057d64581a9cee4924bf9de0fc9080fab1ca74374d715f",
+    "world-material-variation.js": "63cb747c8ab26e1e2f6839d55bb96fa93bc195cee671a2b0ac88c6b0951c8105"
+  },
+  "snapshots": {
+    "original": {
+      "rendererSha256": "65c378bcdc85438a69e123a8a226a536eafe607b505bb528ce60324662a0588b",
+      "cellFormula": "`${Math.floor(p.x / cell)}/${Math.floor(p.z / cell)}`"
+    },
+    "centred": {
+      "rendererSha256": "c020444c83bdbc86357e171c5369073e314ded72f472b90d8c273a338c7d6969",
+      "cellFormula": "`${Math.floor((p.x + cell*.5) / cell)}/${Math.floor((p.z + cell*.5) / cell)}`"
+    }
+  },
+  "viewport": {
+    "width": 844,
+    "height": 390,
+    "deviceScaleFactor": 1
+  },
+  "images": [
+    {
+      "name": "map-0-spawn",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-0-spawn-original.png",
+      "bytes": 473631,
+      "sha256": "ac7720cfa13ac036eaa1283f074149877a0c297e6f11172b2775a7c2b2491e41"
+    },
+    {
+      "name": "map-7-spawn",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-7-spawn-original.png",
+      "bytes": 422451,
+      "sha256": "03521ddafa6ccef4b045144adc0c4490d97d87e7615e49462f3dfab8fbfd00aa"
+    },
+    {
+      "name": "map-11-spawn",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-11-spawn-original.png",
+      "bytes": 450004,
+      "sha256": "9e80707ac49400c6e52ee2a95295e83bbc472ae50f07a578ea19f44db80f97a9"
+    },
+    {
+      "name": "map-14-spawn",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-14-spawn-original.png",
+      "bytes": 456953,
+      "sha256": "941daf594f7489c3fc9de3bc7844529c23e6e33268bbb201a7d8ca3c5c79b9a4"
+    },
+    {
+      "name": "map-14-spawn",
+      "side": "original",
+      "fullDetail": true,
+      "path": "map-14-spawn-full-original.png",
+      "bytes": 457165,
+      "sha256": "80e8145d904f089725f4e0d4ce38d9b92278d9b96c9d10566ab4975a474ebcf6"
+    },
+    {
+      "name": "map-14-centre",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-14-centre-original.png",
+      "bytes": 406492,
+      "sha256": "c68e90d1c2b2e9cdae21c0ccacb7c7073877b23b12c2a2008f604ab0d0b3cc2c"
+    },
+    {
+      "name": "map-14-centre",
+      "side": "original",
+      "fullDetail": true,
+      "path": "map-14-centre-full-original.png",
+      "bytes": 406454,
+      "sha256": "3b2055e62a040e60232bddfc161b1ebb18244245e93f79d0ad67aac3863863fc"
+    },
+    {
+      "name": "map-14-approach",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-14-approach-original.png",
+      "bytes": 411436,
+      "sha256": "6a6d13a871547fa2d19158a8f01417bc8eee3494485cb22e2bb991d3a04e8a9d"
+    },
+    {
+      "name": "map-14-approach",
+      "side": "original",
+      "fullDetail": true,
+      "path": "map-14-approach-full-original.png",
+      "bytes": 411623,
+      "sha256": "17b72bf815d4fdc91a36dab0a90d0757e24a8ab74e3a9c3fc0fde7b1eefbc49e"
+    },
+    {
+      "name": "blacksite-interior",
+      "side": "original",
+      "fullDetail": false,
+      "path": "blacksite-interior-original.png",
+      "bytes": 342793,
+      "sha256": "6c89b5338a0a3a18e808259f38c33d4a47a85c3d3b24c448a475a8f4453a0a98"
+    },
+    {
+      "name": "blacksite-interior",
+      "side": "original",
+      "fullDetail": true,
+      "path": "blacksite-interior-full-original.png",
+      "bytes": 342689,
+      "sha256": "c09aef485826421d2a5bdee5daeafd9a211d22984bbd1f84054c7e55d2739c7b"
+    },
+    {
+      "name": "map-15-spawn",
+      "side": "original",
+      "fullDetail": false,
+      "path": "map-15-spawn-original.png",
+      "bytes": 478223,
+      "sha256": "c87e4b37f98c53e353508d014333894c090e0229cf0c5e41b1bf7881a5b792a5"
+    },
+    {
+      "name": "blacksite-positive-cell-edge",
+      "side": "original",
+      "fullDetail": false,
+      "path": "blacksite-positive-cell-edge-original.png",
+      "bytes": 456532,
+      "sha256": "609c334b179c89f4527412726b6382af181091e3dc8a7fcbeedbbd9f5a3d4d0a"
+    },
+    {
+      "name": "blacksite-positive-cell-return",
+      "side": "original",
+      "fullDetail": false,
+      "path": "blacksite-positive-cell-return-original.png",
+      "bytes": 453398,
+      "sha256": "895a3bc7d1ac117f35729bb2662c792cee648a83eec4a4d69e51c81a030fd500"
+    },
+    {
+      "name": "blacksite-negative-cell-edge",
+      "side": "original",
+      "fullDetail": false,
+      "path": "blacksite-negative-cell-edge-original.png",
+      "bytes": 493010,
+      "sha256": "e33d78e1131acea8269cbb0e605095d2594c512cf296793d8fab2c95b600a6b9"
+    },
+    {
+      "name": "blacksite-negative-cell-return",
+      "side": "original",
+      "fullDetail": false,
+      "path": "blacksite-negative-cell-return-original.png",
+      "bytes": 489555,
+      "sha256": "ef568bb8f0a0a6adf75bd54b22363d0299a81c3ca750db67bc7ef0e40ac45868"
+    },
+    {
+      "name": "map-0-spawn",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-0-spawn-centred.png",
+      "bytes": 473631,
+      "sha256": "ac7720cfa13ac036eaa1283f074149877a0c297e6f11172b2775a7c2b2491e41"
+    },
+    {
+      "name": "map-7-spawn",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-7-spawn-centred.png",
+      "bytes": 422478,
+      "sha256": "b94b50ec160ef328d7384c95efe9841a006e15905a963db9341f6f40e4686b68"
+    },
+    {
+      "name": "map-11-spawn",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-11-spawn-centred.png",
+      "bytes": 450002,
+      "sha256": "1950094158a2fe1fa8a3aed2d7b722a5492282f6299d315dab56d1a7b2d19af7"
+    },
+    {
+      "name": "map-14-spawn",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-14-spawn-centred.png",
+      "bytes": 456974,
+      "sha256": "a6121f48fc7b27b9291ced2628186a238c350b23321097dcef8ba0d11b4dd112"
+    },
+    {
+      "name": "map-14-spawn",
+      "side": "centred",
+      "fullDetail": true,
+      "path": "map-14-spawn-full-centred.png",
+      "bytes": 457181,
+      "sha256": "3816c7f96fa7b087cb749699aa64418c3ba68d9311e984e2f48848230aa72487"
+    },
+    {
+      "name": "map-14-centre",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-14-centre-centred.png",
+      "bytes": 406492,
+      "sha256": "c68e90d1c2b2e9cdae21c0ccacb7c7073877b23b12c2a2008f604ab0d0b3cc2c"
+    },
+    {
+      "name": "map-14-centre",
+      "side": "centred",
+      "fullDetail": true,
+      "path": "map-14-centre-full-centred.png",
+      "bytes": 406454,
+      "sha256": "3b2055e62a040e60232bddfc161b1ebb18244245e93f79d0ad67aac3863863fc"
+    },
+    {
+      "name": "map-14-approach",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-14-approach-centred.png",
+      "bytes": 411437,
+      "sha256": "9d5558f1b100de6e2517a386ef013ddacd5f4eb778290434c2afa2dfcc44a39a"
+    },
+    {
+      "name": "map-14-approach",
+      "side": "centred",
+      "fullDetail": true,
+      "path": "map-14-approach-full-centred.png",
+      "bytes": 411698,
+      "sha256": "84a1049d5670b3f00de904ca806796db210a874d8ffd847c26036446d0dc6d5b"
+    },
+    {
+      "name": "blacksite-interior",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "blacksite-interior-centred.png",
+      "bytes": 342803,
+      "sha256": "8f40741ecfa9883ca40dc0b03210dd1ee35545837211c4c5c2349b0355594c33"
+    },
+    {
+      "name": "blacksite-interior",
+      "side": "centred",
+      "fullDetail": true,
+      "path": "blacksite-interior-full-centred.png",
+      "bytes": 342698,
+      "sha256": "73436f716f5bee5ed53392db010ca52bbb8a5083448ee96592e90bd27cab7eb0"
+    },
+    {
+      "name": "map-15-spawn",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "map-15-spawn-centred.png",
+      "bytes": 478243,
+      "sha256": "eaf072e0777793c18dad8e8e51e7aa79a5a3cc808888ffe143b7aad08f30b9f2"
+    },
+    {
+      "name": "blacksite-positive-cell-edge",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "blacksite-positive-cell-edge-centred.png",
+      "bytes": 456527,
+      "sha256": "bcfb47d9eb0f31454723d3e584ecda365e1e204c7458d3523ad47aff41c45e92"
+    },
+    {
+      "name": "blacksite-positive-cell-return",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "blacksite-positive-cell-return-centred.png",
+      "bytes": 453405,
+      "sha256": "78094c28f5b95f03ee7c33b4817c55d771b376b048c60068b9a18ca8ed5e9bef"
+    },
+    {
+      "name": "blacksite-negative-cell-edge",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "blacksite-negative-cell-edge-centred.png",
+      "bytes": 493018,
+      "sha256": "c52ddacbc0ffa34c52006e34f27350703a538262445e819a5084fdeffc8ecf6c"
+    },
+    {
+      "name": "blacksite-negative-cell-return",
+      "side": "centred",
+      "fullDetail": false,
+      "path": "blacksite-negative-cell-return-centred.png",
+      "bytes": 489563,
+      "sha256": "b7d639921fbf222e89b7621bed4ca6ab0f6eaacc908f92fdb89e86575b5b6fd0"
+    }
+  ]
+}

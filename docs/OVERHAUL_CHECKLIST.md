@@ -27,6 +27,27 @@ physical iPhone performance remain unfinished or unverified.
 - Optional renderer choices such as WebGPU or engine migration are not mandatory.
   Record the decision and evidence rather than adopting them to fill a checkbox.
 
+## Release 67 continuation tasks
+
+Scoped task progress for 14 October 2026:
+
+- [x] Finish the pending centred-cell native review across all sixteen maps;
+  [49 gameplay views and matched images](WORLD_BATCHES67.md).
+- [x] Correct native near/far bounds and validate transforms, LOD switches,
+  destruction and nine pixel-exact native comparisons. Source `1e9ae1d`;
+  [bounds evidence](WORLD_BATCHES67.md).
+- [x] Produce original fast/extended/drum magazine contacts and validate actual
+  reload timelines, cancellation, bank preservation and native 44.1/48 kHz
+  memory limits. Source `23fedbc`; [audio evidence](ATTACHMENT_AUDIO67.md).
+- [x] Implement and review bounded first-person flash/gas timing, all thirty
+  weapons and preservation gates. Source `23fedbc`;
+  [eighteen gameplay images and remaining limits](FIRING67.md).
+- [x] Verify Release 67 offline boot, actual manual JSON download, saved reports,
+  touch/keyboard inspection and stress cancellation; record the final 417-test,
+  58-shader and 87-module gates. [Aggregate validation](validation-release67.json)
+  and [application browser evidence](validation-release67-benchmark-browser.json)
+  accompany the final evidence checkpoint.
+
 ## Baseline evidence
 
 - [Release 60 production notes and rendered comparisons](ART_RELEASE60.md)
@@ -241,8 +262,10 @@ as documented in the baseline JSON and validation report.
   family-specific first-person flashes and gas puffs, retaining the single
   existing sprite/light and one pooled gas emission per shot. Suppressed flame,
   aiming, ammunition and gameplay casing emission remain authoritative. Native
-  frame review is pending; the existing coarse emitter placement and overall
-  professional effect quality remain unfinished. Updated 2026-10-14.
+  frame review finds modest tip-light and gas changes across five families;
+  coarse emitter placement and overall professional effect quality remain
+  unfinished. Updated 2026-10-14 at `23fedbc`;
+  [eighteen native images and preservation gates](FIRING67.md).
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
   components. First-person component-following hand groups now share coherent
   native/fallback pivots and empty-only action targets. Finger grasp and real
@@ -297,8 +320,12 @@ as documented in the baseline JSON and validation report.
 
 - [ ] **Partial:** Professional mobile FPS effect quality. Presentation improved;
   that quality standard was not established.
-- [ ] **Partial:** Muzzle flashes and smoke. Smoke rendering improved; much of
-  the existing firing system remains.
+- [ ] **Partial:** Muzzle flashes and smoke. First-person flashes now expand and
+  fade within existing area/light/lifetime bounds; family-sized gas follows
+  firing pitch and retains one pooled muzzle emission per shot. Native review
+  finds modest visible gains. The authored atlas, approximate gas origin and
+  third-person firing system remain; professional quality stays unfinished.
+  Updated 2026-10-14 at `23fedbc`; [native frames and limits](FIRING67.md).
 - [ ] **Partial:** Bullet impacts and surface-specific debris. Material treatment
   improved; complete professional impact production was not achieved.
 - [ ] **Partial:** Dust, sparks and particles. Shapes, rotation and shading
@@ -417,11 +444,17 @@ These are Release 57 measurements, not measurements of Release 60.
 - [x] **Complete:** Efficient instancing/batching. Implemented/preserved.
   Centred spatial cells restore the existing world-batch budget: the isolated
   sixteen-map/49-view maximum decreases from 223 to 212 without new resources.
-  Updated 2026-10-14; [source comparison and pending native review](WORLD_BATCHES67.md).
+  All sixteen maps and 49 legal native gameplay views passed the budget and
+  appearance/resource gates. Native near/far bounds now conservatively enclose
+  both silhouettes, including LOD swaps and destruction; nine targeted images
+  are pixel-exact. Updated 2026-10-14 at `1e9ae1d`;
+  [source/native comparisons and small culling cost](WORLD_BATCHES67.md).
 - [x] **Complete:** Baked lighting. Sixteen ground-lighting bakes.
 - [x] **Complete:** Efficient texture compression. ASTC/fallback formats included.
 - [ ] **Partial:** Occlusion/frustum culling. Frustum/spatial culling exists;
-  comprehensive render occlusion culling was not implemented.
+  Release 67 corrects native near/far conservative bounds. Comprehensive render
+  occlusion culling was not implemented. Updated 2026-10-14 at `1e9ae1d`;
+  [real-asset and native bounds evidence](WORLD_BATCHES67.md).
 - [x] **Complete:** Geometry simplification where appropriate. Native near/far
   meshes and separate body/equipment detail policies.
 - [ ] **Partial:** Reduced shader overdraw. Bounded effects/restrained passes
@@ -517,7 +550,7 @@ These are Release 57 measurements, not measurements of Release 60.
   covers retain their weapon cues. Eighteen new takes preserve the original
   428 recordings and the decoded-bank budget at both 44.1 and 48 kHz. Fixed
   attachment fitting, unsupported pistol attachment geometry and premium
-  subjective realism remain unfinished/unverified. Updated 2026-10-14;
+  subjective realism remain unfinished/unverified. Updated 2026-10-14 at `23fedbc`;
   [native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
@@ -564,10 +597,13 @@ These are Release 57 measurements, not measurements of Release 60.
   progression and controls. Preserved with regression coverage.
 - [ ] **Unverified:** Maintain Safari compatibility on iPhone 16 Pro.
   Compatibility designed for; no physical Release 60 verification.
-- [x] **Complete:** Preserve offline functionality. Browser-tested offline boot
-  and assets.
-- [x] **Complete:** Preserve Benchmark Mode, reporting and JSON export. Final
-  lifecycle/export checks passed.
+- [x] **Complete:** Preserve offline functionality. Release 67 browser-tested
+  offline boot and actual JSON download pass. Updated 2026-10-14;
+  [application evidence](validation-release67-benchmark-browser.json).
+- [x] **Complete:** Preserve Benchmark Mode, reporting and JSON export. Release
+  67 normal recording, saved/reloaded reports, actual manual JSON downloads,
+  offline export and cancelled stress restoration pass. Updated 2026-10-14;
+  [application evidence](validation-release67-benchmark-browser.json).
 - [x] **Complete:** No unnecessary external accounts/hosting dependencies.
   No new runtime account/CDN dependencies.
 - [x] **Complete:** Keep Blender source editable. Native source, reconstruction
@@ -578,9 +614,11 @@ These are Release 57 measurements, not measurements of Release 60.
   assets; commercial-game assets were not imported.
 - [x] **Complete:** Maintain a recoverable Release 57 baseline. Recovery branch
   preserved.
-- [ ] **Partial:** Comprehensive regression/visual validation. 313 regressions
-  and broad image review completed; exhaustive map/animation/temporal visual
-  acceptance was not.
+- [ ] **Partial:** Comprehensive regression/visual validation. Release 67 passes
+  all 417 regressions, source/offline packaging and 58 shader variants, with
+  native all-map batching/bounds and temporal firing review. Exhaustive
+  map/animation/temporal professional acceptance remains unfinished. Updated
+  2026-10-14; [integrated evidence](ART_RELEASE67.md).
 - [x] **Complete:** Commit/push frequent checkpoints.
 - [x] **Complete:** Do not stop at planning, mock-ups or unimplemented
   recommendations. Actual implementation was committed, pushed and deployed.
@@ -608,6 +646,7 @@ These are Release 57 measurements, not measurements of Release 60.
   unverified.
 
 ## Update log
+
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
 | 2026-10-14 | Implemented moving-listener world-tail gain/filter/cover updates, separate reload edge envelopes and bounded cover refresh. Fixed a filter reopening artifact found by native PCM review. All 33 focused audio/event regressions and five native movement/cover/listening fixtures pass; broader spatial/premium audio and physical Safari requirements remain partial or unverified. | [Moving acoustics evidence](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
@@ -619,11 +658,9 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-12 | Rebuilt native receiver/stock/glove forms and first-person component-aware reload choreography. Reviewed 26 motion and 36 reload frames, including exact baseline comparisons. Corrected offline caching for the larger library; retained all thirty rigs, attachments and 40-player rosters. Updated the relevant partial explanations without claiming professional realism, anatomical grasp or physical-device performance. | `c51316ca2f4c07bf2a81f5c53ee5aced70b1322f`, `2884259ef473b2e7e0a635002982cb2329d34a98`, `325fd9e57182485a2ee8e4be725ccc483f454db3`; [Release 63 evidence and costs](ART_RELEASE63.md). |
 | 2026-10-13 | Completed the optional WebGPU consideration with an explicit source-based backend decision and future acceptance criteria. Retained the validated renderer; no WebGPU implementation or physical performance gain is claimed. | [WebGPU decision](WEBGPU_DECISION64.md); runtime/effect checkpoint follows. |
 | 2026-10-13 | Finished native review of Release 64 shock/fire/glass and component reload foley. Repaired unreachable inset facade glass with authoritative-owner contacts, then added bounded HRTF elevation/front-back audio, centred local cues and cached foley-onset trimming for Release 65. Updated partial explanations with actual gameplay images, native PCM/cleanup evidence and listening reels. No professional art, premium subjective audio or physical iPhone requirement newly completed. | Shader checkpoint `e3c3f6e`; native glass repair `1314646`; [integrated Release 65 evidence](ART_RELEASE65.md), [spatial audio](SPATIAL_AUDIO65.md), [final validation](validation-release65.json). |
-
 | 2026-10-13 | Completed bounded casing-audio coverage with original polymer-hull families and actual retained revolver case extraction/landings. Reduced correlated ground/masonry texture motifs while keeping broader art requirements partial. Native case/hull timelines, 44.1/48 kHz bank bounds, matched Blacksite material images, 35 focused checkpoint regressions, 58 shader variants and the isolated 84-module offline source check passed. | `a3eb9db`; [casing evidence](CASING_AUDIO66.md), [material evidence and remaining costs](WORLD_MATERIALS66.md). |
-
 | 2026-10-13 | Advanced smoke-grenade expansion, rolling cloud motion and density; reviewed fourteen actual native temporal/lifecycle gates and matched outdoor/inside frames. Existing AI visibility, capacity, expiry, collision, draw/pool/texture counts remain. Professional smoke quality stays partial; 29 focused root regressions and the isolated 84-module offline source check passed. | `1f1a87f`; [smoke gameplay evidence and costs](SMOKE66.md). |
-
 | 2026-10-14 | Recorded the pushed moving-listener acoustics implementation and its native playback, five PCM fixtures, listening reel and source/ray/voice bounds. Rechecked all 33 focused acoustics/spatial/production/ballistic regressions. Updated the two relevant partial requirements with the implementation commit; premium audio, enclosure modelling and physical iPhone acceptance remain open. | `0ec0b66c8fd33d0731564b02a8098b5f639bc4ed`; [moving acoustics evidence and remaining limits](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
-
-| 2026-10-14 | Added original fast/extended/drum magazine contacts at existing reload crossings, preserving all original recordings, phase/ammunition contracts, voice limits and the decoded-bank budget at 44.1/48 kHz. Added bounded family-specific first-person flash/gas samples and shared Canvas flash gating; native frame review remains pending. Updated the relevant partial explanations. Release 67 packages both new modules for offline installation. | [Attachment contacts, native playback and listening evidence](ATTACHMENT_AUDIO67.md); implementation checkpoint follows. |
+| 2026-10-14 | Added original fast/extended/drum magazine contacts at existing reload crossings, preserving all original recordings, phase/ammunition contracts, voice limits and the decoded-bank budget at 44.1/48 kHz. Added bounded family-specific first-person flash/gas samples and shared Canvas flash gating; later native review finds modest visible gains. Updated the relevant partial explanations. Release 67 packages both new modules for offline installation. | `23fedbc5f5019fc3d6125d56ccabdb9329aa93cf`; [attachment contacts, native playback and listening evidence](ATTACHMENT_AUDIO67.md), [firing review](FIRING67.md). |
+| 2026-10-14 | Finished the pending cell-only native comparison across all sixteen maps and 49 legal gameplay views. Corrected a discovered near/far bound omission without new resources; all 112 asset pairs and three focused regressions pass, while nine targeted native images remain pixel-exact. Completed eighteen firing-image and all-thirty-weapon temporal/preservation gates, including an actual Gun Game promotion regression. All 417 final regressions and the 87-module source check pass; broader art/audio/device requirements stay open. | Cell source `3d36f64`; bounds correction `1e9ae1d471ab8671b48821c49e1cd7d9b6897303`; [world evidence and costs](WORLD_BATCHES67.md), [firing evidence and modest visual gains](FIRING67.md), [Release 67](ART_RELEASE67.md). |
+| 2026-10-14 | Finished Release 67 aggregate acceptance: all 417 final regressions, 87-module packaged/offline checks, 58 byte-identical shader inputs/compiles, 68 image hashes and 16 real application lifecycle gates pass. Verified offline boot, actual JSON downloads, saved reports, keyboard/touch inspection and stress cancellation. Checked off the five scoped continuation tasks while retaining broader partial/unverified art, audio and physical-device requirements. | Pushed runtime `1e9ae1d` and provenance `5a7d7c6`; [aggregate validation](validation-release67.json), [application evidence](validation-release67-benchmark-browser.json), [Release 67 notes](ART_RELEASE67.md). |

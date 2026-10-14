@@ -1,0 +1,45 @@
+{
+  "kind": "desktop_browser_validation",
+  "actual_iphone_data": false,
+  "build": {
+    "release": "67",
+    "commit": "1e9ae1d471ab8671b48821c49e1cd7d9b6897303",
+    "source_commit": "1e9ae1d471ab8671b48821c49e1cd7d9b6897303",
+    "content_sha256": "f2ea60bcc7c6c6de7cd03aefcd70d329774e85137078f4f05fd61ca3f314f1d5",
+    "commit_resolution": "source_commit"
+  },
+  "browser": "154.0.8037.57",
+  "renderer": "software WebGL / SwiftShader",
+  "viewport": {
+    "width": 874,
+    "height": 402,
+    "dpr": 3
+  },
+  "gamepad_hardware_backend_disabled": true,
+  "inspection_application_observation": true,
+  "checks": [
+    "release_67_boot",
+    "legacy_measurements_preserved_obsolete_setup_removed",
+    "local_controls_without_account_setup",
+    "keyboard_inspection_through_application_frame",
+    "jump_cancels_live_inspection",
+    "held_swap_inspects_without_switch_through_real_touch_input",
+    "live_fire_cancels_inspection",
+    "normal_gameplay_recording_watermark",
+    "final_json_valid_actual_browser_frames",
+    "saved_session_selected_for_export",
+    "actual_json_download_preserves_saved_copy",
+    "saved_reports_survive_reload",
+    "offline_boot_and_json_download",
+    "scripted_test_isolated_cancelled_and_restored",
+    "removal_requires_confirmation",
+    "no_page_errors_or_report_network_requests"
+  ],
+  "errors": [],
+  "external_request_count": 0,
+  "write_request_count": 0,
+  "normal_session_frame_count": 39,
+  "steady_frame_count": 34,
+  "normal_report_bytes": 53982,
+  "json_download_verified": true
+}
