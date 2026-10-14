@@ -54,12 +54,26 @@ export function parseBlenderGLB(buffer){
  return geometries;
 }
 
+// Authored LOD silhouettes are not guaranteed to nest: a simplified rock can
+// protrude beyond its near mesh. Reuse the two geometries' existing CPU bounds
+// so initial batches, paired LOD clones, swaps and destruction recomputation
+// all enclose either mesh without allocating another renderer resource.
+export function unionBlenderLODBounds(geometries){
+ for(const [name,near] of geometries){
+  if(!name.endsWith('__near'))continue;
+  const far=geometries.get(name.slice(0,-6)+'__far');if(!far)continue;
+  for(const geometry of [near,far]){if(!geometry.boundingBox)geometry.computeBoundingBox();if(!geometry.boundingSphere)geometry.computeBoundingSphere();}
+  near.boundingBox.union(far.boundingBox);far.boundingBox.copy(near.boundingBox);
+  near.boundingSphere.union(far.boundingSphere);far.boundingSphere.copy(near.boundingSphere);
+ }
+}
 
 export class BlenderAssets {
  constructor(geometries,manifest){
   if(manifest?.schema!==1||manifest.units!=='metres'||Object.keys(manifest.weapons??{}).length!==30)throw Error('Invalid Blender manifest');
   this.geometries=geometries;this.manifest=manifest;this.lodClock=0;
   for(const key of Object.keys(manifest.meshes))if(!geometries.has(key))throw Error(`Missing Blender mesh ${key}`);
+  unionBlenderLODBounds(geometries);
  }
  geometry(p,category,far=false){
   const name=blenderKind(p,category);if(!name)return null;
