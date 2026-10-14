@@ -37,16 +37,23 @@ audit; the original thirteen-section quality requirements remain below.
   interior baseline images; preserve source `df2e14e` for matched comparisons.
 - [x] Replace the central hall wall presentation with original editable native
   exterior/interior models while retaining all real doorway and window holes.
-  Both LODs pass all opening-ray and capsule-route checks;
+  Both LODs pass full aperture-volume and capsule-route checks;
   [native source](validation-blacksite68-native.json) is reopened and verified.
 - [x] Replace the simplified hall ceiling with a coherent structural assembly;
   rebuild Blacksite lighting and retain other maps' assets and presentation.
   All 362 existing native meshes, sixty material containers and fifteen other
   lighting maps remain exact; [asset evidence](validation-blacksite68-preservation.json).
-- [ ] Review matched native exterior/interior and low-quality/LOD gameplay
+- [x] Review matched native exterior/interior and low-quality/LOD gameplay
   images; verify preserved openings, routes, destruction and rendering budgets.
-- [ ] Run aggregate regressions, packaged/offline and application lifecycle
+  Thirteen matched views/26 images and all native comparison gates pass;
+  [actual images, low-quality cost exception and repeat limits](ART_RELEASE68.md).
+- [x] Run aggregate regressions, packaged/offline and application lifecycle
   checks, update evidence and release provenance, and push usable checkpoints.
+  All 421 regressions, four tightened focused checks, 87 modules, 58 shader
+  variants and sixteen real application gates pass. Runtime `b9c3fa8`, provenance
+  `55fe955` and application checkpoint `8567190` are pushed;
+  [aggregate evidence](validation-release68.json). Sites publication remains
+  blocked by the missing bundled source workflow helper.
 
 ## Release 67 continuation tasks
 
@@ -120,12 +127,20 @@ as documented in the baseline JSON and validation report.
 ### Buildings and architecture
 
 - [ ] **Partial:** Realistic architecture, detailed facades, interiors and
-  structure. Native assets improved; interiors and architecture remain simplified.
+  structure. Release 68 replaces Blacksite's repeated hall-wall kit and dark
+  ceiling with complete thick native walls, interior paint hierarchy, columns,
+  ledgers, soffit and I beams. Other interiors and broader architectural realism
+  remain simplified. Updated 2026-10-14 at `b9c3fa8`;
+  [gameplay review, preservation and costs](ART_RELEASE68.md).
 - [ ] **Partial:** Proper windows, doorframes, roofs, balconies, stairs, concrete
   edges and wall thickness. Apertures, reveals, frames and structural depth
   improved; the complete library was not brought to professional detail.
 - [ ] **Partial:** Detailed architectural materials and convincing wear. New
-  materials/weathering exist, but repetition and limited detail remain visible.
+  materials/weathering exist. Release 68 replaces repeated lower-hall concrete
+  motifs with broad backed panel joints and calibrated paint finishes, retaining
+  existing PBR wear. Regular surfaces, limited detail and library-wide realism
+  remain open. Updated 2026-10-14 at `b9c3fa8`;
+  [native Blacksite comparisons and limits](ART_RELEASE68.md).
 - [ ] **Partial:** Realistic damage, exposed reinforcement, cracks, chipped
   plaster and debris. Some damaged concrete, reinforcement and rubble were
   modelled; comprehensive damaged environments were not completed.
@@ -133,9 +148,11 @@ as documented in the baseline JSON and validation report.
   These identities are present, but the requested realism was not achieved.
 - [ ] **Partial:** Better silhouettes, scale, density and composition. Blacksite
   now has a purpose-built gabled industrial hall and broad metal wall hierarchy,
-  reviewed from close and wider gameplay cameras. Other environments remain
-  sparse and block-based. Updated 2026-10-12 at `20b9875`;
-  [matched Blacksite images and costs](BLACKSITE61.md).
+  with Release 68 adding coherent complete lower walls and interior structure.
+  Actual close/wider gameplay views are reviewed; other environments remain
+  sparse and block-based. Updated 2026-10-14 at `b9c3fa8`;
+  [Release 68 images and costs](ART_RELEASE68.md) and
+  [original gable/ground work](BLACKSITE61.md).
 
 ### Ground and terrain
 
@@ -618,13 +635,13 @@ These are Release 57 measurements, not measurements of Release 60.
   progression and controls. Preserved with regression coverage.
 - [ ] **Unverified:** Maintain Safari compatibility on iPhone 16 Pro.
   Compatibility designed for; no physical Release 60 verification.
-- [x] **Complete:** Preserve offline functionality. Release 67 browser-tested
-  offline boot and actual JSON download pass. Updated 2026-10-14;
-  [application evidence](validation-release67-benchmark-browser.json).
+- [x] **Complete:** Preserve offline functionality. Release 68 browser-tested
+  offline boot and actual JSON download pass. Updated 2026-10-14 at `b9c3fa8`;
+  [application evidence](validation-release68-benchmark-browser.json).
 - [x] **Complete:** Preserve Benchmark Mode, reporting and JSON export. Release
-  67 normal recording, saved/reloaded reports, actual manual JSON downloads,
-  offline export and cancelled stress restoration pass. Updated 2026-10-14;
-  [application evidence](validation-release67-benchmark-browser.json).
+  68 normal recording, saved/reloaded reports, actual manual JSON downloads,
+  offline export and cancelled stress restoration pass. Updated 2026-10-14
+  at `b9c3fa8`; [application evidence](validation-release68-benchmark-browser.json).
 - [x] **Complete:** No unnecessary external accounts/hosting dependencies.
   No new runtime account/CDN dependencies.
 - [x] **Complete:** Keep Blender source editable. Native source, reconstruction
@@ -635,11 +652,12 @@ These are Release 57 measurements, not measurements of Release 60.
   assets; commercial-game assets were not imported.
 - [x] **Complete:** Maintain a recoverable Release 57 baseline. Recovery branch
   preserved.
-- [ ] **Partial:** Comprehensive regression/visual validation. Release 67 passes
-  all 417 regressions, source/offline packaging and 58 shader variants, with
-  native all-map batching/bounds and temporal firing review. Exhaustive
+- [ ] **Partial:** Comprehensive regression/visual validation. Release 68 passes
+  all 421 regressions, source/offline packaging, 58 shader variants and thirteen
+  matched native Blacksite views, retaining Release 67 all-map batching/bounds
+  and temporal firing evidence. Exhaustive
   map/animation/temporal professional acceptance remains unfinished. Updated
-  2026-10-14; [integrated evidence](ART_RELEASE67.md).
+  2026-10-14 at `b9c3fa8`; [integrated evidence](ART_RELEASE68.md).
 - [x] **Complete:** Commit/push frequent checkpoints.
 - [x] **Complete:** Do not stop at planning, mock-ups or unimplemented
   recommendations. Actual implementation was committed, pushed and deployed.
@@ -670,6 +688,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-14 | Completed five scoped Release 68 continuation tasks: replaced Blacksite's 36 repeated hall-wall proxies and roof/overhead kit with complete original native walls and a structural soffit; rebaked Blacksite GI. All 362 existing meshes, sixty material containers and fifteen other lighting maps remain exact. Reviewed thirteen matched views/26 images, including low quality and all hall far geometry; recorded the low-quality forecourt's +3.96% selected triangle exception and tiny repeat weapon-light variation. All 421 regressions, four tightened focused tests, 87 modules, 58 shaders and sixteen application/offline/export gates pass. Updated three architectural partial explanations; broader realism, audio and physical-device requirements remain open. Sites publication is blocked by the missing bundled helper. | Runtime `b9c3fa8d9b51c10e805e3fc747bd8d775145bca1`, provenance `55fe955`, application `8567190`; [native images, costs and limits](ART_RELEASE68.md), [aggregate validation](validation-release68.json). |
 | 2026-10-14 | Implemented moving-listener world-tail gain/filter/cover updates, separate reload edge envelopes and bounded cover refresh. Fixed a filter reopening artifact found by native PCM review. All 33 focused audio/event regressions and five native movement/cover/listening fixtures pass; broader spatial/premium audio and physical Safari requirements remain partial or unverified. | [Moving acoustics evidence](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
 | 2026-10-14 | Rechecked the 397-test source baseline and restored its failing Blacksite world-batch budget with centred spatial cells. All sixteen maps and 49 scene fixtures stay within the existing 220-batch cap. Native visual integration and new production work follow; no broader art requirement newly completed. | [Batch evidence and limits](WORLD_BATCHES67.md). |
 | 2026-10-11 | Recorded the complete thirteen-section user-requested audit as an editable checklist. No production requirements newly completed. | Release 60 audit baseline: `449256114f827a0f2993bf94588c66c617a14e00`; evidence linked above. |

@@ -1,0 +1,200 @@
+{
+  "kind": "release68_actual_gameplay_visual_review",
+  "actual_iphone_data": false,
+  "professional_quality_accepted": false,
+  "runtimeSource": "b9c3fa8d9b51c10e805e3fc747bd8d775145bca1",
+  "matchedViews": [
+    "approach",
+    "interior",
+    "oblique",
+    "forecourt",
+    "services",
+    "west-wall",
+    "east-wall",
+    "wall-close",
+    "wall-inside",
+    "north-approach",
+    "interior-low",
+    "forecourt-low",
+    "oblique-far"
+  ],
+  "images": {
+    "current": [
+      {
+        "name": "approach",
+        "path": "approach-current.png",
+        "bytes": 879635,
+        "sha256": "2cadb86335dce9f0c7d2ef8d737ff5b5c70a13090bfc99eaa8a629a48bd4f0fa"
+      },
+      {
+        "name": "interior",
+        "path": "interior-current.png",
+        "bytes": 738758,
+        "sha256": "b5e7ba9d5b69f2051e234f2f03fab2619381a4d2e92914a38cd1227fbdd6d9b5"
+      },
+      {
+        "name": "oblique",
+        "path": "oblique-current.png",
+        "bytes": 883983,
+        "sha256": "8c5a96ed49acc60d43350d5338db2cb520bcb233b4bd86f8c24d4573f304c3bd"
+      },
+      {
+        "name": "forecourt",
+        "path": "forecourt-current.png",
+        "bytes": 749745,
+        "sha256": "6d0204fd8f75c76c227b771776cb271d180974b7110da5de2e317fd18abb6bba"
+      },
+      {
+        "name": "services",
+        "path": "services-current.png",
+        "bytes": 724591,
+        "sha256": "0e381d956d0cb085c7c2864ed6abbf0ef99c69da46399000b526e15dbf54ac7a"
+      },
+      {
+        "name": "west-wall",
+        "path": "west-wall-current.png",
+        "bytes": 907281,
+        "sha256": "5ba3c4d6e104ed5561035643fdc0f7b4708f99f9d6d437a26960c348ca4c6736"
+      },
+      {
+        "name": "east-wall",
+        "path": "east-wall-current.png",
+        "bytes": 970524,
+        "sha256": "632d9c407d72197657c2d3d24075cf517cf94e5a5de98149cfb54e1a4ee79178"
+      },
+      {
+        "name": "wall-close",
+        "path": "wall-close-current.png",
+        "bytes": 937318,
+        "sha256": "12666fcfab93b5b924b790604549c9b60a4445dd54cf7b833ae44789d024e538"
+      },
+      {
+        "name": "wall-inside",
+        "path": "wall-inside-current.png",
+        "bytes": 770011,
+        "sha256": "d8dcd2cc9c857f30ec6a18d4e0f355003b2a861a0aad122186dc93f01d5bac77"
+      },
+      {
+        "name": "north-approach",
+        "path": "north-approach-current.png",
+        "bytes": 906577,
+        "sha256": "8ee48f94ef13899a182e5f9a9d45b0ff2412c2028537ff31ca489c89cab4398e"
+      },
+      {
+        "name": "interior-low",
+        "path": "interior-low-current.png",
+        "bytes": 563841,
+        "sha256": "bd0262a196dc41a8bc1c0f1985eb664ab189198864a9bfdaa1674597d4a94205"
+      },
+      {
+        "name": "forecourt-low",
+        "path": "forecourt-low-current.png",
+        "bytes": 561895,
+        "sha256": "86985b0afb1bde937ebf7871cb9b5b0077e2d0952edb65f5007796123480858a"
+      },
+      {
+        "name": "oblique-far",
+        "path": "oblique-far-current.png",
+        "bytes": 649746,
+        "sha256": "e6c6a17df9a3064f78059c05cbfe66590e2f2027037d7b654786108c31ca6e00"
+      }
+    ],
+    "baseline": [
+      {
+        "name": "approach",
+        "path": "approach-baseline.png",
+        "bytes": 945789,
+        "sha256": "7d5d397c1d7827323d63dd10bbf25f8dc08797d740b5ce988683d138d4e96523"
+      },
+      {
+        "name": "interior",
+        "path": "interior-baseline.png",
+        "bytes": 789523,
+        "sha256": "fdb0cb8da28adf95a943a31ff7470884fe2f272239433c390182003ca4185de0"
+      },
+      {
+        "name": "oblique",
+        "path": "oblique-baseline.png",
+        "bytes": 911004,
+        "sha256": "de1df86ebb5952da89704a9397678f07f5e4dbb61f87b4deb7551c25b9750a79"
+      },
+      {
+        "name": "forecourt",
+        "path": "forecourt-baseline.png",
+        "bytes": 770726,
+        "sha256": "d07068ee25f6f98e080c8d0434a6fa4c0d1d433be61b749208c7d505dfdc7f63"
+      },
+      {
+        "name": "services",
+        "path": "services-baseline.png",
+        "bytes": 781767,
+        "sha256": "90b1787985cedbf26c127438879446f968881b704f2706b20007b71722e03075"
+      },
+      {
+        "name": "west-wall",
+        "path": "west-wall-baseline.png",
+        "bytes": 975163,
+        "sha256": "bf6091defef8449c77901c196aedb97fa179e8c561317931a2212773c503d240"
+      },
+      {
+        "name": "east-wall",
+        "path": "east-wall-baseline.png",
+        "bytes": 1079456,
+        "sha256": "5de0feeefce92375386c25f76847ee3130bd6506baa148d02d66fcca0bd06bd4"
+      },
+      {
+        "name": "wall-close",
+        "path": "wall-close-baseline.png",
+        "bytes": 1124028,
+        "sha256": "4fe6e446ff8df29926b127f6afb81b130abf7ee3d96610c27e4d0110c8b78ced"
+      },
+      {
+        "name": "wall-inside",
+        "path": "wall-inside-baseline.png",
+        "bytes": 1019448,
+        "sha256": "3dd2cd5e1b092dc4d7986bfa08733898246923e061151a43c11c3c9116278ef4"
+      },
+      {
+        "name": "north-approach",
+        "path": "north-approach-baseline.png",
+        "bytes": 983937,
+        "sha256": "4db563feb816492c9e4452e5f53ce3694399860d6cca53a2ed7fc8b26e591b42"
+      },
+      {
+        "name": "interior-low",
+        "path": "interior-low-baseline.png",
+        "bytes": 570621,
+        "sha256": "bf066089e425a814e3f62779719f15bfbc8f7f8c568f524c726c180567f3ddee"
+      },
+      {
+        "name": "forecourt-low",
+        "path": "forecourt-low-baseline.png",
+        "bytes": 575603,
+        "sha256": "cfa2c08a71864a4883f4546b6f0ef1729888e02cd3f4c9a0e8f1224420b1051e"
+      },
+      {
+        "name": "oblique-far",
+        "path": "oblique-far-baseline.png",
+        "bytes": 669034,
+        "sha256": "025feac2299b16bf1ed7cdf1e0fa05cb9ae86d0e65f78909719d16877cc7928a"
+      }
+    ]
+  },
+  "findings": [
+    "Broad exterior cast panels reduce synchronized concrete mottling at close and wide views.",
+    "Teal and cream interior hierarchy, ledgers, columns, pale ceiling and beams read more clearly.",
+    "No obvious missing wall, clipping or obstructed existing aperture in reviewed gameplay views.",
+    "Low and forced-far views preserve complete silhouettes and openings."
+  ],
+  "remaining": [
+    "Clean regular flat panels and high contrast retained weathered opening surrounds.",
+    "Fine shadow stippling on pale side walls and a localized interior corner-light streak.",
+    "Coarse repeated generators, blurred floor detail, sparse vegetation and background terrain.",
+    "Broader professional art and physical iPhone acceptance remain open."
+  ],
+  "costCaveats": [
+    "Low-quality forecourt selected world triangles increase 3.96%.",
+    "Whole-wall bounds can retain more geometry than smaller proxies at some distances.",
+    "Tiny isolated camera-repeat weapon-light pixel variation; world and resource counts are exact."
+  ]
+}

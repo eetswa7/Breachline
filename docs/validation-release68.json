@@ -1,0 +1,604 @@
+{
+  "kind": "integrated_release68_software_validation",
+  "actual_iphone_data": false,
+  "subjective_professional_quality_approval": false,
+  "capturedAt": "2026-10-14T12:16:04.317Z",
+  "build": {
+    "release": "68",
+    "commit": "b9c3fa8d9b51c10e805e3fc747bd8d775145bca1",
+    "source_commit": "b9c3fa8d9b51c10e805e3fc747bd8d775145bca1",
+    "content_sha256": "0f9a46be9322316a44848cf434285856fe267f402743868785862c4c380b771f",
+    "commit_resolution": "source_commit"
+  },
+  "sourceCheckpoints": {
+    "tasks": "a8d7b70",
+    "architecture": "b9c3fa8d9b51c10e805e3fc747bd8d775145bca1",
+    "provenance": "55fe955e67896ef8789581a9139ab57fd9f2c861"
+  },
+  "regressions": {
+    "tests": 421,
+    "passed": 421,
+    "failed": 0,
+    "duration_ms": 219725.865837,
+    "focusedAfterAssertionTightening": {
+      "tests": 4,
+      "failed": 0,
+      "evidence": "validation-blacksite68-tests.json"
+    }
+  },
+  "distribution": {
+    "modules": 87,
+    "files": 260,
+    "cleanRuntime": true,
+    "fingerprintVerified": true,
+    "currentNativeResourceHashesMatch": true,
+    "imageHashesVerified": 26
+  },
+  "shaders": {
+    "variants": 58,
+    "passed": 58,
+    "evidence": "validation-release68-shaders.json"
+  },
+  "world": {
+    "maps": 16,
+    "sourceViews": 49,
+    "sourceMaximumActiveBatches": 212,
+    "blacksite": [
+      {
+        "map": "BLACKSITE",
+        "view": "spawn",
+        "quality": "high",
+        "camera": {
+          "x": -48,
+          "y": 1.6,
+          "z": -48
+        },
+        "fullDetail": {
+          "activeBatches": 192,
+          "worldTriangles": 332694
+        },
+        "selectedLOD": {
+          "activeBatches": 196,
+          "worldTriangles": 175914
+        },
+        "triangleReductionPercent": 47.1
+      },
+      {
+        "map": "BLACKSITE",
+        "view": "centre",
+        "quality": "high",
+        "camera": {
+          "x": 0,
+          "y": 1.6,
+          "z": 0
+        },
+        "fullDetail": {
+          "activeBatches": 192,
+          "worldTriangles": 332694
+        },
+        "selectedLOD": {
+          "activeBatches": 192,
+          "worldTriangles": 196066
+        },
+        "triangleReductionPercent": 41.1
+      },
+      {
+        "map": "BLACKSITE",
+        "view": "approach",
+        "quality": "high",
+        "camera": {
+          "x": 0,
+          "y": 1.6,
+          "z": 27
+        },
+        "fullDetail": {
+          "activeBatches": 192,
+          "worldTriangles": 332694
+        },
+        "selectedLOD": {
+          "activeBatches": 195,
+          "worldTriangles": 202222
+        },
+        "triangleReductionPercent": 39.2
+      },
+      {
+        "map": "BLACKSITE",
+        "view": "interior",
+        "quality": "high",
+        "camera": {
+          "x": 0,
+          "y": 1.6,
+          "z": 9
+        },
+        "fullDetail": {
+          "activeBatches": 192,
+          "worldTriangles": 332694
+        },
+        "selectedLOD": {
+          "activeBatches": 194,
+          "worldTriangles": 204702
+        },
+        "triangleReductionPercent": 38.5
+      }
+    ],
+    "nativeMatchedViews": 13,
+    "nativeImages": 26,
+    "nativeGates": {
+      "nativeLegalGameplay": true,
+      "authoritativeStatePreserved": true,
+      "comparisonComplete": true,
+      "matchedCameras": true,
+      "sameTextureAndPassBudget": true,
+      "worldBatchBudget": true,
+      "worldTriangleBudget": true,
+      "conservativeCulling": true,
+      "noBrowserOrGlErrors": true,
+      "completeNativeHall": true,
+      "forcedFarNativeHall": true
+    },
+    "nativeComparisons": [
+      {
+        "name": "approach",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 202,
+          "worldTriangles": 256434,
+          "draws": 237,
+          "triangles": 353780
+        },
+        "current": {
+          "activeWorldBatches": 200,
+          "worldTriangles": 241066,
+          "draws": 233,
+          "triangles": 323044
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 213604,
+          "changedPercent": 27.813,
+          "meanAbsoluteRGBDelta": 19.45749,
+          "maxChannelDelta": 165
+        }
+      },
+      {
+        "name": "interior",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 200,
+          "worldTriangles": 268742,
+          "draws": 207,
+          "triangles": 360732
+        },
+        "current": {
+          "activeWorldBatches": 198,
+          "worldTriangles": 235686,
+          "draws": 203,
+          "triangles": 294620
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 578112,
+          "changedPercent": 75.275,
+          "meanAbsoluteRGBDelta": 20.19309,
+          "maxChannelDelta": 238
+        }
+      },
+      {
+        "name": "oblique",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 199,
+          "worldTriangles": 251352,
+          "draws": 213,
+          "triangles": 337260
+        },
+        "current": {
+          "activeWorldBatches": 197,
+          "worldTriangles": 237592,
+          "draws": 209,
+          "triangles": 309740
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 99810,
+          "changedPercent": 12.9961,
+          "meanAbsoluteRGBDelta": 8.90108,
+          "maxChannelDelta": 169
+        }
+      },
+      {
+        "name": "forecourt",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 203,
+          "worldTriangles": 219634,
+          "draws": 237,
+          "triangles": 305244
+        },
+        "current": {
+          "activeWorldBatches": 201,
+          "worldTriangles": 218738,
+          "draws": 233,
+          "triangles": 303452
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 69526,
+          "changedPercent": 9.0529,
+          "meanAbsoluteRGBDelta": 6.50576,
+          "maxChannelDelta": 165
+        }
+      },
+      {
+        "name": "services",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 198,
+          "worldTriangles": 263170,
+          "draws": 194,
+          "triangles": 333242
+        },
+        "current": {
+          "activeWorldBatches": 196,
+          "worldTriangles": 231722,
+          "draws": 190,
+          "triangles": 270346
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 449848,
+          "changedPercent": 58.574,
+          "meanAbsoluteRGBDelta": 14.78312,
+          "maxChannelDelta": 178
+        }
+      },
+      {
+        "name": "west-wall",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 200,
+          "worldTriangles": 272082,
+          "draws": 236,
+          "triangles": 390450
+        },
+        "current": {
+          "activeWorldBatches": 198,
+          "worldTriangles": 247066,
+          "draws": 232,
+          "triangles": 340418
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 368524,
+          "changedPercent": 47.9849,
+          "meanAbsoluteRGBDelta": 30.60141,
+          "maxChannelDelta": 184
+        }
+      },
+      {
+        "name": "east-wall",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 200,
+          "worldTriangles": 269422,
+          "draws": 235,
+          "triangles": 396386
+        },
+        "current": {
+          "activeWorldBatches": 198,
+          "worldTriangles": 244406,
+          "draws": 231,
+          "triangles": 346354
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 386855,
+          "changedPercent": 50.3717,
+          "meanAbsoluteRGBDelta": 37.88766,
+          "maxChannelDelta": 205
+        }
+      },
+      {
+        "name": "wall-close",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 201,
+          "worldTriangles": 265106,
+          "draws": 218,
+          "triangles": 351568
+        },
+        "current": {
+          "activeWorldBatches": 199,
+          "worldTriangles": 240090,
+          "draws": 214,
+          "triangles": 301536
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 548911,
+          "changedPercent": 71.4728,
+          "meanAbsoluteRGBDelta": 49.47658,
+          "maxChannelDelta": 163
+        }
+      },
+      {
+        "name": "wall-inside",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 198,
+          "worldTriangles": 267322,
+          "draws": 185,
+          "triangles": 320326
+        },
+        "current": {
+          "activeWorldBatches": 196,
+          "worldTriangles": 234266,
+          "draws": 181,
+          "triangles": 254214
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 679090,
+          "changedPercent": 88.4232,
+          "meanAbsoluteRGBDelta": 14.08496,
+          "maxChannelDelta": 80
+        }
+      },
+      {
+        "name": "north-approach",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 202,
+          "worldTriangles": 255190,
+          "draws": 235,
+          "triangles": 342888
+        },
+        "current": {
+          "activeWorldBatches": 200,
+          "worldTriangles": 239822,
+          "draws": 231,
+          "triangles": 312152
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 230588,
+          "changedPercent": 30.0245,
+          "meanAbsoluteRGBDelta": 21.77713,
+          "maxChannelDelta": 180
+        }
+      },
+      {
+        "name": "interior-low",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 199,
+          "worldTriangles": 175128,
+          "draws": 120,
+          "triangles": 142740
+        },
+        "current": {
+          "activeWorldBatches": 197,
+          "worldTriangles": 166192,
+          "draws": 118,
+          "triangles": 133804
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 274735,
+          "changedPercent": 73.0057,
+          "meanAbsoluteRGBDelta": 16.61968,
+          "maxChannelDelta": 176
+        }
+      },
+      {
+        "name": "forecourt-low",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 194,
+          "worldTriangles": 141074,
+          "draws": 136,
+          "triangles": 121304
+        },
+        "current": {
+          "activeWorldBatches": 192,
+          "worldTriangles": 146658,
+          "draws": 134,
+          "triangles": 126888
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 34759,
+          "changedPercent": 9.2366,
+          "meanAbsoluteRGBDelta": 6.17459,
+          "maxChannelDelta": 173
+        }
+      },
+      {
+        "name": "oblique-far",
+        "cameraUnchanged": true,
+        "qualityUnchanged": true,
+        "authoritativeStateUnchanged": true,
+        "sameTextureAndPassBudget": true,
+        "baseline": {
+          "activeWorldBatches": 199,
+          "worldTriangles": 159712,
+          "draws": 116,
+          "triangles": 117212
+        },
+        "current": {
+          "activeWorldBatches": 196,
+          "worldTriangles": 152760,
+          "draws": 113,
+          "triangles": 110260
+        },
+        "pixels": {
+          "exact": false,
+          "changedAbove2Levels": 49295,
+          "changedPercent": 13.0992,
+          "meanAbsoluteRGBDelta": 8.93106,
+          "maxChannelDelta": 164
+        }
+      }
+    ],
+    "cameraRepeat": {
+      "checks": {
+        "player": true,
+        "quality": true,
+        "activeWorldBatches": true,
+        "selectedWorldTriangles": true,
+        "draws": true,
+        "triangles": true,
+        "textureEstimateBytes": true,
+        "renderPasses": true,
+        "shaderPrograms": true,
+        "hallLOD": true,
+        "culling": true,
+        "authoritativeStateSha256": true
+      },
+      "pixels": {
+        "exact": false,
+        "originalSha256": "a3ebcd6c1a3e211e3676063129b6832760ddbd83b2998481fb6572df24c0629f",
+        "repeatSha256": "731b50c7b444506d01fb2bbaa903eb9202601d1dd55db69992ba05f0f1853e87",
+        "changedPixels": 13034,
+        "changedAboveTwoLevels": 10,
+        "changedAboveTwoPercent": 0.001302,
+        "meanAbsoluteRGBDelta": 0.00762977,
+        "maxChannelDelta": 4,
+        "boundsAboveTwoLevels": {
+          "minX": 823,
+          "maxX": 907,
+          "minY": 401,
+          "maxY": 559
+        }
+      },
+      "evidence": "art-release68/blacksite/repeat-camera.json"
+    },
+    "visualReview": "art-release68/blacksite/visual-review.json",
+    "evidence": "art-release68/blacksite/validation.json"
+  },
+  "nativeAssets": {
+    "unchangedMeshes": 362,
+    "addedMeshes": [
+      "blacksite_hall_wall_long__near",
+      "blacksite_hall_wall_long__far",
+      "blacksite_hall_wall_short__near",
+      "blacksite_hall_wall_short__far",
+      "blacksite_hall_ceiling__near",
+      "blacksite_hall_ceiling__far"
+    ],
+    "libraryBytesBefore": 13111098,
+    "libraryBytesAfter": 13354545,
+    "retainedMaterialContainers": 60,
+    "changedTextureFiles": [
+      "lightmap-14.part000.bin"
+    ],
+    "models": {
+      "blacksite_hall_wall_long__near": {
+        "vertices": 3288,
+        "triangles": 5964
+      },
+      "blacksite_hall_wall_long__far": {
+        "vertices": 1656,
+        "triangles": 2972
+      },
+      "blacksite_hall_wall_short__near": {
+        "vertices": 2520,
+        "triangles": 4556
+      },
+      "blacksite_hall_wall_short__far": {
+        "vertices": 1656,
+        "triangles": 2972
+      },
+      "blacksite_hall_ceiling__near": {
+        "vertices": 348,
+        "triangles": 524
+      },
+      "blacksite_hall_ceiling__far": {
+        "vertices": 268,
+        "triangles": 404
+      }
+    },
+    "packedBakeCount": 25,
+    "editableSourceSha256": "1f19af9a47c12084845a2c9c374cb3ee3b6d29fc0bdacb3ffb9f128218cfbd76",
+    "editableSourceBytes": 171870849,
+    "evidence": "validation-blacksite68-preservation.json"
+  },
+  "application": {
+    "checks": [
+      "release_68_boot",
+      "legacy_measurements_preserved_obsolete_setup_removed",
+      "local_controls_without_account_setup",
+      "keyboard_inspection_through_application_frame",
+      "jump_cancels_live_inspection",
+      "held_swap_inspects_without_switch_through_real_touch_input",
+      "live_fire_cancels_inspection",
+      "normal_gameplay_recording_watermark",
+      "final_json_valid_actual_browser_frames",
+      "saved_session_selected_for_export",
+      "actual_json_download_preserves_saved_copy",
+      "saved_reports_survive_reload",
+      "offline_boot_and_json_download",
+      "scripted_test_isolated_cancelled_and_restored",
+      "removal_requires_confirmation",
+      "no_page_errors_or_report_network_requests"
+    ],
+    "normalSessionFrames": 37,
+    "steadyFrames": 31,
+    "jsonDownloadVerified": true,
+    "errors": [],
+    "externalRequests": 0,
+    "writeRequests": 0,
+    "evidence": "validation-release68-benchmark-browser.json"
+  },
+  "preservation": {
+    "maps": 16,
+    "weapons": 30,
+    "modes": 11,
+    "release57Baseline": "454a5a26a8418fa8db1d3cc1ec197f7e56c56415",
+    "runtimeSourcePushed": true,
+    "hostingPublicationPerformed": false,
+    "hostingBlocker": "Sites bundled scripts/site-workflow.mjs is unavailable; existing Site identity and audience preserved."
+  },
+  "remaining": [
+    "Professional library-wide environment, weapon and character realism; more natural animation",
+    "Premium subjective audio and broader effects production",
+    "Physical iPhone/Safari performance, memory, frame pacing, thermals and latency",
+    "Sites publication when its required bundled source workflow helper is available"
+  ]
+}

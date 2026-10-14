@@ -1,3 +1,24 @@
+# Release 68: Blacksite hall construction and interior
+
+- Replaced 36 central-hall wall render proxies with four complete original
+  native shells, retaining the real four loading doors and eight open windows.
+  Broad pale exterior panels and blue-green/cream interior paint, columns and
+  ledgers replace repeated concrete artwork.
+- A merged pale soffit with deep I beams and sloped haunches replaces the roof
+  slab and seven overhead kit pieces. Blacksite received a fresh Cycles bake;
+  all 362 existing meshes, sixty material containers and fifteen other lighting
+  maps remain exact. Runtime geometry/lighting download increases by 250,959 bytes.
+- All 421 regressions, 87 packaged modules, 58 shader variants and sixteen-map,
+  49-view source budgets pass. Blacksite full-detail world geometry falls from
+  372,182 to 332,694 triangles; active batches fall from 193 to 192. These are
+  software/source scene counts, not physical iPhone timings.
+- Source `b9c3fa8` and benchmark provenance `55fe955` are pushed to GitHub.
+  [Release 68 evidence](docs/ART_RELEASE68.md) and the
+  [overhaul checklist](docs/OVERHAUL_CHECKLIST.md) track actual gameplay review,
+  application/offline checks and remaining work. Broader professional realism,
+  premium audio and physical iPhone acceptance remain unfinished. Sites
+  publication is blocked by the unavailable bundled source workflow helper.
+
 # Release 59: continuation of the production art and audio overhaul
 
 - Fixed exterior-face sky access and ground bounce without another texture tap.

@@ -1,6 +1,19 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 67.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 68.** 30 weapons, 16 maps and 11 modes.
+
+## Release 68: Blacksite hall construction and interior
+
+Complete native hall walls replace repeated concrete panels while preserving
+the four loading doors and eight open firing windows. Blue-green/cream interior
+finishes, structural columns and a pale soffit with deep beams give the hall a
+clearer construction hierarchy. The new geometry and Blacksite lighting add
+about 245 KiB of runtime download; the other fifteen maps and existing native
+meshes/materials are preserved.
+
+See [gameplay comparisons, costs and remaining limits](docs/ART_RELEASE68.md)
+and [the updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md). Professional
+overall realism and physical iPhone acceptance remain unfinished.
 
 ## Release 67: attachment contacts, firing presentation and world bounds
 

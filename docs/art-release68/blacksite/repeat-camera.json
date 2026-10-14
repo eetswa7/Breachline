@@ -1,0 +1,39 @@
+{
+  "kind": "independent_native_camera_repeat",
+  "camera": "interior",
+  "originalPredecessor": "approach",
+  "repeatPredecessor": "fresh renderer with no captured preceding camera",
+  "captureHarnessSha256": "4eaa66aaf63a6d9a0473cfd28ec48a8cd5873cf98187f233899ecff72cac4233",
+  "actual_iphone_data": false,
+  "checks": {
+    "player": true,
+    "quality": true,
+    "activeWorldBatches": true,
+    "selectedWorldTriangles": true,
+    "draws": true,
+    "triangles": true,
+    "textureEstimateBytes": true,
+    "renderPasses": true,
+    "shaderPrograms": true,
+    "hallLOD": true,
+    "culling": true,
+    "authoritativeStateSha256": true
+  },
+  "pixels": {
+    "exact": false,
+    "originalSha256": "a3ebcd6c1a3e211e3676063129b6832760ddbd83b2998481fb6572df24c0629f",
+    "repeatSha256": "731b50c7b444506d01fb2bbaa903eb9202601d1dd55db69992ba05f0f1853e87",
+    "changedPixels": 13034,
+    "changedAboveTwoLevels": 10,
+    "changedAboveTwoPercent": 0.001302,
+    "meanAbsoluteRGBDelta": 0.00762977,
+    "maxChannelDelta": 4,
+    "boundsAboveTwoLevels": {
+      "minX": 823,
+      "maxX": 907,
+      "minY": 401,
+      "maxY": 559
+    }
+  },
+  "scope": "Same final native harness and source bytes, separate fresh context, same exact grounded camera and per-shot world/SceneLOD reset. Existing weapon-light warmup remains forty 1/60-second steps. Pixels test the whole frame, including the first-person weapon."
+}
