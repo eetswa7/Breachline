@@ -484,7 +484,8 @@ These are Release 57 measurements, not measurements of Release 60.
   room and warehouse responses exist. Release 67 updates active world-tail
   distance, filtering and cover as the listener moves, with bounded refresh and
   native PCM/listening evidence. Enclosure modelling and shared wet-room tails
-  remain simplified. Updated 2026-10-14; [moving acoustics](AUDIO_ACOUSTICS67.md).
+  remain simplified. Updated 2026-10-14 at `0ec0b66`;
+  [moving acoustics](AUDIO_ACOUSTICS67.md).
 - [ ] **Partial:** Realistic footsteps across concrete, gravel, metal, dirt,
   water and other surfaces. Eight families with five takes each; some surfaces
   share families and audible realism is unverified.
@@ -529,7 +530,8 @@ These are Release 57 measurements, not measurements of Release 60.
   filtering with live listener updates; native tests verify retreat, cover
   insertion/removal, lateral direction and cleanup. Simplified shared room
   responses, subjective localisation/realism and physical Safari performance
-  remain open. Updated 2026-10-14; [PCM and listening reel](AUDIO_ACOUSTICS67.md).
+  remain open. Updated 2026-10-14 at `0ec0b66`;
+  [PCM and listening reel](AUDIO_ACOUSTICS67.md).
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
   volume. The bank was rebuilt and immediate-repeat avoidance implemented.
 - [x] **Complete:** Original/licensed assets with licences/attribution respected.
@@ -609,3 +611,5 @@ These are Release 57 measurements, not measurements of Release 60.
 | 2026-10-13 | Completed bounded casing-audio coverage with original polymer-hull families and actual retained revolver case extraction/landings. Reduced correlated ground/masonry texture motifs while keeping broader art requirements partial. Native case/hull timelines, 44.1/48 kHz bank bounds, matched Blacksite material images, 35 focused checkpoint regressions, 58 shader variants and the isolated 84-module offline source check passed. | `a3eb9db`; [casing evidence](CASING_AUDIO66.md), [material evidence and remaining costs](WORLD_MATERIALS66.md). |
 
 | 2026-10-13 | Advanced smoke-grenade expansion, rolling cloud motion and density; reviewed fourteen actual native temporal/lifecycle gates and matched outdoor/inside frames. Existing AI visibility, capacity, expiry, collision, draw/pool/texture counts remain. Professional smoke quality stays partial; 29 focused root regressions and the isolated 84-module offline source check passed. | `1f1a87f`; [smoke gameplay evidence and costs](SMOKE66.md). |
+
+| 2026-10-14 | Recorded the pushed moving-listener acoustics implementation and its native playback, five PCM fixtures, listening reel and source/ray/voice bounds. Rechecked all 33 focused acoustics/spatial/production/ballistic regressions. Updated the two relevant partial requirements with the implementation commit; premium audio, enclosure modelling and physical iPhone acceptance remain open. | `0ec0b66c8fd33d0731564b02a8098b5f639bc4ed`; [moving acoustics evidence and remaining limits](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
