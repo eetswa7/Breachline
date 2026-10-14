@@ -27,6 +27,24 @@ physical iPhone performance remain unfinished or unverified.
 - Optional renderer choices such as WebGPU or engine migration are not mandatory.
   Record the decision and evidence rather than adopting them to fill a checkbox.
 
+## Release 69 continuation tasks
+
+Scoped task progress for 14 October 2026, continuing from Release 68 source
+`566c63a`. Actual Blacksite interior images identify repeated coarse generator
+forms as the next prominent shared asset weakness.
+
+- [x] Synchronise the latest pushed Release 68 source and preserve its complete
+  distribution for matched native gameplay comparisons.
+- [ ] Replace the shared generator's coarse housing with original editable
+  diesel, alternator, radiator and service equipment construction; retain its
+  existing unit envelope, collision owners, shared materials and near/far LOD.
+- [ ] Rebuild affected static lighting and verify all other native assets,
+  material containers and unaffected lighting maps remain unchanged.
+- [ ] Review matched native close, room-scale, low-quality and far-LOD gameplay
+  images, including the other maps that use the shared model.
+- [ ] Complete regression, shader, source/offline and application checks, record
+  costs and visual limits, update provenance and push usable checkpoints.
+
 ## Release 68 continuation tasks
 
 Scoped task progress for 14 October 2026. This continuation targets the repeated
