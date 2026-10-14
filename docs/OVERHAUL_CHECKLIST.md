@@ -27,6 +27,23 @@ physical iPhone performance remain unfinished or unverified.
 - Optional renderer choices such as WebGPU or engine migration are not mandatory.
   Record the decision and evidence rather than adopting them to fill a checkbox.
 
+## Release 68 continuation tasks
+
+Scoped task progress for 14 October 2026. This continuation targets the repeated
+Blacksite hall walls and dark, simplified interior identified in the visual
+audit; the original thirteen-section quality requirements remain below.
+
+- [x] Review the Release 67 checklist and actual native Blacksite approach and
+  interior baseline images; preserve source `df2e14e` for matched comparisons.
+- [ ] Replace the central hall wall presentation with original editable native
+  exterior/interior models while retaining all real doorway and window holes.
+- [ ] Replace the simplified hall ceiling with a coherent structural assembly;
+  rebuild Blacksite lighting and retain other maps' assets and presentation.
+- [ ] Review matched native exterior/interior and low-quality/LOD gameplay
+  images; verify preserved openings, routes, destruction and rendering budgets.
+- [ ] Run aggregate regressions, packaged/offline and application lifecycle
+  checks, update evidence and release provenance, and push usable checkpoints.
+
 ## Release 67 continuation tasks
 
 Scoped task progress for 14 October 2026:
