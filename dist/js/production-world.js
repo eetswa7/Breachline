@@ -1,7 +1,7 @@
 // Presentation is built from the authoritative Arena. No art operation adds a
 // collider, changes a firing aperture, or moves an objective/navigation route.
 const industrialTag=/INDUSTRIAL|REFINERY|DOCKYARD|RAIL|TROPICAL/;
-const texturedMetal=new Set(['roof_truss','switchgear','vent','light_fixture','cooling_stack','cable_tray','pipe_rack','rooftop_hvac','duct_run','loading_shutter','drain_channel','blacksite_hall_roof','blacksite_hall_cladding']);
+const texturedMetal=new Set(['roof_truss','switchgear','vent','light_fixture','cooling_stack','cable_tray','pipe_rack','rooftop_hvac','duct_run','loading_shutter','drain_channel','blacksite_hall_roof','blacksite_hall_cladding','blacksite_hall_wall_long','blacksite_hall_wall_short','blacksite_hall_ceiling']);
 
 /** Recover the actual holes in a room wall at a requested height. Matching the
  * collider segments matters: Blacksite's open windows must never become glass,
@@ -30,7 +30,14 @@ export function wallOpenings(arena,roof,axis,sign,height=.7){
 export function productionWorld(arena,parts){
  const id=arena.info.id,size=arena.info.size,industrial=industrialTag.test(arena.info.tag);
  const visual=(p,extra)=>Object.assign(Object.create(p),{blenderPrepared:null,...extra});
- const result=parts.map(p=>{
+ const hall=id===14?arena.blocks.find(p=>p.roof&&p.room&&p.x===0&&p.z===0):null;
+ const hallWall=p=>hall&&p.aperture&&!p.house&&!p.roof&&
+  (Math.abs(Math.abs(p.x)-17)<.001&&p.w===.4&&Math.abs(p.z)+p.d/2<=11.001||
+   Math.abs(Math.abs(p.z)-11)<.001&&p.d===.4&&Math.abs(p.x)+p.w/2<=17.001);
+ // The four complete native wall shells own their real empty openings. Drop
+ // only this non-destructible hall's old rendering proxies; Arena retains
+ // every original collider, aperture, navigation route and weapon contact.
+ const result=parts.filter(p=>p!==hall&&!hallWall(p)).map(p=>{
   const ground=!!(p.ground||!p.roof&&p.h<.10&&p.y<.30&&p.w>1.5&&p.d>1.5&&p.surface!=='water');
   const epoxy=ground&&(industrial||id===14)&&(p.tile===14||p.surface==='tiles');
   return visual(p,{productionGround:ground,...(epoxy?{surface:'concrete',tile:0,color:[.91,.94,.91],productionEpoxy:true,rough:.72}:{})});
@@ -100,7 +107,7 @@ export function productionWorld(arena,parts){
     if(sill&&lintel)frame(hole,sill.y+sill.h/2,lintel.y-lintel.h/2-sill.y-sill.h/2,'aperture_frame',roof);
    }
   }
-  if(mainHall){
+  if(mainHall&&roof!==hall){
    const span=Math.max(4,w-.8),depth=Math.max(4,d-.8);
    for(const fraction of [-.30,0,.30])add(roof.x,ceiling-.48,roof.z+depth*fraction,span,.83,.22,'roof_truss',{},roof);
    // Visible industrial service systems frame the ceiling rather than adding
@@ -140,8 +147,20 @@ export function productionWorld(arena,parts){
    add(x,h*.5,z,3.4,h,3.4,'cooling_stack',{landscape:true});
  }
  if(id===14){
-  const hall=arena.blocks.find(p=>p.roof&&p.room&&p.x===0&&p.z===0);
   if(hall){
+   // Broad cast-concrete yard panels and blue-green/cream interior paint
+   // replace the repeated shared-wall artwork. The merged topology contains
+   // exactly the original four doors and eight open firing windows.
+   for(const sign of [-1,1]){
+    add(0,3,sign*11,34,6,.4,'blacksite_hall_wall_long',{
+     surface:'concrete',yaw:sign>0?Math.PI:0,productionRole:'turbine_hall_wall'},hall);
+    add(sign*17,3,0,22,6,.4,'blacksite_hall_wall_short',{
+     surface:'concrete',yaw:sign>0?-Math.PI/2:Math.PI/2,productionRole:'turbine_hall_wall'},hall);
+   }
+   // The roof slab and deep supporting beams share one near/far native
+   // assembly. Its lowest knee is 4.90 m above the unchanged playable floor.
+   add(0,5.6,0,34.6,1.4,22.6,'blacksite_hall_ceiling',{
+    productionRole:'turbine_hall_ceiling'},hall);
    // A purpose-built turbine-hall silhouette replaces the generic flat slab.
    // The gable is visible from player height. Its entire envelope stays above
    // the old roof; broad facade bands start above every firing aperture.

@@ -1,0 +1,135 @@
+{
+  "kind": "release68_reopened_editable_native_source",
+  "actual_iphone_data": false,
+  "sourceSha256": "1f19af9a47c12084845a2c9c374cb3ee3b6d29fc0bdacb3ffb9f128218cfbd76",
+  "models": {
+    "blacksite_hall_wall_long__near": {
+      "vertices": 3288,
+      "triangles": 5964
+    },
+    "blacksite_hall_wall_long__far": {
+      "vertices": 1656,
+      "triangles": 2972
+    },
+    "blacksite_hall_wall_short__near": {
+      "vertices": 2520,
+      "triangles": 4556
+    },
+    "blacksite_hall_wall_short__far": {
+      "vertices": 1656,
+      "triangles": 2972
+    },
+    "blacksite_hall_ceiling__near": {
+      "vertices": 348,
+      "triangles": 524
+    },
+    "blacksite_hall_ceiling__far": {
+      "vertices": 268,
+      "triangles": 404
+    }
+  },
+  "packedImages": {
+    "surfaces-albedo": {
+      "bytes": 30008301,
+      "sha256": "7aeeb48bea68dcba60ed9591dfcb4a4c8c34e7c953a4b0229722900bb51de38f"
+    },
+    "surfaces-normal": {
+      "bytes": 16879888,
+      "sha256": "0e06a6a0390ab499e5c4971d22a7ba9ec75fed650f05402f360b241ccfde2554"
+    },
+    "surfaces-orm": {
+      "bytes": 16419963,
+      "sha256": "77d74ae30870005216b2967a963158d3591958d94088775c7f38efbdac373b48"
+    },
+    "weapons-albedo": {
+      "bytes": 5077956,
+      "sha256": "b9322b5899095446b984586f2e86fb73e5b5a6b033b5a75f044cb34ce0383f2c"
+    },
+    "weapons-normal": {
+      "bytes": 490206,
+      "sha256": "710782a5ac63cd74a01d29526859afc7fbde0a3b1108a50f54b64873f2a9a940"
+    },
+    "weapons-orm": {
+      "bytes": 10301173,
+      "sha256": "1c8949a22835be3b958c776f1308b56305c0f47a29ceee2f7a20fea1752abe4e"
+    },
+    "foliage": {
+      "bytes": 2106902,
+      "sha256": "7df3d721f7b188f9094cabb8013b2d2a7a007fa8466c2b6472f156e6dcde8de0"
+    },
+    "sky": {
+      "bytes": 322600,
+      "sha256": "7bb3ece49d6d1e8a9f94245660a5ede16f26c3c052888c15031d4caa2882fd50"
+    },
+    "effects": {
+      "bytes": 222800,
+      "sha256": "8ef4cdba1fd31bf0b3cedcf1c55ed558fe0640935cff601c189db851a5e69351"
+    },
+    "lightmap-0": {
+      "bytes": 594790,
+      "sha256": "8a4afdc04f77731f9901018c5e070bdca5597cf91c1be4865eeec5c5f8a5da61"
+    },
+    "lightmap-1": {
+      "bytes": 591087,
+      "sha256": "ec6b08fdea37cfeb20f0822ab7498d5a3c1d7f66272fd9a2da2d42fe06f24d37"
+    },
+    "lightmap-2": {
+      "bytes": 600378,
+      "sha256": "63a39709935fb1c7677643b94ad8e250dc4d06da5bea5b224589948398a00c60"
+    },
+    "lightmap-3": {
+      "bytes": 660413,
+      "sha256": "4641dd1b23f6f3aa699b5bca8edf785a826bc788a367b9d5645fcfeaff138110"
+    },
+    "lightmap-4": {
+      "bytes": 546787,
+      "sha256": "9231d83c91eb255de5f71b06c90869f5092be6093dc1cc356fa87a505985282d"
+    },
+    "lightmap-5": {
+      "bytes": 661902,
+      "sha256": "4561e5ba346a4002418b4dca6dfd102401829dd4385562e8dde39968642c078c"
+    },
+    "lightmap-6": {
+      "bytes": 555531,
+      "sha256": "fdd9a8ea29fc71a7b30119a832467ce805b5e321dfe32433728e4f4eb65b6781"
+    },
+    "lightmap-7": {
+      "bytes": 632316,
+      "sha256": "cc06accdfc073e530b059b20df820ff72a51842838a71522505427c5b082da92"
+    },
+    "lightmap-8": {
+      "bytes": 553967,
+      "sha256": "2ee309063d433bfc48a74fac8cb7366d288952a0870b2608654cd0cb4fa4e615"
+    },
+    "lightmap-9": {
+      "bytes": 627208,
+      "sha256": "27db978d4809e542501c77f7b8b427d29fa65e6e7e93f1058d9cef73ba013105"
+    },
+    "lightmap-10": {
+      "bytes": 617993,
+      "sha256": "e5716e2d836c14fd8ecf677a5b76a9f0a47302dc5a35428f78ce09a7be698e66"
+    },
+    "lightmap-11": {
+      "bytes": 595932,
+      "sha256": "e28e71db8ebeabb1765f0e833aaea43ddfa60c8744a559e2de892fa9bab3deb8"
+    },
+    "lightmap-12": {
+      "bytes": 596515,
+      "sha256": "54fdcc1ef1a865d074f05b298e3f830a9b10ed4e42f370447446881efc139a61"
+    },
+    "lightmap-13": {
+      "bytes": 612538,
+      "sha256": "c692d2af5ec15b1ab37d0fbe91ebe84839ce4af3221f5a0fd7882968482f6ca3"
+    },
+    "lightmap-14": {
+      "bytes": 590300,
+      "sha256": "52998fe4cd614d915a8a284728a7b985df7796658e4bf7fa664b86ee414b79a6"
+    },
+    "lightmap-15": {
+      "bytes": 576063,
+      "sha256": "41aeb185cfd631578beef97c30d970f0ea376e06ba48936ea8a1e7c8e46f0f73"
+    }
+  },
+  "linkedLibraries": 0,
+  "embeddedTexts": 0
+}

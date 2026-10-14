@@ -87,6 +87,120 @@ def author_blacksite(api, helpers):
         cladding.append(band); cladding_far.append(band)
     model('blacksite_hall_cladding', cladding, cladding_far)
 
+    # The hall is a designed, thick-walled construction rather than thirty-six
+    # independent copies of the precast kit. Author in metres, then normalise
+    # once for the runtime's exact wall transforms. Front is the yard face;
+    # back is the factory interior. Every piece stays inside the old collider.
+    def metric_box(position, size, colour, physical, dimensions, centre_y):
+        position = (position[0]/dimensions[0],
+                    (position[1]-centre_y)/dimensions[1],
+                    position[2]/dimensions[2])
+        size = tuple(value/dimensions[i] for i, value in enumerate(size))
+        return box(position, size, colour, physical)
+
+    for suffix, width, window_at in (('long',34.0,9.45), ('short',22.0,6.45)):
+        dimensions = (width, 6.0, .4)
+        near = []; distant = []
+        def panel(x0, x1, y0, y1, z0, z1, colour, physical=(.9,0), detail=False):
+            if x1-x0 < .0001 or y1-y0 < .0001: return
+            piece = metric_box(((x0+x1)*.5,(y0+y1)*.5,(z0+z1)*.5),
+                (x1-x0,y1-y0,z1-z0),colour,physical,dimensions,3.0)
+            near.append(piece)
+            if not detail: distant.append(piece)
+
+        # Four full-height wings, two open window bays and an open loading
+        # door. Their ranges come directly from combatRoom's authoritative
+        # construction, including the 1.02/2.35 m window and 2.65 m door heads.
+        wings = [(-width/2,-window_at-1.2),(-window_at+1.2,-1.9),
+                 (1.9,window_at-1.2),(window_at+1.2,width/2)]
+        ranges = [(left,right,0,6) for left,right in wings]
+        ranges += [(side*window_at-1.2,side*window_at+1.2,0,1.02) for side in (-1,1)]
+        ranges += [(side*window_at-1.2,side*window_at+1.2,2.35,6) for side in (-1,1)]
+        ranges += [(-1.9,1.9,2.65,6)]
+        for index,(left,right,bottom,top) in enumerate(ranges):
+            # A solid, continuous core backs the recessed joints; no daylight
+            # crack or new firing slit can open between individual panels.
+            panel(left,right,bottom,top,-.145,.145,(.64,.67,.63),(.96,0))
+            # Large low-contrast poured panels replace synchronized mottling.
+            # Seams are actual shallow topology, not ruler lines on an atlas.
+            cuts = sorted(set([bottom,top]+[y for y in (.34,1.04,3.18) if bottom<y<top]))
+            count=max(1,math.ceil((right-left)/2.8))
+            for bay in range(count):
+                a=left+(right-left)*bay/count; b=left+(right-left)*(bay+1)/count
+                seam_left=.004 if bay else 0; seam_right=.004 if bay<count-1 else 0
+                for low,high in zip(cuts,cuts[1:]):
+                    age=((index*3+bay*5)%7)*.006
+                    exterior=(.72-age,.75-age,.71-age) if high<=.35 else (.89-age,.90-age,.85-age)
+                    panel(a+seam_left,b-seam_right,low,high,-.188,-.145,exterior,detail=True)
+                    # A durable blue-green dado, warm off-white upper walls
+                    # and a dark plinth establish a readable interior hierarchy.
+                    interior=(.29,.38,.36) if high<=.35 else (.46,.60,.57) if high<=1.05 else (.91-age*.5,.92-age*.5,.86-age*.5)
+                    panel(a+seam_left,b-seam_right,low,high,.145,.188,interior,(.85,0),True)
+            # The distant silhouette retains the same complete wall/openings
+            # and broad paint bands, dropping the individual panel seams.
+            for low,high in zip(cuts,cuts[1:]):
+                exterior=(.70,.73,.69) if high<=.35 else (.87,.88,.83)
+                interior=(.29,.38,.36) if high<=.35 else (.46,.60,.57) if high<=1.05 else (.90,.91,.85)
+                for z0,z1,colour in ((-.188,-.145,exterior),(.145,.188,interior)):
+                    distant.append(metric_box(((left+right)*.5,(low+high)*.5,(z0+z1)*.5),
+                        (right-left,high-low,z1-z0),colour,(.88,0),dimensions,3.0))
+            # The plinth and stripe stop at the physical edges of each opening.
+            if bottom<.34:
+                panel(left,right,.09,min(.24,top),.188,.195,(.25,.32,.31),(.83,.02))
+            if bottom<1.04 and top>1.04:
+                panel(left,right,1.04,min(1.10,top),.188,.193,(.70,.62,.39),(.77,.04))
+
+        # Broad structural columns sit wholly on the four solid wall wings.
+        # A continuous overhead ledger is above the tallest loading aperture.
+        for left,right in wings:
+            middle=(left+right)*.5
+            panel(middle-.11,middle+.11,0,6,.10,.2,(.38,.46,.44),(.67,.22))
+            panel(middle-.18,middle+.18,.04,.28,.075,.2,(.49,.55,.50),(.87,.04))
+            # The exterior buttress reads as a cast construction joint; its
+            # profile is bounded by existing solid-wall width and thickness.
+            panel(middle-.095,middle+.095,.34,3.18,-.2,-.11,(.74,.78,.73),(.9,0))
+        panel(-width/2,width/2,3.01,3.19,.115,.2,(.38,.46,.44),(.66,.25))
+        panel(-width/2,width/2,5.82,6,.095,.2,(.39,.47,.45),(.65,.26))
+        model('blacksite_hall_wall_'+suffix,near,distant)
+
+    # One compact, merged structural roof replaces the black slab and seven
+    # separately instanced service/truss pieces. Deep I sections and triangular
+    # end haunches visibly carry the span. All geometry stays above 4.90 m.
+    ceiling_dimensions=(34.6,1.4,22.6); ceiling=[]; ceiling_far=[]
+    def overhead(position,size,colour,physical=(.76,.12),detail=False):
+        piece=metric_box(position,size,colour,physical,ceiling_dimensions,5.6)
+        ceiling.append(piece)
+        if not detail: ceiling_far.append(piece)
+    overhead((0,6.15,0),(34.6,.3,22.6),(.82,.85,.80),(.9,.02))
+    # Wide soffit trays make the ceiling legible between structural members.
+    for x in (-12.8,-6.4,0,6.4,12.8):
+        overhead((x,5.975,0),(6.31,.045,21.5),(.88,.89,.83),(.87,.04))
+    beam=(.40,.48,.47)
+    for z in (-6.3,0,6.3):
+        overhead((0,5.55,z),(33.6,.10,.43),beam,(.65,.28))
+        overhead((0,5.91,z),(33.6,.09,.43),beam,(.65,.28))
+        overhead((0,5.73,z),(33.6,.29,.065),(.50,.57,.55),(.70,.22))
+        # Sloped knee plates form real silhouette changes beneath each beam,
+        # rather than more thin rods suspended from an unsupported ceiling.
+        for side in (-1,1):
+            points=[(side*16.8,4.91),(side*14.5,5.49),(side*16.8,5.49)]
+            geometry=extrusion(points,z-.15,z+.15)
+            vertices=[Vector((q.x/34.6,(q.y-5.6)/1.4,q.z/22.6)) for q in geometry[0]]
+            piece=((vertices,geometry[1]),(0,0,0),(1,1,1),beam,(.70,.22))
+            ceiling.append(piece);ceiling_far.append(piece)
+    for x in (-15.6,15.6):
+        overhead((x,5.04,0),(.42,.12,21.55),(.43,.51,.49),(.66,.25))
+        overhead((x,5.40,0),(.42,.09,21.55),(.43,.51,.49),(.66,.25))
+        overhead((x,5.22,0),(.075,.26,21.55),(.51,.59,.55),(.71,.19))
+        # Cable containment remains recognizable, with its costly repeated
+        # rungs dropped from the distant mesh before the structural forms.
+        overhead((x*.91,5.72,0),(.52,.065,20.8),(.57,.61,.55),(.75,.18))
+        for side in (-1,1):
+            overhead((x*.91+side*.25,5.80,0),(.025,.16,20.8),(.57,.61,.55),(.74,.20))
+        for z in (-8,-4,0,4,8):
+            overhead((x*.91,5.84,z),(.52,.035,.06),(.35,.41,.39),(.77,.16),True)
+    model('blacksite_hall_ceiling',ceiling,ceiling_far)
+
     def ground_mesh(name, approach=False):
         """Poured slabs and feathered tyre sweeps in a single native batch."""
         vertices = []; triangles = []; colours = []; physical = []
@@ -146,4 +260,6 @@ def author_blacksite(api, helpers):
 
     ground_mesh('blacksite_service_apron')
     ground_mesh('blacksite_service_approach', True)
-    return ['blacksite_hall_roof','blacksite_hall_cladding','blacksite_service_apron','blacksite_service_approach']
+    return ['blacksite_hall_roof','blacksite_hall_cladding','blacksite_hall_wall_long',
+            'blacksite_hall_wall_short','blacksite_hall_ceiling',
+            'blacksite_service_apron','blacksite_service_approach']

@@ -35,10 +35,14 @@ audit; the original thirteen-section quality requirements remain below.
 
 - [x] Review the Release 67 checklist and actual native Blacksite approach and
   interior baseline images; preserve source `df2e14e` for matched comparisons.
-- [ ] Replace the central hall wall presentation with original editable native
+- [x] Replace the central hall wall presentation with original editable native
   exterior/interior models while retaining all real doorway and window holes.
-- [ ] Replace the simplified hall ceiling with a coherent structural assembly;
+  Both LODs pass all opening-ray and capsule-route checks;
+  [native source](validation-blacksite68-native.json) is reopened and verified.
+- [x] Replace the simplified hall ceiling with a coherent structural assembly;
   rebuild Blacksite lighting and retain other maps' assets and presentation.
+  All 362 existing native meshes, sixty material containers and fifteen other
+  lighting maps remain exact; [asset evidence](validation-blacksite68-preservation.json).
 - [ ] Review matched native exterior/interior and low-quality/LOD gameplay
   images; verify preserved openings, routes, destruction and rendering budgets.
 - [ ] Run aggregate regressions, packaged/offline and application lifecycle

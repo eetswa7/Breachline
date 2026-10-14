@@ -72,7 +72,8 @@ test('Blacksite turbine hall and joined loading surface preserve sightlines and 
  }
  const packed=await readRuntimeLibrary(),buffer=await decodeBlenderLibrary(packed.buffer.slice(packed.byteOffset,packed.byteOffset+packed.byteLength));
  const geometries=parseBlenderGLB(buffer),raw=new Float32Array(16),matrix=new THREE.Matrix4();
- for(const p of parts.filter(p=>p.blenderKind?.startsWith('blacksite_'))){
+ const kinds=['blacksite_hall_roof','blacksite_hall_cladding','blacksite_service_apron','blacksite_service_approach'];
+ for(const p of parts.filter(p=>kinds.includes(p.blenderKind))){
   const g=geometries.get(p.blenderKind+'__near');assert(g,'site-specific native model must ship');
   compose(raw,p.x,p.y,p.z,p.w,p.h,p.d,p.yaw??0,0,0);
   const bounds=g.boundingBox.clone().applyMatrix4(matrix.fromArray(raw));

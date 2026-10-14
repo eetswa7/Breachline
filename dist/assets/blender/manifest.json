@@ -666,6 +666,36 @@
       "vertices": 304,
       "vertexMaterial": true
     },
+    "blacksite_hall_wall_long__near": {
+      "triangles": 5964,
+      "vertices": 3288,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_wall_long__far": {
+      "triangles": 2972,
+      "vertices": 1656,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_wall_short__near": {
+      "triangles": 4556,
+      "vertices": 2520,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_wall_short__far": {
+      "triangles": 2972,
+      "vertices": 1656,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_ceiling__near": {
+      "triangles": 524,
+      "vertices": 348,
+      "vertexMaterial": true
+    },
+    "blacksite_hall_ceiling__far": {
+      "triangles": 404,
+      "vertices": 268,
+      "vertexMaterial": true
+    },
     "blacksite_service_apron__near": {
       "triangles": 283,
       "vertices": 557,
@@ -6561,37 +6591,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "dd2800073cd64ad5b2d568333d19579245f6a0aa0c11990e6a9f33aaf5543b63"
+      "sha256": "0a1f1d7630fd25105a6edf4b72c95095f907bd76991a6fc274569194794d03cb"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "ec59a88cd0ae7590c05a78c42a8e55fd1f054418d6bdf69b847b9d7f75e2f1b5"
+      "sha256": "f1fc05c4c7ce6855f014228184a09dd10eefe698dec6a1327f1cc55ff671e88e"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "33cb255611b0b3d0f7d0d0253d9b396851d461f2751f932a4f5584ba3a539e87"
+      "sha256": "cf0beb1d70edb4c0081d2e8725cc9590d7e2dae8a32aa599d8a5dc73c50552c1"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "dca6488cdbe30480fa3df27f09e670641b563a8a925b4f8704a4d5f74b48b64f"
+      "sha256": "52c4ebf39fd6c88e730af7a20054d79c5e1575c6f72cacaec7932e44116fe944"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "87656a7ecbaaf35f2726c452bba270636794401e058f9fdfe7e99c3f0392cc6c"
+      "sha256": "fadbfe3f5e80a6785632b1845fc816a13e7171cdb298de479e2bd470a415940e"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "976a20ed4dedf1de7ff1742f8ce1b97a2942605590de77fb17d08e00e2f421ed"
+      "sha256": "a54ea655e5846f56472d64a56bc46f17250ac6c987b0dd2fc132860b7109ba67"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 528198,
-      "sha256": "f0e4f266bf1bdaa47f3a738142857695501ec059e87bfdeb8c08cef60a2aa495"
+      "bytes": 771645,
+      "sha256": "1043997c0d6ad3cd8fbf44570ab8bc5fe68a378f77f7381fbc716fe869706465"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6681,6 +6711,9 @@
     "vehicle_sedan",
     "blacksite_hall_roof",
     "blacksite_hall_cladding",
+    "blacksite_hall_wall_long",
+    "blacksite_hall_wall_short",
+    "blacksite_hall_ceiling",
     "blacksite_service_apron",
     "blacksite_service_approach",
     "cooling_stack",
@@ -6708,12 +6741,12 @@
   "authorship": "Original Blender mesh authoring and native Cycles colour/normal/physical bakes",
   "geometryPacking": {
     "normalisedBits": 16,
-    "streams": 298,
-    "savedBytes": 3143672,
+    "streams": 304,
+    "savedBytes": 3302184,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "6f08f36de159ad7bcd4f151f453772cb3e4cb93a86751748b8f8564f0eeae592",
-    "exactPackedSha256": "6f08f36de159ad7bcd4f151f453772cb3e4cb93a86751748b8f8564f0eeae592"
+    "exactSourceSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb",
+    "exactPackedSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb"
   },
   "library": {
     "parts": [
@@ -6725,9 +6758,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13111098,
-    "unpackedBytes": 39843296,
-    "sha256": "0aef8d1e810013b18aa075c505bf0e727eaaf1f79b7c37c531a4b248d70ec6ef"
+    "bytes": 13354545,
+    "unpackedBytes": 41699060,
+    "sha256": "e307b05798e52b2f9a1ce924215e3bfc281d57c854598a7b8edc2508ccbf4602"
   },
-  "downloadBytes": 18312298
+  "downloadBytes": 18555745
 }
