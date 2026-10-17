@@ -32,6 +32,27 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 72 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 71 `25c2fb4`.
+This pass unifies operator component and hand poses with the existing shared
+reload choreography. [Scope and acceptance limits](ART_RELEASE72.md).
+
+- [x] Recover the latest pushed continuation and preserve Release 71's separate
+  first-person magazine roles. Source `25c2fb4`; its draft PR remains open.
+- [ ] Share cached operator component poses between native and reduced rendering;
+  add distinct removed/replacement magazine roles without raising the existing
+  reduced weapon's 24-piece limit.
+- [ ] Drive support-hand targets from the shared component contacts, including
+  shell, cylinder, top-loader, covered-box and empty-action handling.
+- [ ] Correct feed-cover hand contact through the existing close phase while
+  retaining original action, audio and gameplay timing.
+- [ ] Package offline Release 72, run only the required final `npm run verify`,
+  record costs/limits and benchmark provenance, and push usable checkpoints.
+- [ ] Review actual native/reduced gameplay images and physical iPhone costs.
+  Additional browser/profile/device checks are outside current verification
+  scope; professional animation and device acceptance remain open.
+
 ## Release 71 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 70 `41f252b`.
