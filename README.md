@@ -412,7 +412,7 @@ Input commands and simulation events are separated from presentation. This provi
 npm run verify
 ```
 
-The routine gate runs core gameplay, touch/controller input, saves, application lifecycle and offline update tests, then validates JavaScript syntax, local imports, packaged assets, geometry winding and the Home Screen manifest. Run additional test files only for the subsystem changed. Full match simulations, browser matrices, shader checks and profiles are explicit specialist tools, not per-push requirements. See [the test audit and selection guide](docs/TESTING.md) for commands, coverage tradeoffs and the optional full suite.
+The only active test suite contains 74 core tests for gameplay, touch/controller input, saves, application lifecycle and offline updates. `npm run verify` runs those tests plus the packaging/offline check. Retired tests are stored as non-executable text and must not be run. Browser, shader and profiling scripts are not part of validation and must not be run unless explicitly requested. See [the verification policy](docs/TESTING.md).
 
 Earlier browser checks exercised launch, loadout persistence, deployment, touch actions, pause, match completion, results, restart, menu return and the layout editor using compatibility graphics. Release 49 uses an additional real WebGL2 browser pass at 932 × 430. See [current graphics validation and limits](docs/GRAPHICS.md) for evidence and device-testing gaps.
 

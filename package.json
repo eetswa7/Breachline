@@ -11,9 +11,6 @@
     "assets:audio": "python3 authoring/audio/build_audio.py && node scripts/pack-audio.mjs",
     "source:blender": "node scripts/unpack-blender-source.mjs",
     "profile:blender": "node scripts/profile-blender.mjs",
-    "test:all": "node --test tests/*.test.mjs",
-    "test:soak": "node --test tests/soak/*.test.mjs",
-    "test:full": "node --test tests/*.test.mjs tests/soak/*.test.mjs",
     "verify": "npm test && npm run check"
   },
   "dependencies": {
