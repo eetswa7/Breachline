@@ -32,6 +32,25 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 78 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 77 `b0bde98`.
+Retained Blacksite/Monsoon views show sparse starburst palm crowns, with native
+leaflets following a different curve from their straight midrib.
+[Scope and acceptance limits](ART_RELEASE78.md).
+
+- [x] Identify the crown construction gap and existing 164-palm/eight-map
+  coverage from retained gameplay and normal build input. Source `b0bde98`.
+- [ ] Build layered arched fronds, attached curved midribs and folded pinnae
+  at both native LODs, retaining original roots, trunks, transforms and materials.
+- [ ] Rebuild native/editable assets and the eight affected lighting maps,
+  retaining material payloads, other crowns and eight unaffected lightmaps.
+- [ ] Package offline Release 78, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review new actual near/far gameplay and physical iPhone costs. Additional
+  browser/audit/profile/device checks are outside current verification scope;
+  professional vegetation quality and real-device acceptance remain open.
+
 ## Release 77 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 76 `3e68522`.
