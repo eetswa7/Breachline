@@ -7,12 +7,18 @@ export function blenderWorld(arena){
  const nearBuilding=p=>buildings.some(b=>Math.abs(p.x-b.x)<b.w*.55&&Math.abs(p.z-b.z)<b.d*.55&&p.y<b.y+b.h*.5+.08);
  const generators=arena.blocks.filter(p=>p.surface==='dark'&&p.w>1&&p.d>1&&p.h>.8&&p.h<3.1);
  const cars=arena.blocks.filter(p=>(p.culdesacCar||p.shellThickness>0&&p.shellThickness<.01&&p.h<1.4)&&Math.min(p.w,p.d)>1.5);
+ const crates=arena.blocks.filter(p=>p.surface==='wood'&&p.shellThickness>.02);
  const cargo=arena.blocks.filter(p=>p.shellThickness>0&&p.shellThickness<.01&&p.h>2&&Math.max(p.w,p.d)>4);
  const generatorTrim=p=>generators.some(b=>Math.abs(p.x-b.x)<b.w/2+.12&&Math.abs(p.z-b.z)<b.d/2+.12&&
   p.y>b.y-b.h/2&&p.y<b.y+b.h/2+.36&&p.h<.65&&['orange','rust','glass','steel','dark'].includes(p.surface));
  const cargoTrim=p=>cargo.some(b=>Math.abs(p.x-b.x)<b.w/2+.12&&Math.abs(p.z-b.z)<b.d/2+.12&&
   p.y>b.y-b.h/2&&p.y<b.y+b.h/2+.15&&['steel','dark'].includes(p.surface)&&
   (Math.min(p.w,p.d)<.15||p.h<.15));
+ // Remove only the two exact decorative steel bands made by Arena.crate.
+ // The native chest supplies its own complete frame; nearby equipment stays.
+ const crateTrim=p=>p.surface==='steel'&&p.w===.075&&p.h===1.2&&p.d===1.28&&
+  crates.some(b=>b.w===1.25&&b.h===1.18&&b.d===1.25&&Math.abs(Math.abs(p.x-b.x)-.43)<.00001&&
+   Math.abs(p.z-b.z)<.00001&&Math.abs(p.y-b.y-.01)<.00001);
  const carTrim=p=>cars.some(b=>Math.abs(p.x-b.x)<b.w/2+.22&&Math.abs(p.z-b.z)<b.d/2+.22&&p.y<1.8);
  const palmTops=arena.decor.filter(p=>p.surface==='bark'&&p.mesh==='sphere'&&p.w>.7&&p.y>4);
  const broadTrunks=arena.decor.filter(p=>p.surface==='bark'&&p.mesh==='cylinder'&&p.h>2&&p.h<6&&p.w===.3);
@@ -27,6 +33,7 @@ export function blenderWorld(arena){
    parts.push(visual(p,{x:p.x,y:top/2,z:p.z,w:Math.min(p.w,p.d),h:top,d:Math.max(p.w,p.d),
     yaw:alongX?Math.PI/2:0,blenderKind:'vehicle_sedan',blenderColour:true,tile:8}));continue;
   }
+  if(crates.includes(p)){parts.push(visual(p,{blenderKind:'crate',blenderColour:false,tile:10}));continue;}
   if(generators.includes(p)){parts.push(visual(p,{blenderKind:'generator',blenderColour:true,tile:8}));continue;}
   // Large painted building envelopes must not inherit the black machined
   // steel finish used by barrels and machinery. Keep the collider reference.
@@ -69,7 +76,7 @@ export function blenderWorld(arena){
   // The new native machinery/container/vehicle owns these visible details.
   // Do not draw the legacy lid, corrugation bars or floating mechanical trim
   // a second time on top of its baked geometry and PBR finish.
-  if(generatorTrim(p)||cargoTrim(p)||carTrim(p))continue;
+  if(generatorTrim(p)||cargoTrim(p)||crateTrim(p)||carTrim(p))continue;
   // Generic pillow-shaped sandbags on every concrete barrier obscured the
   // tapered Jersey silhouette. These were art-only details, never cover.
   if(p.surface==='fabric'&&p.h===.23&&p.w===.82&&p.d===.54)continue;

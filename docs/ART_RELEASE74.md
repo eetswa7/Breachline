@@ -18,7 +18,12 @@ Crossfire District, Blacksite and Nuketown. All sixteen static level assemblies
 contain this construction. These crates are not marked breakable and participate
 in Cycles GI, so all sixteen lightmaps require fresh baking. Material textures,
 existing gameplay owners, shell thickness, ballistics and routes stay unchanged.
-The generator is outside this modelling change.
+The generator is outside this modelling change. The render assembly suppresses
+only the two exact decorative steel-band shapes emitted by `Arena.crate`; nearby
+equipment remains. Crate wrappers retain `blenderColour:false` and wood tile 10,
+so both runtime and Cycles keep the existing wood-map reflectance while native
+per-vertex wood colour/roughness adds the board hierarchy. An initial build was
+stopped before packaging to incorporate this source-review correction.
 
 ## Build and verification
 
