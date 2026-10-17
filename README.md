@@ -1,6 +1,21 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 71.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 72.** 30 weapons, 16 maps and 11 modes.
+
+## Release 72: shared operator reload components
+
+Operators now use the same removed/replacement magazine roles and component
+hand targets as first-person reloads. Native and reduced weapons share one
+cached pose model, retaining the reduced 24-piece limit and existing far LOD.
+The support hand stays on belt-feed covers through their closing contact.
+
+Existing meshes and media are reused. Rigid hands, reach clamping, the earlier
+covered bolt cue and unmeasured device costs remain limitations. See
+[implementation and acceptance limits](docs/ART_RELEASE72.md) and
+[the updated checklist](docs/OVERHAUL_CHECKLIST.md). Gameplay-image,
+professional animation and physical iPhone acceptance remain open.
+All 74 core tests and the 88-module packaging/offline check pass; game JavaScript
+grows by 516 uncompressed bytes. Runtime source: `ec0afe3`.
 
 ## Release 71: first-person magazine exchange
 

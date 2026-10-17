@@ -32,6 +32,32 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 72 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 71 `25c2fb4`.
+This pass unifies operator component and hand poses with the existing shared
+reload choreography. [Scope and acceptance limits](ART_RELEASE72.md).
+
+- [x] Recover the latest pushed continuation and preserve Release 71's separate
+  first-person magazine roles. Source `25c2fb4`; its draft PR remains open.
+- [x] Share cached operator component poses between native and reduced rendering;
+  add distinct removed/replacement magazine roles without raising the existing
+  reduced weapon's 24-piece limit. Completed 2026-10-18 at `ec0afe3`;
+  [source bounds and acceptance limits](ART_RELEASE72.md).
+- [x] Drive support-hand targets from the shared component contacts, including
+  shell, cylinder, top-loader, covered-box and empty-action handling.
+  Completed 2026-10-18 at `ec0afe3`; [shared rig and rigid-arm limits](ART_RELEASE72.md).
+- [x] Correct feed-cover hand contact through the existing close phase while
+  retaining original action, audio and gameplay timing. Completed 2026-10-18 at `ec0afe3`;
+  [close envelope and earlier bolt-contact limitation](ART_RELEASE72.md).
+- [x] Package offline Release 72, run only the required final `npm run verify`,
+  record costs/limits and benchmark provenance, and push usable checkpoints.
+  Completed 2026-10-18: 74/74 pass, 88 modules packaged; pushed runtime `ec0afe3`
+  is identified by the benchmark provenance. [Recorded result](validation-release72.json).
+- [ ] Review actual native/reduced gameplay images and physical iPhone costs.
+  Additional browser/profile/device checks are outside current verification
+  scope; professional animation and device acceptance remain open.
+
 ## Release 71 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 70 `41f252b`.
@@ -401,10 +427,12 @@ as documented in the baseline JSON and validation report.
   revolver targets. Release 70 moves four complete pistol magazines and targets
   their lower bodies with the support hand. Release 71 adds separate outgoing
   and incoming first-person magazine components across the 26 magazine-fed
-  rigs, with hand retrieval and family-aware phase timing. Rigid grasp,
-  simplified loaders and third-person reused magazines remain; new gameplay
-  acceptance is unverified. Updated 2026-10-18 at `549139b`;
-  [exchange implementation and limits](ART_RELEASE71.md),
+  rigs, with hand retrieval and family-aware phase timing. Release 72 shares
+  those roles with native/reduced operators and uses the common component hand
+  contacts. Rigid grasp, simplified loaders, reach clamping and the earlier
+  covered bolt cue remain; new gameplay acceptance is unverified. Updated
+  2026-10-18 at `ec0afe3`; [operator implementation and limits](ART_RELEASE72.md),
+  [first-person exchange](ART_RELEASE71.md),
   [pistol construction](ART_RELEASE70.md) and
   [previous native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
@@ -430,10 +458,12 @@ as documented in the baseline JSON and validation report.
   components. First-person component-following hand groups now share coherent
   native/fallback pivots and empty-only action targets. Release 71 adds distinct
   first-person removed/replacement components using shared native geometry;
+  Release 72 extends them to operators with shared component hand targets.
   this is render-local exchange, without physical world inventory or landing
   contacts. Finger grasp and natural physical interaction remain unfinished;
-  lower-magazine interactions can remain off-camera. Updated 2026-10-18 at
-  `549139b`; [exchange scope and unverified appearance](ART_RELEASE71.md) and
+  lower-magazine interactions can remain off-camera. Updated 2026-10-18 at `ec0afe3`;
+  [operator scope and rigid-contact limits](ART_RELEASE72.md),
+  [first-person exchange](ART_RELEASE71.md) and
   [earlier actual contact review](ART_RELEASE63.md).
 - [ ] **Partial:** Strong realistic silhouettes and attractive close-ups for
   every weapon. Weapons are distinguishable; the premium standard remains unmet.
@@ -461,7 +491,12 @@ as documented in the baseline JSON and validation report.
   gameplay aim and collision. Native transition frames were reviewed. Completed
   2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
-  targets improved.
+  targets now use the shared component contacts, with separate removed and
+  replacement magazine roles in native and reduced rendering. The 24-piece
+  reduced limit and original far selection remain; small shells/components may
+  be omitted by LOD. Rigid hands, clamped reach, natural grasp and new gameplay
+  acceptance remain open. Updated 2026-10-18 at `ec0afe3`;
+  [Release 72 implementation and limits](ART_RELEASE72.md).
 - [x] **Complete:** Better animation-state transitions. Reused motion state
   blends speed, direction, stance, head aim, landing and impact recovery; pause
   and respawn cleanup are regression-tested. This is rigid posing rather than
@@ -816,6 +851,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed five scoped Release 72 tasks: recovered Release 71, shared cached operator component poses, extended removed/replacement magazine roles within the existing 24 reduced slots, used common hand contacts and corrected the feed-cover close envelope, then packaged and verified the runtime. All 74 core tests and 88-module packaging checks pass once locally; uncompressed game JavaScript grows 516 bytes with no media diff. Updated three original partial explanations. Rigid hand orientation, clamped reach, earlier covered bolt grasp, far omissions, unmeasured full-rig CPU/memory cost, gameplay images and physical iPhone acceptance remain open. | Scope `5107571`, runtime `ec0afe39242b947cf0b7caba18fb61357601ac96`; [implementation, costs and limits](ART_RELEASE72.md), [verification result](validation-release72.json). |
 | 2026-10-18 | Completed five scoped Release 71 tasks: distinct cached removed/replacement magazines for 26 first-person rigs, family-aware stow/departure and retrieval/seating, native aliases/shared fallback poses, deterministic cancellation/menu/completion visibility, cache fixes and final offline/core verification. Long-gun fast-mag loops now travel with their owner. Native media and editable source are unchanged; game JavaScript grows 6,485 bytes. All 74 core tests and the 88-module packaging check pass. Updated two original partial explanations. Actual gameplay images, natural grasp, physical discarded magazines, third-person exchange, professional quality and iPhone acceptance remain open. | Continuation `592ea52`, runtime source `549139bdd6a508cce684638899c09ba40de8a5e0`; [implementation, sizes and limits](ART_RELEASE71.md), [verification result](validation-release71.json). |
 | 2026-10-17 | Completed five scoped Release 70 tasks: complete magazines for four semiautomatic pistols, visible fast/extended/drum geometry, existing attachment-contact voices, native/offline packaging and final core verification. Added cached lower-body hand targets; retained original joints, gameplay timing/ammunition/statistics, all material/lightmap payloads and the sound bank. Native magazine groups grow from 108 to 1,768–1,792 triangles each; library download increases 146,780 bytes. All 74 core tests and the 87-module packaging check pass. Updated three original partial explanations; actual gameplay/listening, rigid grasp/replacement, other attachment fitting, professional quality and physical iPhone acceptance remain open. | Native foundation `898316b`, runtime `e08e6b6a263f134431aef74d8201cdffa0e2a39d`; [construction, costs and limits](ART_RELEASE70.md), [verification result](validation-release70.json). |
 | 2026-10-17 | Completed three scoped Release 69 tasks: original open-skid generator construction, affected five-map Cycles lighting and final core/package verification with pushed checkpoints. Generator topology falls to 2,180 near / 468 far triangles; combined mesh/lighting payload decreases 4,820 bytes. Material-container and eleven unaffected-lighting hashes remain unchanged in the manifest diff. Updated three Environmental props partial explanations. All 74 core tests and 87-module packaging checks pass; binary mesh-stream preservation, matched gameplay images, professional quality and physical iPhone acceptance remain open. All original thirteen sections remain intact. | Definitions `063369e`, runtime `7adee1205aa89069369a955feb731da98cc3578c`; [construction, costs and limits](ART_RELEASE69.md), [verification result](validation-release69.json), [current verification policy](../AGENTS.md). |
