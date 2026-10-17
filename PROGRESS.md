@@ -1,3 +1,16 @@
+# Release 73: ordered covered reloads and operator wrists
+
+- Belt-feed covers now seat before empty charging; pose and foley share .86,
+  .91, .95 and .98 contacts without changing reload clocks or ammunition.
+- Operator support wrists follow shared contact roll and weapon pitch; neutral
+  poses, bounded arm reach, reduced LOD and rigid fingers remain.
+- Runtime `365bd69` passes one final `npm run verify`: 74/74 core tests and the
+  88-module packaging/offline check. Game JavaScript adds 1,892 bytes; no media
+  changes or extra verification suites.
+- [Release 73 source/evidence and limits](docs/ART_RELEASE73.md) and the
+  [updated checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay,
+  listening, professional quality and physical iPhone acceptance.
+
 # Release 72: shared operator reload components
 
 - Continue from pushed Release 71 `25c2fb4`, retaining its distinct first-person

@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 72.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 73.** 30 weapons, 16 maps and 11 modes.
+
+## Release 73: ordered covered reloads and operator wrists
+
+Belt-feed covers seat before an empty charging action, with shared animation
+and mechanical sound phases. Operator support wrists follow component contact
+rotation and weapon pitch while retaining the existing bounded arm rig and LOD.
+Reload duration, ammunition, other weapon families and media remain unchanged.
+
+All 74 core tests and the 88-module packaging/offline check pass; game JavaScript
+adds 1,892 uncompressed bytes. Runtime: `365bd69`. [Implementation and limits](docs/ART_RELEASE73.md)
+and [the updated checklist](docs/OVERHAUL_CHECKLIST.md) keep actual gameplay,
+listening, rigid grasp, professional quality and physical iPhone acceptance open.
 
 ## Release 72: shared operator reload components
 

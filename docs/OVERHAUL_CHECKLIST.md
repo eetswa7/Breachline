@@ -41,13 +41,17 @@ wrist contacts before continuing environment production.
 
 - [x] Recover the latest pushed continuation, retaining Release 71 magazine
   exchange and Release 72 native/reduced operator components. Source `1e8cfb9`.
-- [ ] Seat belt-feed covers before empty-reload charging, and align their
+- [x] Seat belt-feed covers before empty-reload charging, and align their
   mechanical sound crossings and shared hand contacts without changing total
-  reload duration, ammunition or other weapon families.
-- [ ] Apply shared contact rotation to operator reload wrists while preserving
+  reload duration, ammunition or other weapon families. Completed 2026-10-18
+  at `365bd69`; [shared phases and limits](ART_RELEASE73.md).
+- [x] Apply shared contact rotation to operator reload wrists while preserving
   neutral poses, bounded two-bone reach and existing native/reduced LOD.
-- [ ] Package offline Release 73, run only the required final `npm run verify`,
+  Completed 2026-10-18 at `365bd69`; [rotation scope](ART_RELEASE73.md).
+- [x] Package offline Release 73, run only the required final `npm run verify`,
   record source costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass, 88 modules packaged; runtime `365bd69`
+  is identified by benchmark provenance. [Recorded result](validation-release73.json).
 - [ ] Review actual native/reduced gameplay and fresh listening evidence.
   Additional browser/listening/device checks are outside current verification
   scope; professional animation, sound and physical iPhone acceptance stay open.
@@ -449,9 +453,12 @@ as documented in the baseline JSON and validation report.
   and incoming first-person magazine components across the 26 magazine-fed
   rigs, with hand retrieval and family-aware phase timing. Release 72 shares
   those roles with native/reduced operators and uses the common component hand
-  contacts. Rigid grasp, simplified loaders, reach clamping and the earlier
-  covered bolt cue remain; new gameplay acceptance is unverified. Updated
-  2026-10-18 at `ec0afe3`; [operator implementation and limits](ART_RELEASE72.md),
+  contacts. Release 73 seats belt-feed covers before empty charging and shares
+  the action/foley phases, with contact-following operator wrist rotation. Rigid
+  grasp, simplified loaders and reach clamping remain; new gameplay/listening
+  acceptance is unverified. Updated 2026-10-18 at `365bd69`;
+  [sequence and wrist limits](ART_RELEASE73.md),
+  [operator implementation and limits](ART_RELEASE72.md),
   [first-person exchange](ART_RELEASE71.md),
   [pistol construction](ART_RELEASE70.md) and
   [previous native reload frames](ART_RELEASE63.md).
@@ -512,10 +519,12 @@ as documented in the baseline JSON and validation report.
   2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
   targets now use the shared component contacts, with separate removed and
-  replacement magazine roles in native and reduced rendering. The 24-piece
+  replacement magazine roles in native and reduced rendering. Release 73 adds
+  shared-contact wrist rotation and ordered covered-feed charging. The 24-piece
   reduced limit and original far selection remain; small shells/components may
   be omitted by LOD. Rigid hands, clamped reach, natural grasp and new gameplay
-  acceptance remain open. Updated 2026-10-18 at `ec0afe3`;
+  acceptance remain open. Updated 2026-10-18 at `365bd69`;
+  [sequence/wrist scope](ART_RELEASE73.md) and
   [Release 72 implementation and limits](ART_RELEASE72.md).
 - [x] **Complete:** Better animation-state transitions. Reused motion state
   blends speed, direction, stance, head aim, landing and impact recovery; pause
@@ -871,6 +880,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 73 tasks: covered-feed cover seating before empty charging with shared motion/foley phases, contact-following operator wrist rotation, and final offline/core verification. Reload clocks, ammunition, other-family phases, voice limits and all media remain. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 1,892 bytes. Rigid fingers, reach clamping, gameplay/listening quality and physical iPhone costs remain open. | Runtime `365bd69`; [implementation and limits](ART_RELEASE73.md), [recorded result](validation-release73.json). |
 | 2026-10-18 | Completed five scoped Release 72 tasks: recovered Release 71, shared cached operator component poses, extended removed/replacement magazine roles within the existing 24 reduced slots, used common hand contacts and corrected the feed-cover close envelope, then packaged and verified the runtime. All 74 core tests and 88-module packaging checks pass once locally; uncompressed game JavaScript grows 516 bytes with no media diff. Updated three original partial explanations. Rigid hand orientation, clamped reach, earlier covered bolt grasp, far omissions, unmeasured full-rig CPU/memory cost, gameplay images and physical iPhone acceptance remain open. | Scope `5107571`, runtime `ec0afe39242b947cf0b7caba18fb61357601ac96`; [implementation, costs and limits](ART_RELEASE72.md), [verification result](validation-release72.json). |
 | 2026-10-18 | Completed five scoped Release 71 tasks: distinct cached removed/replacement magazines for 26 first-person rigs, family-aware stow/departure and retrieval/seating, native aliases/shared fallback poses, deterministic cancellation/menu/completion visibility, cache fixes and final offline/core verification. Long-gun fast-mag loops now travel with their owner. Native media and editable source are unchanged; game JavaScript grows 6,485 bytes. All 74 core tests and the 88-module packaging check pass. Updated two original partial explanations. Actual gameplay images, natural grasp, physical discarded magazines, third-person exchange, professional quality and iPhone acceptance remain open. | Continuation `592ea52`, runtime source `549139bdd6a508cce684638899c09ba40de8a5e0`; [implementation, sizes and limits](ART_RELEASE71.md), [verification result](validation-release71.json). |
 | 2026-10-17 | Completed five scoped Release 70 tasks: complete magazines for four semiautomatic pistols, visible fast/extended/drum geometry, existing attachment-contact voices, native/offline packaging and final core verification. Added cached lower-body hand targets; retained original joints, gameplay timing/ammunition/statistics, all material/lightmap payloads and the sound bank. Native magazine groups grow from 108 to 1,768–1,792 triangles each; library download increases 146,780 bytes. All 74 core tests and the 87-module packaging check pass. Updated three original partial explanations; actual gameplay/listening, rigid grasp/replacement, other attachment fitting, professional quality and physical iPhone acceptance remain open. | Native foundation `898316b`, runtime `e08e6b6a263f134431aef74d8201cdffa0e2a39d`; [construction, costs and limits](ART_RELEASE70.md), [verification result](validation-release70.json). |
