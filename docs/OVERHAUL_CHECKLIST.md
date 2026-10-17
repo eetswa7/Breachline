@@ -40,13 +40,16 @@ reload choreography. [Scope and acceptance limits](ART_RELEASE72.md).
 
 - [x] Recover the latest pushed continuation and preserve Release 71's separate
   first-person magazine roles. Source `25c2fb4`; its draft PR remains open.
-- [ ] Share cached operator component poses between native and reduced rendering;
+- [x] Share cached operator component poses between native and reduced rendering;
   add distinct removed/replacement magazine roles without raising the existing
-  reduced weapon's 24-piece limit.
-- [ ] Drive support-hand targets from the shared component contacts, including
+  reduced weapon's 24-piece limit. Implemented 2026-10-18;
+  [source bounds and acceptance limits](ART_RELEASE72.md).
+- [x] Drive support-hand targets from the shared component contacts, including
   shell, cylinder, top-loader, covered-box and empty-action handling.
-- [ ] Correct feed-cover hand contact through the existing close phase while
-  retaining original action, audio and gameplay timing.
+  Implemented 2026-10-18; [shared rig and rigid-arm limits](ART_RELEASE72.md).
+- [x] Correct feed-cover hand contact through the existing close phase while
+  retaining original action, audio and gameplay timing. Implemented 2026-10-18;
+  [close envelope and earlier bolt-contact limitation](ART_RELEASE72.md).
 - [ ] Package offline Release 72, run only the required final `npm run verify`,
   record costs/limits and benchmark provenance, and push usable checkpoints.
 - [ ] Review actual native/reduced gameplay images and physical iPhone costs.
@@ -422,10 +425,12 @@ as documented in the baseline JSON and validation report.
   revolver targets. Release 70 moves four complete pistol magazines and targets
   their lower bodies with the support hand. Release 71 adds separate outgoing
   and incoming first-person magazine components across the 26 magazine-fed
-  rigs, with hand retrieval and family-aware phase timing. Rigid grasp,
-  simplified loaders and third-person reused magazines remain; new gameplay
-  acceptance is unverified. Updated 2026-10-18 at `549139b`;
-  [exchange implementation and limits](ART_RELEASE71.md),
+  rigs, with hand retrieval and family-aware phase timing. Release 72 shares
+  those roles with native/reduced operators and uses the common component hand
+  contacts. Rigid grasp, simplified loaders, reach clamping and the earlier
+  covered bolt cue remain; new gameplay acceptance is unverified. Updated
+  2026-10-18; [operator implementation and limits](ART_RELEASE72.md),
+  [first-person exchange](ART_RELEASE71.md),
   [pistol construction](ART_RELEASE70.md) and
   [previous native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
@@ -451,10 +456,12 @@ as documented in the baseline JSON and validation report.
   components. First-person component-following hand groups now share coherent
   native/fallback pivots and empty-only action targets. Release 71 adds distinct
   first-person removed/replacement components using shared native geometry;
+  Release 72 extends them to operators with shared component hand targets.
   this is render-local exchange, without physical world inventory or landing
   contacts. Finger grasp and natural physical interaction remain unfinished;
-  lower-magazine interactions can remain off-camera. Updated 2026-10-18 at
-  `549139b`; [exchange scope and unverified appearance](ART_RELEASE71.md) and
+  lower-magazine interactions can remain off-camera. Updated 2026-10-18;
+  [operator scope and rigid-contact limits](ART_RELEASE72.md),
+  [first-person exchange](ART_RELEASE71.md) and
   [earlier actual contact review](ART_RELEASE63.md).
 - [ ] **Partial:** Strong realistic silhouettes and attractive close-ups for
   every weapon. Weapons are distinguishable; the premium standard remains unmet.
@@ -482,7 +489,12 @@ as documented in the baseline JSON and validation report.
   gameplay aim and collision. Native transition frames were reviewed. Completed
   2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
-  targets improved.
+  targets now use the shared component contacts, with separate removed and
+  replacement magazine roles in native and reduced rendering. The 24-piece
+  reduced limit and original far selection remain; small shells/components may
+  be omitted by LOD. Rigid hands, clamped reach, natural grasp and new gameplay
+  acceptance remain open. Updated 2026-10-18;
+  [Release 72 implementation and limits](ART_RELEASE72.md).
 - [x] **Complete:** Better animation-state transitions. Reused motion state
   blends speed, direction, stance, head aim, landing and impact recovery; pause
   and respawn cleanup are regression-tested. This is rigid posing rather than

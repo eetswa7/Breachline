@@ -1,3 +1,14 @@
+# Release 72: shared operator reload components
+
+- Continue from pushed Release 71 `25c2fb4`, retaining its distinct first-person
+  magazine exchange. Operators now share the component and hand-contact rig
+  across native and reduced weapon rendering.
+- Reuse source/replacement roles within the existing 24 reduced weapon slots,
+  retain far LOD, and keep the support hand at the .86 feed-cover close contact.
+- [Release 72 implementation and limits](docs/ART_RELEASE72.md) and the
+  [updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md) track verification
+  and remaining gameplay-image, rigid-grasp and physical iPhone acceptance.
+
 # Release 68: Blacksite hall construction and interior
 
 - Replaced 36 central-hall wall render proxies with four complete original
