@@ -26,24 +26,36 @@ physical iPhone performance remain unfinished or unverified.
   Existing checked items are the Release 60 audit, not a guarantee for later code.
 - Optional renderer choices such as WebGPU or engine migration are not mandatory.
   Record the decision and evidence rather than adopting them to fill a checkbox.
+- Follow the current [verification policy](../AGENTS.md): final runtime changes
+  get one `npm run verify` (74 core tests plus packaged/offline checks).
+  Historical broader test, shader, browser, audit and profile results below are
+  retained evidence, not instructions to rerun them. Unperformed visual/audio
+  and physical-device acceptance remains open.
 
 ## Release 69 continuation tasks
 
-Scoped task progress for 14 October 2026, continuing from Release 68 source
-`566c63a`. Actual Blacksite interior images identify repeated coarse generator
-forms as the next prominent shared asset weakness.
+Scoped task progress updated on 17 October 2026, continuing from Release 68.
+Actual Blacksite interior images identify repeated coarse generator forms as
+the next prominent shared asset weakness. [Release 69 scope and current
+limits](ART_RELEASE69.md) record the implementation and acceptance status.
 
 - [x] Synchronise the latest pushed Release 68 source and preserve its complete
   distribution for matched native gameplay comparisons.
 - [ ] Replace the shared generator's coarse housing with original editable
   diesel, alternator, radiator and service equipment construction; retain its
   existing unit envelope, collision owners, shared materials and near/far LOD.
-- [ ] Rebuild affected static lighting and verify all other native assets,
-  material containers and unaffected lighting maps remain unchanged.
+- [ ] Rebuild static lighting on Foundry (1), Relay (3), Citadel (5), Monsoon (11)
+  and Blacksite (14), reusing existing native material bakes and compressed
+  material payloads. Record the build's preservation results for other native
+  assets, all material containers and the eleven unaffected lighting maps.
 - [ ] Review matched native close, room-scale, low-quality and far-LOD gameplay
-  images, including the other maps that use the shared model.
-- [ ] Complete regression, shader, source/offline and application checks, record
-  costs and visual limits, update provenance and push usable checkpoints.
+  images on the five affected maps. This acceptance remains unverified; browser
+  image capture is outside the current verification scope.
+- [ ] Run `npm run verify` once on the final runtime source: exactly the existing
+  74 core tests plus the packaged/offline check. Record actual results, costs,
+  remaining visual/device limits and provenance, and push usable checkpoints.
+  Earlier Release 69 shader/browser/audit instructions are superseded by the
+  current [verification policy](../AGENTS.md).
 
 ## Release 68 continuation tasks
 
@@ -706,6 +718,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-17 | Resumed the shared-generator continuation, recorded all five affected maps and material-reuse scope, and aligned Release 69 validation with the current 74-core-test plus packaging policy. Build, runtime verification and checkpoint results are pending; native gameplay image and physical iPhone acceptance remain unverified. All original thirteen sections remain intact; no additional production requirement checked off. | Current source `4a28af0`; [Release 69 scope and limits](ART_RELEASE69.md), [verification policy](../AGENTS.md). |
 | 2026-10-14 | Completed five scoped Release 68 continuation tasks: replaced Blacksite's 36 repeated hall-wall proxies and roof/overhead kit with complete original native walls and a structural soffit; rebaked Blacksite GI. All 362 existing meshes, sixty material containers and fifteen other lighting maps remain exact. Reviewed thirteen matched views/26 images, including low quality and all hall far geometry; recorded the low-quality forecourt's +3.96% selected triangle exception and tiny repeat weapon-light variation. All 421 regressions, four tightened focused tests, 87 modules, 58 shaders and sixteen application/offline/export gates pass. Updated three architectural partial explanations; broader realism, audio and physical-device requirements remain open. Sites publication is blocked by the missing bundled helper. | Runtime `b9c3fa8d9b51c10e805e3fc747bd8d775145bca1`, provenance `55fe955`, application `8567190`; [native images, costs and limits](ART_RELEASE68.md), [aggregate validation](validation-release68.json). |
 | 2026-10-14 | Implemented moving-listener world-tail gain/filter/cover updates, separate reload edge envelopes and bounded cover refresh. Fixed a filter reopening artifact found by native PCM review. All 33 focused audio/event regressions and five native movement/cover/listening fixtures pass; broader spatial/premium audio and physical Safari requirements remain partial or unverified. | [Moving acoustics evidence](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
 | 2026-10-14 | Rechecked the 397-test source baseline and restored its failing Blacksite world-batch budget with centred spatial cells. All sixteen maps and 49 scene fixtures stay within the existing 220-batch cap. Native visual integration and new production work follow; no broader art requirement newly completed. | [Batch evidence and limits](WORLD_BATCHES67.md). |

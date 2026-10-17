@@ -22,11 +22,13 @@ checkpoint used Blender 4.0.2, Cycles CPU and astcenc 4.7.
 npm run source:blender
 npm run assets:blender
 npm run assets:audio
-node scripts/release.mjs 58
-npm test
-npm run check
-npm run profile:blender
+node scripts/release.mjs 69
+npm run verify
 ```
+
+Follow [the current verification policy](../../docs/TESTING.md): only the 74
+core tests and packaging/offline check run. Historical release instructions do
+not authorize additional browser, shader, asset-audit or profiling checks.
 
 `BLENDER_BIN` and `PYTHON_BIN` select installed executables. Native modelling is
 in `build_assets.py`, `art_geometry.py`, `production_assets.py`,
@@ -50,6 +52,11 @@ encoder and still produces new lighting maps. For a change confined to one map,
 `npm run assets:blender -- --reuse-bakes --rebake-maps=14` rebakes Blacksite GI
 and retains the other fifteen packed Cycles images. Use that selective option
 only when those other maps' static geometry, materials and lighting are unchanged.
+
+The shared generator occurs on Foundry, Relay, Citadel, Monsoon and Blacksite.
+For a change confined to that model, use
+`npm run assets:blender -- --reuse-bakes --rebake-maps=1,3,5,11,14` to rebuild
+those five ground-lighting maps and retain the other eleven packed images.
 
 ## Art and texture production
 
