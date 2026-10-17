@@ -1,0 +1,58 @@
+{
+  "release": 73,
+  "date": "2026-10-18",
+  "baseline_commit": "1e8cfb911b11456dc015e5df2bc25230abd8ec40",
+  "continuation_checkpoint": "04bdc1d",
+  "runtime_source_commit": "365bd690d580fe1590a2485d3225b71ed916d965",
+  "content_sha256": "0f75f222fa01ba1b36994ed95da1ea615be83fd9fde412a5ce55cb9fae26c138",
+  "implementation_scope": {
+    "covered_weapons": [
+      9,
+      27
+    ],
+    "covered_phases": {
+      "cover_close_start": 0.77,
+      "cover_seat": 0.86,
+      "action_reach": 0.91,
+      "action_open": 0.95,
+      "action_close": 0.98,
+      "hand_rest": 0.995
+    },
+    "operator_wrists": "Shared contact roll and mounting pitch compose around neutral glove orientation with reach-weight blending; original two-bone positional clamp retained",
+    "preservation": "Reload duration, ammunition crossings, other-family phases, stage counts, cancellation and audio voice/bank limits remain. Source review is not rendered or listening evidence."
+  },
+  "package_observations": {
+    "game_javascript_modules": 84,
+    "previous_game_javascript_bytes": 703981,
+    "game_javascript_bytes": 705873,
+    "javascript_delta_bytes": 1892,
+    "media_changes": false,
+    "evidence_source": "Ordinary release output, source/diff review and static file sizes; no asset audit or runtime profile"
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "test_duration_ms": 2869.523417,
+    "packaged_javascript_modules": 88,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "coverage_limit": "Existing core checks do not establish every covered reload/wrist/LOD path or subjective visible/audible quality."
+  },
+  "not_performed": [
+    "Additional or retired suites, browser/listening/shader checks, asset audits or profiles",
+    "Actual native/reduced gameplay-image and professional animation/listening acceptance",
+    "Physical iPhone frame time, memory, thermal or sustained-performance acceptance"
+  ],
+  "remaining_limits": [
+    "Rigid fingers and forearms; no anatomical grasp or skin deformation",
+    "Operator reach remains clamped for distant contacts",
+    "Revised action occurs late in unchanged reload; subjective motion and listening acceptance remain unverified",
+    "No physical discarded-magazine inventory or landing contacts",
+    "Professional visual/audio quality and physical-device costs remain unverified"
+  ]
+}

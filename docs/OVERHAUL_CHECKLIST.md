@@ -32,6 +32,147 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 78 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 77 `b0bde98`.
+Retained Blacksite/Monsoon views show sparse starburst palm crowns, with native
+leaflets following a different curve from their straight midrib.
+[Scope and acceptance limits](ART_RELEASE78.md).
+
+- [x] Identify the crown construction gap and existing 164-palm/eight-map
+  coverage from retained gameplay and normal build input. Source `b0bde98`.
+- [x] Build layered arched fronds, attached curved midribs and folded pinnae
+  at both native LODs, retaining original roots, trunks, transforms and materials.
+  Completed 2026-10-18 from `16bde92`; [construction/costs](ART_RELEASE78.md).
+- [x] Rebuild native/editable assets and the eight affected lighting maps,
+  retaining material payloads, other crowns and eight unaffected lightmaps.
+  Completed 2026-10-18 at `570d918`; [build/manifest observations](ART_RELEASE78.md).
+- [x] Package offline Release 78, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass and 88 modules packaged; provenance identifies `570d918`.
+  [Recorded result](validation-release78.json).
+- [ ] Review new actual near/far gameplay and physical iPhone costs. Additional
+  browser/audit/profile/device checks are outside current verification scope;
+  professional vegetation quality and real-device acceptance remain open.
+
+## Release 77 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 76 `3e68522`.
+Nuketown beds, storage and privacy fences inherit crate/primitive presentation.
+This pass gives them original domestic construction while retaining solid owners.
+[Scope and acceptance limits](ART_RELEASE77.md).
+
+- [x] Identify furniture and long fence selector mismatches using source and
+  retained map 15 images. Source `3e68522`; [references/limits](ART_RELEASE77.md).
+- [x] Add original closed bed/cabinet and backed privacy-fence native near/far
+  models, preserving every owner transform/material/collision and existing decor.
+  Completed 2026-10-18 from `84acd6d`; [construction/costs](ART_RELEASE77.md).
+- [x] Select fence LOD by board detail and nearest-surface distance so long
+  spans do not force detailed boards throughout the map. Completed 2026-10-18
+  at `b47e136`; [LOD scope and unverified transitions](ART_RELEASE77.md).
+- [x] Rebuild native library/editable source and map 15 lighting, retaining
+  all material payloads and the other fifteen lightmaps. Completed 2026-10-18
+  at `b47e136`; [native/source and manifest observations](ART_RELEASE77.md).
+- [x] Package offline Release 77, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass and 88 modules packaged; provenance identifies `b47e136`.
+  [Recorded result](validation-release77.json).
+- [ ] Review new actual furniture/fence gameplay and physical iPhone costs.
+  Additional browser/audit/profile/device checks are outside current verification
+  scope; professional art and real-device acceptance remain open.
+
+## Release 76 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 75 `068caf1`.
+This pass distinguishes actual cover materials within the existing audio ray
+budget. [Scope and acceptance limits](ART_RELEASE76.md).
+
+- [x] Identify that every blocked audio ray previously used the same generic
+  attenuation/filter, despite authoritative collider surfaces. Source `068caf1`.
+- [x] Reuse one bounded eye-to-source trace to select shared wood, thin-shell,
+  masonry or generic responses; keep boolean APIs and visibility tolerance.
+  Completed 2026-10-18 at `3c78f6c`; [coefficient model/limits](ART_RELEASE76.md).
+- [x] Share the response between initial playback and moving tails, preserving
+  voice/decode/node limits, cancellation and eight-ray/four-refresh budgets.
+  Completed 2026-10-18 at `3c78f6c`; [initial/tail scope](ART_RELEASE76.md).
+- [x] Package offline Release 76, run only final `npm run verify`, record
+  coefficients/costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass and 88 modules packaged; benchmark provenance
+  identifies `3c78f6c`. [Recorded result](validation-release76.json).
+- [ ] Review actual listening and physical device costs. Coefficients remain
+  unmeasured authoring approximations; decorative glazing, layered transmission,
+  professional listening quality and physical iPhone acceptance remain open.
+
+## Release 75 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 74 `aa0aeaf`.
+This pass corrects stance-dependent listener position and hard-particle contact
+with elevated surfaces. [Scope and acceptance limits](ART_RELEASE75.md).
+
+- [x] Identify fixed-height audio cover rays and world-zero debris contact in
+  the source; retain gameplay, voice and particle limits. Source `aa0aeaf`.
+- [x] Share the actual batch eye position between HRTF, distance, cover rays
+  and moving-tail refresh, including crouching and vertical movement. Completed
+  2026-10-18 at `570ce85`; [scope and limits](ART_RELEASE75.md).
+- [x] Contact raised collision tops and thin visible finishes during downward
+  hard-debris motion, retaining exact footprints and release at edges/destruction.
+  Completed 2026-10-18 at `570ce85`; [contact bounds](ART_RELEASE75.md).
+- [x] Package offline Release 75, run only the final required `npm run verify`,
+  record costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass, 88 modules packaged; provenance identifies `570ce85`.
+  [Recorded result](validation-release75.json).
+- [ ] Review actual listening and raised-surface effect gameplay. Additional
+  browser/listening/profile/device checks are outside current verification scope;
+  professional quality and physical iPhone acceptance remain open.
+
+## Release 74 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 73 `53b0825`.
+Recorded Blacksite gameplay still shows cube-built wooden crates in prominent
+service areas. This pass replaces their shared construction across all maps.
+[Scope and acceptance limits](ART_RELEASE74.md).
+
+- [x] Identify the old cube/strip crate and its static-lighting coverage in all
+  sixteen maps; retain the original owners, dimensions and solid collision.
+  Source `53b0825`; [recorded reference and coverage](ART_RELEASE74.md).
+- [x] Replace the shared crate with original editable board panels, structural
+  frame, broad diagonal braces, closed lid and supporting bearers at near/far LOD.
+  Completed 2026-10-18 from `a903888`; [construction and costs](ART_RELEASE74.md).
+- [x] Rebuild native meshes, all sixteen static lightmaps and editable source
+  while reusing the existing material bakes and compressed material payloads.
+  Completed 2026-10-18 at `c594b4c`; [native/source metadata](ART_RELEASE74.md).
+- [x] Package offline Release 74, run only the final required `npm run verify`,
+  record generated costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass, 88 modules packaged; runtime `c594b4c`
+  is identified by benchmark provenance. [Recorded result](validation-release74.json).
+- [ ] Review new actual near/far/native gameplay images. Browser/asset-audit/
+  profile/device checks are outside current verification scope; professional
+  environmental quality and physical iPhone acceptance remain open.
+
+## Release 73 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 72 `1e8cfb9`.
+This pass addresses the remaining covered-feed mechanical sequence and operator
+wrist contacts before continuing environment production.
+[Scope and acceptance limits](ART_RELEASE73.md).
+
+- [x] Recover the latest pushed continuation, retaining Release 71 magazine
+  exchange and Release 72 native/reduced operator components. Source `1e8cfb9`.
+- [x] Seat belt-feed covers before empty-reload charging, and align their
+  mechanical sound crossings and shared hand contacts without changing total
+  reload duration, ammunition or other weapon families. Completed 2026-10-18
+  at `365bd69`; [shared phases and limits](ART_RELEASE73.md).
+- [x] Apply shared contact rotation to operator reload wrists while preserving
+  neutral poses, bounded two-bone reach and existing native/reduced LOD.
+  Completed 2026-10-18 at `365bd69`; [rotation scope](ART_RELEASE73.md).
+- [x] Package offline Release 73, run only the required final `npm run verify`,
+  record source costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass, 88 modules packaged; runtime `365bd69`
+  is identified by benchmark provenance. [Recorded result](validation-release73.json).
+- [ ] Review actual native/reduced gameplay and fresh listening evidence.
+  Additional browser/listening/device checks are outside current verification
+  scope; professional animation, sound and physical iPhone acceptance stay open.
+
 ## Release 72 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from pushed Release 71 `25c2fb4`.
@@ -304,7 +445,11 @@ as documented in the baseline JSON and validation report.
 ### Environmental props
 
 - [ ] **Partial:** Improve vehicles, machinery, containers, barriers, pipes,
-  fences, furniture, vegetation and military equipment. Many shared props were
+  fences, furniture, vegetation and military equipment. Release 77 gives Nuketown
+  beds/storage and privacy fences dedicated original closed construction and
+  board-based LOD, retaining their owners and existing material routing. Wider
+  library realism and new gameplay acceptance remain open. Updated 2026-10-18
+  at `b47e136`; [construction, costs and limits](ART_RELEASE77.md). Many shared props were
   rebuilt; Release 69 adds an open-skid diesel generator with separate engine,
   alternator, radiator and service forms at both LODs. Every listed category was
   not comprehensively upgraded. Updated 2026-10-17 from `063369e`;
@@ -314,18 +459,28 @@ as documented in the baseline JSON and validation report.
   existing shared finishes. Professional weathering and realism remain incomplete.
   Updated 2026-10-17 from `063369e`; [construction and limits](ART_RELEASE69.md).
 - [ ] **Partial:** Replace simplistic props with professionally modelled
-  alternatives. Release 69 replaces the coarse shared generator at both LODs;
+  alternatives. Release 74 replaces cube-built shipping crates with backed board
+  panels, structural framing, braces and supporting bearers at both LODs across
+  all sixteen maps. The old generic model remains for unrelated furniture/fences;
+  [construction, triangle costs and unverified visual acceptance](ART_RELEASE74.md)
+  are recorded at `c594b4c` on 2026-10-18. Release 69 replaces the coarse shared generator at both LODs;
   native gameplay acceptance remains unverified and several other props still
   appear simplistic. Updated 2026-10-17 from `063369e`;
   [construction and acceptance limits](ART_RELEASE69.md).
 
 ### Vegetation
 
-- [ ] **Partial:** Natural trees, foliage, grass and bushes. Vegetation remains
-  stylised and sparse.
+- [ ] **Partial:** Natural trees, foliage, grass and bushes. Release 78 replaces
+  flat radial palm construction with layered arched fronds, attached curved
+  midribs and folded pinnae at both native LODs, retaining the 164 existing
+  crowns. Broader natural vegetation and new visual acceptance remain open.
+  Updated 2026-10-18 at `570d918`; [construction and limits](ART_RELEASE78.md).
 - [ ] **Partial:** Better leaf density, silhouettes, shading, variation and light
-  interaction. Some shading/material improvements; no complete natural vegetation
-  overhaul.
+  interaction. Release 78 adds folded three-dimensional palm blades and three
+  frond whorls with retained material/wind/instancing. Far construction adds six
+  triangles per palm; source counts do not establish natural appearance or
+  physical cost. The complete vegetation overhaul remains open. Updated
+  2026-10-18 at `570d918`; [near/far scope and limits](ART_RELEASE78.md).
 - [x] **Complete:** Preserve efficient vegetation LOD and instancing.
 - [ ] **Partial:** Improve believability rather than merely add objects.
   Replacement/material work occurred, but the required believability is not achieved.
@@ -429,9 +584,12 @@ as documented in the baseline JSON and validation report.
   and incoming first-person magazine components across the 26 magazine-fed
   rigs, with hand retrieval and family-aware phase timing. Release 72 shares
   those roles with native/reduced operators and uses the common component hand
-  contacts. Rigid grasp, simplified loaders, reach clamping and the earlier
-  covered bolt cue remain; new gameplay acceptance is unverified. Updated
-  2026-10-18 at `ec0afe3`; [operator implementation and limits](ART_RELEASE72.md),
+  contacts. Release 73 seats belt-feed covers before empty charging and shares
+  the action/foley phases, with contact-following operator wrist rotation. Rigid
+  grasp, simplified loaders and reach clamping remain; new gameplay/listening
+  acceptance is unverified. Updated 2026-10-18 at `365bd69`;
+  [sequence and wrist limits](ART_RELEASE73.md),
+  [operator implementation and limits](ART_RELEASE72.md),
   [first-person exchange](ART_RELEASE71.md),
   [pistol construction](ART_RELEASE70.md) and
   [previous native reload frames](ART_RELEASE63.md).
@@ -492,10 +650,12 @@ as documented in the baseline JSON and validation report.
   2026-10-12 at `20b9875`; [character evidence](CHARACTER_MOTION61.md).
 - [ ] **Partial:** Improved reloading. Third-person magazine/bolt-aware hand
   targets now use the shared component contacts, with separate removed and
-  replacement magazine roles in native and reduced rendering. The 24-piece
+  replacement magazine roles in native and reduced rendering. Release 73 adds
+  shared-contact wrist rotation and ordered covered-feed charging. The 24-piece
   reduced limit and original far selection remain; small shells/components may
   be omitted by LOD. Rigid hands, clamped reach, natural grasp and new gameplay
-  acceptance remain open. Updated 2026-10-18 at `ec0afe3`;
+  acceptance remain open. Updated 2026-10-18 at `365bd69`;
+  [sequence/wrist scope](ART_RELEASE73.md) and
   [Release 72 implementation and limits](ART_RELEASE72.md).
 - [x] **Complete:** Better animation-state transitions. Reused motion state
   blends speed, direction, stance, head aim, landing and impact recovery; pause
@@ -525,7 +685,10 @@ as documented in the baseline JSON and validation report.
   third-person firing system remain; professional quality stays unfinished.
   Updated 2026-10-14 at `23fedbc`; [native frames and limits](FIRING67.md).
 - [ ] **Partial:** Bullet impacts and surface-specific debris. Material treatment
-  improved; complete professional impact production was not achieved.
+  improved; Release 75 adds point contacts for hard debris against raised
+  collision tops and thin visible finishes, preserving pool/lifetime/resource
+  bounds. Professional impact production and new gameplay acceptance remain
+  open. Updated 2026-10-18 at `570ce85`; [contact scope](ART_RELEASE75.md).
 - [ ] **Partial:** Dust, sparks and particles. Shapes, rotation and shading
   improved; animated quality remains incompletely reviewed.
 - [ ] **Partial:** Explosions and shock effects. Existing explosions benefit from
@@ -776,7 +939,14 @@ These are Release 57 measurements, not measurements of Release 60.
   filtering with live listener updates; native tests verify retreat, cover
   insertion/removal, lateral direction and cleanup. Simplified shared room
   responses, subjective localisation/realism and physical Safari performance
-  remain open. Updated 2026-10-14 at `0ec0b66`;
+  remain open. Release 75 unifies HRTF, distance, cover and moving-tail refresh
+  around the actual ear position, including crouching behind low cover. New
+  listening/device acceptance remains unverified. Release 76 distinguishes
+  nearest authoritative wood/thin-shell/masonry cover with shared bounded
+  gain/filter profiles; coefficients are unmeasured, while layered transmission
+  and decorative glazing stay open. Updated 2026-10-18 at `3c78f6c`;
+  [material response and limits](ART_RELEASE76.md),
+  [listener scope and limits](ART_RELEASE75.md),
   [PCM and listening reel](AUDIO_ACOUSTICS67.md).
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
   volume. The bank was rebuilt and immediate-repeat avoidance implemented.
@@ -851,6 +1021,12 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 78 tasks: original layered palm fronds with curved attached midribs/folded pinnae, native/editable assets and eight affected GI maps with retained materials/other eight lightmaps, and final core/offline verification. Original 164 instances, trunks, bounds, wind, instancing and LOD selection remain. Palm topology is 1,096/280 near/far triangles; mesh/lighting download adds 7,827 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay, professional vegetation and physical iPhone costs remain unverified. | Source `16bde92`, runtime `570d918`; [construction/costs](ART_RELEASE78.md), [recorded result](validation-release78.json). |
+| 2026-10-18 | Completed four scoped Release 77 tasks: dedicated bed/cabinet/backed-fence construction for Nuketown, fence selection by board detail/nearest surface, native/editable assets and map15 GI with retained materials/other15 lightmaps, and final core/offline verification. Existing owner transforms, collision, decor and routes remain. New native meshes add 125,466 bytes of mesh/lighting download; JavaScript adds 669 bytes. All 74 core tests and 88-module packaging checks pass. Actual images, LOD/batching/device cost and professional art remain unverified. | Source `84acd6d`, runtime `b47e136`; [construction/costs/limits](ART_RELEASE77.md), [recorded result](validation-release77.json). |
+| 2026-10-18 | Completed three scoped Release 76 tasks: nearest authoritative cover-material profiles, coherent initial/moving-tail response within existing ray/voice/node budgets, and final core/offline verification. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,487 bytes, with no media changes. Coefficients are unmeasured; decorative glazing, layered/physical transmission, premium listening and physical iPhone acceptance remain open. | Runtime `3c78f6c`; [model/limits](ART_RELEASE76.md), [recorded result](validation-release76.json). |
+| 2026-10-18 | Completed three scoped Release 75 tasks: stance-correct shared listener acoustics, raised-surface hard-debris point contacts, and final core/offline verification. Existing ray/voice/particle/resource limits remain; extra local contact-query cost is unmeasured. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,164 bytes. Actual listening/gameplay, professional quality and physical iPhone acceptance remain open. | Runtime `570ce85`; [implementation/limits](ART_RELEASE75.md), [recorded result](validation-release75.json). |
+| 2026-10-18 | Completed three scoped Release 74 tasks: original board-built shipping-crate near/far construction, all sixteen Cycles lightmaps with retained material payloads/editable source, and final core/offline verification. Narrow routing retains unrelated furniture/fences and removes only exact legacy crate bands. Selected crates add 384 near/288 far triangles; mesh/lighting download adds 25,256 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay images, professional art and physical iPhone costs remain unverified. | Source `a903888`, runtime `c594b4c`; [construction/costs](ART_RELEASE74.md), [recorded result](validation-release74.json). |
+| 2026-10-18 | Completed three scoped Release 73 tasks: covered-feed cover seating before empty charging with shared motion/foley phases, contact-following operator wrist rotation, and final offline/core verification. Reload clocks, ammunition, other-family phases, voice limits and all media remain. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 1,892 bytes. Rigid fingers, reach clamping, gameplay/listening quality and physical iPhone costs remain open. | Runtime `365bd69`; [implementation and limits](ART_RELEASE73.md), [recorded result](validation-release73.json). |
 | 2026-10-18 | Completed five scoped Release 72 tasks: recovered Release 71, shared cached operator component poses, extended removed/replacement magazine roles within the existing 24 reduced slots, used common hand contacts and corrected the feed-cover close envelope, then packaged and verified the runtime. All 74 core tests and 88-module packaging checks pass once locally; uncompressed game JavaScript grows 516 bytes with no media diff. Updated three original partial explanations. Rigid hand orientation, clamped reach, earlier covered bolt grasp, far omissions, unmeasured full-rig CPU/memory cost, gameplay images and physical iPhone acceptance remain open. | Scope `5107571`, runtime `ec0afe39242b947cf0b7caba18fb61357601ac96`; [implementation, costs and limits](ART_RELEASE72.md), [verification result](validation-release72.json). |
 | 2026-10-18 | Completed five scoped Release 71 tasks: distinct cached removed/replacement magazines for 26 first-person rigs, family-aware stow/departure and retrieval/seating, native aliases/shared fallback poses, deterministic cancellation/menu/completion visibility, cache fixes and final offline/core verification. Long-gun fast-mag loops now travel with their owner. Native media and editable source are unchanged; game JavaScript grows 6,485 bytes. All 74 core tests and the 88-module packaging check pass. Updated two original partial explanations. Actual gameplay images, natural grasp, physical discarded magazines, third-person exchange, professional quality and iPhone acceptance remain open. | Continuation `592ea52`, runtime source `549139bdd6a508cce684638899c09ba40de8a5e0`; [implementation, sizes and limits](ART_RELEASE71.md), [verification result](validation-release71.json). |
 | 2026-10-17 | Completed five scoped Release 70 tasks: complete magazines for four semiautomatic pistols, visible fast/extended/drum geometry, existing attachment-contact voices, native/offline packaging and final core verification. Added cached lower-body hand targets; retained original joints, gameplay timing/ammunition/statistics, all material/lightmap payloads and the sound bank. Native magazine groups grow from 108 to 1,768–1,792 triangles each; library download increases 146,780 bytes. All 74 core tests and the 87-module packaging check pass. Updated three original partial explanations; actual gameplay/listening, rigid grasp/replacement, other attachment fitting, professional quality and physical iPhone acceptance remain open. | Native foundation `898316b`, runtime `e08e6b6a263f134431aef74d8201cdffa0e2a39d`; [construction, costs and limits](ART_RELEASE70.md), [verification result](validation-release70.json). |

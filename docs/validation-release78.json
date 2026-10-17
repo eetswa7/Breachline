@@ -1,0 +1,88 @@
+{
+  "release": 78,
+  "date": "2026-10-18",
+  "baseline_commit": "b0bde98",
+  "authoring_checkpoint": "16bde92",
+  "runtime_source_commit": "570d918b1494369f78d035431bc6c7f50a9d1b2e",
+  "content_sha256": "3c6e38b015e6456b87c4c42efea8ed0c77b432a38b95ad42edf9cd64020b182f",
+  "implementation_scope": {
+    "palm": "Three frond whorls, attached curved rachis ribbons and folded pinnae at both native LODs; roots/bounds/trunks/instances/wind/material/routing retained",
+    "source_coverage": {
+      "normal_build_input_instances": 164,
+      "maps": [
+        0,
+        2,
+        6,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    "other_crowns": "Conifer and tree_crown definitions unchanged; no separate binary preservation audit",
+    "lod": "Original canopy distances, hysteresis, instancing and selection code remain"
+  },
+  "package_observations": {
+    "native_meshes": 386,
+    "palm_meshes": {
+      "palm_crown__near": {
+        "triangles": 1096,
+        "vertices": 1364,
+        "vertexMaterial": false
+      },
+      "palm_crown__far": {
+        "triangles": 280,
+        "vertices": 528,
+        "vertexMaterial": false
+      }
+    },
+    "library": {
+      "parts": [
+        "breachline-library.part000.bin",
+        "breachline-library.part001.bin",
+        "breachline-library.part002.bin",
+        "breachline-library.part003.bin",
+        "breachline-library.part004.bin",
+        "breachline-library.part005.bin",
+        "breachline-library.part006.bin"
+      ],
+      "bytes": 13666984,
+      "unpackedBytes": 43284628,
+      "sha256": "03bb9e200e06503ad7f993becf4be97c1110fa1622ac6cec1d6b0aeaacdff81e"
+    },
+    "source": {
+      "bytes": 172289463,
+      "sha256": "34f59e5cd41a6f282318843beb095bd55074e6cb5609d15359234475f199fab5"
+    },
+    "production_bytes": 67310782,
+    "material_records_changed": false,
+    "changed_production_files": [
+      "lightmap-0.part000.bin",
+      "lightmap-2.part000.bin",
+      "lightmap-6.part000.bin",
+      "lightmap-10.part000.bin",
+      "lightmap-11.part000.bin",
+      "lightmap-12.part000.bin",
+      "lightmap-13.part000.bin",
+      "lightmap-14.part000.bin"
+    ],
+    "javascript_bytes": 711790
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "test_duration_ms": 2771.35279,
+    "packaged_javascript_modules": 88,
+    "coverage_limit": "Existing checks do not establish new palm appearance, all-map/LOD quality or physical-device cost."
+  },
+  "not_performed": [
+    "Additional/retired tests, browser/shader checks, binary asset audits or profiles",
+    "New actual close/far gameplay and professional vegetation acceptance",
+    "Physical iPhone frame-time/memory/thermal acceptance"
+  ]
+}

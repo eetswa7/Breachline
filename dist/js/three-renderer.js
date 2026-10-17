@@ -1,43 +1,43 @@
-import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=72';
-import {ProductionLighting} from './production-lighting.js?v=72';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=72';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=72';
-import {patchBlenderMaterial} from './blender-material.js?v=72';
-import {blenderWorld} from './blender-world.js?v=72';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=72';
-import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=72';
-import {updateWeaponClearance} from './weapon-clearance.js?v=72';
-import {WEAPONS} from './weapons.js?v=72';
-import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=72';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=72';
-import {patchAtmosphere} from './atmosphere.js?v=72';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=72';
-import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=72';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=72';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=72';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=72';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=72';
-import {DecalSystem} from './decal-system.js?v=72';
-import {ExplosionShockSystem} from './explosion-shock.js?v=72';
-import {EnvironmentalFireSystem} from './environmental-fire.js?v=72';
-import {GlassDamageSystem} from './glass-damage.js?v=72';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=72';
-import {LightingField} from './lighting-field.js?v=72';
-import {RoomLights} from './room-lights.js?v=72';
-import {waterMaterial,patchWater} from './water-material.js?v=72';
-import {visualGroundHeight} from './surface-placement.js?v=72';
-import {patchSurfaceDetail} from './material-detail.js?v=72';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=72';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=72';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=72';
+import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=78';
+import {ProductionLighting} from './production-lighting.js?v=78';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=78';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=78';
+import {patchBlenderMaterial} from './blender-material.js?v=78';
+import {blenderWorld} from './blender-world.js?v=78';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=78';
+import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=78';
+import {updateWeaponClearance} from './weapon-clearance.js?v=78';
+import {WEAPONS} from './weapons.js?v=78';
+import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=78';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=78';
+import {patchAtmosphere} from './atmosphere.js?v=78';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=78';
+import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=78';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=78';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=78';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=78';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=78';
+import {DecalSystem} from './decal-system.js?v=78';
+import {ExplosionShockSystem} from './explosion-shock.js?v=78';
+import {EnvironmentalFireSystem} from './environmental-fire.js?v=78';
+import {GlassDamageSystem} from './glass-damage.js?v=78';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=78';
+import {LightingField} from './lighting-field.js?v=78';
+import {RoomLights} from './room-lights.js?v=78';
+import {waterMaterial,patchWater} from './water-material.js?v=78';
+import {visualGroundHeight,debrisGroundHeight} from './surface-placement.js?v=78';
+import {patchSurfaceDetail} from './material-detail.js?v=78';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=78';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=78';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=78';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=72';
-import { actorModel, material, part } from './geometry.js?v=72';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=72';
-import { loadImages } from './textures.js?v=72';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=72';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=72';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=72';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=78';
+import { actorModel, material, part } from './geometry.js?v=78';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=78';
+import { loadImages } from './textures.js?v=78';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=78';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=78';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=78';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -689,8 +689,15 @@ export class Renderer {
     for (const e of this.effects) {
       if (e.life <= 0) continue;
       e.life -= dt; if (e.life <= 0) continue;
+      const oldX=e.x,oldY=e.y,oldZ=e.z;
       e.x += e.vx * dt; e.y += e.vy * dt; e.z += e.vz * dt;
-      if (e.kind > .5) e.vy -= dt * 8;
+      if (e.kind > .5) {
+        e.vy -= dt * 8;
+        if(dt>0&&e.y<=oldY){
+          const floor=debrisGroundHeight(this.arena,e,oldX,oldY,oldZ);
+          if(floor>0){e.y=floor+.025;e.vy=0;e.vx*=.8;e.vz*=.8;}
+        }
+      }
       if (e.y < .025) { e.y = .025; e.vy = 0; e.vx *= .8; e.vz *= .8; }
       const age = 1 - e.life / e.max, soft = e.kind < .5;
       const size = e.size * (soft ? 2 + age * 4 : 2);

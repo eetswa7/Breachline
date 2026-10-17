@@ -417,13 +417,13 @@
       "vertexMaterial": true
     },
     "palm_crown__near": {
-      "triangles": 708,
-      "vertices": 1416,
+      "triangles": 1096,
+      "vertices": 1364,
       "vertexMaterial": false
     },
     "palm_crown__far": {
-      "triangles": 274,
-      "vertices": 548,
+      "triangles": 280,
+      "vertices": 528,
       "vertexMaterial": false
     },
     "tree_crown__near": {
@@ -445,6 +445,96 @@
       "triangles": 2,
       "vertices": 4,
       "vertexMaterial": false
+    },
+    "shipping_crate__near": {
+      "triangles": 1308,
+      "vertices": 744,
+      "vertexMaterial": true
+    },
+    "shipping_crate__far": {
+      "triangles": 332,
+      "vertices": 216,
+      "vertexMaterial": true
+    },
+    "house_bed_plinth__near": {
+      "triangles": 356,
+      "vertices": 200,
+      "vertexMaterial": true
+    },
+    "house_bed_plinth__far": {
+      "triangles": 84,
+      "vertices": 56,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet__near": {
+      "triangles": 316,
+      "vertices": 184,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet__far": {
+      "triangles": 72,
+      "vertices": 48,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet_back__near": {
+      "triangles": 316,
+      "vertices": 184,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet_back__far": {
+      "triangles": 72,
+      "vertices": 48,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_51_x__near": {
+      "triangles": 3096,
+      "vertices": 2064,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_51_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_61_z__near": {
+      "triangles": 3696,
+      "vertices": 2464,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_61_z__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_18_z__near": {
+      "triangles": 1116,
+      "vertices": 744,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_18_z__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_8_8_x__near": {
+      "triangles": 564,
+      "vertices": 376,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_8_8_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_4_2_x__near": {
+      "triangles": 288,
+      "vertices": 192,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_4_2_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
     },
     "switchgear__near": {
       "triangles": 732,
@@ -6607,37 +6697,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "f0c2f0d8bd843cb3006dca9ca55730d4893afd2fcfa8b82096d9e80f15236cd1"
+      "sha256": "5410c3f2945a473d0739c6d6b86b73bd66ec1d20eb10404bf21c20a3a010ed78"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "81ed2339d193365a1790d21bcd35ce01ab74ef11175b98231cda229d150d13be"
+      "sha256": "4982a8aa9b860ae8c27639aea2715c8f71c2d7ee73d1bb1e34400964693bbf2f"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "bbe53ed56fd334effb1068cd9b32aa449912d5f4ea8fe6182085b53a81c24d50"
+      "sha256": "2da41f8660c11b3b24bdc5921abc45c5c19156b7787973e844e8066a2557f3a2"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "857c86a780b0924cbabaef69e8250c46368592e21b0ab6b4b559269243b91117"
+      "sha256": "c823bedc892eeff8cb821a8aeb355a677fdad0217e5c0394f51223e1d9902455"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "61525424d153dcf0e5be4c43aa5ed43fbb6e2c34cb5efaf83b4a754e41f5d1ad"
+      "sha256": "3041f2302a76e01a3e6d592d56b128f77b91a0551dcdcc10b8d555fd1047fac2"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "17b5c4ea7ee1c32de61f8bf8958596a469f8aa5e4683bbce01dca155bf1ec94b"
+      "sha256": "7b19d5926681994f16e4e0476f0818f91f52d6b3021295e5064c65c17caeaa3b"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 916941,
-      "sha256": "67c05fd27bf53b8581224e9abfd1c348d26f12755106409120766204a10673a7"
+      "bytes": 1084084,
+      "sha256": "1657620b767390a5918a72a3dbecc00a10caf830bba11d6a09dd243d16a2bf0f"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6699,6 +6789,15 @@
     "building_desert",
     "barrier_x",
     "barrier_z",
+    "shipping_crate",
+    "house_bed_plinth",
+    "house_storage_cabinet",
+    "house_storage_cabinet_back",
+    "house_privacy_fence_51_x",
+    "house_privacy_fence_61_z",
+    "house_privacy_fence_18_z",
+    "house_privacy_fence_8_8_x",
+    "house_privacy_fence_4_2_x",
     "cargo_x",
     "cargo_z",
     "generator",
@@ -6757,12 +6856,12 @@
   "authorship": "Original Blender mesh authoring and native Cycles colour/normal/physical bakes",
   "geometryPacking": {
     "normalisedBits": 16,
-    "streams": 304,
-    "savedBytes": 3335012,
+    "streams": 322,
+    "savedBytes": 3430300,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac",
-    "exactPackedSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac"
+    "exactSourceSha256": "77b8ea8c6fa1558b3ffe5701787cffaaf31042d9f3cdadb3ef090fcc471d821e",
+    "exactPackedSha256": "77b8ea8c6fa1558b3ffe5701787cffaaf31042d9f3cdadb3ef090fcc471d821e"
   },
   "library": {
     "parts": [
@@ -6774,9 +6873,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13499841,
-    "unpackedBytes": 42100476,
-    "sha256": "c7a7d220ac9f587e74825868c7b55d4d84f4bfa62f76120c6c17bad6aa58b4fc"
+    "bytes": 13666984,
+    "unpackedBytes": 43284628,
+    "sha256": "03bb9e200e06503ad7f993becf4be97c1110fa1622ac6cec1d6b0aeaacdff81e"
   },
-  "downloadBytes": 18701041
+  "downloadBytes": 18868184
 }

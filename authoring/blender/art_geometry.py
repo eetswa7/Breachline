@@ -175,19 +175,72 @@ def author_shared(api):
             vertices.extend((a,mid+side*width,b,mid-side*width));triangles.extend(((i,i+1,i+2),(i,i+2,i+3)))
             colours.extend([tuple(api['linear'](c) for c in tint)]*4)
         if kind=='palm':
-            arms=7 if far else 10;pairs=9 if far else 17
-            for arm in range(arms):
-                angle=arm/arms*math.tau;out=Vector((math.sin(angle),0,math.cos(angle)))
-                cross=Vector((out.z,0,-out.x));reach=.38+.08*math.sin(arm*2.1)
-                for j in range(pairs):
-                    t=(j+.7)/(pairs+.8);a=out*(t*reach)+Vector((0,.22-.40*t*t,0))
-                    span=.075*(math.sin(t*math.pi)**.5)
-                    for sign in (-1,1):
-                        b=a+cross*(span*sign)+out*.035+Vector((0,-.025,0))
-                        leaf(a,b,.025 if far else .018,(.29+arm%3*.016,.40+arm%3*.014,.17))
-                leaf(Vector((0,.22,0)),out*reach+Vector((0,-.18,0)),.009,(.36,.40,.16))
+            def pinna(a,b,width,tint):
+                # A tapered blade rolls around a raised longitudinal ridge.
+                # The near belly has four broad facets, rather than a planar
+                # diamond. Its distant fold keeps the same blade endpoints.
+                side=(b-a).cross(Vector((0,1,0)))
+                if side.length<.0001:side=Vector((1,0,0))
+                side.normalize();i=len(vertices)
+                if far:
+                    middle=a.lerp(b,.49)+Vector((0,-.012,0))
+                    vertices.extend((a,middle+side*width,b,middle-side*width))
+                    triangles.extend(((i,i+1,i+2),(i,i+2,i+3)))
+                    colours.extend([tuple(api['linear'](c) for c in tint)]*4)
+                else:
+                    ridge=a.lerp(b,.49)+Vector((0,.022,0))
+                    edge=ridge-Vector((0,.018,0))
+                    vertices.extend((a,edge+side*width,ridge,edge-side*width,b))
+                    triangles.extend(((i,i+1,i+2),(i,i+2,i+3),
+                                      (i+2,i+1,i+4),(i+2,i+4,i+3)))
+                    colours.extend([tuple(api['linear'](c) for c in tint)]*5)
+
+            # Lower drooping, middle spreading and upper rising whorls give
+            # the crown a volume from player height. Every rachis begins at
+            # the original .22 m local root and follows the pinnae's actual
+            # curve, so the leaflets no longer float above a straight midrib.
+            # The unchanged unit envelope retains the original trunk/instance
+            # transforms, opaque material, wind and instanced near/far routing.
+            pairs=7 if far else 10;segments=3 if far else 5
+            tiers=((3 if far else 4,.43,.015,.40,.11),
+                   (3 if far else 5,.46,.11,.31,.61),
+                   (2 if far else 3,.29,.22,.065,1.02))
+            for tier,(arms,radius,arch,droop,phase) in enumerate(tiers):
+                for arm in range(arms):
+                    angle=arm/arms*math.tau+phase+.11*math.sin(arm*2.3+tier)
+                    out=Vector((math.sin(angle),0,math.cos(angle)))
+                    cross=Vector((out.z,0,-out.x))
+                    reach=radius*(.92+.07*math.sin(arm*1.73+tier+.4))
+                    sweep=.018*math.sin(arm*1.31+tier)
+
+                    def rachis(t):
+                        return out*(t*reach)+cross*(sweep*t*t)+Vector((0,
+                            .22+arch*math.sin(t*math.pi*.72)-droop*t*t,0))
+
+                    # Tapered connected ribbon, with segments shared between
+                    # the attached blades. The broad curve survives far LOD.
+                    knots=[rachis(j/segments) for j in range(segments+1)]
+                    start=len(vertices)
+                    for j,point in enumerate(knots):
+                        t=j/segments;width=.007*(1-.85*t)
+                        vertices.extend((point-cross*width,point+cross*width))
+                        colours.extend([tuple(api['linear'](c) for c in (.36,.40,.17))]*2)
+                    for j in range(segments):
+                        a=start+j*2
+                        triangles.extend(((a,a+2,a+3),(a,a+3,a+1)))
+                    for j in range(pairs):
+                        t=(j+.7)/(pairs+.8);section=min(segments-1,int(t*segments))
+                        a=knots[section].lerp(knots[section+1],t*segments-section)
+                        span=(.083 if tier<2 else .069)*(math.sin(t*math.pi)**.65)
+                        width=(.021 if far else .014)+.006*math.sin(t*math.pi)
+                        tint=(.29+tier*.017+(arm%3)*.008,.37+tier*.027,.15+tier*.015)
+                        for sign in (-1,1):
+                            b=a+cross*(span*sign)+out*(.025+.018*t)+Vector((0,-.020-.028*t,0))
+                            pinna(a,b,width,tint)
             for arm in range(4):
-                angle=arm/4*math.tau;leaf(Vector((0,.18,0)),Vector((math.sin(angle)*.14,.48,math.cos(angle)*.14)),.042,(.37,.46,.20))
+                angle=arm/4*math.tau
+                pinna(Vector((0,.22,0)),Vector((math.sin(angle)*.14,.48,math.cos(angle)*.14)),
+                      .040 if far else .032,(.37,.46,.20))
         elif kind=='conifer':
             levels=5 if far else 8;arms=6 if far else 9;pairs=4 if far else 7
             for row in range(levels):

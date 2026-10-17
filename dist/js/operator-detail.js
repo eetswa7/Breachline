@@ -1,8 +1,9 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=72';
-import {clamp} from './math.js?v=72';
-import {poseSegment,transformOperatorPose} from './actor-pose.js?v=72';
+import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=78';
+import {clamp} from './math.js?v=78';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=78';
 
 const templates=new Map(),MAX_TEMPLATES=32;
+const HAND_PITCH=.1,HAND_PITCH_COS=Math.cos(HAND_PITCH),HAND_PITCH_SIN=Math.sin(HAND_PITCH);
 function template(w){
  const key=`${w.def.id}/${w.optic}/${w.barrel}/${w.grip}/${w.magazine}/${w.ammunition}`;
  if(templates.has(key))return templates.get(key);
@@ -58,7 +59,20 @@ function arm(parts,upperIndex,foreIndex,handIndex,side,target,duck){
  let bx=side,by=-.65,bz=.12;const dot=bx*ux+by*uy+bz*uz;bx-=ux*dot;by-=uy*dot;bz-=uz*dot;const n=Math.hypot(bx,by,bz)||1;
  const ex=sx+ux*along+bx/n*bend,ey=sy+uy*along+by/n*bend,ez=sz+uz*along+bz/n*bend,wx=sx+ux*length,wy=sy+uy*length,wz=sz+uz*length;
  poseSegment(parts[upperIndex],sx,sy,sz,ex,ey,ez);poseSegment(parts[foreIndex],ex,ey,ez,wx,wy,wz);
- const hand=parts[handIndex];hand.x=wx;hand.y=wy;hand.z=wz;hand.pitch=.1;hand.roll=side*.2;
+ const hand=parts[handIndex];hand.x=wx;hand.y=wy;hand.z=wz;hand.yaw=target.yaw??0;hand.pitch=target.pitch??HAND_PITCH;hand.roll=target.roll??side*.2;
+}
+function reloadWrist(out,pitch,contact){
+ const weight=contact.weight;
+ out.yaw=0;out.pitch=HAND_PITCH;out.roll=-.2;
+ if(!weight)return;
+ // Compose in the same weapon-local frame as the shared hand contact:
+ // mount pitch, contact roll, then the operator glove's neutral orientation.
+ // Reach eases both rotations back to the exact held pose on cancellation or
+ // release. Adding Euler angles would roll around the wrong axis while aimed.
+ const c=Math.cos(pitch*weight),s=Math.sin(pitch*weight),cr=Math.cos(contact.roll*weight),sr=Math.sin(contact.roll*weight);
+ out.pitch=Math.asin(clamp(c*cr*HAND_PITCH_SIN+s*HAND_PITCH_COS,-1,1));
+ out.yaw=Math.atan2(sr*HAND_PITCH_SIN,-s*cr*HAND_PITCH_SIN+c*HAND_PITCH_COS);
+ out.roll=Math.atan2(c*sr,c*cr*HAND_PITCH_COS-s*HAND_PITCH_SIN)-.2;
 }
 function mount(out,p,c,s,y,recoil){
  out.x=.075+p.x;out.y=y+p.y*c-p.z*s;out.z=-.23+p.y*s+p.z*c+recoil;return out;
@@ -124,6 +138,7 @@ export function poseOperator(actor,duck){
  }
  mount(pose.right,t.grip,c,s,mountY,recoil);mount(pose.left,t.support??t.grip,c,s,mountY,recoil);
  const contact=model.reloadRig.contact;
+ reloadWrist(pose.left,pitch,contact);
  if(contact.weight>0){
   const target=pose.reloadTarget??(pose.reloadTarget={});mount(target,contact,c,s,mountY,recoil);
   pose.left.x+=(target.x-pose.left.x)*contact.weight;pose.left.y+=(target.y-pose.left.y)*contact.weight;pose.left.z+=(target.z-pose.left.z)*contact.weight;

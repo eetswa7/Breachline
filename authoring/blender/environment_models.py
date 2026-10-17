@@ -195,6 +195,150 @@ def author_environment(api, helpers):
     publish('barrier_x',barrier,barrier[:1])
     publish('barrier_z',[rotate_piece(p,math.pi/2) for p in barrier],[rotate_piece(p,math.pi/2) for p in barrier[:1]])
 
+    # Board-built shipping chest. Four recessed plank panels sit inside actual
+    # corner posts and rails; a braced shell and three bearers replace the old
+    # solid cube with decorative strips. Every part stays inside the same unit
+    # envelope, including the broad top and the bottom of the supporting feet.
+    # The opaque inner lining backs the damaged plank edges: seams must never
+    # suggest a firing aperture through the simulation's solid wooden cover.
+    shipping=[];shipping_far=[]
+    timber=(.94,.91,.83);frame_timber=(.87,.84,.75)
+    lining=(.63,.60,.52);wood_rm=(.92,0)
+    shipping_flat=box((0,0,0),(.01,.01,.01))[0]
+
+    def shipping_box(position,size,color=timber,distant=False):
+        return (shipping_flat if distant else box(position,size,color,wood_rm)[0],
+                position,size,color,wood_rm)
+
+    # Open fork approaches under the floor are structural, rather than small
+    # surface grooves. Far LOD keeps all three feet and the supported deck.
+    for x in (-.35,0,.35):
+        shipping.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber))
+        shipping_far.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber,True))
+    shipping.append(shipping_box((0,-.389,0),(.90,.042,.90),timber,True))
+    shipping_far.append(shipping_box((0,-.389,0),(.90,.042,.90),timber,True))
+    for x in (-.45,.45):
+        for z in (-.45,.45):
+            shipping.append(shipping_box((x,.0475,z),(.10,.905,.10),frame_timber))
+            shipping_far.append(shipping_box((x,.0475,z),(.10,.905,.10),frame_timber,True))
+
+    for side in range(4):
+        face=[];face_far=[]
+        face.append(shipping_box((0,.018,-.4115),(.84,.80,.025),lining,True))
+        # The distant face is a closed inset panel; genuine large frame and
+        # diagonal construction survive, while individual damaged seams drop.
+        face_far.append(shipping_box((0,.018,-.438),(.82,.80,.034),timber,True))
+        for row in range(4):
+            bottom=-.356+row*.182;top=bottom+.169
+            left=-.405;right=.405
+            chip=.024 if (row+side)%3==0 else .009
+            points=[(left+.008,bottom),(right-chip,bottom),
+                    (right,bottom+chip),(right,top-.010),
+                    (right-.010,top),(left+.006,top),(left,top-.015),
+                    (left,bottom+.012)]
+            tint=tuple(value*(.96+((row+side*2)%4)*.017) for value in timber)
+            face.append(outline(points,-.455,-.420,tint,wood_rm))
+        for y,height in ((-.349,.112),(.441,.118)):
+            face.append(shipping_box((0,y,-.458),(.80,height,.084),frame_timber))
+            face_far.append(shipping_box((0,y,-.458),(.80,height,.084),frame_timber,True))
+        # Wide diagonal boards bear against the horizontal frame. They are
+        # deliberately legible from room-scale views, without nails or decals.
+        brace=[(-.400,-.292),(-.297,-.292),(.400,.294),(.400,.382),
+               (.297,.382),(-.400,-.204)]
+        if side%2:
+            brace=[(-x,y) for x,y in reversed(brace)]
+        brace_piece=outline(brace,-.495,-.451,(.91,.88,.79),wood_rm)
+        face.append(brace_piece);face_far.append(brace_piece)
+        shipping.extend(rotate_piece(piece,side*math.pi/2) for piece in face)
+        shipping_far.extend(rotate_piece(piece,side*math.pi/2) for piece in face_far)
+
+    # A closed boarded lid supports existing stacked crates at the original
+    # height. It remains behind the upper rails rather than becoming a flange
+    # outside the collision envelope.
+    shipping.append(shipping_box((0,.443,0),(.90,.010,.90),lining,True))
+    for i in range(4):
+        shipping.append(shipping_box((-.3375+i*.225,.461,0),(.219,.044,.90),
+                                     tuple(value*(.97+i*.012) for value in timber),True))
+    shipping_far.append(shipping_box((0,.461,0),(.90,.044,.90),timber,True))
+    publish('shipping_crate',shipping,shipping_far)
+
+    # Nuketown's furniture and privacy fences retain their original solid
+    # gameplay owners. Their broad construction must describe domestic objects
+    # instead of inheriting the shipping-cover/crate selector. All bases have
+    # closed plinths, and all board joints have opaque backing inside the AABB.
+    house_flat=box((0,0,0),(.01,.01,.01))[0]
+    house_wood=(.96,.94,.88);house_frame=(.86,.83,.76)
+    house_rm=(.91,0)
+
+    def house_box(position,size,color=house_wood,distant=False):
+        return (house_flat if distant else box(position,size,color,house_rm)[0],
+                position,size,color,house_rm)
+
+    # A platform bed has a continuous floor plinth, closed framed side/end
+    # panels and a full supporting deck. Existing mattress and pillow remain
+    # separate at their unchanged positions above this original owner volume.
+    bed=[house_box((0,.10,0),(.92,.80,.92)),
+         house_box((0,-.40,0),(1,.20,1),house_frame),
+         house_box((0,.465,0),(.98,.07,.98))]
+    bed_far=[house_box((0,.10,0),(.92,.80,.92),house_wood,True),
+             house_box((0,-.40,0),(1,.20,1),house_frame,True),
+             house_box((0,.465,0),(.98,.07,.98),house_wood,True)]
+    for x in (-.455,.455):
+        for z in (-.455,.455):
+            bed.append(house_box((x,.065,z),(.09,.73,.09),house_frame))
+    for side in range(4):
+        inset=house_box((0,.06,-.473),(.79,.58,.026),(.93,.90,.83),True)
+        bed.append(rotate_piece(inset,side*math.pi/2))
+        bed_far.append(rotate_piece(inset,side*math.pi/2))
+    publish('house_bed_plinth',bed,bed_far)
+
+    # The low storage table, dresser and kitchen base share framed cabinet
+    # construction. The caller retains its existing wood or painted finish.
+    # Door/drawer joints and recessed pulls terminate against the closed carcass
+    # rather than creating dark openings beneath a tabletop or through cover.
+    cabinet=[house_box((0,.015,0),(.92,.85,.91)),
+             house_box((0,-.435,0),(.98,.13,.98),house_frame),
+             house_box((0,.45,0),(1,.10,1))]
+    cabinet_far=[house_box((0,.015,0),(.92,.85,.91),house_wood,True),
+                 house_box((0,-.435,0),(.98,.13,.98),house_frame,True),
+                 house_box((0,.45,0),(1,.10,1),house_wood,True)]
+    for x in (-.455,.455):
+        cabinet.append(house_box((x,.01,-.465),(.09,.78,.07),house_frame))
+    for x in (-.205,.205):
+        door=house_box((x,-.075,-.473),(.392,.53,.034),(.94,.92,.85),True)
+        cabinet.append(door);cabinet_far.append(door)
+        cabinet.append(house_box((x,.151,-.491),(.27,.027,.018),(.56,.54,.48),True))
+    cabinet.append(house_box((0,.299,-.473),(.80,.184,.034),(.94,.92,.85),True))
+    cabinet.append(house_box((0,.323,-.491),(.40,.027,.018),(.56,.54,.48),True))
+    cabinet_far.append(house_box((0,.299,-.473),(.80,.184,.034),(.94,.92,.85),True))
+    for sign in (-1,1):
+        cabinet.append(house_box((sign*.471,.015,0),(.026,.71,.75),(.93,.90,.83),True))
+    publish('house_storage_cabinet',cabinet,cabinet_far)
+    # A reversed native variant faces the second house's room without adding
+    # a rotation to its authoritative gameplay owner.
+    publish('house_storage_cabinet_back',[rotate_piece(piece,math.pi) for piece in cabinet],
+            [rotate_piece(piece,math.pi) for piece in cabinet_far])
+
+    # Long privacy runs need real board pitch: stretching one unit crate over
+    # 61 metres produces metre-wide timber strips. These five existing spans
+    # share a single construction recipe, with about 20 cm vertical boards and
+    # two supported rear rails. The solid lining fills every visible seam;
+    # there is no apparent firing aperture through an authoritative fence box.
+    for length,axis in ((51,'x'),(61,'z'),(18,'z'),(8.8,'x'),(4.2,'x')):
+        count=math.ceil(length/.20)
+        fence=[house_box((0,0,0),(1,1,.68),(.66,.63,.56),True)]
+        fence_far=[house_box((0,0,0),(1,1,.94),house_wood,True)]
+        for i in range(count):
+            tint=tuple(value*(.95+(i%5)*.012) for value in house_wood)
+            fence.append(house_box(((i+.5)/count-.5,0,0),(.94/count,1,.94),tint,True))
+        for y in (-.27,.27):
+            rail=house_box((0,y,.47),(1,.065,.06),house_frame,True)
+            fence.append(rail);fence_far.append(rail)
+        if axis=='z':
+            fence=[rotate_piece(piece,math.pi/2) for piece in fence]
+            fence_far=[rotate_piece(piece,math.pi/2) for piece in fence_far]
+        publish('house_privacy_fence_'+str(length).replace('.','_')+'_'+axis,fence,fence_far)
+
     # ISO freight container: continuous pressed trapezoidal sides, open door
     # hardware, roof seams and corner castings instead of ridges on a cube.
     for axis in ('x','z'):

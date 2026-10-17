@@ -1,3 +1,77 @@
+# Release 78: attached arched palm crowns
+
+Palm crowns now use layered arched fronds, midribs attached to their leaflets
+and folded pinnae instead of flat radial construction. Existing 164 crowns,
+trunks, bounds, materials, wind and instanced LOD remain; eight affected maps
+have fresh static GI. Other material payloads and lightmaps are retained.
+
+Runtime `570d918` passes 74/74 core tests and 88-module packaging/offline checks.
+Download adds 7,827 bytes; far palms add six triangles. [Construction and limits](docs/ART_RELEASE78.md)
+and [the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay,
+professional vegetation quality and physical iPhone acceptance.
+
+# Release 77: Nuketown furniture and privacy fences
+
+Nuketown beds, cabinets and privacy fences now use dedicated original native
+construction, replacing inherited crate/primitive presentation. Solid owners,
+materials, existing decor, collision and routes remain. Fence LOD follows board
+detail and nearest-surface distance; only Nuketown receives fresh static lighting.
+
+Runtime `b47e136` passes 74/74 core tests and 88-module packaging/offline checks.
+Mesh/lighting download adds about 122.5 KiB; game JavaScript adds 669 bytes.
+[Construction, costs and limits](docs/ART_RELEASE77.md) and
+[the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay/LOD review,
+professional art and physical iPhone acceptance.
+
+# Release 76: cover-material acoustics
+
+World sounds now use distinct bounded responses for authoritative wood,
+thin-shell and masonry cover. Initial playback and moving tails share the same
+profile and existing eight-ray/four-refresh budget; voice/node/decoded media
+limits remain. The coefficients are design approximations, not measurements.
+
+Runtime `3c78f6c` passes 74/74 core tests and 88-module packaging/offline checks.
+JavaScript adds 2,487 bytes; no media changes. [Model and limits](docs/ART_RELEASE76.md)
+and [the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual listening,
+decorative-window/physical transmission and physical iPhone acceptance.
+
+# Release 75: listener stance and raised debris contacts
+
+Listener position now follows the actual standing/crouched ear for distance,
+cover rays and moving tails, matching HRTF. Hard debris contacts raised decks,
+roofs and thin finishes using downward point crossings, releasing at edges or
+destruction. Existing audio/effect budgets, media and gameplay remain.
+
+Runtime `570ce85` passes 74/74 core tests and 88-module packaging/offline checks.
+JavaScript adds 2,164 bytes. [Scope/costs](docs/ART_RELEASE75.md) and
+[the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual listening/gameplay,
+professional quality and physical iPhone acceptance.
+
+# Release 74: shared shipping-crate construction
+
+Original framed, braced shipping crates replace cube/strip construction across
+all sixteen maps. Both LODs retain closed faces and supported structure; unrelated
+furniture/fences keep their prior model. All sixteen maps have fresh static GI,
+with existing material payloads retained. Runtime download adds about 24.7 KiB;
+selected crates add 384 near/288 far triangles.
+
+Runtime `c594b4c` passes 74/74 core tests and 88-module packaging/offline checks.
+[Construction and limits](docs/ART_RELEASE74.md) and [the checklist](docs/OVERHAUL_CHECKLIST.md)
+retain open gameplay-image, professional quality and physical iPhone acceptance.
+
+# Release 73: ordered covered reloads and operator wrists
+
+- Belt-feed covers now seat before empty charging; pose and foley share .86,
+  .91, .95 and .98 contacts without changing reload clocks or ammunition.
+- Operator support wrists follow shared contact roll and weapon pitch; neutral
+  poses, bounded arm reach, reduced LOD and rigid fingers remain.
+- Runtime `365bd69` passes one final `npm run verify`: 74/74 core tests and the
+  88-module packaging/offline check. Game JavaScript adds 1,892 bytes; no media
+  changes or extra verification suites.
+- [Release 73 source/evidence and limits](docs/ART_RELEASE73.md) and the
+  [updated checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay,
+  listening, professional quality and physical iPhone acceptance.
+
 # Release 72: shared operator reload components
 
 - Continue from pushed Release 71 `25c2fb4`, retaining its distinct first-person

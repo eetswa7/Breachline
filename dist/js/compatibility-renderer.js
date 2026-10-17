@@ -1,15 +1,15 @@
-import {updateWeaponClearance} from './weapon-clearance.js?v=72';
-import {animateWeaponParts} from './weapon-models.js?v=72';
-import {muzzleFlash} from './firing-presentation.js?v=72';
-import {identityFor} from './combat-identity.js?v=72';
-import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=72';
-import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=72';
-import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=72';
-import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=72';
-import {loadImages} from './textures.js?v=72';
-import {weatherParticles} from './particles.js?v=72';
-import {operatorTorso,operatorLimb} from './operator-meshes.js?v=72';
-import {actorDeathProgress} from './actor-pose.js?v=72';
+import {updateWeaponClearance} from './weapon-clearance.js?v=78';
+import {animateWeaponParts} from './weapon-models.js?v=78';
+import {muzzleFlash} from './firing-presentation.js?v=78';
+import {identityFor} from './combat-identity.js?v=78';
+import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=78';
+import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=78';
+import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=78';
+import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=78';
+import {loadImages} from './textures.js?v=78';
+import {weatherParticles} from './particles.js?v=78';
+import {operatorTorso,operatorLimb} from './operator-meshes.js?v=78';
+import {actorDeathProgress} from './actor-pose.js?v=78';
 
 const corners=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];
 const faces=[[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]];

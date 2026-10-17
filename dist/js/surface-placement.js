@@ -31,3 +31,29 @@ export function visualGroundHeight(arena,x,z,base=0){
  }
  return height;
 }
+
+const NO_SURFACES=[];
+// Cosmetic hard particles cross horizontal tops at their own point footprint.
+// Re-query support while sliding, so edges and destroyed floors release them.
+// The existing collision bucket's 1 m margin covers the short swept travel;
+// nearby falls back to the retained block list for travel exceeding that bound.
+export function debrisGroundHeight(arena,p,oldX,oldY,oldZ){
+ const dx=p.x-oldX,dz=p.z-oldZ,drop=oldY-p.y,minY=p.y-.025-.000001,maxY=oldY-.025+.000001;
+ let height=0;
+ for(const b of arena?.nearby?.(p,Math.max(Math.abs(dx),Math.abs(dz)))??arena?.blocks??NO_SURFACES){
+  const top=b.y+b.h*.5;if(b.destroyed||top<=height||top<minY||top>maxY)continue;
+  const t=drop>.000001?Math.max(0,Math.min(1,(oldY-.025-top)/drop)):1,x=oldX+dx*t,z=oldZ+dz*t;
+  if(Math.abs(x-b.x)<=b.w*.5&&Math.abs(z-b.z)<=b.d*.5)height=top;
+ }
+ // A short diagonal can cross two cell boundaries. Visit its swept rectangle
+ // (at most four 8 m buckets at current particle speeds and frame-step limits).
+ const cells=arena?.visualFloorCells;
+ if(cells)for(let z=Math.floor(Math.min(oldZ,p.z)/8);z<=Math.floor(Math.max(oldZ,p.z)/8);z++)for(let x=Math.floor(Math.min(oldX,p.x)/8);x<=Math.floor(Math.max(oldX,p.x)/8);x++){
+  for(const f of cells.get(`${x}/${z}`)??NO_SURFACES){
+   if(f.part.destroyed||f.top<=height||f.top<minY||f.top>maxY)continue;
+   const t=drop>.000001?Math.max(0,Math.min(1,(oldY-.025-f.top)/drop)):1,px=oldX+dx*t-f.part.x,pz=oldZ+dz*t-f.part.z;
+   if(Math.abs(f.c*px-f.s*pz)<=f.part.w*.5&&Math.abs(f.s*px+f.c*pz)<=f.part.d*.5)height=f.top;
+  }
+ }
+ return height;
+}

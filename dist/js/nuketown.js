@@ -34,7 +34,9 @@ function roof(a,x,z,w,d,y){
 }
 
 function fence(a,x,z,w,d,height=1.75){
- a.box(x,height/2,z,w,height,d,'wood',{shellThickness:.04,fence:true,spawnScreen:height>=1.7});
+ const span=String(Math.max(w,d)).replace('.','_'),axis=w>d?'x':'z';
+ a.box(x,height/2,z,w,height,d,'wood',{shellThickness:.04,fence:true,spawnScreen:height>=1.7,
+  blenderKind:`house_privacy_fence_${span}_${axis}`});
  a.detail(x,height+.02,z,w+.05,.08,d+.05,'white',DETAIL);
  const length=Math.max(w,d),count=Math.ceil(length/2.5);
  for(let i=0;i<=count;i++)a.detail(x+(w>d?(i/count-.5)*w:0),height*.5,z+(d>w?(i/count-.5)*d:0),.12,height+.15,.12,'white',DETAIL);
@@ -43,17 +45,20 @@ function fence(a,x,z,w,d,height=1.75){
 function furniture(a,x,z,front,upper=false){
  const y=upper?3:0;
  if(upper){
-  a.box(x-2,y+.3,z+.8,2,.6,3.4,'wood',{shellThickness:.025});
+  a.box(x-2,y+.3,z+.8,2,.6,3.4,'wood',{shellThickness:.025,blenderKind:'house_bed_plinth'});
   a.detail(x-2,y+.66,z+.8,2,.13,3.4,'fabric',{color:[.88,.71,.61],mesh:'bevel'});
   a.detail(x-2,y+.79,z+front*.1,1.6,.18,.6,'white',{mesh:'bevel'});
-  a.box(x+1.6,y+.43,z+front*2.9,1.4,.86,.7,'wood',{shellThickness:.025});
+  a.box(x+1.6,y+.43,z+front*2.9,1.4,.86,.7,'wood',{shellThickness:.025,
+   blenderKind:front>0?'house_storage_cabinet':'house_storage_cabinet_back'});
   a.detail(x+1.6,y+.91,z+front*2.9,1.6,.08,.8,'dark',DETAIL);
   return;
  }
  a.box(x-1.65,.42,z+front*2,2.3,.84,1.05,'fabric',{mesh:'bevel',shellThickness:.025,color:[.54,.37,.30]});
  a.detail(x-1.65,.91,z+front*2.4,2.3,.75,.22,'fabric',{mesh:'bevel',color:[.54,.37,.30]});
- a.box(x-1.55,.24,z,.95,.48,.8,'wood',{shellThickness:.025});
- a.box(x-3.5,.5,z-front*2.75,1.25,1,1.6,'white',{shellThickness:.025});
+ a.box(x-1.55,.24,z,.95,.48,.8,'wood',{shellThickness:.025,
+  blenderKind:front>0?'house_storage_cabinet':'house_storage_cabinet_back'});
+ a.box(x-3.5,.5,z-front*2.75,1.25,1,1.6,'white',{shellThickness:.025,
+  blenderKind:front>0?'house_storage_cabinet_back':'house_storage_cabinet'});
  a.detail(x-3.5,1.04,z-front*2.75,1.3,.08,1.7,'dark',DETAIL);
  a.detail(x-3.5,1.02,z-front*3.25,.65,.035,.42,'steel',DETAIL);
 }
@@ -166,7 +171,7 @@ export function buildNuketown(a){
  for(const [x,z]of [[-32,-24],[-33,24],[36,-19],[36,18],[43,-2]]){a.building(x,z,10,11,4.1,'plaster');roof(a,x,z,10,11,4.2);}
  for(const [x,z]of [[-16,-27],[16,27]]){
   a.box(x,1.1,z,4.4,2.2,3.2,'wood',{gardenShed:true});roof(a,x,z,4.4,3.2,2.3);
-  a.box(x,1.05,z-3.1,4.2,2.1,.14,'wood',{fence:true});
+  a.box(x,1.05,z-3.1,4.2,2.1,.14,'wood',{fence:true,blenderKind:'house_privacy_fence_4_2_x'});
  }
  for(const [x,z]of [[-14,23],[14,-23]]){
   for(const side of [-1,1])a.detail(x+side*2,1.15,z,.14,2.3,.14,'white',DETAIL);

@@ -1,6 +1,6 @@
 // Original, metre-scaled view models. Forward is -Z; optics share aim.js heights.
 // Only weapon construction allocates. Animation modifies cached parts in place.
-import {magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=72';
+import {COVERED_RELOAD_TIMING,magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=78';
 const C={steel:[.27,.30,.32],edge:[.42,.45,.46],black:[.115,.13,.14],polymer:[.16,.175,.17],tan:[.48,.39,.27],olive:[.28,.32,.22],wood:[.48,.29,.145],rubber:[.043,.048,.044],glove:[.36,.38,.30],sleeve:[.23,.28,.22],brass:[.66,.44,.16],red:[.55,.055,.025]};
 const finish=(color=C.black,metal=.72,rough=.39,tile=-1)=>({color,metal,rough,tile,...(tile===9?{finishTile:2}:tile===-1&&metal>.45?{finishTile:0}:{})});
 const METAL=finish(),EDGE=finish(C.edge,.88,.28),POLY={...finish(C.polymer,0,.7),finishTile:3},RUBBER=finish(C.rubber,0,.87),WOOD=finish(C.wood,0,.71,10),TAN={...finish(C.tan,.08,.63),finishTile:1},OLIVE={...finish(C.olive,.08,.64),finishTile:1},BRASS={...finish(C.brass,.92,.31),finishTile:undefined},GLOVE=finish(C.glove,0,.94,9),SLEEVE=finish(C.sleeve,0,.98,9);
@@ -551,7 +551,8 @@ function reloadHand(parts,w,r,reloading,magRoll){
  contact.x=hand.baseX;contact.y=hand.baseY;contact.z=hand.baseZ;contact.roll=0;
  if(!reloading)return;
  const shell=w.def.shellReload,empty=w.reloadStartedEmpty!==false,covered=rig.lid>=0;
- const reach=smooth(.015,.16,r)*(1-smooth((covered||(empty&&!shell&&!w.def.revolver))?.94:.78,.995,r));
+ const release=covered?(empty?COVERED_RELOAD_TIMING.actionClose:COVERED_RELOAD_TIMING.coverSeat):(empty&&!shell&&!w.def.revolver)?.94:.78;
+ const reach=smooth(.015,.16,r)*(1-smooth(release,covered?COVERED_RELOAD_TIMING.handRest:.995,r));
  let x=hand.baseX,y=hand.baseY,z=hand.baseZ,roll=0,operation='reach';
  if(rig.shell){
   const q=parts[rig.shell.anchor];x=q.x-.023;y=q.y-.017;z=q.z+.014;roll=-.26;operation='shell';
@@ -573,16 +574,16 @@ function reloadHand(parts,w,r,reloading,magRoll){
  }
  // Open the feed cover before taking the belt box, then close it after seating.
  if(rig.lid>=0){
-  const lid=parts[rig.lid],open=(1-smooth(.20,.29,r)),close=smooth(.74,.80,r)*(1-smooth(.88,.93,r)),cover=Math.max(open,close);
+  const lid=parts[rig.lid],open=(1-smooth(.20,.29,r)),close=smooth(.74,.80,r),cover=Math.max(open,close);
   x+=(lid.x-lid.w*.5-.011-x)*cover;y+=(lid.y+.024-y)*cover;z+=(lid.z+.045-z)*cover;roll+=(.18-roll)*cover;
   if(cover>.5)operation='lid';
  }
  // A tactical reload leaves the closed action alone. Empty reloads finish at
  // the selected charging handle or pistol slide, rather than in free space.
  if(empty&&!shell&&!w.def.revolver&&rig.action>=0){
-  // Keep the hand on a closing feed cover through its existing .86 contact.
-  // The covered action retains its original motion/foley; only hand reach waits.
-  const q=parts[rig.action],rack=covered?smooth(.88,.94,r):smooth(.76,.84,r),pistol=!!rig.slide;
+  // Covered feeds seat first, then move directly from lid to charging handle.
+  // Full contact precedes the matched pull/return motion and foley crossings.
+  const q=parts[rig.action],rack=covered?smooth(COVERED_RELOAD_TIMING.coverSeat,COVERED_RELOAD_TIMING.actionReach,r):smooth(.76,.84,r),pistol=!!rig.slide;
   const ax=q.x+(pistol?-.042:q.x<0?-.026:.026),ay=q.y+(pistol?.026:.007),az=q.z+.014;
   x+=(ax-x)*rack;y+=(ay-y)*rack;z+=(az-z)*rack;roll+=((pistol?-.6:-.8)-roll)*rack;
   if(rack>.5)operation=pistol?'slide':'bolt';
@@ -597,8 +598,8 @@ export function animateWeaponParts(parts,w,p,time,menu=false){
  const pump=smooth(.075,.22,shot)*(1-smooth(.38,.56,shot));
  const covered=rig.lid>=0,magDrop=reloading?smooth(covered?.29:.18,covered?.43:.34,r)*(1-smooth(.58,.74,r)):0;
  const leftReach=reloading?smooth(.08,.24,r)*(1-smooth(.74,.9,r)):0;
- const boltReload=reloading&&w.reloadStartedEmpty!==false?smooth(.82,.88,r)*(1-smooth(.9,.98,r)):0;
- const lid=reloading?smooth(.08,.24,r)*(1-smooth(.77,.93,r)):0;
+ const boltReload=reloading&&w.reloadStartedEmpty!==false?(covered?smooth(COVERED_RELOAD_TIMING.actionReach,COVERED_RELOAD_TIMING.actionOpen,r)*(1-smooth(COVERED_RELOAD_TIMING.actionOpen,COVERED_RELOAD_TIMING.actionClose,r)):smooth(.82,.88,r)*(1-smooth(.9,.98,r))):0;
+ const lid=reloading?smooth(.08,.24,r)*(1-smooth(COVERED_RELOAD_TIMING.coverCloseStart,covered?COVERED_RELOAD_TIMING.coverSeat:.93,r)):0;
  const emptySlide=w.ammo===0?(reloading?1-smooth(.90,.96,r):1):0;
  for(const index of parts.animated){const q=parts[index];q.x=q.baseX;q.y=q.baseY;q.z=q.baseZ;q.yaw=q.baseYaw;q.pitch=q.basePitch;q.roll=q.baseRoll;
   switch(q.tag){
