@@ -26,7 +26,7 @@ Fallback/operator cache keys also include magazine and ammunition selections.
 ## Integration status
 
 Implementation is packaged as offline Release 71. The initial scope checkpoint
-is `592ea52`; the matching runtime and final verification identity will follow.
+is `592ea52`; runtime source is `549139bdd6a508cce684638899c09ba40de8a5e0`.
 No Blender or sound-bank rebuild was needed: native geometry, textures, static
 lighting, audio and the packed editable Blender source have no Git diff.
 
@@ -70,7 +70,14 @@ ammunition-type selections, avoiding stale selected attachment geometry.
 
 The JavaScript increase is 6,485 bytes before host compression. These are static
 package sizes and source bounds, not measured heap, GPU cost or iPhone FPS.
-Final benchmark provenance and the permitted core verification are pending.
+Benchmark provenance identifies that committed runtime and content fingerprint
+`b51a9f2e2298901527b7cd312f2e1afef700f9bbb148e854ccd5a6fa597af36e`.
+`npm run verify` passed once on the final runtime state: **74/74 core tests**,
+zero failures, followed by the **88-module** packaging/offline check, geometry
+winding, local assets and Home Screen manifest. See
+[the recorded result](validation-release71.json). No additional suites, browser,
+shader, asset-audit or profiling checks ran. The existing core suite does not
+establish correctness, visibility or natural motion of every exchange path.
 
 ## Acceptance limits
 

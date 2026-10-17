@@ -1,0 +1,51 @@
+{
+  "release": 71,
+  "date": "2026-10-18",
+  "continuation_checkpoint": "592ea52532d1dbda7b0b08d69a6600906f6b877f",
+  "runtime_source_commit": "549139bdd6a508cce684638899c09ba40de8a5e0",
+  "content_sha256": "b51a9f2e2298901527b7cd312f2e1afef700f9bbb148e854ccd5a6fa597af36e",
+  "implementation_scope": {
+    "presentation": "Opt-in first-person removed and replacement magazine roles using existing geometry",
+    "eligible_weapon_count": 26,
+    "excluded_weapon_ids": [5, 12, 18, 22],
+    "top_loader_id": 4,
+    "covered_box_ids": [9, 27],
+    "source_visibility_end": {"standard_top": 0.45, "covered": 0.49},
+    "replacement_visibility_start": {"standard_top": 0.47, "covered": 0.51},
+    "replacement_seat_phase": 0.74,
+    "construction_bound": "At most twelve cloned magazine part objects plus cached map, rigid-group and pose/contact state; source-inspection bound, not a measured heap profile.",
+    "preservation": "No ammunition, contact-event, simulator RNG, native media or packed Blender-source changes. Actor exchange remains opt-out; fallback/operator cache keys now include magazine and ammunition type."
+  },
+  "package_observations": {
+    "release_command": "node scripts/release.mjs 71",
+    "game_javascript_modules": 84,
+    "previous_game_javascript_modules": 83,
+    "game_javascript_bytes": 703465,
+    "previous_game_javascript_bytes": 696980,
+    "javascript_delta_bytes": 6485,
+    "phase_sampler_bytes": 2794,
+    "compressed_native_library_bytes": 13499841,
+    "production_payload_bytes": 67319376,
+    "editable_source_bytes": 172093782,
+    "evidence_source": "Static file sizes, normal release output and Git diff/source review; no runtime profile or asset audit."
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "packaged_javascript_modules": 88,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "coverage_limit": "Existing core checks do not establish correctness, visibility or natural motion of every exchange path."
+  },
+  "not_performed": [
+    "Additional or retired test suites, browser checks, shader checks, asset audits and profiles",
+    "Actual native/fallback gameplay image and professional animation acceptance",
+    "Physical iPhone performance, memory and thermal acceptance"
+  ],
+  "remaining_limits": "Rigid hands, no physical world-magazine inventory/collision/landing sounds, no third-person replacement exchange, and unverified path clipping/pop visibility, subjective quality and physical-device cost."
+}
