@@ -14,6 +14,8 @@ covered bolt cue and unmeasured device costs remain limitations. See
 [implementation and acceptance limits](docs/ART_RELEASE72.md) and
 [the updated checklist](docs/OVERHAUL_CHECKLIST.md). Gameplay-image,
 professional animation and physical iPhone acceptance remain open.
+All 74 core tests and the 88-module packaging/offline check pass; game JavaScript
+grows by 516 uncompressed bytes. Runtime source: `ec0afe3`.
 
 ## Release 71: first-person magazine exchange
 

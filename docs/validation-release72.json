@@ -1,0 +1,64 @@
+{
+  "release": 72,
+  "date": "2026-10-18",
+  "baseline_commit": "25c2fb48b3eee3c736b9884639547c5547d556de",
+  "continuation_checkpoint": "5107571fa0722caebb41dcad7a67dcd46678c98a",
+  "runtime_source_commit": "ec0afe39242b947cf0b7caba18fb61357601ac96",
+  "content_sha256": "1ca0ffb0b9a0667dcabe06dcf6bc40b28233f1bf97f47c754f479c83618e63fc",
+  "implementation_scope": {
+    "presentation": "Actor-owned component poses shared by native and reduced operator weapons, extending the existing magazine exchange to operators",
+    "exchange_eligible_weapon_count": 26,
+    "reduced_weapon_slot_cap": 24,
+    "far_weapon_selection": "Original first-five flags and distance/quality thresholds retained; magazines omitted by far selection remain omitted",
+    "template_cache_limit": 32,
+    "animation": "One cached full model per rendered actor/loadout, animated once by poseOperator and reused by native proxies; reduced slots alias source/replacement roles",
+    "hand_contacts": "Shared component contact position and reach weight, with existing two-bone arm clamping and rigid hand orientation",
+    "covered_close_hand_envelope": {"approach_start": 0.74, "approach_end": 0.80, "release_start": 0.88, "release_end": 0.93},
+    "covered_empty_hand_action_blend": {"start": 0.88, "end": 0.94},
+    "covered_hand_return": {"start": 0.94, "end": 0.995},
+    "preservation": "Gameplay, component action/cover motion, ammunition and audio event phases remain; no media or editable Blender-source changes. Source/diff review is not an asset audit or rendered acceptance."
+  },
+  "package_observations": {
+    "release_command": "node scripts/release.mjs 72",
+    "game_javascript_modules": 84,
+    "previous_game_javascript_modules": 84,
+    "game_javascript_bytes": 703981,
+    "previous_game_javascript_bytes": 703465,
+    "javascript_delta_bytes": 516,
+    "operator_module_bytes": 9335,
+    "previous_operator_module_bytes": 9036,
+    "weapon_model_module_bytes": 44084,
+    "previous_weapon_model_module_bytes": 43867,
+    "compressed_native_library_bytes": 13499841,
+    "production_payload_bytes": 67319376,
+    "editable_source_bytes": 172093782,
+    "evidence_source": "Static JavaScript file sizes, ordinary release output and Git/source diff review. Unchanged media sizes retained from Release 71; no binary audit or runtime profile."
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "test_duration_ms": 3368.598409,
+    "packaged_javascript_modules": 88,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "coverage_limit": "Existing core checks do not establish visibility, hand grasp, clipping or natural motion of every operator/reload/LOD path."
+  },
+  "not_performed": [
+    "Additional or retired test suites, browser checks, shader checks, asset audits and profiles",
+    "Actual native/reduced gameplay-image and professional animation acceptance",
+    "Physical iPhone frame time, memory, thermal or sustained-performance acceptance"
+  ],
+  "remaining_limits": [
+    "Operator hands retain rigid orientation and fingers; arm reach clamps unreachable contacts",
+    "Existing covered bolt-open cue at .84 precedes cover-close at .86; prioritizing close contact leaves earlier bolt grasp imperfect",
+    "Small shells/loading components and far magazines can be omitted by existing reduced/LOD selection",
+    "Far/fallback actors now animate a full cached rig, adding unmeasured CPU/memory cost",
+    "No physical discarded-magazine inventory, collision or landing audio",
+    "Professional visual quality, clipping/pop behavior and physical-device cost remain unverified"
+  ]
+}

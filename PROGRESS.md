@@ -5,6 +5,9 @@
   across native and reduced weapon rendering.
 - Reuse source/replacement roles within the existing 24 reduced weapon slots,
   retain far LOD, and keep the support hand at the .86 feed-cover close contact.
+- Runtime `ec0afe3` is pushed. One final `npm run verify` passes 74/74 core tests
+  and the 88-module packaging/offline check; uncompressed game JavaScript grows
+  516 bytes. No media changes or additional verification suites.
 - [Release 72 implementation and limits](docs/ART_RELEASE72.md) and the
   [updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md) track verification
   and remaining gameplay-image, rigid-grasp and physical iPhone acceptance.

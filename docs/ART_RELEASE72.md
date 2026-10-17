@@ -87,8 +87,21 @@ asset-list entries for offline installation.
 
 The JavaScript increase is 516 bytes before host compression. Media and editable
 source have no Git diff. File sizes and source bounds do not measure frame time,
-heap, GPU cost or physical iPhone memory. Core verification and benchmark
-provenance will be recorded after the runtime commit.
+heap, GPU cost or physical iPhone memory.
+
+## Recorded verification
+
+Scope checkpoint `5107571` and runtime source
+`ec0afe39242b947cf0b7caba18fb61357601ac96` are pushed on `codex/overhaul72`.
+Benchmark provenance identifies that runtime and content fingerprint
+`1ca0ffb0b9a0667dcabe06dcf6bc40b28233f1bf97f47c754f479c83618e63fc`.
+
+`npm run verify` passed once on the final runtime and stamped provenance:
+**74/74 core tests**, zero failures, then the **88-module** packaging/offline
+check, geometry winding, local assets and Home Screen manifest. See
+[the recorded result](validation-release72.json). No extra suites, browser,
+shader, asset-audit or profile runs were performed. These existing checks do
+not establish every operator exchange/contact path or its visible quality.
 
 Actual gameplay images, natural grasp, professional animation and physical
 iPhone costs remain open in the [overhaul checklist](OVERHAUL_CHECKLIST.md).
