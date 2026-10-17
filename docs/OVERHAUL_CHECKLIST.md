@@ -32,6 +32,24 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 75 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 74 `aa0aeaf`.
+This pass corrects stance-dependent listener position and hard-particle contact
+with elevated surfaces. [Scope and acceptance limits](ART_RELEASE75.md).
+
+- [x] Identify fixed-height audio cover rays and world-zero debris contact in
+  the source; retain gameplay, voice and particle limits. Source `aa0aeaf`.
+- [ ] Share the actual batch eye position between HRTF, distance, cover rays
+  and moving-tail refresh, including crouching and vertical movement.
+- [ ] Contact raised collision tops and thin visible finishes during downward
+  hard-debris motion, retaining exact footprints and release at edges/destruction.
+- [ ] Package offline Release 75, run only the final required `npm run verify`,
+  record costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review actual listening and raised-surface effect gameplay. Additional
+  browser/listening/profile/device checks are outside current verification scope;
+  professional quality and physical iPhone acceptance remain open.
+
 ## Release 74 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from pushed Release 73 `53b0825`.

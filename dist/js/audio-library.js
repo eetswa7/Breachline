@@ -1,4 +1,4 @@
-import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=74';
+import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=75';
 
 export async function loadSoundLibrary(context,onSound){
  const chunks=new Array(AUDIO_PARTS.length);let next=0;
