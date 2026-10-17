@@ -48,7 +48,16 @@ The library and production lighting together decrease by 4,820 bytes. These are
 export metadata and transport sizes, not measured rendering or device costs.
 The source archive SHA-256 is
 `471d33c1ce515b9dd320e651d50b35f45a0dbc8e7d2e1b7f31c856f7bae74393`.
-Final core verification and the integrated runtime checkpoint are pending.
+Integrated runtime checkpoint `7adee1205aa89069369a955feb731da98cc3578c` is
+pushed. The final benchmark manifest identifies that committed source and content
+fingerprint `893a71b32d8c038d98576cd00160da48bee76504d7c353c6bdffcbd8ae3eb951`.
+
+`npm run verify` passed once on the final runtime state: **74/74 core tests**,
+zero failures, followed by the packaging/offline check of **87 JavaScript
+modules**, geometry winding, local assets and Home Screen manifest. See
+[the recorded result](validation-release69.json). No extra suites, browser,
+shader, asset-audit or profile checks ran. Source definitions `063369e` and
+integrated assets `7adee12` are separate recoverable GitHub checkpoints.
 
 The current [repository verification policy](../AGENTS.md) supersedes older
 release instructions: run `npm run verify` once on the final runtime source.

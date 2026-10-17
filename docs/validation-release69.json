@@ -1,0 +1,40 @@
+{
+  "release": 69,
+  "date": "2026-10-17",
+  "definition_checkpoint": "063369e8dd0756bfa0051749aa22c80d926a1bc7",
+  "runtime_checkpoint": "7adee1205aa89069369a955feb731da98cc3578c",
+  "content_sha256": "893a71b32d8c038d98576cd00160da48bee76504d7c353c6bdffcbd8ae3eb951",
+  "build": {
+    "blender": "4.3.2",
+    "command": "npm run assets:blender -- --reuse-bakes --rebake-maps=1,3,5,11,14",
+    "exit_code": 0,
+    "rebaked_maps": [1, 3, 5, 11, 14],
+    "generator_triangles": {"near": 2180, "far": 468},
+    "compressed_library_bytes": 13353061,
+    "production_payload_bytes": 67319376,
+    "combined_payload_delta_bytes": -4820,
+    "editable_source_bytes": 171886689,
+    "editable_source_sha256": "471d33c1ce515b9dd320e651d50b35f45a0dbc8e7d2e1b7f31c856f7bae74393",
+    "preservation_evidence": "Production manifest diff changes only the five affected lightmap records and total bytes. Material-container and eleven other lightmap hashes are unchanged. Other native mesh definitions and topology records are unchanged; binary mesh-stream comparison was not run."
+  },
+  "verification": {
+    "command": "npm run verify",
+    "runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "packaged_javascript_modules": 87,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "policy": "AGENTS.md and docs/TESTING.md: only existing core tests and packaging/offline checks."
+  },
+  "not_performed": [
+    "Additional or retired test suites, bot soaks, browser checks, shader checks, asset audits and profiles",
+    "Matched native gameplay image acceptance",
+    "Binary comparison of unchanged native mesh streams",
+    "Physical iPhone 16 Pro performance, memory and thermal acceptance"
+  ],
+  "quality_status": "Scoped construction implemented; professional visual quality and full overhaul acceptance remain incomplete or unverified."
+}
