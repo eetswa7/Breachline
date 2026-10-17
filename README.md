@@ -409,13 +409,10 @@ Input commands and simulation events are separated from presentation. This provi
 ## Validation and developer tools
 
 ```sh
-npm test
-npm run check
-npm run profile:blender
-node scripts/profile-combat.mjs
+npm run verify
 ```
 
-The regression suite covers ballistics, cover, attachments, ammunition, movement and stairs, simultaneous touch input, tap firing, ADS modes, cancellation, configurable layouts, grenades, death and respawns, every mode's completion conditions, saves, all 16 maps' navigation and bot-driven Gun Game completion. New regressions cover clear scopes and centred hits, combined aim/fire, ADS dragging, jump/crouch holds, semi-auto repeat and auto-reload, cancellation and finite controller input. Release 54 checks also cover all expanded team modes, attachment effects, Nuketown interiors and objectives, search-buffer rollover and 2,000 exact hitbox comparisons. The static check validates local module imports, packaged assets, mesh winding, complete offline shell and the landscape Home Screen manifest.
+The routine gate runs core gameplay, touch/controller input, saves, application lifecycle and offline update tests, then validates JavaScript syntax, local imports, packaged assets, geometry winding and the Home Screen manifest. Run additional test files only for the subsystem changed. Full match simulations, browser matrices, shader checks and profiles are explicit specialist tools, not per-push requirements. See [the test audit and selection guide](docs/TESTING.md) for commands, coverage tradeoffs and the optional full suite.
 
 Earlier browser checks exercised launch, loadout persistence, deployment, touch actions, pause, match completion, results, restart, menu return and the layout editor using compatibility graphics. Release 49 uses an additional real WebGL2 browser pass at 932 × 430. See [current graphics validation and limits](docs/GRAPHICS.md) for evidence and device-testing gaps.
 

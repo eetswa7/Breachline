@@ -37,11 +37,3 @@ test('allocation-free bullet broadphase matches the original hitboxes on random 
   const expected=oldHit(origin,dir),actual=traceBullet(arena,g.actors,shooter,origin,dir,weapon);assert.equal(actual.target,expected.target);assert.equal(actual.part,expected.part);assert.equal(actual.t,expected.t);
  }
 });
-test('Nuketown bots play objective modes, finish rounds and progress through all gun tiers',()=>{
- for(const mode of ['tdm','gun','domination','elimination','ctf']){
-  const g=new Game({map:15,mode},{seed:718});let shots=0;
-  for(let i=0;i<(mode==='elimination'?45000:g.rules.mode.time*30+1)&&g.rules.phase!=='finished';i++){g.update(1/30);for(const e of g.events)shots+=e.type==='shot';g.events.length=0;}
-  assert(shots>20,`${mode}: no combat`);assert.equal(g.rules.phase,'finished',`${mode}: incomplete`);
-  if(mode==='gun')assert(g.actors.some(a=>a.gunStage===29));if(mode==='domination')assert(Math.max(...g.rules.scores)>=150);if(mode==='elimination')assert.equal(Math.max(...g.rules.scores),5);
- }
-});

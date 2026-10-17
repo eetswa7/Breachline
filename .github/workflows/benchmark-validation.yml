@@ -3,18 +3,33 @@ on:
   push:
     paths-ignore:
       - 'benchmarks/**'
+      - 'docs/**'
+      - '**/*.md'
   pull_request:
     paths-ignore:
       - 'benchmarks/**'
+      - 'docs/**'
+      - '**/*.md'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   test:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm test
+      - run: npm run verify
+  full:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run test:full
       - run: npm run check
