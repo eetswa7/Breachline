@@ -40,12 +40,16 @@ budget. [Scope and acceptance limits](ART_RELEASE76.md).
 
 - [x] Identify that every blocked audio ray previously used the same generic
   attenuation/filter, despite authoritative collider surfaces. Source `068caf1`.
-- [ ] Reuse one bounded eye-to-source trace to select shared wood, thin-shell,
+- [x] Reuse one bounded eye-to-source trace to select shared wood, thin-shell,
   masonry or generic responses; keep boolean APIs and visibility tolerance.
-- [ ] Share the response between initial playback and moving tails, preserving
+  Completed 2026-10-18 at `3c78f6c`; [coefficient model/limits](ART_RELEASE76.md).
+- [x] Share the response between initial playback and moving tails, preserving
   voice/decode/node limits, cancellation and eight-ray/four-refresh budgets.
-- [ ] Package offline Release 76, run only final `npm run verify`, record
+  Completed 2026-10-18 at `3c78f6c`; [initial/tail scope](ART_RELEASE76.md).
+- [x] Package offline Release 76, run only final `npm run verify`, record
   coefficients/costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass and 88 modules packaged; benchmark provenance
+  identifies `3c78f6c`. [Recorded result](validation-release76.json).
 - [ ] Review actual listening and physical device costs. Coefficients remain
   unmeasured authoring approximations; decorative glazing, layered transmission,
   professional listening quality and physical iPhone acceptance remain open.
@@ -878,7 +882,11 @@ These are Release 57 measurements, not measurements of Release 60.
   responses, subjective localisation/realism and physical Safari performance
   remain open. Release 75 unifies HRTF, distance, cover and moving-tail refresh
   around the actual ear position, including crouching behind low cover. New
-  listening/device acceptance remains unverified. Updated 2026-10-18 at `570ce85`;
+  listening/device acceptance remains unverified. Release 76 distinguishes
+  nearest authoritative wood/thin-shell/masonry cover with shared bounded
+  gain/filter profiles; coefficients are unmeasured, while layered transmission
+  and decorative glazing stay open. Updated 2026-10-18 at `3c78f6c`;
+  [material response and limits](ART_RELEASE76.md),
   [listener scope and limits](ART_RELEASE75.md),
   [PCM and listening reel](AUDIO_ACOUSTICS67.md).
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
@@ -954,6 +962,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 76 tasks: nearest authoritative cover-material profiles, coherent initial/moving-tail response within existing ray/voice/node budgets, and final core/offline verification. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,487 bytes, with no media changes. Coefficients are unmeasured; decorative glazing, layered/physical transmission, premium listening and physical iPhone acceptance remain open. | Runtime `3c78f6c`; [model/limits](ART_RELEASE76.md), [recorded result](validation-release76.json). |
 | 2026-10-18 | Completed three scoped Release 75 tasks: stance-correct shared listener acoustics, raised-surface hard-debris point contacts, and final core/offline verification. Existing ray/voice/particle/resource limits remain; extra local contact-query cost is unmeasured. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,164 bytes. Actual listening/gameplay, professional quality and physical iPhone acceptance remain open. | Runtime `570ce85`; [implementation/limits](ART_RELEASE75.md), [recorded result](validation-release75.json). |
 | 2026-10-18 | Completed three scoped Release 74 tasks: original board-built shipping-crate near/far construction, all sixteen Cycles lightmaps with retained material payloads/editable source, and final core/offline verification. Narrow routing retains unrelated furniture/fences and removes only exact legacy crate bands. Selected crates add 384 near/288 far triangles; mesh/lighting download adds 25,256 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay images, professional art and physical iPhone costs remain unverified. | Source `a903888`, runtime `c594b4c`; [construction/costs](ART_RELEASE74.md), [recorded result](validation-release74.json). |
 | 2026-10-18 | Completed three scoped Release 73 tasks: covered-feed cover seating before empty charging with shared motion/foley phases, contact-following operator wrist rotation, and final offline/core verification. Reload clocks, ammunition, other-family phases, voice limits and all media remain. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 1,892 bytes. Rigid fingers, reach clamping, gameplay/listening quality and physical iPhone costs remain open. | Runtime `365bd69`; [implementation and limits](ART_RELEASE73.md), [recorded result](validation-release73.json). |

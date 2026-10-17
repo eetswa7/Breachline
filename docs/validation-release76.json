@@ -1,0 +1,56 @@
+{
+  "release": 76,
+  "date": "2026-10-18",
+  "baseline_commit": "068caf1",
+  "runtime_source_commit": "3c78f6c1d1925a0f1634ede1e160ac1cc9448300",
+  "content_sha256": "1748f50dadf2d2b351b73ccba0e0ce9e42d0e2a4b2445f9ba160016385597e82",
+  "implementation_scope": {
+    "cover": "One authoritative eye-to-source trace using the existing visible endpoint tolerance; nearest collider only",
+    "responses": {
+      "generic": [
+        0.48,
+        1600
+      ],
+      "wood": [
+        0.58,
+        2400
+      ],
+      "thin_shell": [
+        0.4,
+        1800
+      ],
+      "masonry": [
+        0.24,
+        1000
+      ],
+      "future_actual_glass_collider": [
+        0.72,
+        4200
+      ]
+    },
+    "profile_status": "Unmeasured authoring coefficients; no physical-transmission or existing decorative-window claim",
+    "bounds": "Eight queries/four tail refreshes, bool/default compatibility, current voice/node/decode and cleanup limits retained"
+  },
+  "package_observations": {
+    "game_javascript_bytes": 711121,
+    "previous_game_javascript_bytes": 708634,
+    "javascript_delta_bytes": 2487,
+    "media_changes": false
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "test_duration_ms": 2914.097306,
+    "packaged_javascript_modules": 88,
+    "coverage_limit": "Existing checks do not establish every material/cover path or subjective audio quality."
+  },
+  "not_performed": [
+    "Additional or retired suites, browser/listening/shader checks, asset audits and profiles",
+    "Actual premium listening/localisation or physical transmission acceptance",
+    "Physical iPhone frame time/memory/thermal acceptance"
+  ]
+}

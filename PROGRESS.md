@@ -1,3 +1,15 @@
+# Release 76: cover-material acoustics
+
+World sounds now use distinct bounded responses for authoritative wood,
+thin-shell and masonry cover. Initial playback and moving tails share the same
+profile and existing eight-ray/four-refresh budget; voice/node/decoded media
+limits remain. The coefficients are design approximations, not measurements.
+
+Runtime `3c78f6c` passes 74/74 core tests and 88-module packaging/offline checks.
+JavaScript adds 2,487 bytes; no media changes. [Model and limits](docs/ART_RELEASE76.md)
+and [the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual listening,
+decorative-window/physical transmission and physical iPhone acceptance.
+
 # Release 75: listener stance and raised debris contacts
 
 Listener position now follows the actual standing/crouched ear for distance,

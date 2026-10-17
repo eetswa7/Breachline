@@ -42,3 +42,16 @@ initial/tail profile flow, boolean compatibility or resource bounds. Follow
 [AGENTS.md](../AGENTS.md): only one final `npm run verify`, 74 core tests plus
 packaged/offline checks. Actual listening, professional quality and physical
 Safari costs remain open in the [overhaul checklist](OVERHAUL_CHECKLIST.md).
+
+## Package and recorded verification
+
+Runtime `3c78f6c1d1925a0f1634ede1e160ac1cc9448300` is pushed on `codex/overhaul73`. Benchmark provenance
+identifies that source and content fingerprint `1748f50dadf2d2b351b73ccba0e0ce9e42d0e2a4b2445f9ba160016385597e82`.
+Game JavaScript grows from 708,634 to 711,121 bytes (+2,487); no media
+or editable-source changes. Static sizes do not measure runtime cost.
+
+One final `npm run verify` passes **74/74 core tests**, zero failures, and the
+**88-module** packaging/offline check, geometry winding, local assets and Home
+Screen manifest. [Recorded result](validation-release76.json). No additional
+suites, browser/listening/shader checks, asset audits or profiles ran. New
+material-response listening and physical iPhone acceptance remain unverified.
