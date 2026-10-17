@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 73.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 74.** 30 weapons, 16 maps and 11 modes.
+
+## Release 74: board-built shipping crates
+
+Original framed, braced shipping crates replace cube/strip construction across
+all sixteen maps. Both LODs retain closed faces and supported structure; unrelated
+furniture/fences keep their prior model. All sixteen maps have fresh static GI,
+with existing material payloads retained. Runtime download adds about 24.7 KiB;
+selected crates add 384 near/288 far triangles.
+
+Runtime `c594b4c` passes 74/74 core tests and 88-module packaging/offline checks.
+[Construction and limits](docs/ART_RELEASE74.md) and [the checklist](docs/OVERHAUL_CHECKLIST.md)
+retain open gameplay-image, professional quality and physical iPhone acceptance.
 
 ## Release 73: ordered covered reloads and operator wrists
 

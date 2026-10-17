@@ -1,0 +1,66 @@
+{
+  "release": 74,
+  "date": "2026-10-18",
+  "baseline_commit": "53b08253d244f8ca9c1ad08f34900ec383d33482",
+  "authoring_checkpoints": [
+    "98a94e9",
+    "17f7ae9",
+    "a903888"
+  ],
+  "runtime_source_commit": "c594b4ce04931a7946208d34690dc03bc7178da0",
+  "content_sha256": "eaf93634bdbb0334b9812664596abab55d67ad8ba46aa9bc1fc02f3b4a73d712",
+  "implementation_scope": "New shipping_crate near/far construction selected only for wood shellThickness .035; old generic crate retained for unrelated furniture/fences. Exact Arena.crate steel bands suppressed; owners/collision/routes remain.",
+  "package_observations": {
+    "native_meshes": 370,
+    "new_meshes": {
+      "shipping_crate__near": {
+        "triangles": 1308,
+        "vertices": 744,
+        "vertexMaterial": true
+      },
+      "shipping_crate__far": {
+        "triangles": 332,
+        "vertices": 216,
+        "vertexMaterial": true
+      }
+    },
+    "library": {
+      "parts": [
+        "breachline-library.part000.bin",
+        "breachline-library.part001.bin",
+        "breachline-library.part002.bin",
+        "breachline-library.part003.bin",
+        "breachline-library.part004.bin",
+        "breachline-library.part005.bin",
+        "breachline-library.part006.bin"
+      ],
+      "bytes": 13527043,
+      "unpackedBytes": 42259608,
+      "sha256": "20c7638f4bcbd4014a5b8bcab8e19b87f5371f2b9c7eaeee2dbbc581caf66e64"
+    },
+    "source": {
+      "bytes": 171960173,
+      "sha256": "27e3153d49ba08093faa14ff14731a3dbe8822d222bccf890f0931c6d6202e73"
+    },
+    "production_bytes": 67317430,
+    "material_records_changed": false,
+    "lightmap_records_changed": 16,
+    "javascript_bytes": 706470
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "test_duration_ms": 2781.606782,
+    "packaged_javascript_modules": 88,
+    "coverage_limit": "Core checks do not establish all-map visual/LOD correctness, professional art or physical iPhone costs."
+  },
+  "not_performed": [
+    "Additional tests, browser/shader checks, binary asset audits or profiles",
+    "New actual gameplay-image and professional-quality acceptance",
+    "Physical iPhone frame time, memory and thermal acceptance"
+  ]
+}

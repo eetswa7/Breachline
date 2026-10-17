@@ -42,12 +42,16 @@ service areas. This pass replaces their shared construction across all maps.
 - [x] Identify the old cube/strip crate and its static-lighting coverage in all
   sixteen maps; retain the original owners, dimensions and solid collision.
   Source `53b0825`; [recorded reference and coverage](ART_RELEASE74.md).
-- [ ] Replace the shared crate with original editable board panels, structural
+- [x] Replace the shared crate with original editable board panels, structural
   frame, broad diagonal braces, closed lid and supporting bearers at near/far LOD.
-- [ ] Rebuild native meshes, all sixteen static lightmaps and editable source
+  Completed 2026-10-18 from `a903888`; [construction and costs](ART_RELEASE74.md).
+- [x] Rebuild native meshes, all sixteen static lightmaps and editable source
   while reusing the existing material bakes and compressed material payloads.
-- [ ] Package offline Release 74, run only the final required `npm run verify`,
+  Completed 2026-10-18 at `c594b4c`; [native/source metadata](ART_RELEASE74.md).
+- [x] Package offline Release 74, run only the final required `npm run verify`,
   record generated costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18: 74/74 pass, 88 modules packaged; runtime `c594b4c`
+  is identified by benchmark provenance. [Recorded result](validation-release74.json).
 - [ ] Review new actual near/far/native gameplay images. Browser/asset-audit/
   profile/device checks are outside current verification scope; professional
   environmental quality and physical iPhone acceptance remain open.
@@ -358,7 +362,11 @@ as documented in the baseline JSON and validation report.
   existing shared finishes. Professional weathering and realism remain incomplete.
   Updated 2026-10-17 from `063369e`; [construction and limits](ART_RELEASE69.md).
 - [ ] **Partial:** Replace simplistic props with professionally modelled
-  alternatives. Release 69 replaces the coarse shared generator at both LODs;
+  alternatives. Release 74 replaces cube-built shipping crates with backed board
+  panels, structural framing, braces and supporting bearers at both LODs across
+  all sixteen maps. The old generic model remains for unrelated furniture/fences;
+  [construction, triangle costs and unverified visual acceptance](ART_RELEASE74.md)
+  are recorded at `c594b4c` on 2026-10-18. Release 69 replaces the coarse shared generator at both LODs;
   native gameplay acceptance remains unverified and several other props still
   appear simplistic. Updated 2026-10-17 from `063369e`;
   [construction and acceptance limits](ART_RELEASE69.md).
@@ -900,6 +908,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 74 tasks: original board-built shipping-crate near/far construction, all sixteen Cycles lightmaps with retained material payloads/editable source, and final core/offline verification. Narrow routing retains unrelated furniture/fences and removes only exact legacy crate bands. Selected crates add 384 near/288 far triangles; mesh/lighting download adds 25,256 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay images, professional art and physical iPhone costs remain unverified. | Source `a903888`, runtime `c594b4c`; [construction/costs](ART_RELEASE74.md), [recorded result](validation-release74.json). |
 | 2026-10-18 | Completed three scoped Release 73 tasks: covered-feed cover seating before empty charging with shared motion/foley phases, contact-following operator wrist rotation, and final offline/core verification. Reload clocks, ammunition, other-family phases, voice limits and all media remain. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 1,892 bytes. Rigid fingers, reach clamping, gameplay/listening quality and physical iPhone costs remain open. | Runtime `365bd69`; [implementation and limits](ART_RELEASE73.md), [recorded result](validation-release73.json). |
 | 2026-10-18 | Completed five scoped Release 72 tasks: recovered Release 71, shared cached operator component poses, extended removed/replacement magazine roles within the existing 24 reduced slots, used common hand contacts and corrected the feed-cover close envelope, then packaged and verified the runtime. All 74 core tests and 88-module packaging checks pass once locally; uncompressed game JavaScript grows 516 bytes with no media diff. Updated three original partial explanations. Rigid hand orientation, clamped reach, earlier covered bolt grasp, far omissions, unmeasured full-rig CPU/memory cost, gameplay images and physical iPhone acceptance remain open. | Scope `5107571`, runtime `ec0afe39242b947cf0b7caba18fb61357601ac96`; [implementation, costs and limits](ART_RELEASE72.md), [verification result](validation-release72.json). |
 | 2026-10-18 | Completed five scoped Release 71 tasks: distinct cached removed/replacement magazines for 26 first-person rigs, family-aware stow/departure and retrieval/seating, native aliases/shared fallback poses, deterministic cancellation/menu/completion visibility, cache fixes and final offline/core verification. Long-gun fast-mag loops now travel with their owner. Native media and editable source are unchanged; game JavaScript grows 6,485 bytes. All 74 core tests and the 88-module packaging check pass. Updated two original partial explanations. Actual gameplay images, natural grasp, physical discarded magazines, third-person exchange, professional quality and iPhone acceptance remain open. | Continuation `592ea52`, runtime source `549139bdd6a508cce684638899c09ba40de8a5e0`; [implementation, sizes and limits](ART_RELEASE71.md), [verification result](validation-release71.json). |

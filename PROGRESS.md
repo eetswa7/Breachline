@@ -1,3 +1,15 @@
+# Release 74: shared shipping-crate construction
+
+Original framed, braced shipping crates replace cube/strip construction across
+all sixteen maps. Both LODs retain closed faces and supported structure; unrelated
+furniture/fences keep their prior model. All sixteen maps have fresh static GI,
+with existing material payloads retained. Runtime download adds about 24.7 KiB;
+selected crates add 384 near/288 far triangles.
+
+Runtime `c594b4c` passes 74/74 core tests and 88-module packaging/offline checks.
+[Construction and limits](docs/ART_RELEASE74.md) and [the checklist](docs/OVERHAUL_CHECKLIST.md)
+retain open gameplay-image, professional quality and physical iPhone acceptance.
+
 # Release 73: ordered covered reloads and operator wrists
 
 - Belt-feed covers now seat before empty charging; pose and foley share .86,
