@@ -5,7 +5,7 @@ Run `npm run source:blender` to reconstruct the SHA-256-checked
 all 30 weapon rigs, all 16 complete level assemblies, native material graphs,
 six original diffuse input sheets, nine material/auxiliary atlas bakes and
 16 packed ground-lighting bakes. Enable a hidden level collection to inspect it.
-The source archive is about 138 MiB; it is authoring data, not a runtime download.
+The source archive is about 164 MiB; it is authoring data, not a runtime download.
 
 Three.js draws the exported library. Arena and the existing weapon simulation
 retain collision, ballistics, movement, AI, controls, objectives and progression.

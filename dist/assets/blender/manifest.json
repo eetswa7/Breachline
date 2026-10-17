@@ -357,13 +357,13 @@
       "vertexMaterial": true
     },
     "generator__near": {
-      "triangles": 2296,
-      "vertices": 1232,
+      "triangles": 2180,
+      "vertices": 1252,
       "vertexMaterial": true
     },
     "generator__far": {
-      "triangles": 516,
-      "vertices": 276,
+      "triangles": 468,
+      "vertices": 278,
       "vertexMaterial": true
     },
     "street_bin__near": {
@@ -6591,37 +6591,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "0a1f1d7630fd25105a6edf4b72c95095f907bd76991a6fc274569194794d03cb"
+      "sha256": "2ae5429fae99329a29778120b64161669c327d3822d4bd680df66d343e9f9ceb"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "f1fc05c4c7ce6855f014228184a09dd10eefe698dec6a1327f1cc55ff671e88e"
+      "sha256": "f365ff8cd76d1356a61590d576067a962f0e1dbf0804a4c4511716674e9999b4"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "cf0beb1d70edb4c0081d2e8725cc9590d7e2dae8a32aa599d8a5dc73c50552c1"
+      "sha256": "dd51c1eeb3ea2f1dbc22d135dc27e465cb2198dca8d3703d4d912d4e4da9c029"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "52c4ebf39fd6c88e730af7a20054d79c5e1575c6f72cacaec7932e44116fe944"
+      "sha256": "3bccff43741c1955305c72305f16be417026d62fb2c6aea087e6d4b4ec3152d9"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "fadbfe3f5e80a6785632b1845fc816a13e7171cdb298de479e2bd470a415940e"
+      "sha256": "1d022556414fa05198ebb53a2b1c7c47bc2b262a45f0ef60ae1e10ee2ab71cb8"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "a54ea655e5846f56472d64a56bc46f17250ac6c987b0dd2fc132860b7109ba67"
+      "sha256": "f778e3c308736b8b76176669f533513d02d665943cb47f687ecf9e084ca7e465"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 771645,
-      "sha256": "1043997c0d6ad3cd8fbf44570ab8bc5fe68a378f77f7381fbc716fe869706465"
+      "bytes": 770161,
+      "sha256": "652f4a8d2c81cdf7afd9429dfac470ce9897202ac082708fb4ba97d9e9148b55"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6742,11 +6742,11 @@
   "geometryPacking": {
     "normalisedBits": 16,
     "streams": 304,
-    "savedBytes": 3302184,
+    "savedBytes": 3300056,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb",
-    "exactPackedSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb"
+    "exactSourceSha256": "aa3ef20f2604dd297c21574c7f88792de71fe6d262dad72927fa45ab9c4b01a5",
+    "exactPackedSha256": "aa3ef20f2604dd297c21574c7f88792de71fe6d262dad72927fa45ab9c4b01a5"
   },
   "library": {
     "parts": [
@@ -6758,9 +6758,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13354545,
-    "unpackedBytes": 41699060,
-    "sha256": "e307b05798e52b2f9a1ce924215e3bfc281d57c854598a7b8edc2508ccbf4602"
+    "bytes": 13353061,
+    "unpackedBytes": 41674696,
+    "sha256": "1aa68b05655dc3c1462bf8ed36dd2c824b1e680ac241f028a394b380e18993f2"
   },
-  "downloadBytes": 18555745
+  "downloadBytes": 18554261
 }

@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 68.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 69.** 30 weapons, 16 maps and 11 modes.
+
+## Release 69: shared generator construction
+
+Open-skid diesel generators replace the coarse shared housing on Foundry,
+Relay, Citadel, Monsoon and Blacksite. Separate engine, alternator, cooling and
+service forms retain economical near/far meshes and existing collision owners.
+Those five maps have fresh Cycles ground lighting; shared materials are retained.
+The mesh library and lighting download together decrease by about 4.7 KiB.
+
+See [construction, costs and acceptance limits](docs/ART_RELEASE69.md) and
+[the updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md). Matched gameplay
+image review and physical iPhone acceptance remain open.
 
 ## Release 68: Blacksite hall construction and interior
 

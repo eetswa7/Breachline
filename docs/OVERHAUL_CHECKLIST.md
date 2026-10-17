@@ -41,13 +41,19 @@ limits](ART_RELEASE69.md) record the implementation and acceptance status.
 
 - [x] Synchronise the latest pushed Release 68 source and preserve its complete
   distribution for matched native gameplay comparisons.
-- [ ] Replace the shared generator's coarse housing with original editable
+- [x] Replace the shared generator's coarse housing with original editable
   diesel, alternator, radiator and service equipment construction; retain its
   existing unit envelope, collision owners, shared materials and near/far LOD.
-- [ ] Rebuild static lighting on Foundry (1), Relay (3), Citadel (5), Monsoon (11)
+  Completed 2026-10-17 from editable checkpoint `063369e`; packaged construction,
+  counts and acceptance limits are recorded in [Release 69](ART_RELEASE69.md).
+- [x] Rebuild static lighting on Foundry (1), Relay (3), Citadel (5), Monsoon (11)
   and Blacksite (14), reusing existing native material bakes and compressed
-  material payloads. Record the build's preservation results for other native
-  assets, all material containers and the eleven unaffected lighting maps.
+  material payloads. All material-container and eleven unaffected-lighting
+  hashes remain unchanged in the production manifest diff. Completed 2026-10-17
+  from `063369e`; [build and size evidence](ART_RELEASE69.md).
+- [ ] Establish byte-exact preservation of other native mesh streams. Their
+  definitions and manifest topology records are unchanged; a separate binary
+  asset audit is outside the current verification scope and was not run.
 - [ ] Review matched native close, room-scale, low-quality and far-LOD gameplay
   images on the five affected maps. This acceptance remains unverified; browser
   image capture is outside the current verification scope.
@@ -206,11 +212,19 @@ as documented in the baseline JSON and validation report.
 
 - [ ] **Partial:** Improve vehicles, machinery, containers, barriers, pipes,
   fences, furniture, vegetation and military equipment. Many shared props were
-  rebuilt; every listed category was not comprehensively upgraded.
+  rebuilt; Release 69 adds an open-skid diesel generator with separate engine,
+  alternator, radiator and service forms at both LODs. Every listed category was
+  not comprehensively upgraded. Updated 2026-10-17 from `063369e`;
+  [construction and remaining acceptance](ART_RELEASE69.md).
 - [ ] **Partial:** Realistic mechanical detail, weathering, damage and surface
-  variation. Added in parts of the library; professional realism remains incomplete.
+  variation. Release 69 improves generator mechanical construction while retaining
+  existing shared finishes. Professional weathering and realism remain incomplete.
+  Updated 2026-10-17 from `063369e`; [construction and limits](ART_RELEASE69.md).
 - [ ] **Partial:** Replace simplistic props with professionally modelled
-  alternatives. Native replacements exist, but several still appear simplistic.
+  alternatives. Release 69 replaces the coarse shared generator at both LODs;
+  native gameplay acceptance remains unverified and several other props still
+  appear simplistic. Updated 2026-10-17 from `063369e`;
+  [construction and acceptance limits](ART_RELEASE69.md).
 
 ### Vegetation
 
