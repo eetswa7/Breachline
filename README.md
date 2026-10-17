@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 74.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 75.** 30 weapons, 16 maps and 11 modes.
+
+## Release 75: listener stance and raised debris contacts
+
+Listener position now follows the actual standing/crouched ear for distance,
+cover rays and moving tails, matching HRTF. Hard debris contacts raised decks,
+roofs and thin finishes using downward point crossings, releasing at edges or
+destruction. Existing audio/effect budgets, media and gameplay remain.
+
+Runtime `570ce85` passes 74/74 core tests and 88-module packaging/offline checks.
+JavaScript adds 2,164 bytes. [Scope/costs](docs/ART_RELEASE75.md) and
+[the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual listening/gameplay,
+professional quality and physical iPhone acceptance.
 
 ## Release 74: board-built shipping crates
 

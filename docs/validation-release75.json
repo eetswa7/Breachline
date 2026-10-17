@@ -1,0 +1,35 @@
+{
+  "release": 75,
+  "date": "2026-10-18",
+  "baseline_commit": "aa0aeaf",
+  "runtime_source_commit": "570ce856969d4a81d6a3e64856c8a3bff241b99b",
+  "content_sha256": "13704cbb714c97ed4d78b1a8ec875576ad7dd7d8b26ab4f0d684a3cfdfb46684",
+  "implementation_scope": {
+    "listener": "One Game.eye snapshot for HRTF, distance, cover-ray origins and refresh movement; crouched/standing height included",
+    "debris": "Interpolated downward point contacts against existing collision tops and visible finish buckets; support released at edges/destruction",
+    "bounds": "Eight cover rays/four refreshes; 200 effect slots and original quality/voice/resource limits retained",
+    "limits": "Horizontal cosmetic point contacts, no wall/underside/native-triangle physics; added local CPU queries unmeasured"
+  },
+  "package_observations": {
+    "game_javascript_bytes": 708634,
+    "previous_game_javascript_bytes": 706470,
+    "javascript_delta_bytes": 2164,
+    "media_changes": false
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "test_duration_ms": 2763.958423,
+    "packaged_javascript_modules": 88,
+    "coverage_limit": "Core tests do not establish every stance/cover/debris path or visible/audible quality."
+  },
+  "not_performed": [
+    "Additional tests, browser/listening/shader checks, asset audits or profiles",
+    "Actual new gameplay/listening and professional-quality acceptance",
+    "Physical iPhone frame-time/memory/thermal acceptance"
+  ]
+}

@@ -40,12 +40,16 @@ with elevated surfaces. [Scope and acceptance limits](ART_RELEASE75.md).
 
 - [x] Identify fixed-height audio cover rays and world-zero debris contact in
   the source; retain gameplay, voice and particle limits. Source `aa0aeaf`.
-- [ ] Share the actual batch eye position between HRTF, distance, cover rays
-  and moving-tail refresh, including crouching and vertical movement.
-- [ ] Contact raised collision tops and thin visible finishes during downward
+- [x] Share the actual batch eye position between HRTF, distance, cover rays
+  and moving-tail refresh, including crouching and vertical movement. Completed
+  2026-10-18 at `570ce85`; [scope and limits](ART_RELEASE75.md).
+- [x] Contact raised collision tops and thin visible finishes during downward
   hard-debris motion, retaining exact footprints and release at edges/destruction.
-- [ ] Package offline Release 75, run only the final required `npm run verify`,
-  record costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18 at `570ce85`; [contact bounds](ART_RELEASE75.md).
+- [x] Package offline Release 75, run only the final required `npm run verify`,
+  record costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass, 88 modules packaged; provenance identifies `570ce85`.
+  [Recorded result](validation-release75.json).
 - [ ] Review actual listening and raised-surface effect gameplay. Additional
   browser/listening/profile/device checks are outside current verification scope;
   professional quality and physical iPhone acceptance remain open.
@@ -600,7 +604,10 @@ as documented in the baseline JSON and validation report.
   third-person firing system remain; professional quality stays unfinished.
   Updated 2026-10-14 at `23fedbc`; [native frames and limits](FIRING67.md).
 - [ ] **Partial:** Bullet impacts and surface-specific debris. Material treatment
-  improved; complete professional impact production was not achieved.
+  improved; Release 75 adds point contacts for hard debris against raised
+  collision tops and thin visible finishes, preserving pool/lifetime/resource
+  bounds. Professional impact production and new gameplay acceptance remain
+  open. Updated 2026-10-18 at `570ce85`; [contact scope](ART_RELEASE75.md).
 - [ ] **Partial:** Dust, sparks and particles. Shapes, rotation and shading
   improved; animated quality remains incompletely reviewed.
 - [ ] **Partial:** Explosions and shock effects. Existing explosions benefit from
@@ -851,7 +858,10 @@ These are Release 57 measurements, not measurements of Release 60.
   filtering with live listener updates; native tests verify retreat, cover
   insertion/removal, lateral direction and cleanup. Simplified shared room
   responses, subjective localisation/realism and physical Safari performance
-  remain open. Updated 2026-10-14 at `0ec0b66`;
+  remain open. Release 75 unifies HRTF, distance, cover and moving-tail refresh
+  around the actual ear position, including crouching behind low cover. New
+  listening/device acceptance remains unverified. Updated 2026-10-18 at `570ce85`;
+  [listener scope and limits](ART_RELEASE75.md),
   [PCM and listening reel](AUDIO_ACOUSTICS67.md).
 - [x] **Complete:** Replace weak/repetitive sounds rather than only increase
   volume. The bank was rebuilt and immediate-repeat avoidance implemented.
@@ -926,6 +936,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 75 tasks: stance-correct shared listener acoustics, raised-surface hard-debris point contacts, and final core/offline verification. Existing ray/voice/particle/resource limits remain; extra local contact-query cost is unmeasured. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,164 bytes. Actual listening/gameplay, professional quality and physical iPhone acceptance remain open. | Runtime `570ce85`; [implementation/limits](ART_RELEASE75.md), [recorded result](validation-release75.json). |
 | 2026-10-18 | Completed three scoped Release 74 tasks: original board-built shipping-crate near/far construction, all sixteen Cycles lightmaps with retained material payloads/editable source, and final core/offline verification. Narrow routing retains unrelated furniture/fences and removes only exact legacy crate bands. Selected crates add 384 near/288 far triangles; mesh/lighting download adds 25,256 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay images, professional art and physical iPhone costs remain unverified. | Source `a903888`, runtime `c594b4c`; [construction/costs](ART_RELEASE74.md), [recorded result](validation-release74.json). |
 | 2026-10-18 | Completed three scoped Release 73 tasks: covered-feed cover seating before empty charging with shared motion/foley phases, contact-following operator wrist rotation, and final offline/core verification. Reload clocks, ammunition, other-family phases, voice limits and all media remain. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 1,892 bytes. Rigid fingers, reach clamping, gameplay/listening quality and physical iPhone costs remain open. | Runtime `365bd69`; [implementation and limits](ART_RELEASE73.md), [recorded result](validation-release73.json). |
 | 2026-10-18 | Completed five scoped Release 72 tasks: recovered Release 71, shared cached operator component poses, extended removed/replacement magazine roles within the existing 24 reduced slots, used common hand contacts and corrected the feed-cover close envelope, then packaged and verified the runtime. All 74 core tests and 88-module packaging checks pass once locally; uncompressed game JavaScript grows 516 bytes with no media diff. Updated three original partial explanations. Rigid hand orientation, clamped reach, earlier covered bolt grasp, far omissions, unmeasured full-rig CPU/memory cost, gameplay images and physical iPhone acceptance remain open. | Scope `5107571`, runtime `ec0afe39242b947cf0b7caba18fb61357601ac96`; [implementation, costs and limits](ART_RELEASE72.md), [verification result](validation-release72.json). |

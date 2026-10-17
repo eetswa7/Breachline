@@ -34,3 +34,18 @@ are claimed. Follow [AGENTS.md](../AGENTS.md): only one final `npm run verify`
 with 74 core tests and packaged/offline checks. Professional quality, full effect
 appearance and physical iPhone costs remain open in the
 [overhaul checklist](OVERHAUL_CHECKLIST.md).
+
+## Package and recorded verification
+
+Runtime `570ce856969d4a81d6a3e64856c8a3bff241b99b` is pushed on `codex/overhaul73`. Benchmark provenance
+identifies that source and content fingerprint `13704cbb714c97ed4d78b1a8ec875576ad7dd7d8b26ab4f0d684a3cfdfb46684`.
+Game JavaScript changes from 706,470 to 708,634 bytes (+2,164); media
+and editable Blender source have no Git diff. These are file sizes, not runtime
+frame-time or memory measurements.
+
+One final `npm run verify` passes **74/74 core tests**, zero failures, and the
+**88-module** packaging/offline check, geometry winding, local assets and Home
+Screen manifest. [Recorded result](validation-release75.json). No additional
+suites, browser/listening/shader checks, asset audits or profiles ran. Actual
+listening, effect gameplay, professional quality and physical iPhone acceptance
+remain open.
