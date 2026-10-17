@@ -32,6 +32,30 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 70 continuation tasks
+
+Scoped progress for 17 October 2026, continuing from pushed Release 69
+`cbfe134`. This pass addresses four pistols whose reloads move only small
+floorplates and whose magazine attachments have no visible construction.
+[Construction scope and acceptance limits](ART_RELEASE70.md).
+
+- [x] Preserve Release 69 as the pushed baseline and identify the detachable
+  magazine gap in Sable 9, Dire 50, Swift 93 and Paladin 45. Source `cbfe134`.
+- [ ] Build complete original pistol magazine bodies, feed lips and floorplates
+  in the editable native source and fallback, with coherent reload hand targets.
+- [ ] Add visible fast, extended and drum options, including the retained
+  handling-slot extension, without changing their existing statistics.
+- [ ] Connect the existing attachment-specific contact voices to those four
+  pistols at the existing extraction, handling, insertion and seating phases.
+- [ ] Rebuild native weapon assets and editable source while retaining all
+  existing material bakes and sixteen static lightmaps; package offline Release 70.
+- [ ] Run only `npm run verify` once on the final runtime state, record costs
+  and limits, update benchmark provenance and push usable checkpoints.
+- [ ] Review actual native gameplay and fresh listening evidence for the new
+  pistol construction and contacts. Additional browser/listening fixtures are
+  outside the current verification scope; professional quality and physical
+  iPhone acceptance remain open.
+
 ## Release 69 continuation tasks
 
 Scoped task progress updated on 17 October 2026, continuing from Release 68.
