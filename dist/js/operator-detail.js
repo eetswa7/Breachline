@@ -1,6 +1,6 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=73';
-import {clamp} from './math.js?v=73';
-import {poseSegment,transformOperatorPose} from './actor-pose.js?v=73';
+import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=74';
+import {clamp} from './math.js?v=74';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=74';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 const HAND_PITCH=.1,HAND_PITCH_COS=Math.cos(HAND_PITCH),HAND_PITCH_SIN=Math.sin(HAND_PITCH);
