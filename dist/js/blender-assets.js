@@ -110,6 +110,7 @@ export class BlenderAssets {
   const wallDetailPixels=renderer.quality==='low'?3.8:renderer.quality==='medium'?3:renderer.quality==='ultra'?2:2.5;
   for(const pair of renderer.blenderWorldLODs??[]){
    const kind=pair.kind??pair.parts[0]?.kind??(pair.parts[0]?blenderKind(pair.parts[0],'world'):null);
+   const privacyFence=kind?.startsWith('house_privacy_fence_');
    const selected=[[],[]];
    for(const p of pair.parts){
     if(p.destroyed)continue;
@@ -119,7 +120,7 @@ export class BlenderAssets {
     // the nearest corner of a large batch. Big visible facades keep detail;
     // small distant crates and machinery use their silhouette-preserving mesh.
     let pixels=Math.max(p.w,p.h,p.d)*focal/Math.max(1,d),threshold=detailPixels;
-    if(kind==='wall'){
+    if(kind==='wall'||privacyFence){
       // The far casting keeps its panels, grooves, chipped silhouette, plinth
       // and coping. Near-only ties/aggregate are .022 of its shorter face axis;
       // a wide wall alone does not make those small features resolvable.
@@ -129,7 +130,9 @@ export class BlenderAssets {
       if(p.yaw){const c=Math.cos(p.yaw),s=Math.sin(p.yaw),x=dx;dx=c*x-s*dz;dz=s*x+c*dz;}
       const surfaceDistance=Math.hypot(Math.max(0,Math.abs(dx)-p.w*.5),
         Math.max(0,Math.abs(renderer.camera.position.y-p.y)-p.h*.5),Math.max(0,Math.abs(dz)-p.d*.5));
-      const feature=Math.min(Math.max(p.w,p.d),p.h)*.022;
+      // Fence boards are about .188 m wide at the authored .20 m pitch.
+      // A 61 m owner span must not keep individual boards in detail forever.
+      const feature=privacyFence?.188:Math.min(Math.max(p.w,p.d),p.h)*.022;
       pixels=surfaceDistance<3?Infinity:feature*focal/Math.max(1,surfaceDistance);
       threshold=wallDetailPixels;
     }

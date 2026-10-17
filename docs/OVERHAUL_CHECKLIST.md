@@ -32,6 +32,27 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 77 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 76 `3e68522`.
+Nuketown beds, storage and privacy fences inherit crate/primitive presentation.
+This pass gives them original domestic construction while retaining solid owners.
+[Scope and acceptance limits](ART_RELEASE77.md).
+
+- [x] Identify furniture and long fence selector mismatches using source and
+  retained map 15 images. Source `3e68522`; [references/limits](ART_RELEASE77.md).
+- [ ] Add original closed bed/cabinet and backed privacy-fence native near/far
+  models, preserving every owner transform/material/collision and existing decor.
+- [ ] Select fence LOD by board detail and nearest-surface distance so long
+  spans do not force detailed boards throughout the map.
+- [ ] Rebuild native library/editable source and map 15 lighting, retaining
+  all material payloads and the other fifteen lightmaps.
+- [ ] Package offline Release 77, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review new actual furniture/fence gameplay and physical iPhone costs.
+  Additional browser/audit/profile/device checks are outside current verification
+  scope; professional art and real-device acceptance remain open.
+
 ## Release 76 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 75 `068caf1`.
