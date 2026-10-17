@@ -1,8 +1,8 @@
-import {WEAPONS} from './weapons.js?v=75';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=75';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=75';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=75';
-import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=75';
+import {WEAPONS} from './weapons.js?v=76';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=76';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=76';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverResponse} from './world-acoustics.js?v=76';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=76';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts. No external audio downloads or continuously running ambience.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -176,7 +176,7 @@ export class AudioSystem {
   // This prevents movement/cover updates from overwriting its click-free end.
   if(region&&tracked){envelope=c.createGain();envelope.gain.value=1;envelope.connect(gain);}
   const input=envelope??gain;
-  if((tracked||distance>14||occluded)&&c.createBiquadFilter){filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=lowpassFrequency(distance,occluded,c.sampleRate??44100);filter.Q.value=.45;source.connect(filter);filter.connect(input);}else source.connect(input);
+  if((tracked||distance>14||occluded)&&c.createBiquadFilter){filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=lowpassFrequency(distance,occluded,c.sampleRate??44100,acoustics?.response);filter.Q.value=.45;source.connect(filter);filter.connect(input);}else source.connect(input);
   if(position&&this.spatialReady)panner=createWorldPanner(c,position);
   let stereo=null;if(!panner&&c.createStereoPanner){panner=c.createStereoPanner();panner.pan.value=clamp(pan,-1,1);stereo=panner;}
   if(panner){gain.connect(panner);panner.connect(this.master);}else gain.connect(this.master);
@@ -184,7 +184,7 @@ export class AudioSystem {
   this.voices++;this.active.add(source);this.voicePriority.set(source,important);if(group)this.voiceGroup.set(source,group);let ended=false;
   source.onended=()=>{if(ended)return;ended=true;this.voices=Math.max(0,this.voices-1);this.active.delete(source);if(worldVoice)this.worldAcoustics.remove(worldVoice);source.disconnect();gain.disconnect();envelope?.disconnect();filter?.disconnect();panner?.disconnect();};
   let seconds=(buffer.duration??0)/source.playbackRate.value;
-  const track=()=>{if(!tracked)return;const p=acoustics.listener;worldVoice={position:{x:position.x,y:position.y,z:position.z},gain,filter,stereo,level:acoustics.minimum?1:volume/acoustics.attenuation,minimum:acoustics.minimum??0,height:acoustics.height,occluded,coverAt:now,coverX:p.x,coverY:p.y,coverZ:p.z,updatedAt:now,seconds,endTime:now+seconds};this.worldAcoustics.add(worldVoice);};
+  const track=()=>{if(!tracked)return;const p=acoustics.listener;worldVoice={position:{x:position.x,y:position.y,z:position.z},gain,filter,stereo,level:acoustics.minimum?1:volume/acoustics.attenuation,minimum:acoustics.minimum??0,height:acoustics.height,response:acoustics.response,occluded,coverAt:now,coverX:p.x,coverY:p.y,coverZ:p.z,updatedAt:now,seconds,endTime:now+seconds};this.worldAcoustics.add(worldVoice);};
   if(region&&Number.isFinite(buffer.duration)&&buffer.duration>0){
    const start=clamp(region[0],0,.995)*buffer.duration,end=clamp(region[1],region[0]+.001,1)*buffer.duration;
    const offset=regionStart(buffer,start,end,this.regionStarts),duration=Math.max(.001,end-offset);seconds=duration/source.playbackRate.value;
@@ -211,9 +211,9 @@ export class AudioSystem {
    // still travel from their struck surface and pass through intervening cover.
    const localSource=own&&['shot','step','land','weaponFoley'].includes(e.type);
    const position=spatial&&!localSource?e.position:undefined;
-   const height=e.type==='step'?1.1:.08,occluded=!!(position&&coverOcclusion(game,position,d,height,budget));
-   const volume=localSource||!e.position?1:distanceGain(d,occluded);
-   const acoustics=position?{attenuation:volume,minimum:e.type==='explosion'?.06:0,height,listener:eye}:undefined;
+   const height=e.type==='step'?1.1:.08,response=position?coverResponse(game,position,d,height,budget):null,occluded=!!response?.occluded;
+   const volume=localSource||!e.position?1:distanceGain(d,occluded,response);
+   const acoustics=position?{attenuation:volume,minimum:e.type==='explosion'?.06:0,height,listener:eye,response}:undefined;
    const pan=localSource?0:e.position?Math.sin(Math.atan2(dx,-dz)-game.player.yaw):0;
    const room=spatial?roomAcoustics(game.arena,e.position):null;
    switch(e.type){

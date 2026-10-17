@@ -1,7 +1,7 @@
-import {clamp,lerp} from './math.js?v=75';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=75';
-import {COVERED_RELOAD_TIMING} from './reload-components.js?v=75';
-export {ATTACHMENTS} from './attachments.js?v=75';
+import {clamp,lerp} from './math.js?v=76';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=76';
+import {COVERED_RELOAD_TIMING} from './reload-components.js?v=76';
+export {ATTACHMENTS} from './attachments.js?v=76';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],

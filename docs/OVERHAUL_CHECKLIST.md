@@ -32,6 +32,24 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 76 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 75 `068caf1`.
+This pass distinguishes actual cover materials within the existing audio ray
+budget. [Scope and acceptance limits](ART_RELEASE76.md).
+
+- [x] Identify that every blocked audio ray previously used the same generic
+  attenuation/filter, despite authoritative collider surfaces. Source `068caf1`.
+- [ ] Reuse one bounded eye-to-source trace to select shared wood, thin-shell,
+  masonry or generic responses; keep boolean APIs and visibility tolerance.
+- [ ] Share the response between initial playback and moving tails, preserving
+  voice/decode/node limits, cancellation and eight-ray/four-refresh budgets.
+- [ ] Package offline Release 76, run only final `npm run verify`, record
+  coefficients/costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review actual listening and physical device costs. Coefficients remain
+  unmeasured authoring approximations; decorative glazing, layered transmission,
+  professional listening quality and physical iPhone acceptance remain open.
+
 ## Release 75 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 74 `aa0aeaf`.

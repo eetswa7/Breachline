@@ -1,6 +1,6 @@
 // Original, metre-scaled view models. Forward is -Z; optics share aim.js heights.
 // Only weapon construction allocates. Animation modifies cached parts in place.
-import {COVERED_RELOAD_TIMING,magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=75';
+import {COVERED_RELOAD_TIMING,magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=76';
 const C={steel:[.27,.30,.32],edge:[.42,.45,.46],black:[.115,.13,.14],polymer:[.16,.175,.17],tan:[.48,.39,.27],olive:[.28,.32,.22],wood:[.48,.29,.145],rubber:[.043,.048,.044],glove:[.36,.38,.30],sleeve:[.23,.28,.22],brass:[.66,.44,.16],red:[.55,.055,.025]};
 const finish=(color=C.black,metal=.72,rough=.39,tile=-1)=>({color,metal,rough,tile,...(tile===9?{finishTile:2}:tile===-1&&metal>.45?{finishTile:0}:{})});
 const METAL=finish(),EDGE=finish(C.edge,.88,.28),POLY={...finish(C.polymer,0,.7),finishTile:3},RUBBER=finish(C.rubber,0,.87),WOOD=finish(C.wood,0,.71,10),TAN={...finish(C.tan,.08,.63),finishTile:1},OLIVE={...finish(C.olive,.08,.64),finishTile:1},BRASS={...finish(C.brass,.92,.31),finishTile:undefined},GLOVE=finish(C.glove,0,.94,9),SLEEVE=finish(C.sleeve,0,.98,9);
