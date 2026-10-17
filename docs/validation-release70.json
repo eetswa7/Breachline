@@ -1,0 +1,44 @@
+{
+  "release": 70,
+  "date": "2026-10-17",
+  "native_foundation_checkpoint": "898316b9423a6c3b607925f78f4581300d19f5bf",
+  "runtime_checkpoint": "e08e6b6a263f134431aef74d8201cdffa0e2a39d",
+  "content_sha256": "d8e7ae1906d73220c5560c9694271235c0e71483057cc6e7d169821308adff26",
+  "build": {
+    "blender": "4.3.2",
+    "command": "npm run assets:blender -- --reuse-bakes --reuse-lightmaps",
+    "exit_code": 0,
+    "pistol_ids": [10, 11, 23, 29],
+    "native_magazine_triangles": {"10": 1768, "11": 1784, "23": 1788, "29": 1792},
+    "previous_native_magazine_triangles": 108,
+    "compressed_library_bytes": 13499841,
+    "compressed_library_delta_bytes": 146780,
+    "decoded_library_bytes": 42100476,
+    "decoded_library_delta_bytes": 425780,
+    "production_payload_bytes": 67319376,
+    "editable_source_bytes": 172093782,
+    "editable_source_sha256": "71aa7ab709b24ba64be3ecd8098d9bf1eec348523e004413efac80d572072600",
+    "evidence_source": "Normal build output, generated manifests and Git diff review; no additional asset audit or profile.",
+    "preservation_observations": "All production-material and sixteen-lightmap payloads, other native topology records and the sound bank have no Git diff. Other binary native mesh streams were not audited."
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "packaged_javascript_modules": 87,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "coverage_limit": "Existing core suite does not establish correctness or appearance of every pistol, attachment or audio path."
+  },
+  "not_performed": [
+    "Additional or retired test suites, browser checks, shader checks, asset audits, profiles and listening fixtures",
+    "Matched native gameplay image and premium listening acceptance",
+    "Binary comparison of unchanged native mesh streams",
+    "Physical iPhone performance, memory and thermal acceptance"
+  ],
+  "remaining_limits": "Rigid finger grasp and single reused magazines remain. No discarded/replacement magazine lifecycle or fitting animation was added. Revolver and other pistol handling attachment limitations remain. Professional visual/audio quality and physical-device acceptance are unverified."
+}

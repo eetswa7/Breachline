@@ -54,8 +54,17 @@ Git diff. Other native topology records and the audio bank remain unchanged;
 binary preservation audits were not run. Editable source SHA-256:
 `71aa7ab709b24ba64be3ecd8098d9bf1eec348523e004413efac80d572072600`.
 
-The matching runtime, offline Release 70 and final core verification are being
-prepared. The final checkpoint and benchmark fingerprint will be recorded here.
+The matching runtime and complete offline Release 70 are pushed at
+`e08e6b6a263f134431aef74d8201cdffa0e2a39d`. Benchmark provenance identifies
+that committed runtime and content fingerprint
+`d8e7ae1906d73220c5560c9694271235c0e71483057cc6e7d169821308adff26`.
+
+`npm run verify` passed once on the final runtime state: **74/74 core tests**,
+zero failures, followed by the **87-module** packaging/offline check, geometry
+winding, local assets and Home Screen manifest. See
+[the recorded result](validation-release70.json). No additional suites, browser,
+shader, asset-audit, profile or listening fixtures ran. These core checks do not
+establish correctness or appearance of every pistol/attachment/audio path.
 
 Weapon geometry does not change static level lighting or material imagery.
 Rebuild with the existing native bakes and all sixteen lightmaps:
