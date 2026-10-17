@@ -236,34 +236,130 @@ def author_environment(api, helpers):
         far=[box((0,0,0),(.95,.94,.94),(.91,.95,.90),(.60,.4)),*cargo[-8:]]
         publish('cargo_'+axis,cargo,far)
 
-    # Diesel generator: open steel skid, central alternator and engine casting,
-    # grille cage, exhaust, service panels and plumbing. Distinct forms remain
-    # at long range rather than collapsing back into a green block.
-    generator=[]
-    for x in (-.412,.412):generator.append(box((x,-.44,0),(.105,.12,.98),dark,(.64,.59)))
-    for z in (-.4,.4):generator.append(box((0,-.438,z),(.91,.12,.075),dark,(.64,.59)))
-    body=profile([(-.5,.28,.32),(-.42,.38,.39),(.33,.38,.39),(.44,.31,.33),(.5,.28,.27)],axis=2)
-    generator.append((body,(0,-.035,-.05),(.82,.76,.74),(.57,.65,.57),(.69,.31)))
-    rotor=lathe([(-.5,.42,.42),(-.40,.48,.48),(.38,.48,.48),(.5,.36,.36)],20)
-    rotor=([Matrix.Rotation(math.pi/2,3,'X')@q for q in rotor[0]],rotor[1])
-    generator.append((rotor,(0,-.045,.332),(.56,.54,.30),(.35,.41,.38),(.48,.63)))
-    generator.append(box((0,.348,-.16),(.76,.065,.47),(.68,.74,.67),(.62,.35)))
+    # Open-skid inline-three diesel set. The radiator, exposed engine and
+    # stepped alternator share a Z-axis driveline, with a tank below and a
+    # supported exhaust above. Empty space around the engine is intentional:
+    # broad side panels must not turn the machinery back into an opaque crate.
+    generator=[];generator_far=[]
+    engine_paint=(.49,.59,.50);alternator_paint=(.36,.43,.39)
+    generator_flat=box((0,0,0),(.01,.01,.01))[0]
+
+    def generator_far_box(position, size, color, rm):
+        return (generator_flat,position,size,color,rm)
+
+    def generator_part(piece, distant=True):
+        generator.append(piece)
+        if distant:
+            # Tiny bevels have no useful silhouette at the far transition.
+            generator_far.append((generator_flat,*piece[1:]) if piece[0] is B['world'] else piece)
+
+    def generator_cylinder(rings, sides, position, scale, color, rm, axis='Z'):
+        g=lathe(rings,sides)
+        if axis!='Y':
+            rotation=Matrix.Rotation(math.pi/2,3,'X') if axis=='Z' else Matrix.Rotation(-math.pi/2,3,'Z')
+            g=([rotation@q for q in g[0]],g[1])
+        return (g,position,scale,color,rm)
+
+    def generator_pipe(a, b, radius, color=steel, rm=(.47,.65), sides=8):
+        # Hoses and pipes need only eight sides; the shared rod's four-ring
+        # cylinder is reserved for larger objects elsewhere in the kit.
+        a=Vector(a);b=Vector(b);direction=b-a
+        rotation=Vector((0,1,0)).rotation_difference(direction.normalized())
+        g=lathe([(-.5,1,1),(.5,1,1)],sides)
+        vertices=[rotation@Vector((q.x*radius,q.y*direction.length,q.z*radius))+(a+b)*.5 for q in g[0]]
+        return ((vertices,g[1]),(0,0,0),(1,1,1),color,rm)
+
+    # Folded channel rails and crossmembers carry the shallow fuel tank. The
+    # flange/web construction leaves genuine light underneath the open skid.
+    for x in (-.412,.412):
+        generator_part(box((x,-.442,0),(.026,.106,.98),dark,(.64,.59)),False)
+        for y in (-.485,-.399):
+            generator_part(box((x,y,0),(.11,.020,.98),dark,(.64,.59)),False)
+        generator_far.append(generator_far_box((x,-.442,0),(.11,.106,.98),dark,(.64,.59)))
+    for z in (-.405,.405):
+        generator_part(box((0,-.436,z),(.91,.075,.030),dark,(.64,.59)))
+    generator_part(box((0,-.365,.005),(.68,.080,.85),(.30,.36,.32),(.66,.40)))
+    generator_part(box((0,-.319,.005),(.65,.012,.82),(.43,.49,.42),(.62,.39)),False)
+    for x in (-.215,.215):
+        for z in (-.18,.205):
+            generator_part(box((x,-.301,z),(.12,.028,.10),steel,(.51,.62)),False)
+            generator_part(box((x,-.276,z),(.085,.027,.072),black,(.88,.02)),False)
+        generator_far.append(generator_far_box((x,-.296,.0125),(.085,.067,.457),black,(.88,.02)))
+    generator_part(generator_cylinder([(-.5,.5,.5),(.5,.5,.5)],10,(-.284,-.302,-.29),(.065,.035,.065),dark,(.57,.42),'Y'),False)
+
+    # Sump, shouldered block and three separate rocker covers expose the
+    # mechanical hierarchy. The sump meets the mounts rather than floating
+    # above the tank, and the rear bellhousing meets the alternator flange.
+    sump=profile([(-.5,.34,.40),(-.28,.45,.48),(.5,.50,.50)],axis=1)
+    generator.append((sump,(0,-.204,-.073),(.38,.15,.37),dark,(.73,.24)))
+    generator_far.append((profile([(-.5,.38,.43),(.5,.5,.5)],axis=1),(0,-.204,-.073),(.38,.15,.37),dark,(.73,.24)))
+    block=profile([(-.5,.43,.39),(-.40,.5,.47),(.39,.5,.47),(.5,.43,.40)],axis=2)
+    generator.append((block,(0,-.035,-.073),(.46,.32,.44),engine_paint,(.71,.29)))
+    generator_far.append((profile([(-.5,.5,.47),(.5,.5,.47)],axis=2),(0,-.035,-.073),(.46,.32,.44),engine_paint,(.71,.29)))
+    generator_part(box((0,.126,-.073),(.44,.028,.44),(.36,.43,.36),(.66,.35)),False)
+    rocker=profile([(-.5,.39,.35),(-.33,.5,.5),(.36,.5,.5),(.5,.39,.35)],axis=2)
+    for z in (-.213,-.073,.067):
+        generator.append((rocker,(0,.196,z),(.405,.13,.126),engine_paint,(.62,.38)))
+    generator_far.append((profile([(-.5,.46,.5),(.5,.46,.5)],axis=2),(0,.196,-.073),(.405,.13,.406),engine_paint,(.62,.38)))
     for sign in (-1,1):
-        generator.append(box((sign*.424,-.08,-.07),(.041,.51,.52),(.62,.70,.63),(.62,.35)))
-        generator.append(box((sign*.447,.073,-.20),(.021,.185,.164),dark,(.22,.05)))
-        for z in (-.32,-.08):generator.append(rod((sign*.43,-.29,z),(sign*.43,.28,z),.01,steel))
-        for y in (-.255,-.20,-.145,-.09,-.035):
-            generator.append(box((sign*.449,y,.06),(.022,.024,.24),black,(.64,.28)))
-    generator.append(box((0,.03,-.429),(.62,.52,.058),black,(.64,.43)))
-    for x in (-.29,.29):generator.append(box((x,.035,-.465),(.03,.55,.054),steel,(.55,.62)))
-    for i in range(8):generator.append(box((0,-.185+i*.061,-.471),(.57,.025,.038),steel,(.46,.66)))
-    generator.append(rod((.23,.25,.02),(.23,.428,.02),.026,dark,(.61,.66)))
-    generator.append(rod((.23,.428,.02),(.23,.428,.24),.026,dark,(.61,.66)))
-    generator.append(tube((.23,.449,.24),(.063,.082,.063),(.41,.44,.4),(.55,.7)))
-    for x in (-.29,.29):
-        generator.append(rod((x,-.31,.06),(x,-.31,.38),.018,steel))
-        generator.append(rod((x,-.31,.06),(x,.24,.06),.018,steel))
-    publish('generator',generator,generator[:7]+generator[7:9])
+        generator_part(box((sign*.233,-.033,-.073),(.019,.14,.29),(.40,.48,.40),(.70,.31)),False)
+        for z in (-.18,.035):
+            generator_part(fastener((sign*.246,-.033,z),'X',.010),False)
+    # Injection pump and its three bent steel delivery lines live on the
+    # service side; there is no unseen bank of internal engine components.
+    generator_part(box((.276,-.015,-.079),(.071,.095,.272),dark,(.57,.43)),False)
+    for z in (-.213,-.073,.067):
+        generator_part(generator_pipe((.29,.035,z),(.29,.165,z),.0045),False)
+        generator_part(generator_pipe((.29,.165,z),(.16,.249,z),.0045),False)
+
+    # A single stepped shell describes the alternator's drive flange, barrel
+    # and smaller rear cover. Fins are only on its exposed outer quadrants.
+    alternator_rings=[(-.5,.43,.43),(-.44,.5,.5),(-.30,.5,.5),(-.24,.44,.44),(.34,.44,.44),(.40,.35,.35),(.5,.33,.33)]
+    generator.append(generator_cylinder(alternator_rings,16,(0,-.025,.307),(.59,.54,.346),alternator_paint,(.51,.60)))
+    generator_far.append(generator_cylinder([(-.5,.5,.5),(-.28,.44,.44),(.34,.44,.44),(.5,.33,.33)],10,(0,-.025,.307),(.59,.54,.346),alternator_paint,(.51,.60)))
+    for sign in (-1,1):
+        for y in (-.105,-.035,.035):
+            generator_part(box((sign*.263,y,.313),(.019,.022,.18),(.46,.53,.47),(.48,.63)),False)
+    terminal=profile([(-.5,.46,.42),(-.40,.5,.5),(.5,.5,.5)],axis=2)
+    generator.append((terminal,(0,.245,.312),(.28,.13,.205),(.52,.60,.53),(.60,.35)))
+    generator_far.append(generator_far_box((0,.245,.312),(.28,.13,.205),(.52,.60,.53),(.60,.35)))
+    generator_part(box((0,.315,.312),(.29,.012,.214),steel,(.49,.61)),False)
+    generator_part(box((.147,.247,.315),(.012,.077,.125),dark,(.26,.08)),False)
+
+    # The cooling pack is a separate upright frame with a recessed opaque
+    # core, cap and rear fan shroud. The guard sits in front of actual fins;
+    # no alpha plane or unbroken cube fills the surrounding engine bay.
+    for x in (-.354,.354):
+        generator_part(box((x,.004,-.406),(.030,.682,.138),steel,(.55,.58)))
+    for y in (-.29,.321):
+        generator_part(box((0,y,-.406),(.708,.052,.15),(.42,.49,.43),(.61,.43)))
+    generator_part(box((0,.017,-.406),(.66,.55,.030),black,(.83,.13)))
+    for y in (-.218,-.158,-.098,-.038,.022,.082,.142,.202,.262):
+        generator_part(box((0,y,-.437),(.639,.012,.016),(.33,.39,.36),(.58,.50)),False)
+    for x in (-.25,-.125,0,.125,.25):
+        generator_part(box((x,.017,-.480),(.012,.565,.018),steel,(.51,.62)),False)
+    for y in (-.263,.017,.295):
+        generator_part(box((0,y,-.480),(.666,.018,.018),steel,(.51,.62)),False)
+    generator_part(generator_cylinder([(-.5,.5,.5),(.5,.5,.5)],12,(0,.020,-.330),(.51,.51,.04),dark,(.69,.31)),False)
+    generator_part(generator_cylinder([(-.5,.5,.5),(.5,.5,.5)],8,(.21,.361,-.405),(.065,.028,.065),steel,(.43,.69),'Y'),False)
+    generator_part(generator_pipe((-.18,.253,-.337),(-.18,.253,-.227),.021,black,(.83,.04)),False)
+    generator_part(generator_pipe((-.18,.253,-.227),(-.13,.185,-.195),.021,black,(.83,.04)),False)
+
+    # The opposite service side carries a canister air cleaner. A short duct
+    # enters the head; the warm exhaust rises from the other side into a
+    # silencer and turned outlet. Both remain silhouette forms at distance.
+    generator.append(generator_cylinder([(-.5,.37,.37),(-.40,.5,.5),(.39,.5,.5),(.5,.39,.39)],12,(-.285,.194,-.085),(.15,.15,.255),dark,(.63,.26)))
+    generator_far.append(generator_cylinder([(-.5,.5,.5),(.5,.5,.5)],8,(-.285,.194,-.085),(.15,.15,.255),dark,(.63,.26)))
+    generator_part(generator_pipe((-.285,.194,.045),(-.16,.194,.045),.024,black,(.86,.03)),False)
+    generator.append(generator_pipe((.20,.115,-.005),(.25,.225,-.005),.021,dark,(.63,.56)))
+    generator_far.append(generator_pipe((.20,.115,-.005),(.25,.225,-.005),.021,dark,(.63,.56),6))
+    generator.append(generator_cylinder([(-.5,.34,.34),(-.37,.5,.5),(.37,.5,.5),(.5,.34,.34)],12,(.25,.322,-.005),(.102,.202,.102),steel,(.57,.67),'Y'))
+    generator_far.append(generator_cylinder([(-.5,.5,.5),(.5,.5,.5)],8,(.25,.322,-.005),(.102,.202,.102),steel,(.57,.67),'Y'))
+    for a,b in (((.25,.419,-.005),(.25,.476,-.005)),((.25,.476,-.005),(.25,.476,.074))):
+        generator.append(generator_pipe(a,b,.021,dark,(.66,.57)))
+        generator_far.append(generator_pipe(a,b,.021,dark,(.66,.57),6))
+    generator_part(box((.25,.322,-.065),(.027,.10,.020),dark,(.66,.51)),False)
+    publish('generator',generator,generator_far)
 
     # Recessed wall grilles, switchgear and luminaires expose cavities without
     # putting transparent surfaces in the world batches.

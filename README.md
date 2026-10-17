@@ -1,6 +1,31 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 68.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 70.** 30 weapons, 16 maps and 11 modes.
+
+## Release 70: complete pistol magazines
+
+Sable P, Dire 50, Swift 93 and Paladin 45 now reload complete magazines with
+native hollow bodies, witness ports, feed lips and followers. Visible fast,
+extended and drum options follow the same rigid reload motion; support hands
+target the magazine body. Existing attachment contacts now use their original
+sound families on these four pistols. Statistics, timing and ammunition remain.
+
+All material and lighting payloads are retained. The compressed native library
+adds about 143 KiB. See [construction, costs and acceptance limits](docs/ART_RELEASE70.md)
+and [the updated checklist](docs/OVERHAUL_CHECKLIST.md). Gameplay-image, premium
+listening and physical iPhone acceptance remain open.
+
+## Release 69: shared generator construction
+
+Open-skid diesel generators replace the coarse shared housing on Foundry,
+Relay, Citadel, Monsoon and Blacksite. Separate engine, alternator, cooling and
+service forms retain economical near/far meshes and existing collision owners.
+Those five maps have fresh Cycles ground lighting; shared materials are retained.
+The mesh library and lighting download together decrease by about 4.7 KiB.
+
+See [construction, costs and acceptance limits](docs/ART_RELEASE69.md) and
+[the updated overhaul checklist](docs/OVERHAUL_CHECKLIST.md). Matched gameplay
+image review and physical iPhone acceptance remain open.
 
 ## Release 68: Blacksite hall construction and interior
 

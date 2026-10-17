@@ -357,13 +357,13 @@
       "vertexMaterial": true
     },
     "generator__near": {
-      "triangles": 2296,
-      "vertices": 1232,
+      "triangles": 2180,
+      "vertices": 1252,
       "vertexMaterial": true
     },
     "generator__far": {
-      "triangles": 516,
-      "vertices": 276,
+      "triangles": 468,
+      "vertices": 278,
       "vertexMaterial": true
     },
     "street_bin__near": {
@@ -1267,8 +1267,8 @@
       "vertexMaterial": true
     },
     "weapon_10_groups_2": {
-      "triangles": 108,
-      "vertices": 56,
+      "triangles": 1768,
+      "vertices": 1630,
       "vertexMaterial": true
     },
     "weapon_10_hands_1": {
@@ -1287,8 +1287,8 @@
       "vertexMaterial": true
     },
     "weapon_11_groups_2": {
-      "triangles": 108,
-      "vertices": 56,
+      "triangles": 1784,
+      "vertices": 1637,
       "vertexMaterial": true
     },
     "weapon_11_groups_3": {
@@ -1542,8 +1542,8 @@
       "vertexMaterial": true
     },
     "weapon_23_groups_2": {
-      "triangles": 108,
-      "vertices": 56,
+      "triangles": 1788,
+      "vertices": 1641,
       "vertexMaterial": true
     },
     "weapon_23_hands_0": {
@@ -1687,8 +1687,8 @@
       "vertexMaterial": true
     },
     "weapon_29_groups_2": {
-      "triangles": 108,
-      "vertices": 56,
+      "triangles": 1792,
+      "vertices": 1641,
       "vertexMaterial": true
     },
     "weapon_29_hands_1": {
@@ -3525,7 +3525,7 @@
     },
     "10": {
       "name": "Sable P",
-      "coreCount": 33,
+      "coreCount": 37,
       "handCount": 26,
       "groups": [
         {
@@ -3580,8 +3580,8 @@
             27,
             28,
             29,
-            31,
-            32
+            35,
+            36
           ]
         },
         {
@@ -3594,7 +3594,11 @@
           "tile": -1,
           "vertexMaterial": true,
           "members": [
-            30
+            30,
+            31,
+            32,
+            33,
+            34
           ]
         }
       ],
@@ -3653,7 +3657,7 @@
     },
     "11": {
       "name": "Dire 50",
-      "coreCount": 31,
+      "coreCount": 35,
       "handCount": 26,
       "groups": [
         {
@@ -3706,7 +3710,7 @@
             25,
             26,
             27,
-            30
+            34
           ]
         },
         {
@@ -3719,12 +3723,16 @@
           "tile": -1,
           "vertexMaterial": true,
           "members": [
-            28
+            28,
+            29,
+            30,
+            31,
+            32
           ]
         },
         {
           "mesh": "weapon_11_groups_3",
-          "anchor": 29,
+          "anchor": 33,
           "tag": "hammer",
           "finishTile": 0,
           "rough": 0.5,
@@ -3732,7 +3740,7 @@
           "tile": -1,
           "vertexMaterial": true,
           "members": [
-            29
+            33
           ]
         }
       ],
@@ -5473,7 +5481,7 @@
     },
     "23": {
       "name": "Swift 93",
-      "coreCount": 32,
+      "coreCount": 36,
       "handCount": 26,
       "groups": [
         {
@@ -5527,8 +5535,8 @@
             26,
             27,
             28,
-            30,
-            31
+            34,
+            35
           ]
         },
         {
@@ -5541,7 +5549,11 @@
           "tile": -1,
           "vertexMaterial": true,
           "members": [
-            29
+            29,
+            30,
+            31,
+            32,
+            33
           ]
         }
       ],
@@ -6460,7 +6472,7 @@
     },
     "29": {
       "name": "Paladin 45",
-      "coreCount": 33,
+      "coreCount": 37,
       "handCount": 26,
       "groups": [
         {
@@ -6488,7 +6500,7 @@
             27,
             28,
             29,
-            32
+            36
           ]
         },
         {
@@ -6516,7 +6528,7 @@
             13,
             14,
             15,
-            31
+            35
           ]
         },
         {
@@ -6529,7 +6541,11 @@
           "tile": -1,
           "vertexMaterial": true,
           "members": [
-            30
+            30,
+            31,
+            32,
+            33,
+            34
           ]
         }
       ],
@@ -6591,37 +6607,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "0a1f1d7630fd25105a6edf4b72c95095f907bd76991a6fc274569194794d03cb"
+      "sha256": "f0c2f0d8bd843cb3006dca9ca55730d4893afd2fcfa8b82096d9e80f15236cd1"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "f1fc05c4c7ce6855f014228184a09dd10eefe698dec6a1327f1cc55ff671e88e"
+      "sha256": "81ed2339d193365a1790d21bcd35ce01ab74ef11175b98231cda229d150d13be"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "cf0beb1d70edb4c0081d2e8725cc9590d7e2dae8a32aa599d8a5dc73c50552c1"
+      "sha256": "bbe53ed56fd334effb1068cd9b32aa449912d5f4ea8fe6182085b53a81c24d50"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "52c4ebf39fd6c88e730af7a20054d79c5e1575c6f72cacaec7932e44116fe944"
+      "sha256": "857c86a780b0924cbabaef69e8250c46368592e21b0ab6b4b559269243b91117"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "fadbfe3f5e80a6785632b1845fc816a13e7171cdb298de479e2bd470a415940e"
+      "sha256": "61525424d153dcf0e5be4c43aa5ed43fbb6e2c34cb5efaf83b4a754e41f5d1ad"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "a54ea655e5846f56472d64a56bc46f17250ac6c987b0dd2fc132860b7109ba67"
+      "sha256": "17b5c4ea7ee1c32de61f8bf8958596a469f8aa5e4683bbce01dca155bf1ec94b"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 771645,
-      "sha256": "1043997c0d6ad3cd8fbf44570ab8bc5fe68a378f77f7381fbc716fe869706465"
+      "bytes": 916941,
+      "sha256": "67c05fd27bf53b8581224e9abfd1c348d26f12755106409120766204a10673a7"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6742,11 +6758,11 @@
   "geometryPacking": {
     "normalisedBits": 16,
     "streams": 304,
-    "savedBytes": 3302184,
+    "savedBytes": 3335012,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb",
-    "exactPackedSha256": "21272609ebc881c1c081eee3141ba4d932cbf24d29e39619f05e457d3c4c52fb"
+    "exactSourceSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac",
+    "exactPackedSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac"
   },
   "library": {
     "parts": [
@@ -6758,9 +6774,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13354545,
-    "unpackedBytes": 41699060,
-    "sha256": "e307b05798e52b2f9a1ce924215e3bfc281d57c854598a7b8edc2508ccbf4602"
+    "bytes": 13499841,
+    "unpackedBytes": 42100476,
+    "sha256": "c7a7d220ac9f587e74825868c7b55d4d84f4bfa62f76120c6c17bad6aa58b4fc"
   },
-  "downloadBytes": 18555745
+  "downloadBytes": 18701041
 }

@@ -26,24 +26,80 @@ physical iPhone performance remain unfinished or unverified.
   Existing checked items are the Release 60 audit, not a guarantee for later code.
 - Optional renderer choices such as WebGPU or engine migration are not mandatory.
   Record the decision and evidence rather than adopting them to fill a checkbox.
+- Follow the current [verification policy](../AGENTS.md): final runtime changes
+  get one `npm run verify` (74 core tests plus packaged/offline checks).
+  Historical broader test, shader, browser, audit and profile results below are
+  retained evidence, not instructions to rerun them. Unperformed visual/audio
+  and physical-device acceptance remains open.
+
+## Release 70 continuation tasks
+
+Scoped progress for 17 October 2026, continuing from pushed Release 69
+`cbfe134`. This pass addresses four pistols whose reloads move only small
+floorplates and whose magazine attachments have no visible construction.
+[Construction scope and acceptance limits](ART_RELEASE70.md).
+
+- [x] Preserve Release 69 as the pushed baseline and identify the detachable
+  magazine gap in Sable P, Dire 50, Swift 93 and Paladin 45. Source `cbfe134`.
+- [x] Build complete original pistol magazine bodies, feed lips and floorplates
+  in the editable native source and fallback, with coherent reload hand targets.
+  Completed 2026-10-17 at runtime `e08e6b6`, native foundation `898316b`;
+  [construction and export costs](ART_RELEASE70.md).
+- [x] Add visible fast, extended and drum options, including the retained
+  handling-slot extension, without changing their existing statistics.
+  Completed 2026-10-17 at `e08e6b6`; [scope and limits](ART_RELEASE70.md).
+- [x] Connect the existing attachment-specific contact voices to those four
+  pistols at the existing extraction, handling, insertion and seating phases.
+  Completed 2026-10-17 at `e08e6b6`; existing recordings and buffers are reused.
+  [Contact implementation and listening limits](ART_RELEASE70.md).
+- [x] Rebuild native weapon assets and editable source while retaining all
+  existing material bakes and sixteen static lightmaps; package offline Release 70.
+  Completed 2026-10-17 at `e08e6b6`; all production payloads have no Git diff.
+  [Build recipe, sizes and limits](ART_RELEASE70.md).
+- [x] Run only `npm run verify` once on the final runtime state, record costs
+  and limits, update benchmark provenance and push usable checkpoints.
+  Completed 2026-10-17: 74/74 pass and 87 modules packaged; native foundation
+  `898316b` and integrated runtime `e08e6b6` are pushed. Benchmark provenance
+  identifies that committed runtime. [Recorded result](validation-release70.json).
+- [ ] Review actual native gameplay and fresh listening evidence for the new
+  pistol construction and contacts. Additional browser/listening fixtures are
+  outside the current verification scope; professional quality and physical
+  iPhone acceptance remain open.
 
 ## Release 69 continuation tasks
 
-Scoped task progress for 14 October 2026, continuing from Release 68 source
-`566c63a`. Actual Blacksite interior images identify repeated coarse generator
-forms as the next prominent shared asset weakness.
+Scoped task progress updated on 17 October 2026, continuing from Release 68.
+Actual Blacksite interior images identify repeated coarse generator forms as
+the next prominent shared asset weakness. [Release 69 scope and current
+limits](ART_RELEASE69.md) record the implementation and acceptance status.
 
 - [x] Synchronise the latest pushed Release 68 source and preserve its complete
   distribution for matched native gameplay comparisons.
-- [ ] Replace the shared generator's coarse housing with original editable
+- [x] Replace the shared generator's coarse housing with original editable
   diesel, alternator, radiator and service equipment construction; retain its
   existing unit envelope, collision owners, shared materials and near/far LOD.
-- [ ] Rebuild affected static lighting and verify all other native assets,
-  material containers and unaffected lighting maps remain unchanged.
+  Completed 2026-10-17 from editable checkpoint `063369e`; packaged construction,
+  runtime `7adee12`, counts and acceptance limits are recorded in
+  [Release 69](ART_RELEASE69.md).
+- [x] Rebuild static lighting on Foundry (1), Relay (3), Citadel (5), Monsoon (11)
+  and Blacksite (14), reusing existing native material bakes and compressed
+  material payloads. All material-container and eleven unaffected-lighting
+  hashes remain unchanged in the production manifest diff. Completed 2026-10-17
+  at runtime `7adee12`; [build and size evidence](ART_RELEASE69.md).
+- [ ] Establish byte-exact preservation of other native mesh streams. Their
+  definitions and manifest topology records are unchanged; a separate binary
+  asset audit is outside the current verification scope and was not run.
 - [ ] Review matched native close, room-scale, low-quality and far-LOD gameplay
-  images, including the other maps that use the shared model.
-- [ ] Complete regression, shader, source/offline and application checks, record
-  costs and visual limits, update provenance and push usable checkpoints.
+  images on the five affected maps. This acceptance remains unverified; browser
+  image capture is outside the current verification scope.
+- [x] Run `npm run verify` once on the final runtime source: exactly the existing
+  74 core tests plus the packaged/offline check. Record actual results, costs,
+  remaining visual/device limits and provenance, and push usable checkpoints.
+  Completed 2026-10-17: 74/74 pass and 87 modules packaged; runtime `7adee12`
+  and editable definitions `063369e` are pushed. Benchmark provenance identifies
+  the committed runtime. [Recorded result](validation-release69.json).
+  Earlier Release 69 shader/browser/audit instructions are superseded by the
+  current [verification policy](../AGENTS.md).
 
 ## Release 68 continuation tasks
 
@@ -194,11 +250,19 @@ as documented in the baseline JSON and validation report.
 
 - [ ] **Partial:** Improve vehicles, machinery, containers, barriers, pipes,
   fences, furniture, vegetation and military equipment. Many shared props were
-  rebuilt; every listed category was not comprehensively upgraded.
+  rebuilt; Release 69 adds an open-skid diesel generator with separate engine,
+  alternator, radiator and service forms at both LODs. Every listed category was
+  not comprehensively upgraded. Updated 2026-10-17 from `063369e`;
+  [construction and remaining acceptance](ART_RELEASE69.md).
 - [ ] **Partial:** Realistic mechanical detail, weathering, damage and surface
-  variation. Added in parts of the library; professional realism remains incomplete.
+  variation. Release 69 improves generator mechanical construction while retaining
+  existing shared finishes. Professional weathering and realism remain incomplete.
+  Updated 2026-10-17 from `063369e`; [construction and limits](ART_RELEASE69.md).
 - [ ] **Partial:** Replace simplistic props with professionally modelled
-  alternatives. Native replacements exist, but several still appear simplistic.
+  alternatives. Release 69 replaces the coarse shared generator at both LODs;
+  native gameplay acceptance remains unverified and several other props still
+  appear simplistic. Updated 2026-10-17 from `063369e`;
+  [construction and acceptance limits](ART_RELEASE69.md).
 
 ### Vegetation
 
@@ -286,7 +350,11 @@ as documented in the baseline JSON and validation report.
   improved. Overall construction remains stylised. Updated 2026-10-12 at
   `2884259`; [native gameplay comparisons](ART_RELEASE63.md).
 - [ ] **Partial:** Detailed receivers, rails, handguards, barrels, magazines and
-  optics. Native detail was added; close-up detail remains coarse.
+  optics. Release 70 adds complete hollow native magazine bodies, feed lips,
+  followers and stepped floorplates to four semiautomatic pistols, replacing
+  their former floorplate-only reload presentation. Other close-up detail
+  remains coarse. Updated 2026-10-17 at `e08e6b6`;
+  [construction and unverified gameplay acceptance](ART_RELEASE70.md).
 - [ ] **Partial:** High-quality metallic/polymer materials. PBR finishes exist;
   large uniform areas remain.
 - [ ] **Partial:** Mechanical details, engravings and wear. Some detail exists;
@@ -301,8 +369,11 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   previously improved; first-person hands now follow actual component extraction,
   seating and empty charging actions, with separate shell/top-loader/feed-cover/
-  revolver targets. Rigid grasp and simplified magazines/loaders remain. Updated
-  2026-10-12 at `c51316c`; [36 native reload frames](ART_RELEASE63.md).
+  revolver targets. Release 70 moves four complete pistol magazines and targets
+  their lower bodies with the support hand. Rigid grasp, reused magazines and
+  simplified loaders remain; new gameplay acceptance is unverified. Updated
+  2026-10-17 at `e08e6b6`; [pistol scope and limits](ART_RELEASE70.md) and
+  [previous native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
   two-sided presentation with touch, keyboard and controller access. Native
   gameplay frame review corrected the second-side arc; combat cancels without
@@ -605,9 +676,12 @@ These are Release 57 measurements, not measurements of Release 60.
   handling-slot extension. Stock latches, bolts, shells, cylinders and feed
   covers retain their weapon cues. Eighteen new takes preserve the original
   428 recordings and the decoded-bank budget at both 44.1 and 48 kHz. Fixed
-  attachment fitting, unsupported pistol attachment geometry and premium
-  subjective realism remain unfinished/unverified. Updated 2026-10-14 at `23fedbc`;
-  [native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
+  attachment fitting and premium subjective realism remain unfinished/unverified.
+  Release 70 reuses those contact families on four semiautomatic pistols with
+  visible magazine attachments; no bank or buffer allocation is added. Other
+  pistol handling attachments and the revolver remain outside that scope.
+  Updated 2026-10-17 at `e08e6b6`; [pistol contacts and listening limits](ART_RELEASE70.md),
+  [prior native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
 - [x] **Complete:** Ricochet audio. Dedicated original metal/mineral variants
@@ -706,6 +780,8 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-17 | Completed five scoped Release 70 tasks: complete magazines for four semiautomatic pistols, visible fast/extended/drum geometry, existing attachment-contact voices, native/offline packaging and final core verification. Added cached lower-body hand targets; retained original joints, gameplay timing/ammunition/statistics, all material/lightmap payloads and the sound bank. Native magazine groups grow from 108 to 1,768–1,792 triangles each; library download increases 146,780 bytes. All 74 core tests and the 87-module packaging check pass. Updated three original partial explanations; actual gameplay/listening, rigid grasp/replacement, other attachment fitting, professional quality and physical iPhone acceptance remain open. | Native foundation `898316b`, runtime `e08e6b6a263f134431aef74d8201cdffa0e2a39d`; [construction, costs and limits](ART_RELEASE70.md), [verification result](validation-release70.json). |
+| 2026-10-17 | Completed three scoped Release 69 tasks: original open-skid generator construction, affected five-map Cycles lighting and final core/package verification with pushed checkpoints. Generator topology falls to 2,180 near / 468 far triangles; combined mesh/lighting payload decreases 4,820 bytes. Material-container and eleven unaffected-lighting hashes remain unchanged in the manifest diff. Updated three Environmental props partial explanations. All 74 core tests and 87-module packaging checks pass; binary mesh-stream preservation, matched gameplay images, professional quality and physical iPhone acceptance remain open. All original thirteen sections remain intact. | Definitions `063369e`, runtime `7adee1205aa89069369a955feb731da98cc3578c`; [construction, costs and limits](ART_RELEASE69.md), [verification result](validation-release69.json), [current verification policy](../AGENTS.md). |
 | 2026-10-14 | Completed five scoped Release 68 continuation tasks: replaced Blacksite's 36 repeated hall-wall proxies and roof/overhead kit with complete original native walls and a structural soffit; rebaked Blacksite GI. All 362 existing meshes, sixty material containers and fifteen other lighting maps remain exact. Reviewed thirteen matched views/26 images, including low quality and all hall far geometry; recorded the low-quality forecourt's +3.96% selected triangle exception and tiny repeat weapon-light variation. All 421 regressions, four tightened focused tests, 87 modules, 58 shaders and sixteen application/offline/export gates pass. Updated three architectural partial explanations; broader realism, audio and physical-device requirements remain open. Sites publication is blocked by the missing bundled helper. | Runtime `b9c3fa8d9b51c10e805e3fc747bd8d775145bca1`, provenance `55fe955`, application `8567190`; [native images, costs and limits](ART_RELEASE68.md), [aggregate validation](validation-release68.json). |
 | 2026-10-14 | Implemented moving-listener world-tail gain/filter/cover updates, separate reload edge envelopes and bounded cover refresh. Fixed a filter reopening artifact found by native PCM review. All 33 focused audio/event regressions and five native movement/cover/listening fixtures pass; broader spatial/premium audio and physical Safari requirements remain partial or unverified. | [Moving acoustics evidence](AUDIO_ACOUSTICS67.md), [native validation](validation-world-acoustics67-browser.json). |
 | 2026-10-14 | Rechecked the 397-test source baseline and restored its failing Blacksite world-batch budget with centred spatial cells. All sixteen maps and 49 scene fixtures stay within the existing 220-batch cap. Native visual integration and new production work follow; no broader art requirement newly completed. | [Batch evidence and limits](WORLD_BATCHES67.md). |

@@ -91,6 +91,8 @@ def _weapon_role(p,weapon=None):
     """Classify the unchanged rig envelope once for geometry and finishes."""
     tag=p.get('tag','');kind=(weapon or {}).get('kind','')
     width,height,depth=p['w'],p['h'],p['d']
+    if kind=='PISTOL' and p.get('pistolMagazine')=='body':return 'pistol_magazine'
+    if kind=='PISTOL' and p.get('pistolMagazine')=='baseplate':return 'pistol_baseplate'
     if p.get('mesh') in ('sphere','tube'):return None
     if p.get('mesh')=='cylinder':
         if tag=='magazine' and width>.12:return 'drum'
@@ -157,7 +159,7 @@ def weapon_component(p,base,weapon=None):
     if p.get('mesh')=='tube':return base['tube']
     if p.get('mesh')=='cylinder' and not role:return base['cylinder']
     if not role:return None
-    cache_key=(role,identity if role in ('receiver','handguard','stock','magazine') else kind,wood,
+    cache_key=(role,identity if role in ('receiver','handguard','stock','magazine','pistol_magazine','pistol_baseplate') else kind,wood,
                round(width,5),round(height,5),round(depth,5),round(p.get('z',0),4),round(p.get('y',0),4))
     if cache_key in _component_cache:return _component_cache[cache_key]
     cuts=[];radius=.0012;segments=2
@@ -218,6 +220,25 @@ def weapon_component(p,base,weapon=None):
         for side in (-1,1):
             for i in range(5):cuts.append(((side*.484,-.02,.13+i*.058),(.058,.64,.022)))
         radius=.00065;segments=1
+    elif role=='pistol_magazine':
+        # A separate pressed-metal body with a tapered feed shoulder and open
+        # mouth. Its subtle rear rake is authored in the envelope, keeping the
+        # floorplate's original unrotated animation joint and reload travel.
+        # The broad inner cavity leaves real wall thickness behind the paired
+        # witness ports; external lips and the follower retain their rig parts.
+        geometry=_chamfer_profile([(-.5,.445,.39,-.10),(-.43,.48,.40,-.09),
+                                  (-.14,.48,.435,-.025),(.29,.45,.39,.06),
+                                  (.5,.40,.35,.10)],axis=1)
+        cuts=[((0,.08,-.06),(.60,.94,.50))]
+        for y in (-.24,-.015,.21):cuts.append(((0,y,.025),(1.10,.032,.072)))
+        radius=.00045;segments=1
+    elif role=='pistol_baseplate':
+        # Retained broad polymer shoe, now a stepped dovetail with a recessed
+        # underside latch instead of an undifferentiated thin rectangle.
+        geometry=_chamfer_profile([(-.5,.44,.44,0),(-.26,.49,.49,0),
+                                  (.17,.49,.49,0),(.5,.40,.415,.01)],axis=1)
+        cuts=[((0,-.46,.065),(.40,.17,.30))]
+        radius=.0005;segments=1
     elif role=='magazine':
         # The source curved magazine comprises two overlapping sections. Their
         # mating faces must keep the full stamped width, rather than giving
@@ -285,7 +306,7 @@ def weapon_finish(p,geometry,weapon=None):
     vertices,triangles=geometry;role=_weapon_role(p,weapon)
     coated=p.get('metal',0)>.45 and max(p.get('color',(1,1,1)))<.21
     rough=p.get('rough',.6);metal=.24 if coated else p.get('metal',0)
-    if role not in ('receiver','lower_receiver','handguard','slide','magazine','stock','grip'):
+    if role not in ('receiver','lower_receiver','handguard','slide','magazine','pistol_magazine','pistol_baseplate','stock','grip'):
         return vertices,triangles,[(1,1,1)]*len(vertices),[(rough,metal)]*len(vertices)
     wood=p.get('tile')==10
     dimensions=Vector((p['w'],p['h'],p['d']))
@@ -320,8 +341,11 @@ def weapon_finish(p,geometry,weapon=None):
             elif centre.y>.31:category='spine'
         elif role=='handguard':
             if not wood and abs(centre.x)<.365 and abs(centre.y)<.325:category='cavity'
-        elif role=='magazine':
+        elif role in ('magazine','pistol_magazine'):
             if side and .43<abs(centre.x)<.479:category='panel'
+            if role=='pistol_magazine' and abs(centre.x)<.34:category='cavity'
+        elif role=='pistol_baseplate':
+            if centre.y<-.30 and abs(centre.x)<.25:category='cavity'
         elif role=='slide':
             if side and abs(centre.x)<.475:category='panel'
             if side and abs(centre.x)<.44 and centre.z<.10:category='cavity'
