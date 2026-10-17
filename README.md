@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 77.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 78.** 30 weapons, 16 maps and 11 modes.
+
+## Release 78: attached arched palm crowns
+
+Palm crowns now use layered arched fronds, midribs attached to their leaflets
+and folded pinnae instead of flat radial construction. Existing 164 crowns,
+trunks, bounds, materials, wind and instanced LOD remain; eight affected maps
+have fresh static GI. Other material payloads and lightmaps are retained.
+
+Runtime `570d918` passes 74/74 core tests and 88-module packaging/offline checks.
+Download adds 7,827 bytes; far palms add six triangles. [Construction and limits](docs/ART_RELEASE78.md)
+and [the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay,
+professional vegetation quality and physical iPhone acceptance.
 
 ## Release 77: Nuketown furniture and privacy fences
 

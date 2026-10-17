@@ -41,12 +41,16 @@ leaflets following a different curve from their straight midrib.
 
 - [x] Identify the crown construction gap and existing 164-palm/eight-map
   coverage from retained gameplay and normal build input. Source `b0bde98`.
-- [ ] Build layered arched fronds, attached curved midribs and folded pinnae
+- [x] Build layered arched fronds, attached curved midribs and folded pinnae
   at both native LODs, retaining original roots, trunks, transforms and materials.
-- [ ] Rebuild native/editable assets and the eight affected lighting maps,
+  Completed 2026-10-18 from `16bde92`; [construction/costs](ART_RELEASE78.md).
+- [x] Rebuild native/editable assets and the eight affected lighting maps,
   retaining material payloads, other crowns and eight unaffected lightmaps.
-- [ ] Package offline Release 78, run only final `npm run verify`, record
-  costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18 at `570d918`; [build/manifest observations](ART_RELEASE78.md).
+- [x] Package offline Release 78, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass and 88 modules packaged; provenance identifies `570d918`.
+  [Recorded result](validation-release78.json).
 - [ ] Review new actual near/far gameplay and physical iPhone costs. Additional
   browser/audit/profile/device checks are outside current verification scope;
   professional vegetation quality and real-device acceptance remain open.
@@ -466,11 +470,17 @@ as documented in the baseline JSON and validation report.
 
 ### Vegetation
 
-- [ ] **Partial:** Natural trees, foliage, grass and bushes. Vegetation remains
-  stylised and sparse.
+- [ ] **Partial:** Natural trees, foliage, grass and bushes. Release 78 replaces
+  flat radial palm construction with layered arched fronds, attached curved
+  midribs and folded pinnae at both native LODs, retaining the 164 existing
+  crowns. Broader natural vegetation and new visual acceptance remain open.
+  Updated 2026-10-18 at `570d918`; [construction and limits](ART_RELEASE78.md).
 - [ ] **Partial:** Better leaf density, silhouettes, shading, variation and light
-  interaction. Some shading/material improvements; no complete natural vegetation
-  overhaul.
+  interaction. Release 78 adds folded three-dimensional palm blades and three
+  frond whorls with retained material/wind/instancing. Far construction adds six
+  triangles per palm; source counts do not establish natural appearance or
+  physical cost. The complete vegetation overhaul remains open. Updated
+  2026-10-18 at `570d918`; [near/far scope and limits](ART_RELEASE78.md).
 - [x] **Complete:** Preserve efficient vegetation LOD and instancing.
 - [ ] **Partial:** Improve believability rather than merely add objects.
   Replacement/material work occurred, but the required believability is not achieved.
@@ -1011,6 +1021,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed three scoped Release 78 tasks: original layered palm fronds with curved attached midribs/folded pinnae, native/editable assets and eight affected GI maps with retained materials/other eight lightmaps, and final core/offline verification. Original 164 instances, trunks, bounds, wind, instancing and LOD selection remain. Palm topology is 1,096/280 near/far triangles; mesh/lighting download adds 7,827 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay, professional vegetation and physical iPhone costs remain unverified. | Source `16bde92`, runtime `570d918`; [construction/costs](ART_RELEASE78.md), [recorded result](validation-release78.json). |
 | 2026-10-18 | Completed four scoped Release 77 tasks: dedicated bed/cabinet/backed-fence construction for Nuketown, fence selection by board detail/nearest surface, native/editable assets and map15 GI with retained materials/other15 lightmaps, and final core/offline verification. Existing owner transforms, collision, decor and routes remain. New native meshes add 125,466 bytes of mesh/lighting download; JavaScript adds 669 bytes. All 74 core tests and 88-module packaging checks pass. Actual images, LOD/batching/device cost and professional art remain unverified. | Source `84acd6d`, runtime `b47e136`; [construction/costs/limits](ART_RELEASE77.md), [recorded result](validation-release77.json). |
 | 2026-10-18 | Completed three scoped Release 76 tasks: nearest authoritative cover-material profiles, coherent initial/moving-tail response within existing ray/voice/node budgets, and final core/offline verification. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,487 bytes, with no media changes. Coefficients are unmeasured; decorative glazing, layered/physical transmission, premium listening and physical iPhone acceptance remain open. | Runtime `3c78f6c`; [model/limits](ART_RELEASE76.md), [recorded result](validation-release76.json). |
 | 2026-10-18 | Completed three scoped Release 75 tasks: stance-correct shared listener acoustics, raised-surface hard-debris point contacts, and final core/offline verification. Existing ray/voice/particle/resource limits remain; extra local contact-query cost is unmeasured. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,164 bytes. Actual listening/gameplay, professional quality and physical iPhone acceptance remain open. | Runtime `570ce85`; [implementation/limits](ART_RELEASE75.md), [recorded result](validation-release75.json). |
