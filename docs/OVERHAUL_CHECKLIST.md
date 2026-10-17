@@ -32,6 +32,28 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 71 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from Release 70 `41f252b`.
+This pass replaces the single returning first-person magazine with distinct
+removed and replacement components. [Scope and limits](ART_RELEASE71.md).
+
+- [x] Preserve pushed Release 70 as the baseline and identify the reused-magazine
+  gap. Source `41f252b`; native geometry and editable assets remain recoverable.
+- [ ] Construct cached replacement components for the 26 magazine-fed rigs,
+  including current fast, extended and drum attachments.
+- [ ] Add family-aware extraction, stow/departure, retrieval and seating with
+  component-following hand targets, preserving ammunition and contact timing.
+- [ ] Share native meshes through remapped proxies and use the same lifecycle
+  in fallback rendering, without duplicating native and primitive core geometry.
+- [ ] Restore neutral visibility on cancellation, completion and menu display;
+  preserve default actor choreography and fix magazine/ammunition cache keys.
+- [ ] Package offline Release 71, run only `npm run verify` once on the final
+  runtime state, update benchmark provenance and push usable checkpoints.
+- [ ] Review actual native/fallback gameplay images and physical iPhone costs.
+  Additional browser/profile/device checks are outside current verification
+  scope; professional animation and device acceptance remain open.
+
 ## Release 70 continuation tasks
 
 Scoped progress for 17 October 2026, continuing from pushed Release 69
