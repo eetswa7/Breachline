@@ -17,6 +17,14 @@ are reused; five affected ground-lighting maps are fresh Cycles bakes. No
 third-party machinery model, image or texture was introduced. See
 [construction and remaining acceptance limits](ART_RELEASE69.md).
 
+Release 70's four semiautomatic pistol magazine bodies, feed lips, followers,
+stepped floorplates and attachment shapes are original definitions in
+`weapon-models.js` and `authoring/blender/hero_models.py`. The packed editable
+source retains the new hollow native bodies and witness ports. Existing
+material bakes, lightmaps and original attachment-sound families are reused;
+no third-party model, texture or recording was added. See
+[pistol construction and acceptance limits](ART_RELEASE70.md).
+
 The diffuse sheets are generated artwork, not measured photographs or
 photogrammetry scans. Normal maps are art-directed approximations. No Delta
 Force, Arena Breakout or Call of Duty model, texture or sound was downloaded or

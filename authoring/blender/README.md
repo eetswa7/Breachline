@@ -22,7 +22,7 @@ checkpoint used Blender 4.0.2, Cycles CPU and astcenc 4.7.
 npm run source:blender
 npm run assets:blender
 npm run assets:audio
-node scripts/release.mjs 69
+node scripts/release.mjs 70
 npm run verify
 ```
 

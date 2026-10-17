@@ -40,15 +40,22 @@ floorplates and whose magazine attachments have no visible construction.
 [Construction scope and acceptance limits](ART_RELEASE70.md).
 
 - [x] Preserve Release 69 as the pushed baseline and identify the detachable
-  magazine gap in Sable 9, Dire 50, Swift 93 and Paladin 45. Source `cbfe134`.
-- [ ] Build complete original pistol magazine bodies, feed lips and floorplates
+  magazine gap in Sable P, Dire 50, Swift 93 and Paladin 45. Source `cbfe134`.
+- [x] Build complete original pistol magazine bodies, feed lips and floorplates
   in the editable native source and fallback, with coherent reload hand targets.
-- [ ] Add visible fast, extended and drum options, including the retained
+  Completed 2026-10-17 from native foundation `898316b`;
+  [construction and export costs](ART_RELEASE70.md).
+- [x] Add visible fast, extended and drum options, including the retained
   handling-slot extension, without changing their existing statistics.
-- [ ] Connect the existing attachment-specific contact voices to those four
+  Completed 2026-10-17 from `898316b`; [scope and limits](ART_RELEASE70.md).
+- [x] Connect the existing attachment-specific contact voices to those four
   pistols at the existing extraction, handling, insertion and seating phases.
-- [ ] Rebuild native weapon assets and editable source while retaining all
+  Completed 2026-10-17 from `898316b`; existing recordings and buffers are reused.
+  [Contact implementation and listening limits](ART_RELEASE70.md).
+- [x] Rebuild native weapon assets and editable source while retaining all
   existing material bakes and sixteen static lightmaps; package offline Release 70.
+  Completed 2026-10-17 from `898316b`; all production payloads have no Git diff.
+  [Build recipe, sizes and limits](ART_RELEASE70.md).
 - [ ] Run only `npm run verify` once on the final runtime state, record costs
   and limits, update benchmark provenance and push usable checkpoints.
 - [ ] Review actual native gameplay and fresh listening evidence for the new
@@ -340,7 +347,11 @@ as documented in the baseline JSON and validation report.
   improved. Overall construction remains stylised. Updated 2026-10-12 at
   `2884259`; [native gameplay comparisons](ART_RELEASE63.md).
 - [ ] **Partial:** Detailed receivers, rails, handguards, barrels, magazines and
-  optics. Native detail was added; close-up detail remains coarse.
+  optics. Release 70 adds complete hollow native magazine bodies, feed lips,
+  followers and stepped floorplates to four semiautomatic pistols, replacing
+  their former floorplate-only reload presentation. Other close-up detail
+  remains coarse. Updated 2026-10-17 from `898316b`;
+  [construction and unverified gameplay acceptance](ART_RELEASE70.md).
 - [ ] **Partial:** High-quality metallic/polymer materials. PBR finishes exist;
   large uniform areas remain.
 - [ ] **Partial:** Mechanical details, engravings and wear. Some detail exists;
@@ -355,8 +366,11 @@ as documented in the baseline JSON and validation report.
 - [ ] **Partial:** More convincing reload animations. Third-person hand targets
   previously improved; first-person hands now follow actual component extraction,
   seating and empty charging actions, with separate shell/top-loader/feed-cover/
-  revolver targets. Rigid grasp and simplified magazines/loaders remain. Updated
-  2026-10-12 at `c51316c`; [36 native reload frames](ART_RELEASE63.md).
+  revolver targets. Release 70 moves four complete pistol magazines and targets
+  their lower bodies with the support hand. Rigid grasp, reused magazines and
+  simplified loaders remain; new gameplay acceptance is unverified. Updated
+  2026-10-17 from `898316b`; [pistol scope and limits](ART_RELEASE70.md) and
+  [previous native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
   two-sided presentation with touch, keyboard and controller access. Native
   gameplay frame review corrected the second-side arc; combat cancels without
@@ -659,9 +673,12 @@ These are Release 57 measurements, not measurements of Release 60.
   handling-slot extension. Stock latches, bolts, shells, cylinders and feed
   covers retain their weapon cues. Eighteen new takes preserve the original
   428 recordings and the decoded-bank budget at both 44.1 and 48 kHz. Fixed
-  attachment fitting, unsupported pistol attachment geometry and premium
-  subjective realism remain unfinished/unverified. Updated 2026-10-14 at `23fedbc`;
-  [native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
+  attachment fitting and premium subjective realism remain unfinished/unverified.
+  Release 70 reuses those contact families on four semiautomatic pistols with
+  visible magazine attachments; no bank or buffer allocation is added. Other
+  pistol handling attachments and the revolver remain outside that scope.
+  Updated 2026-10-17 from `898316b`; [pistol contacts and listening limits](ART_RELEASE70.md),
+  [prior native contacts, listening reels and allocation limits](ATTACHMENT_AUDIO67.md).
 - [x] **Complete:** Material-specific impacts, glass and debris. Designed
   material families/variants are included; subjective quality remains unverified.
 - [x] **Complete:** Ricochet audio. Dedicated original metal/mineral variants

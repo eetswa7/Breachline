@@ -4,7 +4,10 @@ export const ATTACHMENT_FOLEY_FAMILIES=['Fast','Extended','Drum'];
 export const ATTACHMENT_FOLEY_ACTIONS=['Extract','Move','Seat'];
 
 export function attachmentFoleyCue(event,def){
- if(!def||['PISTOL','MELEE'].includes(def.kind)||def.shellReload||def.revolver)return null;
+ if(!def||def.kind==='MELEE'||def.shellReload||def.revolver)return null;
+ // These pistols have detachable, animated fast/extended/drum magazines.
+ // Other pistol mechanisms keep their authored weapon contacts.
+ if(def.kind==='PISTOL'&&![10,11,23,29].includes(def.id))return null;
  if(!['magazine','topMagazine','beltBox'].includes(event.component))return null;
  const action={extract:'Extract',handling:'Move',insert:'Move',seat:'Seat'}[event.cue];
  if(!action)return null;

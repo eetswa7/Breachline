@@ -1,6 +1,19 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 69.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 70.** 30 weapons, 16 maps and 11 modes.
+
+## Release 70: complete pistol magazines
+
+Sable P, Dire 50, Swift 93 and Paladin 45 now reload complete magazines with
+native hollow bodies, witness ports, feed lips and followers. Visible fast,
+extended and drum options follow the same rigid reload motion; support hands
+target the magazine body. Existing attachment contacts now use their original
+sound families on these four pistols. Statistics, timing and ammunition remain.
+
+All material and lighting payloads are retained. The compressed native library
+adds about 143 KiB. See [construction, costs and acceptance limits](docs/ART_RELEASE70.md)
+and [the updated checklist](docs/OVERHAUL_CHECKLIST.md). Gameplay-image, premium
+listening and physical iPhone acceptance remain open.
 
 ## Release 69: shared generator construction
 

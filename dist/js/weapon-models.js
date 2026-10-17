@@ -82,6 +82,17 @@ function builder(w){
  return {parts,profile,box,cyl,tube,pin,rail,ribs,vents,receiver,grip,magazine,stock,barrel,bipod,controls};
 }
 
+function pistolMagazine(b,y,z,width,height,depth,bodyWidth,bodyDepth){
+ const {box}=b,top=-.056,bottom=y+height*.5-.004,bodyY=(top+bottom)*.5;
+ // Keep the established floorplate as the native joint. The complete stamped
+ // body and mouth now leave the grip with it, rather than extracting a plate.
+ box(0,y,z,width,height,depth,RUBBER,'magazine',{pistolMagazine:'baseplate'});
+ const bodyZ=b.profile.grip-.003;
+ box(0,bodyY,bodyZ,bodyWidth,top-bottom,bodyDepth,METAL,'magazine',{pistolMagazine:'body'});
+ for(const side of [-1,1])box(side*bodyWidth*.39,top+.002,bodyZ-.007,bodyWidth*.16,.010,bodyDepth*.80,EDGE,'magazine',{pistolMagazine:'lip'});
+ box(0,top-.003,bodyZ-.006,bodyWidth*.60,.004,bodyDepth*.58,POLY,'magazine',{pistolMagazine:'follower'});
+}
+
 function kestrel(b){
  const {box,receiver,barrel,grip,magazine,stock,rail,vents,controls}=b;
  receiver(-.035,.265,.088);box(0,.029,-.289,.086,.109,.277,POLY);box(0,-.037,-.278,.058,.024,.25,METAL);
@@ -170,7 +181,7 @@ function sable(b){
  box(0,.021,-.023,.071,.082,.238,METAL,'slide');box(0,-.029,-.008,.067,.05,.211,POLY);
  box(0,.048,-.058,.068,.023,.144,finish(C.steel,.8,.31),'slide');box(.037,.045,-.018,.002,.02,.048,RUBBER,'slide');
  for(const s of [-1,1])for(let i=0;i<6;i++)box(s*.036,.026,.069-i*.01,.002,.034,.005,RUBBER,'slide');
- cyl(0,.03,-.106,.017,.147,EDGE);grip(.045,POLY,-.18,.171);box(0,-.195,.028,.072,.014,.085,RUBBER,'magazine');
+ cyl(0,.03,-.106,.017,.147,EDGE);grip(.045,POLY,-.18,.171);pistolMagazine(b,-.195,.028,.072,.014,.085,.040,.039);
  box(-.04,-.012,.013,.012,.008,.035,EDGE);box(0,-.059,-.098,.045,.013,.089,METAL);
 }
 function dire(b){
@@ -178,7 +189,7 @@ function dire(b){
  box(0,.032,-.055,.086,.099,.30,finish(C.steel,.92,.25),'slide');box(0,.076,-.091,.055,.027,.205,METAL,'slide');
  box(0,-.03,-.032,.082,.053,.229,TAN);cyl(0,.03,-.166,.03,.164,EDGE);
  box(.045,.049,-.019,.003,.028,.064,RUBBER,'slide');for(const s of [-1,1])for(let i=0;i<5;i++)box(s*.044,.03,.084-i*.013,.004,.049,.006,RUBBER,'slide');
- grip(.053,POLY,-.15,.184);box(0,-.205,.032,.081,.019,.094,RUBBER,'magazine');
+ grip(.053,POLY,-.15,.184);pistolMagazine(b,-.205,.032,.081,.019,.094,.043,.043);
  box(0,.04,.112,.031,.037,.022,EDGE,'hammer',{pitch:-.29});box(-.047,-.013,.047,.012,.014,.038,EDGE);
 }
 function blade(b){
@@ -273,7 +284,7 @@ function swift(b){
  box(0,.025,-.025,.078,.087,.259,TAN,'slide');box(0,-.029,-.008,.075,.052,.232,POLY);
  box(0,.071,-.081,.06,.025,.196,METAL,'slide');cyl(0,.032,-.151,.021,.181,EDGE);
  for(const side of [-1,1])for(let i=0;i<6;i++)box(side*.04,.03,.074-i*.014,.003,.046,.005,RUBBER,'slide');
- grip(.047,POLY,-.16,.186);box(0,-.213,.035,.081,.038,.09,RUBBER,'magazine');
+ grip(.047,POLY,-.16,.186);pistolMagazine(b,-.213,.035,.081,.038,.09,.039,.038);
  box(.044,.011,.032,.007,.016,.04,EDGE);box(0,-.064,-.087,.046,.015,.092,METAL);
 }
 function storm(b){
@@ -324,7 +335,7 @@ function paladin(b){
  box(0,.022,-.039,.076,.085,.269,METAL,'slide');box(0,-.029,-.02,.073,.054,.235,OLIVE);
  cyl(0,.032,-.135,.022,.154,EDGE);grip(.041,OLIVE,-.17,.176);
  for(const side of [-1,1])for(let i=0;i<7;i++)box(side*.04,.022,.071-i*.011,.003,.043,.006,RUBBER,'slide');
- box(0,-.201,.029,.079,.019,.089,RUBBER,'magazine');box(-.044,-.012,.018,.01,.011,.039,EDGE);
+ pistolMagazine(b,-.201,.029,.079,.019,.089,.037,.039);box(-.044,-.012,.018,.01,.011,.039,EDGE);
  box(0,.067,-.116,.056,.014,.116,POLY,'slide');
 }
 const BUILDERS=[kestrel,bastion,raptor,vesper,lynx,breach,tempest,longbow,warden,atlas,sable,dire,blade,harrow,marten,mako,peregrine,osprey,bison,talon,rampart,spectre,krait,swift,storm,needle,jackal,sentinel,heron,paladin];
@@ -398,7 +409,33 @@ function addMuzzle(b,w){
  else{tube(0,y,z,short?.032:w.def.kind==='SHOTGUN'?.045:.043,short?.014:.032,METAL);if(!short)for(const s of [-1,1])box(s*.022,y,z-.004,.002,.019,.014,RUBBER);}
 }
 function addAttachments(b,w){
- if(['PISTOL','MELEE'].includes(w.def.kind))return;
+ if(w.def.kind==='MELEE')return;
+ if(w.def.kind==='PISTOL'){
+  if(w.def.revolver)return;
+  const {box,cyl,tube}=b,plate=b.parts.find(q=>q.pistolMagazine==='baseplate');
+  if(!plate)return;
+  const bottom=plate.y-plate.h*.5,z=plate.z,width=plate.w*.78,depth=plate.d*.81;
+  // Accessories add below the unchanged native core. Resizing individual core
+  // members would stretch the entire welded native group around its joint.
+  if(w.magazine===3){
+   const y=bottom-.083,drumZ=z+.009,diameter=w.def.id===11?.133:.123;
+   box(0,bottom-.025,z,width,.054,depth,METAL,'magazine');
+   box(0,bottom-.010,z,width+.008,.014,depth+.006,POLY,'magazine');
+   cyl(0,y,drumZ,diameter,.076,POLY,'magazine',{pitch:0,roll:Math.PI/2});
+   for(const side of [-1,1])cyl(side*.040,y,drumZ,diameter*.95,.008,METAL,'magazine',{pitch:0,roll:Math.PI/2});
+   tube(.046,y,drumZ,diameter*.72,.006,EDGE,'magazine',{pitch:0,roll:Math.PI/2});
+   cyl(.049,y,drumZ,.029,.010,RUBBER,'magazine',{pitch:0,roll:Math.PI/2});
+  }else if(w.magazine===2||w.grip===4){
+   const length=w.def.id===11?.065:.056;
+   box(0,bottom-length*.5+.002,z,width,length,depth,METAL,'magazine');
+   box(0,bottom-.006,z,width+.008,.012,depth+.007,POLY,'magazine');
+   box(0,bottom-length+.003,z,width+.010,.011,depth+.010,RUBBER,'magazine');
+  }else if(w.magazine===1){
+   box(0,bottom-.004,z,width,.012,depth,RUBBER,'magazine');
+   tube(0,bottom-.020,z,.041,.012,RUBBER,'magazine',{pitch:Math.PI/2});
+  }
+  return;
+ }
  const {box,cyl}=b,z=b.profile.support,width=b.profile.width;
  if(w.grip===1||w.grip===5||w.grip===8){box(0,-.109,z,.039,w.grip===8?.075:.15,.052,POLY,'',{pitch:w.grip===5?.55:0});box(0,-.181,z,.043,.016,.057,RUBBER);}
  if(w.grip===2){box(width*.66,.015,z,.035,.035,.088,METAL);cyl(width*.66,.015,z-.046,.021,.009,RUBBER);}
@@ -462,10 +499,11 @@ function movingGroup(parts,tag){
 function reloadRig(parts){
  const hand=movingGroup(parts,parts.some(q=>q.tag==='pumpHand')?'pumpHand':'supportHand');
  const magazine=movingGroup(parts,'magazine'),shell=movingGroup(parts,'loadShell'),cylinder=movingGroup(parts,'cylinder'),bolt=movingGroup(parts,'bolt'),slide=movingGroup(parts,'slide');
- let action=-1,largest=0;
+ let action=-1,largest=0,pistolMagazine=-1;
+ for(let i=0;i<parts.length;i++)if(parts[i].pistolMagazine==='body')pistolMagazine=i;
  const actionTag=slide?'slide':'bolt';
  for(let i=0;i<parts.length;i++)if(parts[i].tag===actionTag){const q=parts[i],volume=q.w*q.h*q.d;if(volume>largest){largest=volume;action=i;}}
- return {hand,magazine,shell,cylinder,bolt,slide,action,lid:parts.findIndex(q=>q.tag==='lid'),belt:parts.findIndex(q=>q.tag==='belt'),contact:{x:0,y:0,z:0,roll:0,weight:0,phase:0,operation:'ready'}};
+ return {hand,magazine,shell,cylinder,bolt,slide,action,pistolMagazine,lid:parts.findIndex(q=>q.tag==='lid'),belt:parts.findIndex(q=>q.tag==='belt'),contact:{x:0,y:0,z:0,roll:0,weight:0,phase:0,operation:'ready'}};
 }
 function moveRigid(parts,group,x,y,z,roll=0){
  if(!group)return;
@@ -493,8 +531,8 @@ function reloadHand(parts,w,r,reloading,magRoll){
  }else if(rig.cylinder&&w.def.revolver){
   const q=parts[rig.cylinder.anchor];x=q.x-.03;y=q.y+.004;z=q.z+.065;roll=.35;operation='cylinder';
  }else if(rig.magazine){
-  const q=parts[rig.magazine.anchor],top=w.def.id===4;
-  const ox=-q.w*.5-.009,oy=top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(magRoll),s=Math.sin(magRoll);
+  const pistol=rig.pistolMagazine>=0,q=parts[pistol?rig.pistolMagazine:rig.magazine.anchor],top=w.def.id===4;
+  const ox=-q.w*.5-.009,oy=pistol?-q.h*.25:top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(magRoll),s=Math.sin(magRoll);
   x=q.x+c*ox-s*oy;y=q.y+s*ox+c*oy;z=q.z+oz;roll=-.35+magRoll;operation='magazine';
  }
  // Open the feed cover before taking the belt box, then close it after seating.
