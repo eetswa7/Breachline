@@ -1,6 +1,7 @@
-import {clamp,lerp} from './math.js?v=72';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=72';
-export {ATTACHMENTS} from './attachments.js?v=72';
+import {clamp,lerp} from './math.js?v=73';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=73';
+import {COVERED_RELOAD_TIMING} from './reload-components.js?v=73';
+export {ATTACHMENTS} from './attachments.js?v=73';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],
@@ -48,8 +49,8 @@ export function reloadFoleyStages(w){
  if(w.def.shellReload)return [stage(.12,'retrieve','shell'),stage(.68,'insert','shell'),stage(.78,'seat','shell')];
  if(w.def.revolver)return [stage(.18,'open','cylinder'),stage(.28,'caseDump','cylinder'),stage(.40,'chamberLoad','cylinder'),stage(.84,'cylinderClose','cylinder')];
  const covered=w.def.id===9||w.def.id===27,component=covered?'beltBox':w.def.id===4?'topMagazine':'magazine';
- const stages=covered?[stage(.16,'coverOpen','feedCover'),stage(.31,'release',component),stage(.43,'extract',component),stage(.53,'feed','belt'),stage(.68,'insert',component),stage(.74,'seat',component),stage(.86,'coverClose','feedCover')]:[stage(.18,'release',component),stage(.34,'extract',component),stage(.52,'handling',component),stage(.64,'insert',component),stage(.74,'seat',component)];
- if(w.reloadStartedEmpty){if(w.def.kind==='PISTOL')stages.push(stage(.94,'close','slide'));else stages.push(stage(.84,'open','bolt'),stage(.94,'close','bolt'));}
+ const stages=covered?[stage(.16,'coverOpen','feedCover'),stage(.31,'release',component),stage(.43,'extract',component),stage(.53,'feed','belt'),stage(.68,'insert',component),stage(.74,'seat',component),stage(COVERED_RELOAD_TIMING.coverSeat,'coverClose','feedCover')]:[stage(.18,'release',component),stage(.34,'extract',component),stage(.52,'handling',component),stage(.64,'insert',component),stage(.74,'seat',component)];
+ if(w.reloadStartedEmpty){if(w.def.kind==='PISTOL')stages.push(stage(.94,'close','slide'));else stages.push(stage(covered?COVERED_RELOAD_TIMING.actionOpen:.84,'open','bolt'),stage(covered?COVERED_RELOAD_TIMING.actionClose:.94,'close','bolt'));}
  return stages.sort((a,b)=>a.phase-b.phase);
 }
 export function sanitizeLoadout(v={}){if(!v||typeof v!=='object')v={};const d=defaultLoadout();for(const k of ['primary','secondary'])if(Number.isFinite(v[k]))d[k]=Math.round(v[k]);d.primary=PRIMARY_IDS.includes(d.primary)?d.primary:clamp(d.primary,0,9);d.secondary=SECONDARY_IDS.includes(d.secondary)?d.secondary:clamp(d.secondary,10,11);for(const key of Object.keys(ATTACHMENTS))d[key]=attachmentIndex(key,v[key]??d[key],WEAPONS[d.primary].kind);d.equipment=['frag','smoke','flash'].includes(v.equipment)?v.equipment:'frag';return d;}

@@ -1,3 +1,7 @@
+// Covered-feed poses and foley share normalized phases without changing the
+// reload clock. Seat the cover before reaching and cycling the empty action.
+export const COVERED_RELOAD_TIMING=Object.freeze({coverCloseStart:.77,coverSeat:.86,actionReach:.91,actionOpen:.95,actionClose:.98,handRest:.995});
+
 // First-person magazine exchange is a deterministic presentation of the existing
 // reload phase. It owns no ammunition, event crossings, clocks or world debris.
 const smooth=(a,b,value)=>{const t=Math.max(0,Math.min(1,(value-a)/(b-a)));return t*t*(3-2*t);};
