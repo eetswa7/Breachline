@@ -32,6 +32,26 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 73 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 72 `1e8cfb9`.
+This pass addresses the remaining covered-feed mechanical sequence and operator
+wrist contacts before continuing environment production.
+[Scope and acceptance limits](ART_RELEASE73.md).
+
+- [x] Recover the latest pushed continuation, retaining Release 71 magazine
+  exchange and Release 72 native/reduced operator components. Source `1e8cfb9`.
+- [ ] Seat belt-feed covers before empty-reload charging, and align their
+  mechanical sound crossings and shared hand contacts without changing total
+  reload duration, ammunition or other weapon families.
+- [ ] Apply shared contact rotation to operator reload wrists while preserving
+  neutral poses, bounded two-bone reach and existing native/reduced LOD.
+- [ ] Package offline Release 73, run only the required final `npm run verify`,
+  record source costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review actual native/reduced gameplay and fresh listening evidence.
+  Additional browser/listening/device checks are outside current verification
+  scope; professional animation, sound and physical iPhone acceptance stay open.
+
 ## Release 72 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from pushed Release 71 `25c2fb4`.
