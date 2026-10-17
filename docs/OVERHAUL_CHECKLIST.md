@@ -32,6 +32,26 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 74 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from pushed Release 73 `53b0825`.
+Recorded Blacksite gameplay still shows cube-built wooden crates in prominent
+service areas. This pass replaces their shared construction across all maps.
+[Scope and acceptance limits](ART_RELEASE74.md).
+
+- [x] Identify the old cube/strip crate and its static-lighting coverage in all
+  sixteen maps; retain the original owners, dimensions and solid collision.
+  Source `53b0825`; [recorded reference and coverage](ART_RELEASE74.md).
+- [ ] Replace the shared crate with original editable board panels, structural
+  frame, broad diagonal braces, closed lid and supporting bearers at near/far LOD.
+- [ ] Rebuild native meshes, all sixteen static lightmaps and editable source
+  while reusing the existing material bakes and compressed material payloads.
+- [ ] Package offline Release 74, run only the final required `npm run verify`,
+  record generated costs/limits and benchmark provenance, and push checkpoints.
+- [ ] Review new actual near/far/native gameplay images. Browser/asset-audit/
+  profile/device checks are outside current verification scope; professional
+  environmental quality and physical iPhone acceptance remain open.
+
 ## Release 73 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from pushed Release 72 `1e8cfb9`.

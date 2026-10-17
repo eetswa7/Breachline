@@ -195,6 +195,73 @@ def author_environment(api, helpers):
     publish('barrier_x',barrier,barrier[:1])
     publish('barrier_z',[rotate_piece(p,math.pi/2) for p in barrier],[rotate_piece(p,math.pi/2) for p in barrier[:1]])
 
+    # Board-built shipping chest. Four recessed plank panels sit inside actual
+    # corner posts and rails; a braced shell and three bearers replace the old
+    # solid cube with decorative strips. Every part stays inside the same unit
+    # envelope, including the broad top and the bottom of the supporting feet.
+    # The opaque inner lining backs the damaged plank edges: seams must never
+    # suggest a firing aperture through the simulation's solid wooden cover.
+    shipping=[];shipping_far=[]
+    timber=(.94,.91,.83);frame_timber=(.87,.84,.75)
+    lining=(.63,.60,.52);wood_rm=(.92,0)
+    shipping_flat=box((0,0,0),(.01,.01,.01))[0]
+
+    def shipping_box(position,size,color=timber,distant=False):
+        return (shipping_flat if distant else box(position,size,color,wood_rm)[0],
+                position,size,color,wood_rm)
+
+    # Open fork approaches under the floor are structural, rather than small
+    # surface grooves. Far LOD keeps all three feet and the supported deck.
+    for x in (-.35,0,.35):
+        shipping.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber))
+        shipping_far.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber,True))
+    shipping.append(shipping_box((0,-.385,0),(.90,.042,.90),timber,True))
+    shipping_far.append(shipping_box((0,-.385,0),(.90,.042,.90),timber,True))
+    for x in (-.45,.45):
+        for z in (-.45,.45):
+            shipping.append(shipping_box((x,.0475,z),(.10,.905,.10),frame_timber))
+            shipping_far.append(shipping_box((x,.0475,z),(.10,.905,.10),frame_timber,True))
+
+    for side in range(4):
+        face=[];face_far=[]
+        face.append(shipping_box((0,.018,-.4115),(.84,.80,.025),lining,True))
+        # The distant face is a closed inset panel; genuine large frame and
+        # diagonal construction survive, while individual damaged seams drop.
+        face_far.append(shipping_box((0,.018,-.438),(.82,.80,.034),timber,True))
+        for row in range(4):
+            bottom=-.356+row*.182;top=bottom+.169
+            left=-.405;right=.405
+            chip=.024 if (row+side)%3==0 else .009
+            points=[(left+.008,bottom),(right-chip,bottom),
+                    (right,bottom+chip),(right,top-.010),
+                    (right-.010,top),(left+.006,top),(left,top-.015),
+                    (left,bottom+.012)]
+            tint=tuple(value*(.96+((row+side*2)%4)*.017) for value in timber)
+            face.append(outline(points,-.455,-.420,tint,wood_rm))
+        for y,height in ((-.349,.112),(.441,.118)):
+            face.append(shipping_box((0,y,-.458),(.80,height,.084),frame_timber))
+            face_far.append(shipping_box((0,y,-.458),(.80,height,.084),frame_timber,True))
+        # Wide diagonal boards bear against the horizontal frame. They are
+        # deliberately legible from room-scale views, without nails or decals.
+        brace=[(-.400,-.292),(-.297,-.292),(.400,.294),(.400,.382),
+               (.297,.382),(-.400,-.204)]
+        if side%2:
+            brace=[(-x,y) for x,y in reversed(brace)]
+        brace_piece=outline(brace,-.495,-.451,(.91,.88,.79),wood_rm)
+        face.append(brace_piece);face_far.append(brace_piece)
+        shipping.extend(rotate_piece(piece,side*math.pi/2) for piece in face)
+        shipping_far.extend(rotate_piece(piece,side*math.pi/2) for piece in face_far)
+
+    # A closed boarded lid supports existing stacked crates at the original
+    # height. It remains behind the upper rails rather than becoming a flange
+    # outside the collision envelope.
+    shipping.append(shipping_box((0,.443,0),(.90,.010,.90),lining,True))
+    for i in range(4):
+        shipping.append(shipping_box((-.3375+i*.225,.461,0),(.219,.044,.90),
+                                     tuple(value*(.97+i*.012) for value in timber),True))
+    shipping_far.append(shipping_box((0,.461,0),(.90,.044,.90),timber,True))
+    publish('crate',shipping,shipping_far)
+
     # ISO freight container: continuous pressed trapezoidal sides, open door
     # hardware, roof seams and corner castings instead of ridges on a cube.
     for axis in ('x','z'):
