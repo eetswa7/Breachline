@@ -1,8 +1,8 @@
-import {blenderKind} from './blender-kind.js?v=70';
+import {blenderKind} from './blender-kind.js?v=71';
 export {blenderKind};
 import * as THREE from '../vendor/three.module.min.js';
-import {installMetricUV} from './surface-uv.js?v=70';
-import {LIBRARY_FILES} from './blender-files.js?v=70';
+import {installMetricUV} from './surface-uv.js?v=71';
+import {LIBRARY_FILES} from './blender-files.js?v=71';
 
 export const BLENDER_FILES=[...LIBRARY_FILES,'blender/manifest.json'];
 const components={SCALAR:1,VEC2:2,VEC3:3,VEC4:4};
@@ -83,9 +83,17 @@ export class BlenderAssets {
  prepare(p,category){if(p.blenderPrepared===category)return;const g=this.geometry(p,category);p.blenderVertexMaterial=!!g?.getAttribute('breachMaterial');p.blenderPrepared=category;}
  weaponGroups(parts,id){
   const record=this.manifest.weapons[id];if(!record||record.coreCount!==parts.coreCount)throw Error('Blender weapon rig no longer matches source');
-  return record.groups.map(g=>({ ...parts[g.anchor],blenderMesh:g.mesh,blenderColour:true,mesh:g.mesh,
+  const proxy=(g,anchor=g.anchor,members=g.members)=>({ ...parts[anchor],blenderMesh:g.mesh,blenderColour:true,mesh:g.mesh,
    color:[1,1,1],rough:g.rough,metal:g.metal,finishTile:g.finishTile<0?undefined:g.finishTile,tile:g.tile,
-   blenderVertexMaterial:g.vertexMaterial,anchor:g.anchor,members:g.members }));
+   blenderVertexMaterial:g.vertexMaterial,anchor,members });
+  const groups=record.groups.map(g=>proxy(g)),replacement=parts.reloadExchange?.sourceToReplacement;
+  if(replacement)for(const g of record.groups){
+   if(g.tag!=='magazine'||!replacement.has(g.anchor)||!g.members.every(i=>replacement.has(i)))continue;
+   // Cache another rig proxy over the authored mesh; exchange animation only
+   // changes its cloned anchor, so no geometry or renderer buffer is copied.
+   groups.push(proxy(g,replacement.get(g.anchor),g.members.map(i=>replacement.get(i))));
+  }
+  return groups;
  }
  handGroups(parts,id){
   const record=this.manifest.weapons[id],indices=[];

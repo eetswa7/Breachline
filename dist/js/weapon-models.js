@@ -1,5 +1,6 @@
 // Original, metre-scaled view models. Forward is -Z; optics share aim.js heights.
 // Only weapon construction allocates. Animation modifies cached parts in place.
+import {magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=71';
 const C={steel:[.27,.30,.32],edge:[.42,.45,.46],black:[.115,.13,.14],polymer:[.16,.175,.17],tan:[.48,.39,.27],olive:[.28,.32,.22],wood:[.48,.29,.145],rubber:[.043,.048,.044],glove:[.36,.38,.30],sleeve:[.23,.28,.22],brass:[.66,.44,.16],red:[.55,.055,.025]};
 const finish=(color=C.black,metal=.72,rough=.39,tile=-1)=>({color,metal,rough,tile,...(tile===9?{finishTile:2}:tile===-1&&metal>.45?{finishTile:0}:{})});
 const METAL=finish(),EDGE=finish(C.edge,.88,.28),POLY={...finish(C.polymer,0,.7),finishTile:3},RUBBER=finish(C.rubber,0,.87),WOOD=finish(C.wood,0,.71,10),TAN={...finish(C.tan,.08,.63),finishTile:1},OLIVE={...finish(C.olive,.08,.64),finishTile:1},BRASS={...finish(C.brass,.92,.31),finishTile:undefined},GLOVE=finish(C.glove,0,.94,9),SLEEVE=finish(C.sleeve,0,.98,9);
@@ -442,7 +443,7 @@ function addAttachments(b,w){
  if(w.grip===6){box(0,.032,b.profile.grip+.16,.068,.051,.09,RUBBER);}
  if(w.grip===7)for(const side of [-1,1])box(side*.075,-.12,z-.04,.017,.23,.018,METAL,'',{roll:side*-.5});
  if(w.grip===4||w.magazine===2){for(const q of b.parts)if(q.tag==='magazine'&&q.y<-.11){q.y-=.033;q.h*=1.12;}}
- if(w.magazine===1)box(width*.6,-.165,b.profile.grip-.045,.009,.055,.07,RUBBER);
+ if(w.magazine===1)box(width*.6,-.165,b.profile.grip-.045,.009,.055,.07,RUBBER,'magazine');
  if(w.magazine===3){cyl(0,-.20,b.profile.grip-.065,.16,.085,METAL,'magazine',{roll:Math.PI/2});}
 }
 function addHands(b,w){
@@ -469,13 +470,29 @@ function addHands(b,w){
   box(-.061,supportY-.081,pr.support+.071,.105,.014,.018,GLOVE,tag,{roll:-.3});
  }
 }
-export function weaponModel(w){
+export function weaponModel(w,options){
  const b=builder(w);(BUILDERS[w.def.id]??kestrel)(b);const coreCount=b.parts.length;addOptic(b,w);addMuzzle(b,w);addAttachments(b,w);addHands(b,w);
  const p=b.parts;p.coreCount=coreCount;p.weaponId=w.def.id;p.muzzle=muzzlePosition(w);p.animated=[];
+ // Only opted-in first-person rigs get a replacement. Default actor templates,
+ // Blender exports, core joints and the established hand order stay unchanged.
+ if(options?.reloadExchange&&magazineExchangeEligible(w)){
+  const sourceToReplacement=new Map(),count=p.length;
+  for(let i=0;i<count;i++)if(p[i].tag==='magazine'){
+   sourceToReplacement.set(i,p.length);
+   p.push({...p[i],tag:'replacementMagazine',hidden:true,reloadReplacement:true,reloadNativeCore:i<coreCount,reloadSourceIndex:i});
+  }
+  if(sourceToReplacement.size)p.reloadExchange={sourceToReplacement,sample:magazineExchangeSample(),sourceContact:{},replacementContact:{}};
+ }
  // Give textured finishes the same small material palette on every weapon.
  for(const q of p)if(q.finishTile!==undefined)q.finishTile=Math.round(q.finishTile);
  for(let i=0;i<p.length;i++){const q=p[i];if(q.tag){q.baseX=q.x;q.baseY=q.y;q.baseZ=q.z;q.baseYaw=q.yaw;q.basePitch=q.pitch;q.baseRoll=q.roll;p.animated.push(i);}}
  p.reloadRig=reloadRig(p);
+ if(p.reloadExchange){
+  const exchange=p.reloadExchange;
+  exchange.replacement=movingGroup(p,'replacementMagazine');
+  exchange.sourceContactIndex=p.reloadRig.pistolMagazine>=0?p.reloadRig.pistolMagazine:p.reloadRig.magazine.anchor;
+  exchange.replacementContactIndex=exchange.sourceToReplacement.get(exchange.sourceContactIndex);
+ }
  return p;
 }
 export function muzzlePosition(w){
@@ -500,7 +517,7 @@ function reloadRig(parts){
  const hand=movingGroup(parts,parts.some(q=>q.tag==='pumpHand')?'pumpHand':'supportHand');
  const magazine=movingGroup(parts,'magazine'),shell=movingGroup(parts,'loadShell'),cylinder=movingGroup(parts,'cylinder'),bolt=movingGroup(parts,'bolt'),slide=movingGroup(parts,'slide');
  let action=-1,largest=0,pistolMagazine=-1;
- for(let i=0;i<parts.length;i++)if(parts[i].pistolMagazine==='body')pistolMagazine=i;
+ for(let i=0;i<parts.length;i++)if(parts[i].tag==='magazine'&&parts[i].pistolMagazine==='body')pistolMagazine=i;
  const actionTag=slide?'slide':'bolt';
  for(let i=0;i<parts.length;i++)if(parts[i].tag===actionTag){const q=parts[i],volume=q.w*q.h*q.d;if(volume>largest){largest=volume;action=i;}}
  return {hand,magazine,shell,cylinder,bolt,slide,action,pistolMagazine,lid:parts.findIndex(q=>q.tag==='lid'),belt:parts.findIndex(q=>q.tag==='belt'),contact:{x:0,y:0,z:0,roll:0,weight:0,phase:0,operation:'ready'}};
@@ -518,6 +535,16 @@ function moveRigid(parts,group,x,y,z,roll=0){
   else{q.yaw=Math.atan2(-b[6],c*b[0]-s*b[3]);q.roll=0;}
  }
 }
+function magazineContact(parts,index,group,pose,top,out){
+ const q=parts[index],anchor=parts[group.anchor],pistol=q.pistolMagazine==='body';
+ const ox=-q.w*.5-.009,oy=pistol?-q.h*.25:top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(pose.roll),s=Math.sin(pose.roll);
+ const dx=q.baseX-anchor.baseX+ox,dy=q.baseY-anchor.baseY+oy;
+ out.x=anchor.baseX+pose.x+c*dx-s*dy;out.y=anchor.baseY+pose.y+s*dx+c*dy;out.z=q.baseZ+pose.z+oz;
+}
+function poseMagazineGroup(parts,group,pose){
+ const anchor=parts[group.anchor];moveRigid(parts,group,anchor.baseX+pose.x,anchor.baseY+pose.y,anchor.baseZ+pose.z,pose.roll);
+ for(const member of group.members)parts[member.index].hidden=pose.hidden;
+}
 function reloadHand(parts,w,r,reloading,magRoll){
  const rig=parts.reloadRig,contact=rig.contact;if(!rig.hand)return;
  const hand=parts[rig.hand.anchor];contact.phase=r;contact.weight=0;contact.operation='ready';
@@ -531,9 +558,18 @@ function reloadHand(parts,w,r,reloading,magRoll){
  }else if(rig.cylinder&&w.def.revolver){
   const q=parts[rig.cylinder.anchor];x=q.x-.03;y=q.y+.004;z=q.z+.065;roll=.35;operation='cylinder';
  }else if(rig.magazine){
-  const pistol=rig.pistolMagazine>=0,q=parts[pistol?rig.pistolMagazine:rig.magazine.anchor],top=w.def.id===4;
-  const ox=-q.w*.5-.009,oy=pistol?-q.h*.25:top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(magRoll),s=Math.sin(magRoll);
-  x=q.x+c*ox-s*oy;y=q.y+s*ox+c*oy;z=q.z+oz;roll=-.35+magRoll;operation='magazine';
+  const exchange=parts.reloadExchange,top=w.def.id===4;
+  if(exchange?.sample.active){
+   const sample=exchange.sample,from=exchange.sourceContact,to=exchange.replacementContact,blend=sample.handBlend;
+   magazineContact(parts,exchange.sourceContactIndex,rig.magazine,sample.sourceHand,top,from);
+   magazineContact(parts,exchange.replacementContactIndex,exchange.replacement,sample.replacement,top,to);
+   x=from.x+(to.x-from.x)*blend;y=from.y+(to.y-from.y)*blend;z=from.z+(to.z-from.z)*blend;
+   roll=-.35+sample.sourceHand.roll+(sample.replacement.roll-sample.sourceHand.roll)*blend;operation=blend>.5?'replacementMagazine':'magazine';
+  }else{
+   const pistol=rig.pistolMagazine>=0,q=parts[pistol?rig.pistolMagazine:rig.magazine.anchor];
+   const ox=-q.w*.5-.009,oy=pistol?-q.h*.25:top?.026:-Math.min(.030,q.h*.14),oz=top?.025:.014,c=Math.cos(magRoll),s=Math.sin(magRoll);
+   x=q.x+c*ox-s*oy;y=q.y+s*ox+c*oy;z=q.z+oz;roll=-.35+magRoll;operation='magazine';
+  }
  }
  // Open the feed cover before taking the belt box, then close it after seating.
  if(rig.lid>=0){
@@ -552,8 +588,8 @@ function reloadHand(parts,w,r,reloading,magRoll){
  contact.x=x;contact.y=y;contact.z=z;contact.roll=roll;contact.weight=reach;contact.operation=operation;
  moveRigid(parts,rig.hand,hand.baseX+(x-hand.baseX)*reach,hand.baseY+(y-hand.baseY)*reach,hand.baseZ+(z-hand.baseZ)*reach,roll*reach);
 }
-export function animateWeaponParts(parts,w,p,time){
- const rig=parts.reloadRig;
+export function animateWeaponParts(parts,w,p,time,menu=false){
+ const rig=parts.reloadRig,exchange=parts.reloadExchange;
  const reloading=w.reloadLeft>0,r=reloading?Math.max(0,Math.min(1,1-w.reloadLeft/w.reloadTime)):0;
  const shot=Math.max(0,w.sinceShot),slide=Math.max(0,1-shot/.075),boltOpen=smooth(.08,.18,shot)*(1-smooth(.42,.6,shot));
  const pump=smooth(.075,.22,shot)*(1-smooth(.38,.56,shot));
@@ -568,9 +604,11 @@ export function animateWeaponParts(parts,w,p,time){
    case 'bolt':q.z+=(w.def.kind==='SNIPER'||w.def.id===7?boltOpen*.068:slide*.026)+boltReload*.04;if(w.def.kind==='SNIPER'||w.def.id===7)q.roll-=(boltOpen+boltReload)*.68;break;
    case 'pump':case 'pumpHand':q.z+=pump*.079;break;
    case 'magazine':
+    if(exchange){q.hidden=false;break;}
     if(w.def.id===4){q.y+=magDrop*.155;q.x-=magDrop*.07;q.roll+=magDrop*.16;}
     else{q.y-=magDrop*(w.def.id===9?.23:.29);q.x-=magDrop*.045;q.z+=magDrop*.035;q.roll-=magDrop*.22;}
     break;
+   case 'replacementMagazine':q.hidden=true;break;
    case 'belt':q.y-=lid*.07;q.x-=magDrop*.09;break;
    case 'lid':{const angle=lid*1.10;q.pitch-=angle;q.y+=Math.sin(angle)*.145;q.z+=.145*(1-Math.cos(angle));break;}
    case 'loadShell':q.hidden=!reloading||r<.08||r>.78;break;
@@ -579,7 +617,10 @@ export function animateWeaponParts(parts,w,p,time){
   }
  }
  const magRoll=magDrop*(w.def.id===4?.16:-.22);
- if(rig.magazine&&magDrop){const q=parts[rig.magazine.anchor];moveRigid(parts,rig.magazine,q.x,q.y,q.z,magRoll);}
+ if(exchange){
+  const sample=sampleMagazineExchange(w,r,reloading&&!menu,exchange.sample);
+  if(sample.active){poseMagazineGroup(parts,rig.magazine,sample.source);poseMagazineGroup(parts,exchange.replacement,sample.replacement);}
+ }else if(rig.magazine&&magDrop){const q=parts[rig.magazine.anchor];moveRigid(parts,rig.magazine,q.x,q.y,q.z,magRoll);}
  // Cycled actions use the same tag pivot in the native and compatibility paths.
  if(rig.bolt&&(boltOpen||boltReload)&&(w.def.kind==='SNIPER'||w.def.id===7)){const q=parts[rig.bolt.anchor];moveRigid(parts,rig.bolt,q.x,q.y,q.z,-(boltOpen+boltReload)*.68);}
  if(rig.shell&&reloading){
@@ -590,6 +631,6 @@ export function animateWeaponParts(parts,w,p,time){
   const q=parts[rig.cylinder.anchor],open=reloading?smooth(.10,.26,r)*(1-smooth(.74,.89,r)):0,turn=((w.capacity??6)-(w.ammo??6))*Math.PI/3;
   if(open||turn)moveRigid(parts,rig.cylinder,q.baseX-open*.09,q.baseY-open*.012,q.baseZ+open*.008,turn);
  }
- reloadHand(parts,w,r,reloading,magRoll);
+ reloadHand(parts,w,r,reloading&&!menu,magRoll);
  return parts;
 }

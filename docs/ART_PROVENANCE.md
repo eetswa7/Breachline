@@ -25,6 +25,12 @@ material bakes, lightmaps and original attachment-sound families are reused;
 no third-party model, texture or recording was added. See
 [pistol construction and acceptance limits](ART_RELEASE70.md).
 
+Release 71 introduces original first-person phase/rig code in
+`reload-components.js` and `weapon-models.js`. Replacement proxies share the
+existing original native meshes and materials. No mesh, texture, lightmap,
+recording or packed Blender source payload changes; see
+[magazine exchange implementation and limits](ART_RELEASE71.md).
+
 The diffuse sheets are generated artwork, not measured photographs or
 photogrammetry scans. Normal maps are art-directed approximations. No Delta
 Force, Arena Breakout or Call of Duty model, texture or sound was downloaded or

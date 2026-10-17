@@ -1,4 +1,4 @@
-import {rayBox,clamp} from './math.js?v=70';
+import {rayBox,clamp} from './math.js?v=71';
 
 const POWER={PISTOL:.38,SMG:.3,RIFLE:1,LMG:1.18,MARKSMAN:1.35,SNIPER:1.85,SHOTGUN:0,MELEE:0};
 const COVER={wood:{resistance:1.3,depth:.55},glass:{resistance:.45,depth:.18},plaster:{resistance:3.8,depth:.22},steel:{resistance:12,depth:.075},blue:{resistance:12,depth:.075},rust:{resistance:12,depth:.075},dark:{resistance:12,depth:.075}};

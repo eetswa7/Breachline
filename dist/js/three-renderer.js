@@ -1,43 +1,43 @@
-import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=70';
-import {ProductionLighting} from './production-lighting.js?v=70';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=70';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=70';
-import {patchBlenderMaterial} from './blender-material.js?v=70';
-import {blenderWorld} from './blender-world.js?v=70';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=70';
-import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=70';
-import {updateWeaponClearance} from './weapon-clearance.js?v=70';
-import {WEAPONS} from './weapons.js?v=70';
-import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=70';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=70';
-import {patchAtmosphere} from './atmosphere.js?v=70';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=70';
-import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=70';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=70';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=70';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=70';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=70';
-import {DecalSystem} from './decal-system.js?v=70';
-import {ExplosionShockSystem} from './explosion-shock.js?v=70';
-import {EnvironmentalFireSystem} from './environmental-fire.js?v=70';
-import {GlassDamageSystem} from './glass-damage.js?v=70';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=70';
-import {LightingField} from './lighting-field.js?v=70';
-import {RoomLights} from './room-lights.js?v=70';
-import {waterMaterial,patchWater} from './water-material.js?v=70';
-import {visualGroundHeight} from './surface-placement.js?v=70';
-import {patchSurfaceDetail} from './material-detail.js?v=70';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=70';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=70';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=70';
+import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=71';
+import {ProductionLighting} from './production-lighting.js?v=71';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=71';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=71';
+import {patchBlenderMaterial} from './blender-material.js?v=71';
+import {blenderWorld} from './blender-world.js?v=71';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=71';
+import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=71';
+import {updateWeaponClearance} from './weapon-clearance.js?v=71';
+import {WEAPONS} from './weapons.js?v=71';
+import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=71';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=71';
+import {patchAtmosphere} from './atmosphere.js?v=71';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=71';
+import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=71';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=71';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=71';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=71';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=71';
+import {DecalSystem} from './decal-system.js?v=71';
+import {ExplosionShockSystem} from './explosion-shock.js?v=71';
+import {EnvironmentalFireSystem} from './environmental-fire.js?v=71';
+import {GlassDamageSystem} from './glass-damage.js?v=71';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=71';
+import {LightingField} from './lighting-field.js?v=71';
+import {RoomLights} from './room-lights.js?v=71';
+import {waterMaterial,patchWater} from './water-material.js?v=71';
+import {visualGroundHeight} from './surface-placement.js?v=71';
+import {patchSurfaceDetail} from './material-detail.js?v=71';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=71';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=71';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=71';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=70';
-import { actorModel, material, part } from './geometry.js?v=70';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=70';
-import { loadImages } from './textures.js?v=70';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=70';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=70';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=70';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=71';
+import { actorModel, material, part } from './geometry.js?v=71';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=71';
+import { loadImages } from './textures.js?v=71';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=71';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=71';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=71';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -878,9 +878,9 @@ export class Renderer {
     const p = game.player, w = p.weapon;
     const key = `${w.def.id}/${w.optic}/${w.barrel}/${w.grip}/${w.magazine}/${w.ammunition}`;
     if (key !== this.weaponKey) {
-      this.weaponKey = key; this.weaponParts = weaponModel(w);this.blenderWeaponGroups=this.blenderAssets?.weaponGroups(this.weaponParts,w.def.id);this.blenderHandGroups=this.blenderAssets?.handGroups(this.weaponParts,w.def.id); this.clearDynamic(this.weaponBatches);
+      this.weaponKey = key; this.weaponParts = weaponModel(w,{reloadExchange:true});this.blenderWeaponGroups=this.blenderAssets?.weaponGroups(this.weaponParts,w.def.id);this.blenderHandGroups=this.blenderAssets?.handGroups(this.weaponParts,w.def.id); this.clearDynamic(this.weaponBatches);
     }
-    animateWeaponParts(this.weaponParts, w, p, game.time);
+    animateWeaponParts(this.weaponParts, w, p, game.time, menu);
     this.resetDynamic(this.weaponBatches);
     if(this.blenderWeaponGroups){
       syncBlenderWeapon(this.blenderWeaponGroups,this.weaponParts);
@@ -888,7 +888,7 @@ export class Renderer {
     }
     if(this.blenderHandGroups&&!menu){syncBlenderWeapon(this.blenderHandGroups,this.weaponParts);for(const q of this.blenderHandGroups)if(!q.hidden)this.addDynamic(this.weaponBatches,this.weaponRoot,q,'weapon');}
     for (let i=this.blenderWeaponGroups?this.weaponParts.coreCount:0;i<this.weaponParts.length;i++){
-      const q=this.weaponParts[i];if((this.blenderHandGroups||menu)&&/^(rightHand|supportHand|pumpHand)$/.test(q.tag??''))continue;if(!q.hidden)this.addDynamic(this.weaponBatches,this.weaponRoot,q,'weapon');
+      const q=this.weaponParts[i];if(this.blenderWeaponGroups&&q.reloadNativeCore)continue;if((this.blenderHandGroups||menu)&&/^(rightHand|supportHand|pumpHand)$/.test(q.tag??''))continue;if(!q.hidden)this.addDynamic(this.weaponBatches,this.weaponRoot,q,'weapon');
     }
     this.uploadDynamic(this.weaponBatches);
     const pose = weaponPose(p, game.time, this.settings.motion !== false, menu, this.weaponPoseState ?? (this.weaponPoseState = {}));

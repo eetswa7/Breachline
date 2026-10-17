@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=70';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=71';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};

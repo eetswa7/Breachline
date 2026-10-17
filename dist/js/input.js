@@ -1,6 +1,6 @@
-import {emptyInput} from './engine.js?v=70';
-import {ControllerInput} from './gamepad.js?v=70';
-import {clamp} from './math.js?v=70';
+import {emptyInput} from './engine.js?v=71';
+import {ControllerInput} from './gamepad.js?v=71';
+import {clamp} from './math.js?v=71';
 
 export const CONTROL_LAYOUT={fire:[.87,.68,88],ads:[.91,.40,56],reload:[.36,.90,50],jump:[.70,.81,54],crouch:[.70,.9,48],swap:[.49,.9,50],grenade:[.72,.48,48],interact:[.60,.53,56],melee:[.94,.26,44],sprint:[.13,.43,44]};
 const ADVANCED_LAYOUT={...CONTROL_LAYOUT,fire:[.9,.57,82],ads:[.81,.31,52],reload:[.81,.8,51],jump:[.94,.88,51],crouch:[.7,.9,48],grenade:[.65,.72,48],swap:[.51,.91,48],interact:[.7,.51,48]};

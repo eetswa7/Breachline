@@ -1,5 +1,5 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {clamp} from './math.js?v=70';
+import {clamp} from './math.js?v=71';
 
 // Small ground-plan light field, baked once per map. This is an approximation
 // of indirect light, not a GI solver. R sky access, G warm bounce, B roof height,
