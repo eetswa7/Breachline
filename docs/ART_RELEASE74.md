@@ -13,17 +13,21 @@ floor and three supporting bearers. Back plank seams/chips with opaque lining;
 retain the same unit owner envelope, original wood routing and solid gameplay
 collision. Far LOD keeps large construction and removes small seams/bevels.
 
-The native selector assigns `crate` to wooden shell cover in the original maps,
+The render assembly assigns the new `shipping_crate` model only to wooden
+shell cover with the existing .035 shell thickness in the original maps,
 Crossfire District, Blacksite and Nuketown. All sixteen static level assemblies
-contain this construction. These crates are not marked breakable and participate
+contain this construction. The older `crate` model remains for unrelated
+Nuketown furniture/fences selected by the historical broad shell predicate;
+those assets do not become shipping chests. These crates are not marked breakable and participate
 in Cycles GI, so all sixteen lightmaps require fresh baking. Material textures,
 existing gameplay owners, shell thickness, ballistics and routes stay unchanged.
 The generator is outside this modelling change. The render assembly suppresses
 only the two exact decorative steel-band shapes emitted by `Arena.crate`; nearby
 equipment remains. Crate wrappers retain `blenderColour:false` and wood tile 10,
 so both runtime and Cycles keep the existing wood-map reflectance while native
-per-vertex wood colour/roughness adds the board hierarchy. An initial build was
-stopped before packaging to incorporate this source-review correction.
+per-vertex wood colour/roughness adds the board hierarchy. Two early builds were stopped before packaging to incorporate source-review
+corrections: remove redundant strips, preserve textured GI reflectance, join
+the deck to its bearers, and keep non-crate wooden furniture/fences unchanged.
 
 ## Build and verification
 

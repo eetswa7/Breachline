@@ -215,8 +215,8 @@ def author_environment(api, helpers):
     for x in (-.35,0,.35):
         shipping.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber))
         shipping_far.append(shipping_box((x,-.455,0),(.18,.09,.94),frame_timber,True))
-    shipping.append(shipping_box((0,-.385,0),(.90,.042,.90),timber,True))
-    shipping_far.append(shipping_box((0,-.385,0),(.90,.042,.90),timber,True))
+    shipping.append(shipping_box((0,-.389,0),(.90,.042,.90),timber,True))
+    shipping_far.append(shipping_box((0,-.389,0),(.90,.042,.90),timber,True))
     for x in (-.45,.45):
         for z in (-.45,.45):
             shipping.append(shipping_box((x,.0475,z),(.10,.905,.10),frame_timber))
@@ -260,7 +260,7 @@ def author_environment(api, helpers):
         shipping.append(shipping_box((-.3375+i*.225,.461,0),(.219,.044,.90),
                                      tuple(value*(.97+i*.012) for value in timber),True))
     shipping_far.append(shipping_box((0,.461,0),(.90,.044,.90),timber,True))
-    publish('crate',shipping,shipping_far)
+    publish('shipping_crate',shipping,shipping_far)
 
     # ISO freight container: continuous pressed trapezoidal sides, open door
     # hardware, roof seams and corner castings instead of ridges on a cube.

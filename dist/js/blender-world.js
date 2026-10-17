@@ -7,7 +7,7 @@ export function blenderWorld(arena){
  const nearBuilding=p=>buildings.some(b=>Math.abs(p.x-b.x)<b.w*.55&&Math.abs(p.z-b.z)<b.d*.55&&p.y<b.y+b.h*.5+.08);
  const generators=arena.blocks.filter(p=>p.surface==='dark'&&p.w>1&&p.d>1&&p.h>.8&&p.h<3.1);
  const cars=arena.blocks.filter(p=>(p.culdesacCar||p.shellThickness>0&&p.shellThickness<.01&&p.h<1.4)&&Math.min(p.w,p.d)>1.5);
- const crates=arena.blocks.filter(p=>p.surface==='wood'&&p.shellThickness>.02);
+ const crates=arena.blocks.filter(p=>p.surface==='wood'&&p.shellThickness===.035);
  const cargo=arena.blocks.filter(p=>p.shellThickness>0&&p.shellThickness<.01&&p.h>2&&Math.max(p.w,p.d)>4);
  const generatorTrim=p=>generators.some(b=>Math.abs(p.x-b.x)<b.w/2+.12&&Math.abs(p.z-b.z)<b.d/2+.12&&
   p.y>b.y-b.h/2&&p.y<b.y+b.h/2+.36&&p.h<.65&&['orange','rust','glass','steel','dark'].includes(p.surface));
@@ -33,7 +33,7 @@ export function blenderWorld(arena){
    parts.push(visual(p,{x:p.x,y:top/2,z:p.z,w:Math.min(p.w,p.d),h:top,d:Math.max(p.w,p.d),
     yaw:alongX?Math.PI/2:0,blenderKind:'vehicle_sedan',blenderColour:true,tile:8}));continue;
   }
-  if(crates.includes(p)){parts.push(visual(p,{blenderKind:'crate',blenderColour:false,tile:10}));continue;}
+  if(crates.includes(p)){parts.push(visual(p,{blenderKind:'shipping_crate',blenderColour:false,tile:10}));continue;}
   if(generators.includes(p)){parts.push(visual(p,{blenderKind:'generator',blenderColour:true,tile:8}));continue;}
   // Large painted building envelopes must not inherit the black machined
   // steel finish used by barrels and machinery. Keep the collider reference.
