@@ -1,5 +1,5 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {collectGlassPanels,GlassPanelIndex} from './glass-panels.js?v=70';
+import {collectGlassPanels,GlassPanelIndex} from './glass-panels.js?v=71';
 
 export const GLASS_DAMAGE_BUDGET={panels:24,stampsPerPanel:2,maxRadius:.58};
 

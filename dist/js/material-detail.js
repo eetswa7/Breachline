@@ -1,5 +1,5 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {clamp} from './math.js?v=70';
+import {clamp} from './math.js?v=71';
 
 // Pack occlusion, roughness and exposed-metal variation in the map already read
 // for roughness. No separate AO/metallic samplers, no added full-screen passes.

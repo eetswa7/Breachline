@@ -1,10 +1,10 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=70';
-import {clamp} from './math.js?v=70';
-import {poseSegment,transformOperatorPose} from './actor-pose.js?v=70';
+import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=71';
+import {clamp} from './math.js?v=71';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=71';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 function template(w){
- const key=`${w.def.id}/${w.optic}/${w.barrel}/${w.grip}`;
+ const key=`${w.def.id}/${w.optic}/${w.barrel}/${w.grip}/${w.magazine}/${w.ammunition}`;
  if(templates.has(key))return templates.get(key);
  const model=weaponModel(w),volume=p=>p.w*p.h*p.d,minVolume=w.def.kind==='MELEE'?.000005:.00008;
  const pieces=model.filter(p=>!p.hidden&&!/hand/i.test(p.tag??'')&&p.surface!=='glass'&&volume(p)>minVolume)
@@ -91,8 +91,8 @@ export function nativeOperatorWeapon(actor,assets,time){
 }
 export function poseOperator(actor,duck){
  const w=actor.weapon;
- if(actor.carriedWeapon!==w||actor.carriedOptic!==w.optic||actor.carriedBarrel!==w.barrel||actor.carriedGrip!==w.grip){
-  const t=template(w);actor.carriedTemplate=t;actor.carriedWeapon=w;actor.carriedOptic=w.optic;actor.carriedBarrel=w.barrel;actor.carriedGrip=w.grip;
+ if(actor.carriedWeapon!==w||actor.carriedOptic!==w.optic||actor.carriedBarrel!==w.barrel||actor.carriedGrip!==w.grip||actor.carriedMagazine!==w.magazine||actor.carriedAmmunition!==w.ammunition){
+  const t=template(w);actor.carriedTemplate=t;actor.carriedWeapon=w;actor.carriedOptic=w.optic;actor.carriedBarrel=w.barrel;actor.carriedGrip=w.grip;actor.carriedMagazine=w.magazine;actor.carriedAmmunition=w.ammunition;
   if(actor.carriedKey!==t.key){
    actor.carriedKey=t.key;actor.renderParts.length=actor.operatorBodyCount;actor.renderBase.length=actor.operatorBodyCount;
    for(const [i,p]of t.pieces.entries()){

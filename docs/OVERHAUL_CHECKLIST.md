@@ -40,14 +40,19 @@ removed and replacement components. [Scope and limits](ART_RELEASE71.md).
 
 - [x] Preserve pushed Release 70 as the baseline and identify the reused-magazine
   gap. Source `41f252b`; native geometry and editable assets remain recoverable.
-- [ ] Construct cached replacement components for the 26 magazine-fed rigs,
+- [x] Construct cached replacement components for the 26 magazine-fed rigs,
   including current fast, extended and drum attachments.
-- [ ] Add family-aware extraction, stow/departure, retrieval and seating with
+  Implemented 2026-10-18 after continuation `592ea52`;
+  [construction bounds and scope](ART_RELEASE71.md).
+- [x] Add family-aware extraction, stow/departure, retrieval and seating with
   component-following hand targets, preserving ammunition and contact timing.
-- [ ] Share native meshes through remapped proxies and use the same lifecycle
+  Implemented 2026-10-18; [phase boundaries and remaining limits](ART_RELEASE71.md).
+- [x] Share native meshes through remapped proxies and use the same lifecycle
   in fallback rendering, without duplicating native and primitive core geometry.
-- [ ] Restore neutral visibility on cancellation, completion and menu display;
+  Implemented 2026-10-18; [binding and unchanged media](ART_RELEASE71.md).
+- [x] Restore neutral visibility on cancellation, completion and menu display;
   preserve default actor choreography and fix magazine/ammunition cache keys.
+  Implemented 2026-10-18; [source review and scope](ART_RELEASE71.md).
 - [ ] Package offline Release 71, run only `npm run verify` once on the final
   runtime state, update benchmark provenance and push usable checkpoints.
 - [ ] Review actual native/fallback gameplay images and physical iPhone costs.
@@ -392,9 +397,13 @@ as documented in the baseline JSON and validation report.
   previously improved; first-person hands now follow actual component extraction,
   seating and empty charging actions, with separate shell/top-loader/feed-cover/
   revolver targets. Release 70 moves four complete pistol magazines and targets
-  their lower bodies with the support hand. Rigid grasp, reused magazines and
-  simplified loaders remain; new gameplay acceptance is unverified. Updated
-  2026-10-17 at `e08e6b6`; [pistol scope and limits](ART_RELEASE70.md) and
+  their lower bodies with the support hand. Release 71 adds separate outgoing
+  and incoming first-person magazine components across the 26 magazine-fed
+  rigs, with hand retrieval and family-aware phase timing. Rigid grasp,
+  simplified loaders and third-person reused magazines remain; new gameplay
+  acceptance is unverified. Updated 2026-10-18 after `592ea52`;
+  [exchange implementation and limits](ART_RELEASE71.md),
+  [pistol construction](ART_RELEASE70.md) and
   [previous native reload frames](ART_RELEASE63.md).
 - [x] **Complete:** Inspection animations. All thirty rigs have a cancelable
   two-sided presentation with touch, keyboard and controller access. Native
@@ -417,10 +426,13 @@ as documented in the baseline JSON and validation report.
   [eighteen native images and preservation gates](FIRING67.md).
 - [ ] **Partial:** Physical interaction between hands, magazines, bolts and
   components. First-person component-following hand groups now share coherent
-  native/fallback pivots and empty-only action targets. Finger grasp and real
-  detachable replacement components remain absent; lower-magazine interactions
-  are often off-camera. Updated 2026-10-12 at `c51316c`;
-  [actual contact review and scope](ART_RELEASE63.md).
+  native/fallback pivots and empty-only action targets. Release 71 adds distinct
+  first-person removed/replacement components using shared native geometry;
+  this is render-local exchange, without physical world inventory or landing
+  contacts. Finger grasp and natural physical interaction remain unfinished;
+  lower-magazine interactions can remain off-camera. Updated 2026-10-18 after
+  `592ea52`; [exchange scope and unverified appearance](ART_RELEASE71.md) and
+  [earlier actual contact review](ART_RELEASE63.md).
 - [ ] **Partial:** Strong realistic silhouettes and attractive close-ups for
   every weapon. Weapons are distinguishable; the premium standard remains unmet.
 - [ ] **Not complete:** Avoid generic weapons assembled from primitive-looking

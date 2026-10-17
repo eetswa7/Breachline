@@ -1,4 +1,4 @@
-import {emptyInput} from './engine.js?v=70';
+import {emptyInput} from './engine.js?v=71';
 
 export const STRESS_SCENARIO=Object.freeze({id:'breachline-stress-v1',seed:771891,duration_simulation_seconds:180,mode:'tdm',phases:[['warmup',0,20],['camera_sweep',20,60],['movement',60,100],['combat',100,150],['effects',150,180]],effects:'Renderer receives scripted shot, explosion and smoke events in the effects phase; these have no damage. AI and all other simulation use the original engine.'});
 export class StressSequence {

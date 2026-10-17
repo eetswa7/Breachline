@@ -1,6 +1,19 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 70.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 71.** 30 weapons, 16 maps and 11 modes.
+
+## Release 71: first-person magazine exchange
+
+Magazine-fed weapons now remove one component and retrieve a distinct
+replacement during first-person reloads. Tactical reloads stow the old magazine;
+empty reloads let it depart. Hands follow the exchange, with top-loader and
+belt-box timing retained. Native and fallback rendering share the same phase
+sampler and restore neutral visibility on cancellation, completion and menu use.
+
+Existing native meshes and all media are reused. This adds about 6.3 KiB of
+uncompressed JavaScript. See [implementation, costs and limits](docs/ART_RELEASE71.md)
+and [the updated checklist](docs/OVERHAUL_CHECKLIST.md). Gameplay-image,
+professional animation and physical iPhone acceptance remain open.
 
 ## Release 70: complete pistol magazines
 
