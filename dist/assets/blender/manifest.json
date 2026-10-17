@@ -456,6 +456,86 @@
       "vertices": 216,
       "vertexMaterial": true
     },
+    "house_bed_plinth__near": {
+      "triangles": 356,
+      "vertices": 200,
+      "vertexMaterial": true
+    },
+    "house_bed_plinth__far": {
+      "triangles": 84,
+      "vertices": 56,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet__near": {
+      "triangles": 316,
+      "vertices": 184,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet__far": {
+      "triangles": 72,
+      "vertices": 48,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet_back__near": {
+      "triangles": 316,
+      "vertices": 184,
+      "vertexMaterial": true
+    },
+    "house_storage_cabinet_back__far": {
+      "triangles": 72,
+      "vertices": 48,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_51_x__near": {
+      "triangles": 3096,
+      "vertices": 2064,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_51_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_61_z__near": {
+      "triangles": 3696,
+      "vertices": 2464,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_61_z__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_18_z__near": {
+      "triangles": 1116,
+      "vertices": 744,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_18_z__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_8_8_x__near": {
+      "triangles": 564,
+      "vertices": 376,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_8_8_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_4_2_x__near": {
+      "triangles": 288,
+      "vertices": 192,
+      "vertexMaterial": true
+    },
+    "house_privacy_fence_4_2_x__far": {
+      "triangles": 36,
+      "vertices": 24,
+      "vertexMaterial": true
+    },
     "switchgear__near": {
       "triangles": 732,
       "vertices": 400,
@@ -6617,37 +6697,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "df72e8100396409b9ef4c0ddac8bdeaf3513cb774eb659f2231518deb7a3ac42"
+      "sha256": "6f5be31256dfe1f8e43186933884f023176b6e0a17719d0917f159085af38b49"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "64105e1f9f52465c81d2c6ea808eef80d416a4bb2e3893bd75b17e3f69d7aabd"
+      "sha256": "29601f1c44da4b14bb197bf0f80d8c6387bd4643c947b9c0bc94a324b439f1d8"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "ba388b31a7e18adfdde0635db8b4893c05afb1d06046b95e5d271b1b6832c844"
+      "sha256": "fa678698fb887936105b2f0e75ebbacea23993d2c6cbc1d24058907ff8831447"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "b4cd011f6f2eb43483c2ebc13c97a2870e994a08e5f321bfbb0dae44879749aa"
+      "sha256": "b95898ef7dbb4426fd17e4c27c7307f905b323e0960fe46fc36a53652528cda3"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "fba27f4590de0eb2ddb687349241a76ecf5673b3c67dfde40d7f674f361d1de3"
+      "sha256": "f362113c34c2632e916eee6186788ac095dc7cdc3539c3c4cf03494d42f455ce"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "68cac4f4d18080b4600a5b1178b327bb9d5b676d9605a39f7a53b9e3e7e80c29"
+      "sha256": "b7d4fd9c67c28397714f87c7acf0a6637ef96697389b7c8198720987caf8091d"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 944143,
-      "sha256": "f99c8f2be39700f0f9cafea83d308c5e312833235d6abc99c3e138ba440161e3"
+      "bytes": 1066945,
+      "sha256": "0d78d1040599255214994d5d5f1874ef5e7183553e6ca61a14f5ea3614ed2fe7"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6710,6 +6790,14 @@
     "barrier_x",
     "barrier_z",
     "shipping_crate",
+    "house_bed_plinth",
+    "house_storage_cabinet",
+    "house_storage_cabinet_back",
+    "house_privacy_fence_51_x",
+    "house_privacy_fence_61_z",
+    "house_privacy_fence_18_z",
+    "house_privacy_fence_8_8_x",
+    "house_privacy_fence_4_2_x",
     "cargo_x",
     "cargo_z",
     "generator",
@@ -6768,12 +6856,12 @@
   "authorship": "Original Blender mesh authoring and native Cycles colour/normal/physical bakes",
   "geometryPacking": {
     "normalisedBits": 16,
-    "streams": 306,
-    "savedBytes": 3348348,
+    "streams": 322,
+    "savedBytes": 3430300,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "f3a1f5d0b83756fb01a245909b9360af6e29431f34847228fe2cd1c3637d14c7",
-    "exactPackedSha256": "f3a1f5d0b83756fb01a245909b9360af6e29431f34847228fe2cd1c3637d14c7"
+    "exactSourceSha256": "65d23e02c5d85d6c4e06f273c2ae0479fad4036c5f73b046092bcbb210a64150",
+    "exactPackedSha256": "65d23e02c5d85d6c4e06f273c2ae0479fad4036c5f73b046092bcbb210a64150"
   },
   "library": {
     "parts": [
@@ -6785,9 +6873,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13527043,
-    "unpackedBytes": 42259608,
-    "sha256": "20c7638f4bcbd4014a5b8bcab8e19b87f5371f2b9c7eaeee2dbbc581caf66e64"
+    "bytes": 13649845,
+    "unpackedBytes": 43240984,
+    "sha256": "16a171ea3b752ecf2d614206f6c10c18820cf0bc5012a0dc6cdeaea233708d90"
   },
-  "downloadBytes": 18728243
+  "downloadBytes": 18851045
 }

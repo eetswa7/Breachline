@@ -1249,9 +1249,9 @@
     },
     {
       "path": "lightmap-15.part000.bin",
-      "bytes": 403960,
-      "sha256": "1871cb1091cd6eecd8bc9c7ef50efc2185618465a03c5a0c3c4815db22d4d91c"
+      "bytes": 406624,
+      "sha256": "9fb53cd974e3fd65e29b2d122cc4a3e7858ccebb9027292ef4a5daec99146c2b"
     }
   ],
-  "downloadBytes": 67317430
+  "downloadBytes": 67320094
 }
