@@ -41,14 +41,19 @@ This pass gives them original domestic construction while retaining solid owners
 
 - [x] Identify furniture and long fence selector mismatches using source and
   retained map 15 images. Source `3e68522`; [references/limits](ART_RELEASE77.md).
-- [ ] Add original closed bed/cabinet and backed privacy-fence native near/far
+- [x] Add original closed bed/cabinet and backed privacy-fence native near/far
   models, preserving every owner transform/material/collision and existing decor.
-- [ ] Select fence LOD by board detail and nearest-surface distance so long
-  spans do not force detailed boards throughout the map.
-- [ ] Rebuild native library/editable source and map 15 lighting, retaining
-  all material payloads and the other fifteen lightmaps.
-- [ ] Package offline Release 77, run only final `npm run verify`, record
-  costs/limits and benchmark provenance, and push checkpoints.
+  Completed 2026-10-18 from `84acd6d`; [construction/costs](ART_RELEASE77.md).
+- [x] Select fence LOD by board detail and nearest-surface distance so long
+  spans do not force detailed boards throughout the map. Completed 2026-10-18
+  at `b47e136`; [LOD scope and unverified transitions](ART_RELEASE77.md).
+- [x] Rebuild native library/editable source and map 15 lighting, retaining
+  all material payloads and the other fifteen lightmaps. Completed 2026-10-18
+  at `b47e136`; [native/source and manifest observations](ART_RELEASE77.md).
+- [x] Package offline Release 77, run only final `npm run verify`, record
+  costs/limits and benchmark provenance, and push checkpoints. Completed
+  2026-10-18: 74/74 pass and 88 modules packaged; provenance identifies `b47e136`.
+  [Recorded result](validation-release77.json).
 - [ ] Review new actual furniture/fence gameplay and physical iPhone costs.
   Additional browser/audit/profile/device checks are outside current verification
   scope; professional art and real-device acceptance remain open.
@@ -417,7 +422,11 @@ as documented in the baseline JSON and validation report.
 ### Environmental props
 
 - [ ] **Partial:** Improve vehicles, machinery, containers, barriers, pipes,
-  fences, furniture, vegetation and military equipment. Many shared props were
+  fences, furniture, vegetation and military equipment. Release 77 gives Nuketown
+  beds/storage and privacy fences dedicated original closed construction and
+  board-based LOD, retaining their owners and existing material routing. Wider
+  library realism and new gameplay acceptance remain open. Updated 2026-10-18
+  at `b47e136`; [construction, costs and limits](ART_RELEASE77.md). Many shared props were
   rebuilt; Release 69 adds an open-skid diesel generator with separate engine,
   alternator, radiator and service forms at both LODs. Every listed category was
   not comprehensively upgraded. Updated 2026-10-17 from `063369e`;
@@ -983,6 +992,7 @@ These are Release 57 measurements, not measurements of Release 60.
 
 | Date | Change | Commit / evidence |
 | --- | --- | --- |
+| 2026-10-18 | Completed four scoped Release 77 tasks: dedicated bed/cabinet/backed-fence construction for Nuketown, fence selection by board detail/nearest surface, native/editable assets and map15 GI with retained materials/other15 lightmaps, and final core/offline verification. Existing owner transforms, collision, decor and routes remain. New native meshes add 125,466 bytes of mesh/lighting download; JavaScript adds 669 bytes. All 74 core tests and 88-module packaging checks pass. Actual images, LOD/batching/device cost and professional art remain unverified. | Source `84acd6d`, runtime `b47e136`; [construction/costs/limits](ART_RELEASE77.md), [recorded result](validation-release77.json). |
 | 2026-10-18 | Completed three scoped Release 76 tasks: nearest authoritative cover-material profiles, coherent initial/moving-tail response within existing ray/voice/node budgets, and final core/offline verification. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,487 bytes, with no media changes. Coefficients are unmeasured; decorative glazing, layered/physical transmission, premium listening and physical iPhone acceptance remain open. | Runtime `3c78f6c`; [model/limits](ART_RELEASE76.md), [recorded result](validation-release76.json). |
 | 2026-10-18 | Completed three scoped Release 75 tasks: stance-correct shared listener acoustics, raised-surface hard-debris point contacts, and final core/offline verification. Existing ray/voice/particle/resource limits remain; extra local contact-query cost is unmeasured. All 74 core tests and 88-module packaging checks pass; game JavaScript adds 2,164 bytes. Actual listening/gameplay, professional quality and physical iPhone acceptance remain open. | Runtime `570ce85`; [implementation/limits](ART_RELEASE75.md), [recorded result](validation-release75.json). |
 | 2026-10-18 | Completed three scoped Release 74 tasks: original board-built shipping-crate near/far construction, all sixteen Cycles lightmaps with retained material payloads/editable source, and final core/offline verification. Narrow routing retains unrelated furniture/fences and removes only exact legacy crate bands. Selected crates add 384 near/288 far triangles; mesh/lighting download adds 25,256 bytes. All 74 core tests and 88-module packaging checks pass. New gameplay images, professional art and physical iPhone costs remain unverified. | Source `a903888`, runtime `c594b4c`; [construction/costs](ART_RELEASE74.md), [recorded result](validation-release74.json). |

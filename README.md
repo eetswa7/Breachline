@@ -1,6 +1,19 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 76.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 77.** 30 weapons, 16 maps and 11 modes.
+
+## Release 77: Nuketown furniture and privacy fences
+
+Nuketown beds, cabinets and privacy fences now use dedicated original native
+construction, replacing inherited crate/primitive presentation. Solid owners,
+materials, existing decor, collision and routes remain. Fence LOD follows board
+detail and nearest-surface distance; only Nuketown receives fresh static lighting.
+
+Runtime `b47e136` passes 74/74 core tests and 88-module packaging/offline checks.
+Mesh/lighting download adds about 122.5 KiB; game JavaScript adds 669 bytes.
+[Construction, costs and limits](docs/ART_RELEASE77.md) and
+[the checklist](docs/OVERHAUL_CHECKLIST.md) retain open actual gameplay/LOD review,
+professional art and physical iPhone acceptance.
 
 ## Release 76: cover-material acoustics
 

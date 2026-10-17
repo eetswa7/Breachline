@@ -1,0 +1,139 @@
+{
+  "release": 77,
+  "date": "2026-10-18",
+  "baseline_commit": "3e68522",
+  "authoring_checkpoint": "84acd6d",
+  "runtime_source_commit": "b47e136b67e3e3351305b14b52902a86fa48a01a",
+  "content_sha256": "0891ba23f5c701d5cb9bbebfe2704bb707b56228b9b72a246761ec2ddc055d23",
+  "implementation_scope": {
+    "construction": "Closed bed plinth, framed storage/kitchen cabinets including reversed native variant, five backed privacy-fence span/orientation variants; explicit render-only tags on original Nuketown owners",
+    "fence_lod": "Approx .188m board width and nearest owner surface; existing thresholds/3m guard/hysteresis/.25s cadence",
+    "lighting": "Only map15 rebaked; normal production-manifest diff retains material records and other15 lightmap records",
+    "preservation": "Existing owner transforms/materials/flags/collision, furniture decor, routes and objectives remain. Source/manifest review is not binary or gameplay acceptance."
+  },
+  "package_observations": {
+    "native_meshes": 386,
+    "new_meshes": {
+      "house_bed_plinth__near": {
+        "triangles": 356,
+        "vertices": 200,
+        "vertexMaterial": true
+      },
+      "house_bed_plinth__far": {
+        "triangles": 84,
+        "vertices": 56,
+        "vertexMaterial": true
+      },
+      "house_storage_cabinet__near": {
+        "triangles": 316,
+        "vertices": 184,
+        "vertexMaterial": true
+      },
+      "house_storage_cabinet__far": {
+        "triangles": 72,
+        "vertices": 48,
+        "vertexMaterial": true
+      },
+      "house_storage_cabinet_back__near": {
+        "triangles": 316,
+        "vertices": 184,
+        "vertexMaterial": true
+      },
+      "house_storage_cabinet_back__far": {
+        "triangles": 72,
+        "vertices": 48,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_51_x__near": {
+        "triangles": 3096,
+        "vertices": 2064,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_51_x__far": {
+        "triangles": 36,
+        "vertices": 24,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_61_z__near": {
+        "triangles": 3696,
+        "vertices": 2464,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_61_z__far": {
+        "triangles": 36,
+        "vertices": 24,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_18_z__near": {
+        "triangles": 1116,
+        "vertices": 744,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_18_z__far": {
+        "triangles": 36,
+        "vertices": 24,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_8_8_x__near": {
+        "triangles": 564,
+        "vertices": 376,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_8_8_x__far": {
+        "triangles": 36,
+        "vertices": 24,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_4_2_x__near": {
+        "triangles": 288,
+        "vertices": 192,
+        "vertexMaterial": true
+      },
+      "house_privacy_fence_4_2_x__far": {
+        "triangles": 36,
+        "vertices": 24,
+        "vertexMaterial": true
+      }
+    },
+    "library": {
+      "parts": [
+        "breachline-library.part000.bin",
+        "breachline-library.part001.bin",
+        "breachline-library.part002.bin",
+        "breachline-library.part003.bin",
+        "breachline-library.part004.bin",
+        "breachline-library.part005.bin",
+        "breachline-library.part006.bin"
+      ],
+      "bytes": 13649845,
+      "unpackedBytes": 43240984,
+      "sha256": "16a171ea3b752ecf2d614206f6c10c18820cf0bc5012a0dc6cdeaea233708d90"
+    },
+    "source": {
+      "bytes": 172277999,
+      "sha256": "e2a4393dfd5762d51644ba776e4add902fc05e892635d63813a42c3c8e53ac66"
+    },
+    "production_bytes": 67320094,
+    "material_records_changed": false,
+    "changed_production_files": [
+      "lightmap-15.part000.bin"
+    ],
+    "javascript_bytes": 711790
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "test_duration_ms": 2896.275036,
+    "packaged_javascript_modules": 88,
+    "coverage_limit": "Core checks do not establish all furniture/fence visibility, clipping, batching, LOD transitions or professional quality."
+  },
+  "not_performed": [
+    "Additional/retired suites, browser/shader checks, binary asset audits or profiles",
+    "New actual furniture/fence gameplay or professional-quality acceptance",
+    "Physical iPhone frame-time/memory/thermal acceptance"
+  ]
+}
