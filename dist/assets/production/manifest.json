@@ -1174,8 +1174,8 @@
     },
     {
       "path": "lightmap-0.part000.bin",
-      "bytes": 412592,
-      "sha256": "1311d218cdb923bf670d3f0a236ec9b0611d65b22caa20f2fa3e13df7637391f"
+      "bytes": 410768,
+      "sha256": "76dd2fc1cced5c683bf299b24f483f81248f3696b3ad9f0ffe93b7c1a9978eb2"
     },
     {
       "path": "lightmap-1.part000.bin",
@@ -1184,8 +1184,8 @@
     },
     {
       "path": "lightmap-2.part000.bin",
-      "bytes": 444662,
-      "sha256": "aeca270cdd51a09a9e77ae889518a60feb19cf23788f6101d97b74bb97eb9bfe"
+      "bytes": 442540,
+      "sha256": "67e617d4079de2355e7997e8bffa9fb0bc2652b857de7e7e1f3cba3d2e51b01c"
     },
     {
       "path": "lightmap-3.part000.bin",
@@ -1204,8 +1204,8 @@
     },
     {
       "path": "lightmap-6.part000.bin",
-      "bytes": 373308,
-      "sha256": "8a0f60b38500203d49d1aed18bedcf57cfb512b5c687fb6146ed134d217e832d"
+      "bytes": 373104,
+      "sha256": "4e349a99ce301e9000d54feb4a441951e67c80b8d320e2c2b8eb12a92c27aabb"
     },
     {
       "path": "lightmap-7.part000.bin",
@@ -1224,28 +1224,28 @@
     },
     {
       "path": "lightmap-10.part000.bin",
-      "bytes": 435300,
-      "sha256": "d40efa874c4bd799fcc1089ec181f6fd72a7778ddd018b205a2cbe62302fe135"
+      "bytes": 434300,
+      "sha256": "e82c83e7526868dbc765250f918780a223c5260060c80400ebb41430bd9b0d26"
     },
     {
       "path": "lightmap-11.part000.bin",
-      "bytes": 411452,
-      "sha256": "79b08ff5a9ecedaacce8762cb35401c094755fccd5067b8d5f3667a15fad0712"
+      "bytes": 410158,
+      "sha256": "d22e5bc55bcbe0a7271f2138e314d703597338372f526abaec7a3e8c44678d35"
     },
     {
       "path": "lightmap-12.part000.bin",
-      "bytes": 398730,
-      "sha256": "c3d5187be0087638f92eb2dac84f456a5a98c854e0b9c91654a988f0db86c17c"
+      "bytes": 397630,
+      "sha256": "3272dab9b517e1b629e4eec02f62084e6a6fb3c4eba9f3a36ceb87510b5df06c"
     },
     {
       "path": "lightmap-13.part000.bin",
-      "bytes": 430226,
-      "sha256": "0cc020e2bd4bfcf4b0460b936afa8ad10063aefe6f8b17279279574b743e6359"
+      "bytes": 429282,
+      "sha256": "75b2f377cc6a993a135abe6ea2f6476533d47eb4b7b1780db58b04e03504578b"
     },
     {
       "path": "lightmap-14.part000.bin",
-      "bytes": 400512,
-      "sha256": "6b7bff2bf8107b77f61173c932bdbe3f4aa842b75b4580c20339f65c031acb88"
+      "bytes": 399688,
+      "sha256": "a799dfd8394ff1c39c969618acb533afcc70a2bdde8ae63e7353b2d064d2b491"
     },
     {
       "path": "lightmap-15.part000.bin",
@@ -1253,5 +1253,5 @@
       "sha256": "9fb53cd974e3fd65e29b2d122cc4a3e7858ccebb9027292ef4a5daec99146c2b"
     }
   ],
-  "downloadBytes": 67320094
+  "downloadBytes": 67310782
 }
