@@ -3,9 +3,14 @@ on:
   push:
     paths-ignore:
       - 'benchmarks/**'
+      - 'docs/**'
+      - '**/*.md'
   pull_request:
     paths-ignore:
       - 'benchmarks/**'
+      - 'docs/**'
+      - '**/*.md'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -16,5 +21,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm test
-      - run: npm run check
+      - run: npm run verify

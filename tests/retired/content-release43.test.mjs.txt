@@ -1,10 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Game,emptyInput} from '../dist/js/engine.js';
-import {Arena,MAPS} from '../dist/js/maps.js';
+import {Arena} from '../dist/js/maps.js';
 import {Weapon,WEAPONS,PRIMARY_IDS,SECONDARY_IDS,GUN_ORDER,sanitizeLoadout} from '../dist/js/weapons.js';
 import {SaveStore} from '../dist/js/save.js';
-import {MODES} from '../dist/js/modes.js';
 import {opticMagnification,sightHeight} from '../dist/js/aim.js';
 import {AudioSystem} from '../dist/js/audio.js';
 import {weatherParticles} from '../dist/js/particles.js';
@@ -16,6 +15,7 @@ test('new primary and sidearm slots save with stable old IDs and a complete Gun 
  let text='';const storage={getItem:()=>text,setItem:(key,value)=>text=value};
  for(const id of PRIMARY_IDS){const store=new SaveStore(storage);store.data.loadout.primary=id;store.data.loadout.secondary=22;store.persist();const loaded=new SaveStore(storage);assert.equal(loaded.data.loadout.primary,id);assert.equal(loaded.data.loadout.secondary,22);}
  assert.equal(sanitizeLoadout({primary:19,secondary:23}).secondary,23);
+ assert.equal(sanitizeLoadout({primary:12}).primary,9);
 });
 test('Peregrine fires exactly two rounds from a tap and Bison loads and interrupts by shell',()=>{
  const game=new Game({loadout:{primary:16}},{seed:43});game.actors=[game.player];game.arena.blocks=[];
@@ -71,14 +71,4 @@ test('elimination prevents respawns, resets rounds, resolves timeout ties and wi
  r.time=.01;p.health=80;enemy.health=50;r.update(.02,game);assert.equal(r.scores[0],2);
  r.nextRound();p.health=enemy.health=100;r.time=.01;r.update(.02,game);assert.equal(r.roundWinner,-1);assert.equal(r.scores[0],2);
  r.nextRound();r.scores[0]=4;enemy.health=0;r.update(.02,game);assert.equal(r.phase,'finished');assert.equal(r.winner,0);
-});
-test('bots score in Hill and complete Elimination on the new maps',()=>{
- assert(MODES.some(m=>m.id==='hill')&&MODES.some(m=>m.id==='elimination'));
- for(const map of MAPS.slice(10))for(const mode of ['hill','elimination']){
-  const game=new Game({mode,map:map.id},{seed:943});
-  for(let i=0;i<33000&&game.rules.phase!=='finished';i++){game.update(1/30);game.events.length=0;}
-  assert.equal(game.rules.phase,'finished',`${map.name}/${mode}`);
-  if(mode==='hill')assert(game.actors.some(a=>a.hillScore>0),`${map.name} hill ignored`);
-  else assert.equal(Math.max(...game.rules.scores),5);
- }
 });

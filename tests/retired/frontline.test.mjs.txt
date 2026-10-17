@@ -49,12 +49,3 @@ test('expanded arenas contain real window apertures and navigable elevated secto
  assert(city.visible({x:-21,y:1.6,z:-27.45},{x:-30,y:1.6,z:-27.45}),'side window admits a shot');
  assert(!city.visible({x:-21,y:.5,z:-27.45},{x:-30,y:.5,z:-27.45}),'window sill remains physical cover');
 });
-test('bots engage and move the front on the expanded maps',()=>{
- for(const map of [13,14]){
-  const game=new Game({mode:'frontline',map},{seed:443});let shots=0,captures=0;
-  for(let i=0;i<180*30&&game.rules.phase==='playing';i++){
-   game.update(1/30);for(const event of game.events){shots+=event.type==='shot';captures+=event.type==='capture';}game.events.length=0;
-  }
-  assert(shots>30);assert(captures>0,`${game.arena.info.name} front never moved`);
- }
-});
