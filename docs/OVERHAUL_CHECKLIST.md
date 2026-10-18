@@ -32,6 +32,25 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 72 continuation tasks
+
+Scoped progress for 18 October 2026, continuing from merged Release 71
+`e2a4ab8`. Extend the removed/replacement presentation to operator reloads,
+sharing existing native geometry and bounded simplified carried-weapon rigs.
+
+- [x] Preserve merged Release 71 and identify separate operator/native and
+  simplified reload paths by source review. Baseline `e2a4ab8`.
+- [ ] Share component animation and support-hand contacts with simplified
+  operator weapons, retaining bounded carried detail and far visibility.
+- [ ] Opt native operator weapons into separate magazines without duplicating
+  native core primitives or changing assets, ammunition or audio contacts.
+- [ ] Review cancellation, weapon/attachment changes and shell/cylinder/feed
+  mechanisms in source; package offline Release 72.
+- [ ] Run only the required `npm run verify`, record evidence and limitations,
+  stamp committed benchmark provenance and push checkpoints.
+- [ ] Review actual gameplay and physical iPhone costs. These acceptance steps
+  remain outside current verification scope.
+
 ## Release 71 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from Release 70 `41f252b`.
