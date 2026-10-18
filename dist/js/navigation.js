@@ -1,4 +1,4 @@
-import {distance} from './math.js?v=71';
+import {distance} from './math.js?v=72';
 // A small layered navigation grid includes room floors and reachable stairs/terraces.
 // Connectivity is baked once per match; A* runs at most once per bot per second.
 export class Navigation {

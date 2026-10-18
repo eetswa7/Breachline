@@ -1,6 +1,6 @@
 // Original, metre-scaled view models. Forward is -Z; optics share aim.js heights.
 // Only weapon construction allocates. Animation modifies cached parts in place.
-import {magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=71';
+import {magazineExchangeEligible,magazineExchangeSample,sampleMagazineExchange} from './reload-components.js?v=72';
 const C={steel:[.27,.30,.32],edge:[.42,.45,.46],black:[.115,.13,.14],polymer:[.16,.175,.17],tan:[.48,.39,.27],olive:[.28,.32,.22],wood:[.48,.29,.145],rubber:[.043,.048,.044],glove:[.36,.38,.30],sleeve:[.23,.28,.22],brass:[.66,.44,.16],red:[.55,.055,.025]};
 const finish=(color=C.black,metal=.72,rough=.39,tile=-1)=>({color,metal,rough,tile,...(tile===9?{finishTile:2}:tile===-1&&metal>.45?{finishTile:0}:{})});
 const METAL=finish(),EDGE=finish(C.edge,.88,.28),POLY={...finish(C.polymer,0,.7),finishTile:3},RUBBER=finish(C.rubber,0,.87),WOOD=finish(C.wood,0,.71,10),TAN={...finish(C.tan,.08,.63),finishTile:1},OLIVE={...finish(C.olive,.08,.64),finishTile:1},BRASS={...finish(C.brass,.92,.31),finishTile:undefined},GLOVE=finish(C.glove,0,.94,9),SLEEVE=finish(C.sleeve,0,.98,9);
@@ -472,9 +472,13 @@ function addHands(b,w){
 }
 export function weaponModel(w,options){
  const b=builder(w);(BUILDERS[w.def.id]??kestrel)(b);const coreCount=b.parts.length;addOptic(b,w);addMuzzle(b,w);addAttachments(b,w);addHands(b,w);
- const p=b.parts;p.coreCount=coreCount;p.weaponId=w.def.id;p.muzzle=muzzlePosition(w);p.animated=[];
- // Only opted-in first-person rigs get a replacement. Default actor templates,
- // Blender exports, core joints and the established hand order stay unchanged.
+ const p=b.parts;p.coreCount=coreCount;p.weaponId=w.def.id;p.muzzle=muzzlePosition(w);
+ return prepareWeaponAnimation(p,w,options);
+}
+// Shared by complete first-person/native rigs and compact operator rigs. Native
+// exports keep the default single-magazine construction and original indices.
+export function prepareWeaponAnimation(p,w,options){
+ const coreCount=p.coreCount??0;p.animated=[];
  if(options?.reloadExchange&&magazineExchangeEligible(w)){
   const sourceToReplacement=new Map(),count=p.length;
   for(let i=0;i<count;i++)if(p[i].tag==='magazine'){
