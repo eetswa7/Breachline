@@ -1,4 +1,4 @@
-// First-person magazine exchange is a deterministic presentation of the existing
+// First-person and operator magazine exchange is a deterministic presentation of the existing
 // reload phase. It owns no ammunition, event crossings, clocks or world debris.
 const smooth=(a,b,value)=>{const t=Math.max(0,Math.min(1,(value-a)/(b-a)));return t*t*(3-2*t);};
 

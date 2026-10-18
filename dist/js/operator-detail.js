@@ -1,17 +1,27 @@
-import {weaponModel,muzzlePosition,animateWeaponParts} from './weapon-models.js?v=71';
-import {clamp} from './math.js?v=71';
-import {poseSegment,transformOperatorPose} from './actor-pose.js?v=71';
+import {weaponModel,muzzlePosition,animateWeaponParts,prepareWeaponAnimation} from './weapon-models.js?v=72';
+import {clamp} from './math.js?v=72';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=72';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 function template(w){
  const key=`${w.def.id}/${w.optic}/${w.barrel}/${w.grip}/${w.magazine}/${w.ammunition}`;
  if(templates.has(key))return templates.get(key);
  const model=weaponModel(w),volume=p=>p.w*p.h*p.d,minVolume=w.def.kind==='MELEE'?.000005:.00008;
- const pieces=model.filter(p=>!p.hidden&&!/hand/i.test(p.tag??'')&&p.surface!=='glass'&&volume(p)>minVolume)
-  .sort((a,b)=>volume(b)-volume(a)).slice(0,24);
+ const candidates=model.filter(p=>!p.hidden&&!/hand/i.test(p.tag??'')&&p.surface!=='glass'&&volume(p)>minVolume)
+  .sort((a,b)=>volume(b)-volume(a));
+ // Prioritise magazines, original joint anchors and representative moving
+ // surfaces inside the established 24-piece silhouette budget. Preserve source
+ // order so contact pivots and the largest action match the native rig.
+ const required=model.filter(p=>p.tag==='magazine');
+ for(const tag of ['loadShell','lid','belt','cylinder','slide','bolt','pump']){
+  const group=model.filter(p=>p.tag===tag);
+  if(group.length)required.push(group[0],group.reduce((a,b)=>volume(a)>volume(b)?a:b));
+ }
+ const selected=new Set(required.slice(0,24));
+ for(const p of candidates)if(selected.size<24)selected.add(p);
+ const pieces=model.filter(p=>selected.has(p));
  const grip=model.find(p=>p.tag==='rightHand'),support=model.find(p=>p.tag==='supportHand'||p.tag==='pumpHand');
- const magazine=model.filter(p=>p.tag==='magazine').sort((a,b)=>volume(b)-volume(a))[0],bolt=model.find(p=>p.tag==='bolt');
- const result={key,pieces,grip:grip??{x:.027,y:-.112,z:.1},support:support??grip,magazine,bolt,muzzle:model.muzzle};
+ const result={key,pieces,grip:grip??{x:.027,y:-.112,z:.1},support:support??grip,muzzle:model.muzzle};
  if(templates.size>=MAX_TEMPLATES)templates.delete(templates.keys().next().value);
  templates.set(key,result);return result;
 }
@@ -57,13 +67,6 @@ function arm(parts,upperIndex,foreIndex,handIndex,side,target,duck){
 function mount(out,p,c,s,y,recoil,dy=0,dz=0){
  const py=p.y+dy,pz=p.z+dz;out.x=.075+p.x;out.y=y+py*c-pz*s;out.z=-.23+py*s+pz*c+recoil;return out;
 }
-function smooth(a,b,value){const t=clamp((value-a)/(b-a),0,1);return t*t*(3-2*t);}
-function magazineTravel(w,r,out){
- const drop=smooth(.10,.28,r)*(1-smooth(.65,.83,r));
- if(w.def.id===4){out.x=-drop*.07;out.y=drop*.155;out.z=0;}
- else{out.x=-drop*.045;out.y=-drop*(w.def.kind==='LMG'?.23:.29);out.z=drop*.035;}
- return out;
-}
 export function operatorWeaponMount(actor,out={}){
  const w=actor.weapon,duck=actor.animDuck??(actor.crouched?.5:0);
  out.pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025;
@@ -74,11 +77,11 @@ export function nativeOperatorWeapon(actor,assets,time){
  const key=actor.carriedTemplate.key;
  if(actor.nativeWeaponKey!==key||actor.nativeWeaponLibrary!==assets){
   actor.nativeWeaponKey=key;actor.nativeWeaponLibrary=assets;
-  const parts=actor.nativeWeaponParts=weaponModel(actor.weapon);
+  const parts=actor.nativeWeaponParts=weaponModel(actor.weapon,{reloadExchange:true});
   actor.nativeWeaponGroups=assets.weaponGroups(parts,actor.weapon.def.id);
   // The authored cores keep their exact original local joint matrices. Optics,
   // muzzle devices and attachments remain under the same mounting transform.
-  actor.nativeWeaponAccessories=parts.slice(parts.coreCount).filter(p=>!/^(rightHand|supportHand|pumpHand)$/.test(p.tag??''));
+  actor.nativeWeaponAccessories=parts.slice(parts.coreCount).filter(p=>!p.reloadNativeCore&&!/^(rightHand|supportHand|pumpHand)$/.test(p.tag??''));
   for(const q of [...actor.nativeWeaponGroups,...actor.nativeWeaponAccessories])q.operatorWeapon=true;
  }
  animateWeaponParts(actor.nativeWeaponParts,actor.weapon,actor,time);
@@ -95,39 +98,46 @@ export function poseOperator(actor,duck){
   const t=template(w);actor.carriedTemplate=t;actor.carriedWeapon=w;actor.carriedOptic=w.optic;actor.carriedBarrel=w.barrel;actor.carriedGrip=w.grip;actor.carriedMagazine=w.magazine;actor.carriedAmmunition=w.ammunition;
   if(actor.carriedKey!==t.key){
    actor.carriedKey=t.key;actor.renderParts.length=actor.operatorBodyCount;actor.renderBase.length=actor.operatorBodyCount;
-   for(const [i,p]of t.pieces.entries()){
-    const q={...p,carried:true,actorFar:i<5,finishTile:undefined,tile:-1,rough:p.metal>.4?.4:.8,metal:p.metal>.4?.7:0};
+   const compact=t.pieces.map(p=>({...p}));
+   // A contact-only palm lets the shared sampler drive the existing body IK;
+   // no duplicate first-person hand or sleeve enters the actor draw list.
+   compact.push({...t.support,tag:'supportHand'});
+   actor.carriedParts=prepareWeaponAnimation(compact,w,{reloadExchange:true});
+   const far=new Set(t.pieces.slice().sort((a,b)=>b.w*b.h*b.d-a.w*a.h*a.d).slice(0,5));
+   for(let i=0;i<compact.length;i++){
+    const p=compact[i];if(p.tag==='supportHand')continue;
+    const source=p.reloadReplacement?t.pieces[p.reloadSourceIndex]:t.pieces[i];
+    const q={...p,carried:true,carriedIndex:i,actorFar:far.has(source),finishTile:undefined,tile:-1,rough:p.metal>.4?.4:.8,metal:p.metal>.4?.7:0};
     actor.renderParts.push(q);actor.renderBase.push({...q});
    }
   }
  }
  const t=actor.carriedTemplate,pose=actor.operatorPose??(actor.operatorPose={right:{},left:{}});
  const pitch=clamp(actor.pitch??0,-.65,.65)+Math.exp(-w.sinceShot*20)*.025,c=Math.cos(pitch),s=Math.sin(pitch);
- const recoil=Math.exp(-w.sinceShot*22)*.027,mountY=1.30-duck,r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
- const travel=pose.magazineTravel??(pose.magazineTravel={});magazineTravel(w,r,travel);
+ const recoil=Math.exp(-w.sinceShot*22)*.027,mountY=1.30-duck;
+ const compact=actor.carriedParts;
+ animateWeaponParts(compact,w,actor,actor.operatorMotion?.time??0);
  for(let i=actor.operatorBodyCount;i<actor.renderParts.length;i++){
-  const q=actor.renderParts[i],base=actor.renderBase[i];let dy=0,dz=0;
-  if(base.tag==='magazine'&&w.reloadLeft>0){dy=travel.y;dz=travel.z;}
-  if(base.tag==='pump')dz=Math.exp(-Math.abs(w.sinceShot-.23)*18)*.07;
-  mount(q,base,c,s,mountY,recoil,dy,dz);if(base.tag==='magazine'&&w.reloadLeft>0)q.x+=travel.x;q.pitch=(base.pitch??0)+pitch;q.hidden=false;
+  const q=actor.renderParts[i],local=compact[q.carriedIndex];
+  mount(q,local,c,s,mountY,recoil);
+  // Mount rotation is X-only. Compose it with the local Y-X-Z joint rotation
+  // rather than adding pitches when a magazine or cylinder rolls sideways.
+  if(!local.yaw){q.yaw=0;q.pitch=(local.pitch??0)+pitch;q.roll=local.roll??0;}
+  else{
+   const cy=Math.cos(local.yaw),sy=Math.sin(local.yaw),cp=Math.cos(local.pitch??0),sp=Math.sin(local.pitch??0),cr=Math.cos(local.roll??0),sr=Math.sin(local.roll??0);
+   const r12=-c*sp-s*cy*cp;
+   q.pitch=Math.asin(clamp(-r12,-1,1));
+   q.yaw=Math.abs(r12)<.9999999?Math.atan2(sy*cp,-s*sp+c*cy*cp):Math.atan2(-s*cp*sr-c*(-sy*cr+cy*sp*sr),cy*cr+sy*sp*sr);
+   q.roll=Math.abs(r12)<.9999999?Math.atan2(c*cp*sr+s*(-sy*cr+cy*sp*sr),c*cp*cr+s*(sy*sr+cy*sp*cr)):0;
+  }
+  q.hidden=!!local.hidden;
  }
  mount(pose.right,t.grip,c,s,mountY,recoil);mount(pose.left,t.support??t.grip,c,s,mountY,recoil);
- if(w.reloadLeft>0){
-  const target=pose.reloadTarget??(pose.reloadTarget={}),local=pose.reloadLocal??(pose.reloadLocal={});
-  const reach=smooth(.04,.21,r)*(1-smooth(.85,.99,r));
-  if(w.def.shellReload||w.def.id===5){
-   local.x=-.06;local.y=-.135-Math.sin(r*Math.PI)*.10;local.z=.018+Math.sin(r*Math.PI)*.055;
-  }else if(t.magazine){
-   local.x=t.magazine.x-.025+travel.x;local.y=t.magazine.y-.035+travel.y;local.z=t.magazine.z+.018+travel.z;
-  }else{local.x=-.035;local.y=-.16;local.z=.045;}
-  // The support hand holds the travelling magazine, then returns to the
-  // fore-end; empty reloads finish at the actual charging-handle position.
-  if(t.bolt&&w.reloadStartedEmpty!==false){
-   const rack=smooth(.79,.86,r)*(1-smooth(.93,.99,r));
-   local.x+=(t.bolt.x-.025-local.x)*rack;local.y+=(t.bolt.y-local.y)*rack;local.z+=(t.bolt.z-local.z)*rack;
-  }
-  mount(target,local,c,s,mountY,recoil);
-  pose.left.x+=(target.x-pose.left.x)*reach;pose.left.y+=(target.y-pose.left.y)*reach;pose.left.z+=(target.z-pose.left.z)*reach;
+ const contact=compact.reloadRig.contact;
+ if(contact.weight>0){
+  const target=pose.reloadTarget??(pose.reloadTarget={});
+  mount(target,contact,c,s,mountY,recoil);
+  pose.left.x+=(target.x-pose.left.x)*contact.weight;pose.left.y+=(target.y-pose.left.y)*contact.weight;pose.left.z+=(target.z-pose.left.z)*contact.weight;
  }
  arm(actor.renderParts,15,17,19,1,pose.right,duck);arm(actor.renderParts,14,16,18,-1,pose.left,duck);
 }

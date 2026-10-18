@@ -1,3 +1,19 @@
+# Release 72: operator exchange and component contacts
+
+- Extended removed/replacement magazine presentation to native and simplified
+  operators, using existing native meshes and the shared phase/contact sampler.
+- Replaced approximate operator magazine travel and shell/cylinder/feed/action
+  targets with shared component animation. Compact rigs retain at most 24
+  original render pieces and a contact-only palm; replacement roles alternate.
+- Runtime `f55d6ba` is pushed. Required `npm run verify` passed once: 74/74 core
+  tests and 88-module packaging/offline checks. Game JavaScript grows 699 bytes;
+  native/media/editable payloads have no Git diff.
+- [Release 72 scope and limits](docs/ART_RELEASE72.md),
+  [recorded verification](docs/validation-release72.json) and the
+  [updated checklist](docs/OVERHAUL_CHECKLIST.md) retain gameplay-image,
+  natural grasp, professional quality and iPhone acceptance as open. Further
+  required gameplay review conflicts with the current no-browser check policy.
+
 # Release 68: Blacksite hall construction and interior
 
 - Replaced 36 central-hall wall render proxies with four complete original

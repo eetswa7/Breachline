@@ -1,0 +1,43 @@
+{
+  "release": 72,
+  "date": "2026-10-18",
+  "baseline_commit": "e2a4ab8ceba70a4f7442cd45b754687765998b81",
+  "continuation_checkpoint": "f7c7307",
+  "runtime_source_commit": "f55d6ba050e9704e0fdb83eea916b8fe546e1c0e",
+  "content_sha256": "a83265d8ada9d7af6e02d42c30bcdd95f548ddbf4a0ace355c03374548185fa5",
+  "scope": [
+    "Native and simplified operator removed/replacement magazine presentation",
+    "Shared component phase animation and support-hand contact targets",
+    "Bounded compact rig and native replacement primitive filtering"
+  ],
+  "package_observations": {
+    "game_javascript_modules": 84,
+    "game_javascript_bytes": 704164,
+    "previous_game_javascript_bytes": 703465,
+    "javascript_delta_bytes": 699,
+    "asset_entries": 160,
+    "media_and_editable_payloads": "Unchanged in Git; no binary audit performed",
+    "compact_source_piece_limit": 24,
+    "compact_contact_only_palms": 1,
+    "compact_replacement_limit": "One per selected magazine source part; only one role visible at a time"
+  },
+  "verification": {
+    "command": "npm run verify",
+    "local_runs": 1,
+    "exit_code": 0,
+    "tests": 74,
+    "passed": 74,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "packaged_javascript_modules": 88,
+    "packaging_result": "Validated JavaScript modules, geometry winding, local assets and Home Screen manifest.",
+    "coverage_limit": "Existing core suite does not establish every operator exchange path, native/fallback parity, grasp or clipping."
+  },
+  "not_performed": [
+    "Additional/retired suites, browser checks, shader checks, asset audits or profiles",
+    "Actual gameplay-image and professional animation acceptance",
+    "Physical iPhone frame/memory/thermal or listening acceptance"
+  ],
+  "remaining_limits": "Rigid operator hands and existing reach clamp; no physical world-magazine inventory/contacts; native/far transitions and professional appearance unverified. Required further gameplay review conflicts with current verification policy."
+}

@@ -1,15 +1,15 @@
-import {Game,emptyInput} from './engine.js?v=71';
-import {Renderer} from './three-renderer.js?v=71';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=71';
-import {TouchInput} from './input.js?v=71';
-import {AudioSystem} from './audio.js?v=71';
-import {SaveStore} from './save.js?v=71';
-import {Interface,$} from './ui.js?v=71';
-import {Weapon} from './weapons.js?v=71';
-import {opticMagnification} from './aim.js?v=71';
-import {FramePacer} from './frame-pacer.js?v=71';
-import {BenchmarkController} from './benchmark.js?v=71';
-import {updateAimAssist} from './aim-assist.js?v=71';
+import {Game,emptyInput} from './engine.js?v=72';
+import {Renderer} from './three-renderer.js?v=72';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=72';
+import {TouchInput} from './input.js?v=72';
+import {AudioSystem} from './audio.js?v=72';
+import {SaveStore} from './save.js?v=72';
+import {Interface,$} from './ui.js?v=72';
+import {Weapon} from './weapons.js?v=72';
+import {opticMagnification} from './aim.js?v=72';
+import {FramePacer} from './frame-pacer.js?v=72';
+import {BenchmarkController} from './benchmark.js?v=72';
+import {updateAimAssist} from './aim-assist.js?v=72';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={mode:'tdm',map:14,difficulty:'regular',loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
