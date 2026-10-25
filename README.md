@@ -1,6 +1,15 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 71.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 72.** 30 weapons, 16 maps and 11 modes.
+
+## Release 72: operator reload exchange
+
+Operators now remove and retrieve separate magazines in native and simplified
+rendering. Shared component timing also drives their support-hand contacts,
+shells, cylinders, feed covers and actions. Existing meshes and media are reused;
+compact carried detail stays bounded. All 74 core tests and the 88-module
+packaging/offline check pass. [Scope, costs and acceptance limits](docs/ART_RELEASE72.md).
+Actual gameplay review, natural grasp and physical iPhone acceptance remain open.
 
 ## Release 71: first-person magazine exchange
 
