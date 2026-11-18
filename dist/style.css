@@ -98,3 +98,5 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
   border-color: var(--accent);
   color: var(--accent);
 }
+
+.result-xp-breakdown{margin-top:16px}

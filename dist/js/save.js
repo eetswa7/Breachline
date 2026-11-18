@@ -1,11 +1,11 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=83';
-import {MODES} from './modes.js?v=83';
-import {MAPS} from './maps.js?v=83';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=84';
+import {MODES} from './modes.js?v=84';
+import {MAPS} from './maps.js?v=84';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){
  if(!result||!MODES.some(m=>m.id===result.mode)||!Number.isInteger(result.map)||!MAPS[result.map])return null;
- return {mode:result.mode,map:result.map,difficulty:['recruit','regular','veteran'].includes(result.difficulty)?result.difficulty:'regular',completedAt:Number.isFinite(completedAt)&&completedAt>0?Math.min(completedAt,8640000000000000):null,outcome:result.draw?'draw':result.win?'win':'loss',kills:count(result.kills),deaths:count(result.deaths),headshots:count(result.headshots),accuracy:count(result.accuracy,100),xp:count(result.xp),streak:count(result.streak),time:count(result.time,86400)};
+ return {mode:result.mode,map:result.map,difficulty:['recruit','regular','veteran'].includes(result.difficulty)?result.difficulty:'regular',completedAt:Number.isFinite(completedAt)&&completedAt>0?Math.min(completedAt,8640000000000000):null,outcome:result.draw?'draw':result.win?'win':'loss',kills:count(result.kills),deaths:count(result.deaths),headshots:count(result.headshots),accuracy:count(result.accuracy,100),xp:count(result.xp),objectiveXP:count(result.xpBreakdown?.objective??result.objectiveXP),streak:count(result.streak),time:count(result.time,86400)};
 }
 export function matchSetup(value) {
  return {

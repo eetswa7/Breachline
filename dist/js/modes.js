@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=83';
-import {distance} from './math.js?v=83';
+import {GUN_ORDER} from './weapons.js?v=84';
+import {distance} from './math.js?v=84';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -20,6 +20,11 @@ export const TAG_LIFETIME = 30;
 export const MAX_TAGS = 32;
 export const FLAG_RETURN_SECONDS = 25;
 
+const OBJECTIVE_XP={
+ domination:{capture:150},frontline:{capture:200},ctf:{capture:300,return:100},
+ confirmed:{confirm:100,deny:75},hardpoint:{hold:10},hill:{hold:12},
+ sabotage:{recover:75,plant:225,defuse:300}
+};
 export class MatchRules {
  constructor(mode,arena) {
   this.mode=MODES.find(m=>m.id===mode)||MODES[0];
@@ -47,6 +52,9 @@ export class MatchRules {
   for(const base of arena.flagBases??[])if(this.mode.id==='ctf'){
    const flag=this.flags.find(f=>f.team===base.team);if(flag)Object.assign(flag,{x:base.x,y:base.y,z:base.z,homeX:base.x,homeY:base.y,homeZ:base.z});
   }
+ }
+ awardObjective(actor,action,amount=1){
+  actor.objectiveXP+=OBJECTIVE_XP[this.mode.id][action]*amount;
  }
  get attackingTeam(){return Math.floor((this.round-1)/3)%2;}
  get respawns(){return !['sabotage','elimination'].includes(this.mode.id);}
@@ -121,7 +129,9 @@ export class MatchRules {
     const points=Math.floor(this.tick+1e-9);
     if(points>0) {
      this.tick=Math.max(0,this.tick-points);
-     this.scores[owner]=Math.min(this.mode.limit,this.scores[owner]+points);
+     const awarded=Math.min(points,this.mode.limit-this.scores[owner]);
+     this.scores[owner]+=awarded;
+     for(const actor of engine.actors)if(!actor.dead&&actor.team===owner&&distance(actor,p)<4.2&&Math.abs(actor.y-p.y)<2.6)this.awardObjective(actor,'hold',awarded);
      if(this.scores[owner]>=this.mode.limit){this.finish(owner);return;}
     }
    }
@@ -150,6 +160,7 @@ export class MatchRules {
    if(!collector)continue;
    this.tags.splice(i,1);
    const denied=collector.team===tag.team;
+   this.awardObjective(collector,denied?'deny':'confirm');
    if(denied)collector.denies=(collector.denies??0)+1;
    else {
     collector.confirms=(collector.confirms??0)+1;
@@ -171,7 +182,7 @@ export class MatchRules {
    point.owner=owner?.id??-1;point.progress=owner?1:0;point.capturing=point.owner;
    if(owner){
     this.tick+=step;const score=Math.floor(this.tick+1e-9);
-    if(score){this.tick=Math.max(0,this.tick-score);owner.hillScore=Math.min(this.mode.limit,(owner.hillScore??0)+score);if(owner.hillScore>=this.mode.limit){this.finish(owner.id);return;}}
+    if(score){this.tick=Math.max(0,this.tick-score);const awarded=Math.min(score,this.mode.limit-(owner.hillScore??0));owner.hillScore=(owner.hillScore??0)+awarded;this.awardObjective(owner,'hold',awarded);if(owner.hillScore>=this.mode.limit){this.finish(owner.id);return;}}
    }
    remaining-=step;this.rotationRemaining-=step;
    if(this.rotationRemaining<=1e-8){
@@ -201,7 +212,7 @@ export class MatchRules {
   const team=this.frontlineProgress>0?0:1,old=this.activePoint;
   point.owner=team;point.progress=0;point.capturing=-1;point.contested=false;this.frontlineProgress=0;
   this.scores=[this.points.filter(p=>p.owner===0).length,this.points.filter(p=>p.owner===1).length];
-  for(const actor of occupants)if(actor.team===team)actor.captures=(actor.captures??0)+1;
+  for(const actor of occupants)if(actor.team===team){actor.captures++;this.awardObjective(actor,'capture');}
   engine.emit('capture',{text:`${team===0?'BLUE':'RED'} SECURED ${point.name} · LINE ADVANCED`,source:team,position:{x:point.x,y:point.y,z:point.z}});
   if(team===0&&old===this.points.length-1||team===1&&old===0){this.finish(team);return;}
   this.activePoint+=team===0?1:-1;
@@ -231,12 +242,13 @@ export class MatchRules {
    const own=this.flags.find(f=>f.team===actor.team),enemy=this.flags.find(f=>f.team!==actor.team);if(!own||!enemy)continue;
    if(!own.atBase&&own.carrier===null&&near(actor,own,1.8)){
     own.x=own.homeX;own.y=own.homeY;own.z=own.homeZ;own.atBase=true;own.age=0;
+    this.awardObjective(actor,'return');
     engine.emit('capture',{text:'FLAG RETURNED',source:actor.team,actor:actor.id,position:{x:own.x,y:own.y,z:own.z}});
    }
    const carried=this.flags.find(f=>f.carrier===actor.id);
    if(carried){
     if(own.atBase&&distance(actor,own)<2.2&&Math.abs(actor.y-own.y)<2.5){
-     this.scores[actor.team]++;actor.captures=(actor.captures??0)+1;
+     this.scores[actor.team]++;actor.captures++;this.awardObjective(actor,'capture');
      engine.emit('capture',{text:`${actor.team===0?'BLUE':'RED'} FLAG CAPTURED`,source:actor.team,actor:actor.id,position:{x:own.x,y:own.y,z:own.z}});
      carried.x=carried.homeX;carried.y=carried.homeY;carried.z=carried.homeZ;carried.carrier=null;carried.atBase=true;carried.age=0;
      if(this.scores[actor.team]>=this.mode.limit){this.finish(actor.team);return;}
@@ -268,14 +280,15 @@ export class MatchRules {
   if(this.mode.id==='domination') {
    for(const p of this.points) {
     const count=[0,0];
-    for(const a of engine.actors)if(!a.dead&&distance(a,p)<4.2&&Math.abs(a.y-p.y)<2.6)count[a.team]++;
+    const occupants=engine.actors.filter(a=>!a.dead&&distance(a,p)<4.2&&Math.abs(a.y-p.y)<2.6);
+    for(const a of occupants)count[a.team]++;
     p.contested=count[0]>0&&count[1]>0;
     if(!p.contested&&(count[0]||count[1])) {
      const team=count[0]?0:1;
      if(p.owner!==team) {
       if(p.capturing!==team){p.capturing=team;p.progress=0;}
       p.progress+=dt*Math.min(2,count[team])/5;
-      if(p.progress>=1){p.owner=team;p.progress=0;engine.emit('capture',{text:`${p.name} captured`,source:team});}
+      if(p.progress>=1){p.owner=team;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
      }else p.progress=0;
     }else if(!p.contested)p.progress=Math.max(0,p.progress-dt*.1);
    }
@@ -303,7 +316,7 @@ export class MatchRules {
      engine.arena.visible(engine.eye(actor),{...charge,y:charge.y+.3}));
     const collector=nearby.reduce((closest,actor)=>!closest||distance(actor,charge)<distance(closest,charge)?actor:closest,null);
     if(collector){
-     this.chargeCarrier=collector.id;this.droppedCharge=null;
+     this.chargeCarrier=collector.id;this.droppedCharge=null;this.awardObjective(collector,'recover');
      engine.emit('capture',{text:'CHARGE RECOVERED',source:collector.team,actor:collector.id,position:charge});
     }
    }
@@ -314,6 +327,7 @@ export class MatchRules {
     if(this.interactor!==chosen.id){this.siteProgress=0;for(const a of engine.actors)a.interactProgress=0;}
     this.interactor=chosen.id;this.siteProgress+=dt/(this.planted?5:3);chosen.interactProgress=this.siteProgress;
     if(this.siteProgress>=1) {
+     this.awardObjective(chosen,this.planted?'defuse':'plant');
      if(this.planted)this.roundEnd(chosen.team,'CHARGE DEFUSED');
      else{this.planted=true;this.chargeCarrier=null;this.bombSite=site;this.bombTime=35;engine.emit('capture',{text:'CHARGE ARMED · DEFEND IT',source:chosen.team,position:this.points[site]});}
      chosen.interactProgress=0;this.siteProgress=0;this.interactor=null;

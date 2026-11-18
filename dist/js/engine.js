@@ -1,18 +1,18 @@
-import {Arena,MAPS} from './maps.js?v=83';
-import {Navigation} from './navigation.js?v=83';
-import {SpawnDirector} from './spawns.js?v=83';
-import {MatchRules} from './modes.js?v=83';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=83';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=83';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=83';
-import {traceBullet} from './ballistics.js?v=83';
-import {beginVault,advanceVault} from './traversal.js?v=83';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=83';
+import {Arena,MAPS} from './maps.js?v=84';
+import {Navigation} from './navigation.js?v=84';
+import {SpawnDirector} from './spawns.js?v=84';
+import {MatchRules} from './modes.js?v=84';
+import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=84';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=84';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=84';
+import {traceBullet} from './ballistics.js?v=84';
+import {beginVault,advanceVault} from './traversal.js?v=84';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=84';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
 export class Actor {
- constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.reset({x:0,y:0,z:0},0);}
+ constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.objectiveXP=0;this.reset({x:0,y:0,z:0},0);}
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
@@ -187,5 +187,12 @@ export class Game {
   for(const a of this.actors){let d=Math.hypot(a.x-g.x,a.y+.8-g.y,a.z-g.z);if(a.dead||d>radius)continue;if(!this.arena.visible({...g,y:g.y+.2},{x:a.x,y:a.y+.8,z:a.z}))continue;this.damage(a,damage*(1-d/radius),owner,false);}
  }
  spawnBot(){if(this.actors.length>=Math.max(12,this.teamSize*2))return;const id=this.actors.length,a=new Actor(id,1,id%6);this.actors.push(a);this.spawn(a);}
- result(){const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);return{mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,kills:p.kills,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,xp:100+p.kills*100+this.headshots*25+(win?350:0),streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};}
+ result(){
+  const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
+  const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,objective:p.objectiveXP,victory:win?350:0};
+  const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
+  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,
+   kills:p.kills,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
+   xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};
+ }
 }

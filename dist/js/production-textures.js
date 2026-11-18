@@ -1,6 +1,6 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {PRODUCTION_ASSETS} from './production-files.js?v=83';
-import {textureBytes} from './graphics-profiler.js?v=83';
+import {PRODUCTION_ASSETS} from './production-files.js?v=84';
+import {textureBytes} from './graphics-profiler.js?v=84';
 
 // Upload work follows byte cost, since six large uncompressed normal maps are
 // far more expensive than six small ASTC maps. The loading overlay remains
