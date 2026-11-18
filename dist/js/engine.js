@@ -1,22 +1,22 @@
-import {Arena,MAPS} from './maps.js?v=84';
-import {Navigation} from './navigation.js?v=84';
-import {SpawnDirector} from './spawns.js?v=84';
-import {MatchRules} from './modes.js?v=84';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=84';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=84';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=84';
-import {traceBullet} from './ballistics.js?v=84';
-import {beginVault,advanceVault} from './traversal.js?v=84';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=84';
+import {Arena,MAPS} from './maps.js?v=85';
+import {Navigation} from './navigation.js?v=85';
+import {SpawnDirector} from './spawns.js?v=85';
+import {MatchRules} from './modes.js?v=85';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=85';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=85';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=85';
+import {traceBullet} from './ballistics.js?v=85';
+import {beginVault,advanceVault} from './traversal.js?v=85';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=85';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
 export class Actor {
- constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.objectiveXP=0;this.reset({x:0,y:0,z:0},0);}
+ constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.assists=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.objectiveXP=0;this.reset({x:0,y:0,z:0},0);}
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {
@@ -124,7 +124,7 @@ export class Game {
     const eye=this.eye(other),along=(eye.x-origin.x)*dir.x+(eye.y-origin.y)*dir.y+(eye.z-origin.z)*dir.z;
     if(along>0&&along<t-.4&&pointSegment(eye,origin,impact)<1.45)other.suppression=2;
    }
-   if(hit&&this.rules.enemies(a,hit)){this.damage(hit,w.damage(t,part)*result.scale,a,part==='head');anyHit=true;head=head||part==='head';this.emit('blood',{position:impact,value:part==='head'?8:5});}
+   if(hit&&this.rules.enemies(a,hit)){this.damage(hit,w.damage(t,part)*result.scale,a,part==='head',w.def);anyHit=true;head=head||part==='head';this.emit('blood',{position:impact,value:part==='head'?8:5});}
    for(const contact of result.impacts){
     const b=contact.block,normal=this.impactNormal(contact.position,b);
     // A shallow strike sheds/glances off hard cover. Its audible deflection is
@@ -144,17 +144,32 @@ export class Game {
   return true;
  }
  impactNormal(p,b){let axis='x',sign=1,min=Infinity;for(const k of ['x','y','z']){const h=b[k==='x'?'w':k==='y'?'h':'d']/2,d=Math.abs(Math.abs(p[k]-b[k])-h);if(d<min){min=d;axis=k;sign=p[k]>b[k]?1:-1;}}return{x:axis==='x'?sign:0,y:axis==='y'?sign:0,z:axis==='z'?sign:0};}
- damage(victim,amount,killer,headshot=false){
+ damage(victim,amount,killer,headshot=false,source=killer?.weapon.def){
   if(victim.dead||victim.spawnProtection>0||(victim.id===0&&this.debug.god)||this.rules.phase!=='playing')return;
   if(killer&&killer.id!==victim.id&&!this.rules.enemies(killer,victim))return;
+  if(this.rules.mode.teams&&killer&&victim.team!==killer.team){
+   const previous=victim.damageContributors.get(killer.id);
+   const recent=previous&&this.time-previous.at<=8?previous.amount:0;
+   victim.damageContributors.set(killer.id,{amount:recent+Math.min(victim.health,amount),at:this.time});
+  }
   victim.health-=amount;victim.hitReact=Math.min(.16,(victim.hitReact??0)+amount/600);victim.lastDamage=this.time;
   if(victim.id===0){this.damageYaw=killer?Math.atan2(killer.x-victim.x,-(killer.z-victim.z)):victim.yaw;this.emit('hurt',{value:amount,angle:this.damageYaw});}
   if(victim.health>0)return;
   victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;this.rules.onDeath(victim,this);
   if(victim.id===0)this.lastKiller=killer?.name??'FALL';
   if(killer&&killer.id!==victim.id){killer.kills++;killer.streak++;killer.bestStreak=Math.max(killer.bestStreak,killer.streak);
-   if(killer.id===0){this.weaponKills[killer.weapon.def.id]=(this.weaponKills[killer.weapon.def.id]??0)+1;if(headshot)this.headshots++;}
-   const weapon=killer.weapon.def.name;
+   if(killer.id===0){
+    if(source?.id!==undefined)this.weaponKills[source.id]=(this.weaponKills[source.id]??0)+1;
+    if(headshot)this.headshots++;
+   }
+   for(const [id,contribution] of victim.damageContributors){
+    if(id===killer.id||contribution.amount<25||this.time-contribution.at>8)continue;
+    const ally=this.actors.find(actor=>actor.id===id&&actor.team===killer.team);
+    if(!ally)continue;
+    ally.assists++;
+    if(ally===this.player)this.emit('assist',{source:id,target:victim.id,text:'ELIMINATION ASSIST'});
+   }
+   const weapon=source?.name??'ENVIRONMENT';
    if(this.rules.mode.id==='gun'){killer.gunStage++;if(killer.gunStage<GUN_ORDER.length){this.emit('weaponFoleyCancel',{source:killer.id,weapon:killer.weapons[0].def.id});killer.weapons[0]=new Weapon(GUN_ORDER[killer.gunStage]);killer.slot=0;killer.switchLeft=.28;}}
    this.rules.onKill(killer,victim,this);this.emit('kill',{source:killer.id,target:victim.id,text:`${killer.name}  ›  ${victim.name}`,weapon,headshot,streak:killer.streak,position:{x:victim.x,y:victim.y,z:victim.z}});
    for(const ally of this.actors)if(this.rules.mode.teams&&ally.id!==victim.id&&!ally.dead&&ally.team===victim.team&&distance(ally,victim)<12){ally.lastKnown={x:killer.x,y:killer.y,z:killer.z};ally.memory=5;ally.pathClock=0;}
@@ -163,7 +178,7 @@ export class Game {
  melee(a){
   if(a.knifeCooldown>0||a.dead||this.paused||this.rules.phase!=='playing')return false;a.knifeCooldown=.65;a.weapon.cooldown=.65;a.visualKick=.2;this.emit('melee',{source:a.id});
   let hit=null,best=2.2;for(const t of this.actors)if(!t.dead&&this.rules.enemies(a,t)){const d=distance(a,t),bearing=Math.atan2(t.x-a.x,-(t.z-a.z));if(d<best&&Math.abs(Math.atan2(Math.sin(bearing-a.yaw),Math.cos(bearing-a.yaw)))<.55&&this.canSee(a,t)){hit=t;best=d;}}
-  if(hit){this.damage(hit,125,a,false);if(a.id===0)this.emit('hit');}return true;
+  if(hit){this.damage(hit,125,a,false,WEAPONS[12]);if(a.id===0)this.emit('hit');}return true;
  }
  throwGrenade(a){
   if(a.dead||a.grenades<=0||this.grenades.length>=16||this.rules.mode.id==='gun')return;a.grenades--;const d=direction(a.yaw,a.pitch+.22),eye=this.eye(a);this.grenades.push({...eye,vx:d.x*15,vy:d.y*15+2,vz:d.z*15,fuse:a.equipment==='smoke'?1.6:2.3,owner:a.id,kind:a.equipment});this.emit('throw',{source:a.id});
@@ -184,15 +199,15 @@ export class Game {
    this.emit('flash',{position:{...g}});return;
   }
   this.emit('explosion',{position:{x:g.x,y:g.y,z:g.z},value:radius,environmentalFire:!!g.breakable});const owner=this.actors.find(a=>a.id===g.owner)??null;
-  for(const a of this.actors){let d=Math.hypot(a.x-g.x,a.y+.8-g.y,a.z-g.z);if(a.dead||d>radius)continue;if(!this.arena.visible({...g,y:g.y+.2},{x:a.x,y:a.y+.8,z:a.z}))continue;this.damage(a,damage*(1-d/radius),owner,false);}
+  for(const a of this.actors){let d=Math.hypot(a.x-g.x,a.y+.8-g.y,a.z-g.z);if(a.dead||d>radius)continue;if(!this.arena.visible({...g,y:g.y+.2},{x:a.x,y:a.y+.8,z:a.z}))continue;this.damage(a,damage*(1-d/radius),owner,false,{name:g.breakable?'ENVIRONMENT':'FRAG GRENADE'});}
  }
  spawnBot(){if(this.actors.length>=Math.max(12,this.teamSize*2))return;const id=this.actors.length,a=new Actor(id,1,id%6);this.actors.push(a);this.spawn(a);}
  result(){
   const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
-  const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,objective:p.objectiveXP,victory:win?350:0};
+  const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,objective:p.objectiveXP,victory:win?350:0};
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
   return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,
-   kills:p.kills,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
+   kills:p.kills,assists:p.assists,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
    xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};
  }
 }

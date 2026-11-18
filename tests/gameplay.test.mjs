@@ -28,7 +28,21 @@ test('frag damage falls off and respects cover',()=>{const{g,p,t}=duel();g.explo
 test('smoke blocks sight and expires; flash affects visible combatants',()=>{const{g,p,t}=duel();assert(g.canSee(p,t));g.explode({x:0,y:1,z:-4,owner:0,kind:'smoke'});g.smokes[0].age=2;assert(!g.canSee(p,t));g.updateEquipment(17);assert.equal(g.smokes.length,0);g.explode({x:0,y:1.4,z:-2,owner:0,kind:'flash'});assert(p.flashed>0);});
 test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t}=duel();g.damage(p,120,t);assert(p.dead);assert.equal(p.deaths,1);advance(g,3.1);assert(!p.dead);assert(p.spawnProtection>0);g.damage(p,100,t);assert.equal(p.health,100);});
 test('paused and finished simulations cannot consume ammunition or time',()=>{const{g,p}=duel();g.paused=true;g.update(1/60,{...emptyInput(),fire:true});assert.equal(g.time,0);assert.equal(p.weapon.ammo,30);assert(!g.shoot(p));g.paused=false;g.rules.finish(0);g.update(1/60);assert.equal(g.time,0);});
-test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa']){const{g,p,t}=duel(mode);for(let i=0;i<g.rules.mode.limit;i++){t.health=100;t.spawnProtection=0;g.damage(t,200,p);}assert.equal(g.rules.phase,'finished');assert.equal(g.rules.winner,0);}});
+test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa']){const{g,p,t}=duel(mode);
+ if(mode==='tdm'){
+  const ally=Object.assign(Object.create(Object.getPrototypeOf(p)),p,{id:1});
+  g.actors.push(ally);
+  g.damage(t,30,ally);
+  g.damage(t,100,p,false,{name:'FRAG GRENADE'});
+  assert.equal(ally.assists,1);
+  assert.deepEqual(g.result().weaponKills,{});
+  assert.equal(g.events.find(event=>event.type==='kill').weapon,'FRAG GRENADE');
+  t.reset({x:0,y:0,z:-8},Math.PI);
+  t.spawnProtection=0;
+  g.damage(t,100,p);
+  assert.equal(ally.assists,1);
+ }
+ for(let i=p.kills;i<g.rules.mode.limit;i++){t.health=100;t.spawnProtection=0;g.damage(t,200,p);}assert.equal(g.rules.phase,'finished');assert.equal(g.rules.winner,0);}});
 
 test('domination captures, contests, awards points and finishes',()=>{const{g,p,t}=duel('domination'),q=g.rules.points[0];p.x=q.x;p.z=q.z;t.x=50;t.z=50;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(q.owner,0);g.rules.scores[0]=149;g.rules.tick=.99;g.rules.update(.03,g);assert.equal(g.rules.phase,'finished');const d=duel('domination'),c=d.g.rules.points[0];d.p.x=d.t.x=c.x;d.p.z=d.t.z=c.z;d.g.rules.update(1,d.g);assert(c.contested);assert.equal(c.progress,0);});
 test('sabotage can recover, plant, defuse, switch teams and start another round',()=>{

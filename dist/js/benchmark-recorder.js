@@ -1,5 +1,5 @@
-import {BENCHMARK_METHODOLOGY} from './benchmark-methodology.js?v=84';
-import {FrameStats,TimingStats,round} from './benchmark-stats.js?v=84';
+import {BENCHMARK_METHODOLOGY} from './benchmark-methodology.js?v=85';
+import {FrameStats,TimingStats,round} from './benchmark-stats.js?v=85';
 
 export const BENCHMARK_SCHEMA='breachline.benchmark.v1';
 export const LIMITS=Object.freeze({contexts:64,raw:4096,windows:720,spikes:512,transitions:512,gpu:4096,activeSeconds:7200});
