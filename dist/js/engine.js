@@ -1,16 +1,16 @@
-import {SPECIALTIES} from './specialties.js?v=109';
-import {Arena,MAPS} from './maps.js?v=109';
-import {Navigation} from './navigation.js?v=109';
-import {SpawnDirector} from './spawns.js?v=109';
-import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=109';
-import {Convoy} from './convoy.js?v=109';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=109';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=109';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=109';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=109';
-import {traceBullet} from './ballistics.js?v=109';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=109';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=109';
+import {SPECIALTIES} from './specialties.js?v=110';
+import {Arena,MAPS} from './maps.js?v=110';
+import {Navigation} from './navigation.js?v=110';
+import {SpawnDirector} from './spawns.js?v=110';
+import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=110';
+import {Convoy} from './convoy.js?v=110';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=110';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=110';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=110';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=110';
+import {traceBullet} from './ballistics.js?v=110';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=110';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=110';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false,light:false,ability:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -33,16 +33,16 @@ export class Game {
    this.config.raidGear=startingWeapon?raidWeaponRecord(startingWeapon):null;
    this.rules.raid=new Raid(this.arena,this.nav,plan);this.rules.time=plan.time;
   }this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
-  this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
+  this.operation=options.operation??null;if(this.operation?.time)this.rules.time=this.operation.time;this.reinforcements=this.operation?.tickets.slice()??null;
   this.time=0;this.abilityReadyAt=0;this.adrenalineUntil=0;this.scanUntil=0;this.scanMarks=[];this.paused=false;this.events=[];this.grenades=[];this.deployables=[];this.fieldWeapons=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
   this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[],decision:null,support:null}:null;
   const raid=!!this.rules.raid;
-  this.teamSize=this.rules.warfront?(this.arena.info.size>=55?12:6):survival||raid?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
+  this.teamSize=this.operation?.roster?.[0]??(this.rules.warfront?(this.arena.info.size>=55?12:6):survival||raid?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4);
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
   // simulation randomness stable as the weapon catalogue grows.
-  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1).roles.length:raid?this.teamSize+this.rules.raid.plan.hostiles:this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
+  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1).roles.length:raid?this.teamSize+this.rules.raid.plan.hostiles:this.teamSize+(this.operation?.roster?.[1]??this.teamSize));i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
   this.player=this.actors[0];
   if(this.rules.mode.id==='gun')for(const a of this.actors)a.weapons=[new Weapon(GUN_ORDER[0]),new Weapon(10)];
   if(survival)this.startSurvivalWave();else this.resetRound();
@@ -459,7 +459,7 @@ export class Game {
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
    const exhausted=this.reinforcements.map((tickets,team)=>tickets===0&&!alive[team]);
-   if(this.operation?.id==='siege')exhausted[1]=false;
+   if(this.operation?.id==='siege'||this.operation?.evacuation)exhausted[1]=false;
    if(exhausted.some(Boolean))this.rules.finish(exhausted[0]===exhausted[1]?-1:exhausted[0]?1:0);
   }
  }

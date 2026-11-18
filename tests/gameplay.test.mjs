@@ -236,6 +236,14 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  escort.p.x+=100;
  escort.g.rules.update(2,escort.g);
  assert.equal(escort.g.rules.winner,1);
+ const evacuationGame=new Game({mode:'convoy',map:16},{seed:891,operation:{evacuation:true,time:180,roster:[6,9],tickets:[34,20]}});
+ assert.equal(evacuationGame.actors.length,15);
+ assert.equal(evacuationGame.rules.time,180);
+ evacuationGame.rules.convoy.progress=evacuationGame.rules.convoy.length;
+ evacuationGame.rules.update(0,evacuationGame);
+ assert.equal(evacuationGame.rules.winner,0);
+ assert.equal(evacuationGame.rules.round,1);
+
 
  const survival=new Game({mode:'survival',map:0},{seed:891});
  survival.arena.visible=()=>true;

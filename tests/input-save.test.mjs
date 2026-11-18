@@ -38,6 +38,17 @@ test('saved loadouts, settings and progression round-trip',()=>{let data='';cons
   assert(resumed.finish({...record,map:attempt.map,mode:attempt.mode,operation:attempt,win:false}));
  }
  assert.equal(new SaveStore(storage).data.operation.status,'lost');
+ assert(resumed.selectCampaign('floodgate'));
+ resumed.beginOperation('recruit');
+ const heat=operationBattle(resumed.data.operation,'heat');
+ assert(resumed.finish({...record,map:heat.map,mode:heat.mode,operation:heat}));
+ const freight=operationBattle(resumed.data.operation,'freight');
+ assert(resumed.finish({...record,map:freight.map,mode:freight.mode,operation:freight}));
+ const evacuation=operationBattle(resumed.data.operation,'evacuation');
+ assert.deepEqual(evacuation.tickets,[34,20]);
+ assert.equal(new SaveStore(storage).data.operation.campaign,'floodgate');
+ assert(resumed.selectCampaign('blacksite'));
+ assert.equal(resumed.data.operation.status,'lost');
  const raidResult={mode:'raid',map:0,difficulty:'regular',xp:550,win:true,kills:0,deaths:0,streak:0,weaponKills:{},salvage:400,raidPayout:800,raidPlan:'contract',raidRecovered:[{weapon:3,attachments:{optic:2},ammo:4,reserve:12}]};
  assert(resumed.finish(raidResult));
  assert.equal(resumed.data.raidWallet,800);

@@ -1,8 +1,8 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=109';
-import {MODES} from './modes.js?v=109';
-import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=109';
-import {MAPS} from './maps.js?v=109';
-import {restoreOperation,finishOperationBattle} from './operation.js?v=109';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=110';
+import {MODES} from './modes.js?v=110';
+import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=110';
+import {MAPS} from './maps.js?v=110';
+import {CAMPAIGNS,restoreOperation,finishOperationBattle} from './operation.js?v=110';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){
@@ -21,7 +21,8 @@ export const LOADOUT_SLOTS=3;
 const KEY='breachline-save-v1';
 export const DEFAULT_SETTINGS={controllerSensitivity:1,controllerADSSensitivity:.55,controllerDeadzone:.14,controllerInvertY:false,controlProfile:'simple',aimFire:true,aimAssist:true,autoReload:true,quality:'auto',frameRate:60,fov:80,sensitivity:.85,adsSensitivity:.6,aimAcceleration:false,adsMode:'toggle',autoSprint:true,leftHanded:false,gyro:false,gyroSensitivity:1,motion:true,volume:.75,ambience:.65,music:.22,haptics:true,opacity:.7,buttonScale:1,layout:{}};
 export class SaveStore {
- constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],raidWallet:0,raidStash:[],raidStashSerial:0,operation:null,matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),activeLoadout:0,loadouts:Array.from({length:LOADOUT_SLOTS},defaultLoadout),settings:{...DEFAULT_SETTINGS,layout:{}}};
+ constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],raidWallet:0,raidStash:[],raidStashSerial:0,selectedCampaign:'blacksite',operations:{},matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),activeLoadout:0,loadouts:Array.from({length:LOADOUT_SLOTS},defaultLoadout),settings:{...DEFAULT_SETTINGS,layout:{}}};
+  Object.defineProperty(this.data,'operation',{get(){return this.operations[this.selectedCampaign]??null;}});
   try{const d=JSON.parse(storage?.getItem(KEY)||'null');if(d&&d.version===1){for(const k of ['xp','matches','wins','kills','deaths','bestStreak'])if(Number.isFinite(d[k]))this.data[k]=Math.max(0,d[k]);this.data.unlockAll=d.unlockAll===true;this.data.weaponXP=d.weaponXP&&typeof d.weaponXP==='object'?d.weaponXP:{};this.data.matchHistory=Array.isArray(d.matchHistory)?d.matchHistory.slice(0,MATCH_HISTORY_LIMIT).map(r=>r&&['win','draw','loss'].includes(r.outcome)?matchRecord({...r,win:r.outcome==='win',draw:r.outcome==='draw'},r.completedAt??null):null).filter(Boolean):[];this.data.raidWallet=d.raidWallet===undefined?this.data.matchHistory.reduce((sum,match)=>sum+(match.mode==='raid'&&match.outcome==='win'?match.raidPayout:0),0):count(d.raidWallet);
   for(const entry of Array.isArray(d.raidStash)?d.raidStash.slice(0,RAID_STASH_LIMIT):[]){
    const weapon=restoreRaidWeapon(entry);
@@ -29,7 +30,11 @@ export class SaveStore {
    this.data.raidStash.push({...raidWeaponRecord(weapon),id:entry.id});
   }
   this.data.raidStashSerial=Math.max(count(d.raidStashSerial,Number.MAX_SAFE_INTEGER-100),...this.data.raidStash.map(item=>item.id));
-  this.data.operation=restoreOperation(d.operation);this.data.matchSetup=matchSetup(d.matchSetup);this.restoreLoadouts(d);this.data.settings={...DEFAULT_SETTINGS,...d.settings};if(!d.controlRevision){this.data.settings.controlProfile='simple';this.data.settings.layout={};this.data.settings.autoSprint=true;this.data.settings.aimFire=true;}this.sanitize();}}catch{this.error=true;}
+  this.data.selectedCampaign=Object.hasOwn(CAMPAIGNS,d.selectedCampaign)?d.selectedCampaign:'blacksite';
+  for(const campaign of Object.keys(CAMPAIGNS)){
+   const saved=d.operations?.[campaign]??(campaign==='blacksite'?d.operation:null);
+   if(saved)this.data.operations[campaign]=restoreOperation({...saved,campaign});
+  }this.data.matchSetup=matchSetup(d.matchSetup);this.restoreLoadouts(d);this.data.settings={...DEFAULT_SETTINGS,...d.settings};if(!d.controlRevision){this.data.settings.controlProfile='simple';this.data.settings.layout={};this.data.settings.autoSprint=true;this.data.settings.aimFire=true;}this.sanitize();}}catch{this.error=true;}
  }
  restoreLoadouts(saved){
   const index=saved.activeLoadout;
@@ -65,12 +70,18 @@ export class SaveStore {
   if(gear)this.data.raidStash.splice(gearIndex,0,gear);
   return false;
  }
+ selectCampaign(campaign){
+  if(!Object.hasOwn(CAMPAIGNS,campaign))return false;
+  this.data.selectedCampaign=campaign;
+  this.persist();return true;
+ }
  beginOperation(difficulty){
   if(this.data.operation?.status==='active')return;
-  this.data.operation=restoreOperation({difficulty});
+  const campaign=this.data.selectedCampaign;
+  this.data.operations[campaign]=restoreOperation({difficulty,campaign});
   this.persist();
  }
- finish(result){if(result.operation&&!finishOperationBattle(this.data.operation,result))return false;const record=matchRecord(result);if(record?.mode==='raid'&&record.outcome==='win'){
+ finish(result){if(result.operation&&!finishOperationBattle(this.data.operations[result.operation.campaign??this.data.selectedCampaign],result))return false;const record=matchRecord(result);if(record?.mode==='raid'&&record.outcome==='win'){
   this.data.raidWallet=count(this.data.raidWallet+record.raidPayout);
   for(const item of Array.isArray(result.raidRecovered)?result.raidRecovered.slice(0,2):[]){
    const weapon=restoreRaidWeapon(item);

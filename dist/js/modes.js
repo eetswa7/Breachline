@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=109';
-import {distance} from './math.js?v=109';
+import {GUN_ORDER} from './weapons.js?v=110';
+import {distance} from './math.js?v=110';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -347,6 +347,11 @@ export class MatchRules {
    engine.emit('capture',{text:'CONVOY CHECKPOINT · +35 SECONDS'});
   }
   const delivered=convoy.progress>=convoy.length;
+  if(engine.operation?.evacuation){
+   if(delivered){engine.emit('capture',{text:'EVACUATION COMPLETE'});this.finish(0);}
+   else if(this.time<=0)this.finish(1);
+   return;
+  }
   const first=convoy.results[0];
   if(first){
    if(!first.delivered&&convoy.progress>first.progress){this.finish(attacking);return;}

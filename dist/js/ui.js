@@ -1,16 +1,16 @@
-import {SPECIALTIES} from './specialties.js?v=109';
-import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=109';
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=109';
-import {Convoy} from './convoy.js?v=109';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=109';
-import {MAPS} from './maps.js?v=109';
-import {drawDeploymentMap,tacticalMapPosition} from './deployment-map.js?v=109';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=109';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=109';
-import {ATTACHMENT_SPECS} from './attachments.js?v=109';
-import {clamp,distance} from './math.js?v=109';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=109';
-import {identityFor,canIdentify} from './combat-identity.js?v=109';
+import {SPECIALTIES} from './specialties.js?v=110';
+import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=110';
+import {CAMPAIGNS,campaignFor,operationBattle} from './operation.js?v=110';
+import {Convoy} from './convoy.js?v=110';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=110';
+import {MAPS} from './maps.js?v=110';
+import {drawDeploymentMap,tacticalMapPosition} from './deployment-map.js?v=110';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=110';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=110';
+import {ATTACHMENT_SPECS} from './attachments.js?v=110';
+import {clamp,distance} from './math.js?v=110';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=110';
+import {identityFor,canIdentify} from './combat-identity.js?v=110';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -40,7 +40,7 @@ export class Interface {
   specialty.onchange=()=>{this.store.data.loadout.specialty=specialty.value;this.persist();this.renderWeapons();};
   $('deploy').onclick=()=>this.app.config.mode==='raid'?this.raidBoard():this.app.start();
   $('career-replay').onclick=()=>this.app.start(null,this.app.lastReplay);
-  $('operation-board').onclick=()=>this.operationBoard();
+  $('operation-board').onclick=()=>this.operationHub();
   this.deploymentBrief();
   const selection=$('map-selector').querySelector('.active');
   if(selection)$('map-selector').scrollTop=Math.max(0,selection.offsetTop-selection.offsetHeight);
@@ -166,25 +166,39 @@ export class Interface {
     ...stash.map(item=>[`${WEAPONS[item.weapon].name.toUpperCase()} · ${item.ammo}/${item.reserve}`,()=>this.app.start(null,null,plan.id,item.id)]),
     ['BACK',()=>this.raidBoard()]]);
  }
+ operationHub(){
+  const campaigns=Object.entries(CAMPAIGNS);
+  const cards=campaigns.map(([id,campaign])=>{
+   const operation=this.store.data.operations[id];
+   const status=operation?.status==='active'?`Stage ${operation.stage+1} · ${operation.reserves} assault reserves left`:
+    operation?.status==='won'?campaign.victory:operation?.status==='lost'?'Operation lost':'Available';
+   return `<article><h3>${campaign.name}</h3><p>${campaign.description}</p><strong>${status}</strong></article>`;
+  }).join('');
+  this.modal('WAR CAMPAIGN','CHOOSE OPERATION',`<div class="operation-missions">${cards}</div>`,[
+   ...campaigns.map(([id,campaign])=>[campaign.name.toUpperCase(),()=>{this.store.selectCampaign(id);this.operationBoard();},id===this.store.data.selectedCampaign]),
+   ['BACK',()=>this.closeModal()]
+  ]);
+ }
  operationBoard(){
-  const operation=this.store.data.operation;
+  const operation=this.store.data.operation,campaign=campaignFor(this.store.data.selectedCampaign);
   if(operation?.status!=='active'){
-   const title=operation?.status==='won'?'BLACKSITE TAKEN':operation?.status==='lost'?'OPERATION LOST':'WAR CAMPAIGN';
+   const title=operation?.status==='won'?campaign.victory.toUpperCase():operation?.status==='lost'?'OPERATION LOST':campaign.name.toUpperCase();
    const record=operation?this.operationLog(operation):'';
-   this.modal(title,'BLACKSITE SIEGE',`<p>Win two battles to prepare for the Blacksite siege. Choose which enemy reserves to cut or which supply routes to secure. Those gains carry forward. Every battle has a finite pool of team reinforcements. Three failed assaults end the operation.</p>${record}`,
-    [['BEGIN OPERATION',()=>{this.store.beginOperation(this.app.config.difficulty);this.operationBoard();},true],['BACK',()=>this.closeModal()]]);
+   this.modal(title,'WAR CAMPAIGN',`<p>${campaign.description} Gains carry forward. Reinforcements are finite, and three failed assaults end the operation.</p>${record}`,
+    [['BEGIN OPERATION',()=>{this.store.beginOperation(this.app.config.difficulty);this.operationBoard();},true],['CAMPAIGNS',()=>this.operationHub()]]);
    return;
   }
-  const missions=OPERATION_STAGES[operation.stage].map(mission=>operationBattle(operation,mission.id));
+  const missions=campaign.stages[operation.stage].map(mission=>operationBattle(operation,mission.id));
   const cards=missions.map(mission=>`<article><h3>${mission.name}</h3><p>${MAPS[mission.map].name} · ${MODES.find(mode=>mode.id===mission.mode).name}</p><p>${mission.tickets[0]} allied / ${mission.tickets[1]} enemy reinforcements</p><strong>${mission.reward}</strong></article>`).join('');
-  this.modal('BLACKSITE SIEGE',`STAGE ${operation.stage+1} / ${OPERATION_STAGES.length} · ${operation.reserves} ASSAULT RESERVES LEFT`,
+  this.modal(campaign.name.toUpperCase(),`STAGE ${operation.stage+1} / ${campaign.stages.length} · ${operation.reserves} ASSAULT RESERVES LEFT`,
    `<div class="operation-missions">${cards}</div>${this.operationLog(operation)}`,
-   [...missions.map(mission=>[mission.name.toUpperCase(),()=>this.app.start(mission.id),true]),['BACK',()=>this.closeModal()]]);
+   [...missions.map(mission=>[mission.name.toUpperCase(),()=>this.app.start(mission.id),true]),['CAMPAIGNS',()=>this.operationHub()]]);
  }
  operationLog(operation){
   if(!operation.log.length)return '';
+  const missions=campaignFor(operation.campaign).stages.flat();
   return `<ol class="operation-log">${operation.log.map(entry=>{
-   const mission=OPERATION_STAGES.flat().find(candidate=>candidate.id===entry.id);
+   const mission=missions.find(candidate=>candidate.id===entry.id);
    return `<li><span>${mission.name}</span><strong>${entry.outcome==='win'?'SECURED':entry.outcome==='draw'?'STALEMATE':'LOST'}</strong></li>`;
   }).join('')}</ol>`;
  }
@@ -277,7 +291,7 @@ export class Interface {
   const ticketSummary=r.tickets?`<p class="operation-result">${r.tickets[0]} ALLIED TICKETS · ${r.tickets[1]} ENEMY TICKETS</p>`:'';
   const raidGearSummary=r.mode==='raid'&&r.raidRecovered.length?`<p>${stashed.length?`STASHED ${stashed.map(item=>esc(WEAPONS[item.weapon].name)).join(', ')}`:'STASH FULL'}</p>`:'';
  this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
- const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
+ const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?`${campaignFor(operation.campaign).victory.toUpperCase()} · OPERATION WON`:operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
  this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${ticketSummary}${raidGearSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
  installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
@@ -338,7 +352,7 @@ export class Interface {
    const convoy=r.convoy,first=convoy.results[0];
    const instructions=r.round-1===p.team?'ESCORT THE DRONE':'STOP THE DRONE';
    const target=first?.delivered?` · TARGET ${Math.ceil(first.elapsed)}s`:first?` · TARGET ${r.scores[0]}%`:'';
-   $('objective').textContent=r.phase==='roundBreak'?r.message:`RUN ${r.round} / 2 · ${convoy.contested?'CONTESTED':instructions}${target}`;
+   $('objective').textContent=r.phase==='roundBreak'?r.message:`${g.operation?.evacuation?'EVACUATION':`RUN ${r.round} / 2`} · ${convoy.contested?'CONTESTED':instructions}${target}`;
    $('score-blue').textContent=`${r.scores[p.team]}%`;$('score-red').textContent=`${r.scores[1-p.team]}%`;
   }else if(g.survival){
    $('team-blue-label').textContent='WAVES CLEARED';

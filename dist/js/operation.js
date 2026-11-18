@@ -1,4 +1,4 @@
-export const OPERATION_STAGES = [
+const BLACKSITE_STAGES = [
  [
   {id:'rail',name:'Seize the railhead',map:6,mode:'frontline',supply:8,pressure:0,reward:'+8 allied reinforcements in later battles'},
   {id:'relay',name:'Cut the command relay',map:3,mode:'domination',supply:0,pressure:8,reward:'8 fewer enemy reinforcements in later battles'}
@@ -12,9 +12,33 @@ export const OPERATION_STAGES = [
  ]
 ];
 
+const FLOODGATE_STAGES=[
+ [
+  {id:'heat',name:'Recover the reserve stores',map:12,mode:'hardpoint',supply:10,pressure:0,reward:'+10 allied reinforcements in later battles'},
+  {id:'frost',name:'Disrupt the northern relay',map:8,mode:'domination',supply:0,pressure:10,reward:'10 fewer enemy reinforcements in later battles'}
+ ],
+ [
+  {id:'ridge',name:'Open the mountain corridor',map:5,mode:'frontline',supply:16,pressure:0,reward:'+16 allied reinforcements at Floodgate'},
+  {id:'freight',name:'Break the freight reserve',map:6,mode:'confirmed',supply:0,pressure:14,reward:'14 fewer enemy reinforcements at Floodgate'}
+ ],
+ [
+  {id:'evacuation',name:'Evacuate through Floodgate',map:16,mode:'convoy',supply:0,pressure:0,reward:'Escort the evacuation drone to the far yard',
+   evacuation:true,time:180,roster:[6,9],baseTickets:[24,34]}
+ ]
+];
+
+export const CAMPAIGNS={
+ blacksite:{name:'Blacksite Siege',victory:'Blacksite taken',stages:BLACKSITE_STAGES,
+  description:'Win two battles to prepare for the siege, then breach Blacksite and extract its data core.'},
+ floodgate:{name:'Floodgate Evacuation',victory:'Evacuation complete',stages:FLOODGATE_STAGES,
+  description:'Open a route through the mountains, then escort the evacuation drone across Floodgate before the deadline.'}
+};
+export const campaignFor=id=>Object.hasOwn(CAMPAIGNS,id)?CAMPAIGNS[id]:CAMPAIGNS.blacksite;
+
 export function restoreOperation(saved) {
  if(!saved||!['recruit','regular','veteran'].includes(saved.difficulty))return null;
- const operation={difficulty:saved.difficulty,stage:0,reserves:3,supply:0,pressure:0,status:'active',log:[]};
+ const campaign=Object.hasOwn(CAMPAIGNS,saved.campaign)?saved.campaign:'blacksite';
+ const operation={campaign,difficulty:saved.difficulty,stage:0,reserves:3,supply:0,pressure:0,status:'active',log:[]};
  for(const entry of Array.isArray(saved.log)?saved.log.slice(0,5):[]){
   if(!recordBattle(operation,entry?.id,entry?.outcome))break;
  }
@@ -23,24 +47,27 @@ export function restoreOperation(saved) {
 
 function recordBattle(operation,id,outcome) {
  if(operation.status!=='active'||!['win','draw','loss'].includes(outcome))return false;
- const mission=OPERATION_STAGES[operation.stage]?.find(candidate=>candidate.id===id);
+ const stages=campaignFor(operation.campaign).stages;
+ const mission=stages[operation.stage]?.find(candidate=>candidate.id===id);
  if(!mission)return false;
  operation.log.push({id,outcome});
  if(outcome==='win'){
   operation.stage++;
   operation.supply+=mission.supply;
   operation.pressure+=mission.pressure;
-  if(operation.stage===OPERATION_STAGES.length)operation.status='won';
+  if(operation.stage===stages.length)operation.status='won';
  }else if(--operation.reserves===0)operation.status='lost';
  return true;
 }
 
 export function operationBattle(operation,id) {
  if(operation?.status!=='active')return null;
- const mission=OPERATION_STAGES[operation.stage]?.find(candidate=>candidate.id===id);
+ const stages=campaignFor(operation.campaign).stages;
+ const mission=stages[operation.stage]?.find(candidate=>candidate.id===id);
  if(!mission)return null;
- return {...mission,difficulty:operation.difficulty,attempt:operation.log.length,
-  tickets:[(id==='siege'?32:18)+operation.supply,Math.max(6,(id==='siege'?44:22)-operation.pressure)]};
+ const base=mission.baseTickets??(id==='siege'?[32,44]:[18,22]);
+ return {...mission,campaign:operation.campaign,difficulty:operation.difficulty,attempt:operation.log.length,
+  tickets:[base[0]+operation.supply,Math.max(6,base[1]-operation.pressure)]};
 }
 
 export function finishOperationBattle(operation,result) {
