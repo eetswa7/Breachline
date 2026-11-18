@@ -2,7 +2,7 @@
 // static ground. Actors, destructibles and raised surfaces retain live lighting.
 export class ProductionLighting {
  constructor(){this.map={value:null};this.size={value:1};this.enabled={value:0};this.sun={value:{x:0,y:1,z:0}};}
- setArena(arena,maps){this.map.value=maps?.[arena.info.id]??null;this.size.value=arena.info.size;this.enabled.value=this.map.value?1:0;
+ setArena(arena,texture=null){this.map.value=texture;this.size.value=arena.info.size;this.enabled.value=this.map.value?1:0;
   const [x,y,z]=arena.info.sun??[0,1,0],length=Math.hypot(x,y,z)||1;Object.assign(this.sun.value,{x:x/length,y:y/length,z:z/length});}
  patch(shader){
   shader.uniforms.uProductionGI=this.map;shader.uniforms.uProductionGISize=this.size;shader.uniforms.uProductionGIEnabled=this.enabled;
