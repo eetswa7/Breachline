@@ -32,6 +32,17 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 75 continuation tasks
+
+- [x] Add grounded boot contacts and distinct airborne poses to the shared
+  operator rig. Runtime source `f96565c` uses the current arena surface and
+  limits IK corrections during rapid changes in direction.
+- [x] Give first-person slides distinct weapon movement and hard, metal, soft,
+  and wet scrape sounds. Runtime source `f96565c`.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review gait, foot contacts, and slide presentation in live gameplay.
+
 ## Release 74 continuation tasks
 
 - [x] Build original stereo soundscapes for all sixteen maps. Runtime source

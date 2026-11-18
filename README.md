@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 74.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 75.** 30 weapons, 16 maps and 11 modes.
+
+## Release 75: operator movement
+
+Operator feet hold their ground position during the supporting portion of a step
+and sample the surface beneath them. Both renderers use the same leg pose,
+including separate takeoff and descent shapes. First-person slides bring the
+weapon closer and use original surface-dependent scrape sounds.
 
 ## Release 74: environmental audio
 
