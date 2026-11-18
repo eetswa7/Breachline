@@ -1,16 +1,16 @@
-import {updateWeaponClearance} from './weapon-clearance.js?v=91';
-import {animateWeaponParts} from './weapon-models.js?v=91';
-import {muzzleFlash} from './firing-presentation.js?v=91';
-import {identityFor} from './combat-identity.js?v=91';
-import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=91';
-import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=91';
-import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=91';
-import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=91';
-import {loadImages} from './textures.js?v=91';
-import {weatherParticles} from './particles.js?v=91';
-import {operatorTorso,operatorLimb} from './operator-meshes.js?v=91';
-import {weatherLighting} from './weather-lighting.js?v=91';
-import {actorDeathProgress} from './actor-pose.js?v=91';
+import {updateWeaponClearance} from './weapon-clearance.js?v=92';
+import {animateWeaponParts} from './weapon-models.js?v=92';
+import {muzzleFlash} from './firing-presentation.js?v=92';
+import {identityFor} from './combat-identity.js?v=92';
+import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=92';
+import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=92';
+import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=92';
+import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=92';
+import {loadImages} from './textures.js?v=92';
+import {weatherParticles} from './particles.js?v=92';
+import {operatorTorso,operatorLimb} from './operator-meshes.js?v=92';
+import {weatherLighting} from './weather-lighting.js?v=92';
+import {actorDeathProgress} from './actor-pose.js?v=92';
 
 const corners=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];
 const faces=[[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]];
@@ -123,6 +123,10 @@ export class CompatibilityRenderer {
   this.weatherYaw=yaw;this.weatherPitch=pitch;this.worldFov=this.fov;lookAt(this.view,this.eye,this.target);this.sky(yaw,pitch);this.drawCalls=0;
   const polygons=this.world.slice();for(const a of game.actors)if(a!==p&&distance(a,p)<55){if(a.dead&&actorDeathProgress(a,game.time)>=1&&a.downedUntil<=game.time)continue;compose(this.parent,a.x,a.y,a.z,1,1,1,-a.yaw);for(const q of actorModel(a,game.time,identityFor(a,player,game.rules),game.arena))if(!q.hidden)polygons.push(...this.box(q,this.parent));}
   if(['domination','sabotage','hardpoint','hill','frontline'].includes(game.rules.mode.id))for(let i=0;i<game.rules.points.length;i++){if(['hardpoint','hill','frontline'].includes(game.rules.mode.id)&&i!==game.rules.activePoint||game.rules.mode.id==='sabotage'&&(i===1||game.rules.planted&&i!==game.rules.bombSite))continue;const point=game.rules.points[i];polygons.push(...this.box(part(point.x,point.y+1,point.z,.05,2,.05,'steel')),...this.box(part(point.x+.4,point.y+1.7,point.z,.8,.5,.06,'green',{color:point.owner===(game.rules.mode.teams?p.team:p.id)?[.10,.72,.91]:point.owner>=0?[.94,.16,.11]:[.8,.85,.4]})));}
+  if(game.survival?.supplies>0){
+   const station=game.survival.station;
+   polygons.push(...this.box(part(station.x,station.y+.25,station.z,.85,.5,.62,'steel',{color:[.53,.86,.24]})));
+  }
   const charge=game.rules.payload?.position??game.rules.droppedCharge??(game.rules.planted?game.rules.points[game.rules.bombSite]:null);
   if(charge)polygons.push(...this.box(part(charge.x,charge.y+.18,charge.z,.44,.24,.32,'steel',{color:[1,.66,.23]})));
   if(game.rules.mode.id==='ctf')for(const flag of game.rules.flags){const carrier=flag.carrier===null?null:game.actors.find(a=>a.id===flag.carrier&&!a.dead),x=carrier?carrier.x+Math.cos(carrier.yaw)*.28:flag.x,z=carrier?carrier.z+Math.sin(carrier.yaw)*.28:flag.z,y=carrier?carrier.y+.65:flag.y,yaw=(carrier?.yaw??0)+Math.sin(game.time*4+flag.team*2)*.13,color=flag.team===p.team?[.10,.72,.91]:[.94,.16,.11];polygons.push(...this.box(part(x,y+.88,z,.075,1.76,.075,'steel',{mesh:'cylinder'})),...this.box(part(x+.31*Math.cos(yaw),y+1.43,z+.31*Math.sin(yaw),.68,.43,.045,'fabric',{yaw,color})),...this.box(part(x+.31*Math.cos(yaw),y+1.43,z+.31*Math.sin(yaw),.10,.43,.06,'white',{yaw,color:[.9,.92,.88]})));}

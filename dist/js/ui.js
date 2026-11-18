@@ -1,13 +1,13 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=91';
-import {MODES,MatchRules} from './modes.js?v=91';
-import {MAPS} from './maps.js?v=91';
-import {drawDeploymentMap} from './deployment-map.js?v=91';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=91';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=91';
-import {ATTACHMENT_SPECS} from './attachments.js?v=91';
-import {clamp,distance} from './math.js?v=91';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=91';
-import {identityFor,canIdentify} from './combat-identity.js?v=91';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=92';
+import {MODES,MatchRules} from './modes.js?v=92';
+import {MAPS} from './maps.js?v=92';
+import {drawDeploymentMap} from './deployment-map.js?v=92';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=92';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=92';
+import {ATTACHMENT_SPECS} from './attachments.js?v=92';
+import {clamp,distance} from './math.js?v=92';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=92';
+import {identityFor,canIdentify} from './combat-identity.js?v=92';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -49,7 +49,7 @@ export class Interface {
   const {map,mode}=this.app.config,info=MAPS[map],arena=this.app.game.arena;
   const rules=new MatchRules(mode,arena),teamSize=info.teamSize??4;
   const modeDescription=rules.mode.description.replace(/^4 vs 4\. /,'');
-  $('mode-detail').textContent=`${rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
+  $('mode-detail').textContent=`${mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
   $('selected-map-label').textContent=info.name;
   $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across`;
   $('selected-map-description').textContent=info.description;
@@ -116,7 +116,7 @@ export class Interface {
  renderMatchHistory(){const history=this.store.data.matchHistory??[],wins=history.filter(r=>r.outcome==='win').length,kills=history.reduce((n,r)=>n+r.kills,0),deaths=history.reduce((n,r)=>n+r.deaths,0);
   $('recent-form').textContent=history.length?`${history.length} recent ${history.length===1?'match':'matches'} · ${wins} ${wins===1?'victory':'victories'} · ${deaths?(kills/deaths).toFixed(2):kills} K/D`:'Complete a match to start your record. Your last 12 results stay on this device.';
   const duration=seconds=>`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
-  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
+  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',true);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=this.app.game.arena.info.name;$('hud-mode').textContent=this.app.game.rules.mode.name;this.app.input.layout();this.app.orientation();}
  menu(){this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
@@ -179,7 +179,11 @@ export class Interface {
   if(g.reinforcements)$('reinforcements').textContent=`REINFORCEMENTS  ${g.reinforcements[p.team]} ◆ / ${g.reinforcements[1-p.team]} ▼`;
   const remaining=Math.max(0,Math.ceil(r.mode.id==='sabotage'&&r.planted?r.bombTime:r.time));$('timer').textContent=`${Math.floor(remaining/60).toString().padStart(2,'0')}:${Math.ceil(remaining%60).toString().padStart(2,'0')}`;
   if(r.mode.teams){$('score-blue').textContent=r.scores[0];$('score-red').textContent=r.scores[1];}else{$('score-blue').textContent=r.mode.id==='gun'?p.gunStage:r.mode.id==='hill'?p.hillScore??0:p.kills;$('score-red').textContent=Math.max(...g.actors.slice(1).map(a=>r.mode.id==='gun'?a.gunStage:r.mode.id==='hill'?a.hillScore??0:a.kills));}
-  if(r.mode.id==='domination')$('objective').textContent=r.points.map(q=>`${q.name} ${q.contested?'CONTESTED':q.owner===p.team?'ALLIES':q.owner>=0?'ENEMIES':q.progress>0?'CAPTURING':'NEUTRAL'}`).join('   ');
+  if(g.survival){
+   $('team-blue-label').textContent='WAVES CLEARED';
+   $('team-red-label').textContent='ENEMIES LEFT';
+   $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} / ${r.mode.limit} · ${g.survival.supplies} SUPPLY DROPS LEFT`;
+  }else if(r.mode.id==='domination')$('objective').textContent=r.points.map(q=>`${q.name} ${q.contested?'CONTESTED':q.owner===p.team?'ALLIES':q.owner>=0?'ENEMIES':q.progress>0?'CAPTURING':'NEUTRAL'}`).join('   ');
   else if(r.mode.id==='hardpoint'){const q=r.points[r.activePoint];$('objective').textContent=`HOLD ${q.name} · ${q.contested?'CONTESTED':q.owner===p.team?'ALLIED CONTROL':q.owner>=0?'ENEMY CONTROL':'UNCLAIMED'} · ROTATES ${Math.ceil(r.rotationRemaining)}s`;}
   else if(r.payload){
    const carrier=g.actors.find(actor=>actor.id===r.payload.carrier);
@@ -200,8 +204,9 @@ export class Interface {
   }
   else $('objective').textContent=r.mode.id==='gun'?`TIER ${Math.min(GUN_ORDER.length,p.gunStage+1)} / ${GUN_ORDER.length}`:`FIRST TO ${r.mode.limit}`;
   const rescue=g.findRescue(p);
-  const canInteract=!!rescue||r.canUseCharge(p,g);
-  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
+  const canResupply=g.canUseSupplies(p);
+  const canInteract=!!rescue||canResupply||r.canUseCharge(p,g);
+  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
   this.app.input.setContext(canInteract);
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
   $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead?0:1;
@@ -229,6 +234,11 @@ export class Interface {
   const target=$('target-identity');target.classList.toggle('hidden',!centred);if(centred){target.dataset.relation=centred.identity.key;target.textContent=centred.el.textContent;}
  }
  radar(){const g=this.app.game,view=g.cameraActor??g.player,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-view.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-view.x-b.w/2)*s,(b.z-view.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-view.x)*s,(p.z-view.z)*s);}
+  if(g.survival?.supplies>0){
+   const station=g.survival.station;
+   c.fillStyle='#b7f978';c.font='bold 12px Arial';
+   c.fillText('SUP',(station.x-view.x)*s-9,(station.z-view.z)*s+4);
+  }
   const payload=g.rules.payload;
   const charge=payload?.position??(payload?g.actors.find(actor=>actor.id===payload.carrier):null)??g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
   if(charge&&charge!==g.player){

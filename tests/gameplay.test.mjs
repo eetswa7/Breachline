@@ -60,6 +60,27 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const survival=new Game({mode:'survival',map:0},{seed:891});
+ survival.arena.visible=()=>true;
+ assert.equal(survival.actors.filter(actor=>actor.team===0&&!actor.dead).length,3);
+ assert.equal(survival.rules.scores[1],4);
+ survival.player.weapon.reserve=0;
+ survival.resupplySquad();
+ assert.equal(survival.survival.supplies,2);
+ assert.equal(survival.player.weapon.reserve,survival.player.weapon.capacity*5);
+ survival.resupplySquad();
+ assert.equal(survival.survival.supplies,2);
+ survival.player.weapon.reserve=17;
+ survival.player.health=0;
+ for(const actor of survival.actors)if(actor.team===1)actor.health=0;
+ survival.rules.update(1,survival);
+ assert.equal(survival.rules.phase,'roundBreak');
+ survival.rules.update(6,survival);
+ assert.equal(survival.rules.round,2);
+ assert.equal(survival.rules.scores[1],6);
+ assert(!survival.player.dead);
+ assert.equal(survival.player.weapon.reserve,17);
+
  const extraction=duel('frontline'),{g:run,p:runner,t:guard}=extraction;
  run.operation={id:'siege'};
  run.arena.visible=()=>true;

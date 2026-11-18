@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=91';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=92';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};
@@ -107,10 +107,16 @@ export function updateBot(bot,dt,e){
    bot.target=target.id;bot.lastKnown={x:target.x,y:target.y,z:target.z};bot.memory=6;bot.state='engage';
   }else{bot.target=null;if(bot.memory>0&&bot.lastKnown){bot.state='investigate';bot.goal=bot.lastKnown;}else bot.state='patrol';}
   const point=objectivePoint(bot,e);
+  if(e.survival&&bot.team===0&&!bot.weapon.ammo&&!bot.weapon.reserve){
+   const alternate=bot.weapons[1-bot.slot];
+   if(alternate.ammo||alternate.reserve){bot.slot=1-bot.slot;bot.switchLeft=.32;}
+  }
+  const pursuit=e.survival&&bot.team===1&&!target?
+   e.actors.reduce((nearest,actor)=>actor.team===0&&!actor.dead&&(!nearest||distance(bot,actor)<distance(bot,nearest))?actor:nearest,null):null;
   const pickup=e.rules.mode.id==='confirmed'?nearestTag(bot,e.rules):null;
   const chargeGoal=e.rules.mode.id==='sabotage'?sabotageGoal(bot,e.rules,e.actors):null;
   const ctfGoal=e.rules.mode.id==='ctf'?flagGoal(bot,e.rules,e.actors):null;
-  const rescue=e.operation?e.findRescue(bot,13,false):null;
+  const rescue=(e.operation||e.survival&&bot.team===0)?e.findRescue(bot,13,false):null;
   const closeRescuer=rescue&&e.actors.some(ally=>ally!==bot&&ally.id!==0&&!ally.dead&&ally.team===bot.team&&distance(ally,rescue)+1<distance(bot,rescue));
   let danger=null;for(const g of e.grenades)if(g.kind==='frag'&&g.fuse<1.8&&distance(bot,g)<7){danger=g;break;}
   if(danger){const n=Math.max(.1,distance(bot,danger));bot.goal={x:bot.x+(bot.x-danger.x)/n*9,y:bot.y,z:bot.z+(bot.z-danger.z)/n*9};bot.state='evade';}
@@ -140,6 +146,8 @@ export function updateBot(bot,dt,e){
    if(d<preferred*.45){bot.goal={x:bot.x-(target.x-bot.x)*.45,y:bot.y,z:bot.z-(target.z-bot.z)*.45};bot.state='retreat';}
    else if(d>preferred*1.25){const flank=bot.weapon.def.id===12?0:Math.min(5,preferred*.25);bot.goal={x:target.x+Math.cos(bot.yaw)*side*flank,y:target.y,z:target.z+Math.sin(bot.yaw)*side*flank};bot.state='flank';}
    else{bot.goal={x:bot.x+Math.cos(bot.yaw)*side*1.8,y:bot.y,z:bot.z+Math.sin(bot.yaw)*side*1.8};bot.state='engage';}
+  }else if(pursuit){
+   bot.goal=pursuit;bot.state='pursue';
   }else if(bot.state==='patrol'||bot.state==='investigate'&&distance(bot,bot.lastKnown)<2){
    if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
   }

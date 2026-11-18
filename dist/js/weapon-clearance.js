@@ -1,4 +1,4 @@
-import {clamp,lerp,direction} from './math.js?v=91';
+import {clamp,lerp,direction} from './math.js?v=92';
 
 // Three short static-grid rays, sampled at most 12.5 times a second. This is
 // presentation only: bullets, view angles and ADS projection remain unchanged.

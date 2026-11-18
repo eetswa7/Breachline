@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=91';
-import {Navigation} from './navigation.js?v=91';
-import {SpawnDirector} from './spawns.js?v=91';
-import {MatchRules} from './modes.js?v=91';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=91';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=91';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=91';
-import {traceBullet} from './ballistics.js?v=91';
-import {beginVault,advanceVault} from './traversal.js?v=91';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=91';
+import {Arena,MAPS} from './maps.js?v=92';
+import {Navigation} from './navigation.js?v=92';
+import {SpawnDirector} from './spawns.js?v=92';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=92';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=92';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=92';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=92';
+import {traceBullet} from './ballistics.js?v=92';
+import {beginVault,advanceVault} from './traversal.js?v=92';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=92';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -27,13 +27,58 @@ export class Game {
   this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
-  this.teamSize=this.rules.mode.teams?(this.arena.info.teamSize??4):4;
+  const survival=this.rules.mode.id==='survival';
+  this.survival=survival?{supplies:3,station:null}:null;
+  this.teamSize=survival?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
   // simulation randomness stable as the weapon catalogue grows.
-  for(let i=1;i<this.teamSize*2;i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
+  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1):this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
   this.player=this.actors[0];
   if(this.rules.mode.id==='gun')for(const a of this.actors)a.weapons=[new Weapon(GUN_ORDER[0]),new Weapon(10)];
-  this.resetRound();
+  if(survival)this.startSurvivalWave();else this.resetRound();
+ }
+ startSurvivalWave(){
+  const wave=this.rules.round,count=SURVIVAL_WAVES[wave-1];
+  this.spawner.resetRound();
+  this.grenades.length=0;this.smokes.length=0;this.casings.length=0;
+  for(const actor of this.actors)if(actor.team===1)actor.health=0;
+  for(const ally of this.actors){
+   if(ally.team!==0)continue;
+   if(wave===1)this.spawn(ally,true);
+   else if(ally.dead){
+    const ammo=ally.weapons.map(weapon=>[weapon.ammo,weapon.reserve]),grenades=ally.grenades;
+    this.spawn(ally,true);
+    for(let i=0;i<ally.weapons.length;i++)[ally.weapons[i].ammo,ally.weapons[i].reserve]=ammo[i];
+    ally.grenades=grenades;
+   }
+   ally.health=100;
+  }
+  if(!this.survival.station)this.survival.station={x:this.player.x,y:this.player.y,z:this.player.z};
+  let deployed=0;
+  for(const enemy of this.actors){
+   if(enemy.team!==1)continue;
+   if(deployed++>=count){enemy.downedUntil=0;enemy.respawnLeft=0;continue;}
+   this.spawn(enemy,true);
+  }
+  this.rules.scores[1]=count;
+  this.emit('round',{text:`WAVE ${wave} / ${SURVIVAL_WAVES.length} · ${count} ENEMIES`});
+ }
+ canUseSupplies(actor){
+  const station=this.survival?.station;
+  return !!station&&this.survival.supplies>0&&!actor.dead&&this.rules.phase==='playing'&&
+   this.actors.some(ally=>ally.team===0&&(ally.grenades<2||ally.weapons.some(weapon=>weapon.reserve<weapon.capacity*5)))&&
+   distance(actor,station)<3&&Math.abs(actor.y-station.y)<1.5&&
+   this.arena.visible(this.eye(actor),{...station,y:station.y+.4});
+ }
+ resupplySquad(){
+  if(!this.canUseSupplies(this.player))return;
+  const allies=this.actors.filter(actor=>actor.team===0);
+  this.survival.supplies--;
+  for(const actor of allies){
+   for(const weapon of actor.weapons)weapon.reserve=weapon.capacity*5;
+   actor.grenades=2;
+  }
+  this.emit('capture',{text:`SQUAD RESUPPLIED · ${this.survival.supplies} DROPS LEFT`,source:0,position:this.survival.station});
  }
  get cameraActor(){
   const player=this.player;
@@ -44,7 +89,7 @@ export class Game {
   return this.rules.respawns&&(!this.reinforcements||this.reinforcements[actor.team]>0);
  }
  findRescue(actor,radius=2.4,requireSight=true){
-  if(!this.operation||actor.dead)return null;
+  if(!(this.operation||this.survival)||actor.dead)return null;
   let target=null,best=radius;
   for(const ally of this.actors){
    if(!ally.dead||ally.team!==actor.team||ally.downedUntil<=this.time||Math.abs(actor.y-ally.y)>1.45)continue;
@@ -139,13 +184,14 @@ export class Game {
    if((p.weapon.burstRemaining>0||input.fire&&(p.weapon.def.automatic||input.firePressed||input.repeatFire))&&!p.sprinting&&!p.vault)this.shoot(p,false);
    if(input.grenade)this.throwGrenade(p);
    if(input.melee&&this.rules.mode.id!=='gun')this.melee(p);
+   if(input.interact&&!p.interacting&&this.survival&&!this.findRescue(p))this.resupplySquad();
    p.interacting=input.interact;
    // Recover only the recoil contribution, retaining the player's own look input.
    if(p.weapon.sinceShot>.14){const rec=p.recoilPitch*(1-Math.exp(-dt*8));p.pitch=clamp(p.pitch-rec,-1.48,1.48);p.recoilPitch-=rec;}
   }
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
-  updateCasings(this,dt);this.updateEquipment(dt);if(this.operation)this.updateRescues(dt);this.rules.update(dt,this);
+  updateCasings(this,dt);this.updateEquipment(dt);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
   if(this.reinforcements&&this.rules.phase==='playing'){
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
@@ -204,7 +250,7 @@ export class Game {
   if(victim.id===0){this.damageYaw=killer?Math.atan2(killer.x-victim.x,-(killer.z-victim.z)):victim.yaw;this.emit('hurt',{value:amount,angle:this.damageYaw});}
   if(victim.health>0)return;
   victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;this.rules.onDeath(victim,this);
-  if(this.operation&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
+  if((this.operation||this.survival&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
    victim.downedUntil=this.time+9;victim.respawnLeft=0;
   }
   if(victim.id===0)this.lastKiller=killer?.name??'FALL';
@@ -259,6 +305,6 @@ export class Game {
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
   return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,operation:this.operation,
    kills:p.kills,assists:p.assists,revives:p.revives,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
-   xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};
+   xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time,waves:this.survival?r.scores[0]:undefined};
  }
 }

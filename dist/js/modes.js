@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=91';
-import {distance} from './math.js?v=91';
+import {GUN_ORDER} from './weapons.js?v=92';
+import {distance} from './math.js?v=92';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -12,9 +12,11 @@ export const MODES = [
  {id:'ctf',name:'CAPTURE THE FLAG',short:'CTF',description:'Steal the enemy flag, carry it home, and keep your own flag safe. First to 3 captures.',limit:3,time:480,teams:true},
  {id:'hill',name:'KING OF THE HILL',short:'KOTH',description:'Every operator for themselves. Occupy the hill alone to score. First to 75.',limit:75,time:480,teams:false},
  {id:'elimination',name:'ELIMINATION',short:'ELIM',description:'4 vs 4. One life each round. Eliminate the other team. First to 5 rounds.',limit:5,time:75,teams:true},
- {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true}
+ {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true},
+ {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true}
 ];
 
+export const SURVIVAL_WAVES=[4,6,8,10,12,14];
 const OVERTIME_SECONDS = 90;
 export const HARDPOINT_SECONDS = 45;
 export const TAG_LIFETIME = 30;
@@ -58,7 +60,7 @@ export class MatchRules {
   actor.objectiveXP+=OBJECTIVE_XP[this.mode.id][action]*amount;
  }
  get attackingTeam(){return Math.floor((this.round-1)/3)%2;}
- get respawns(){return !['sabotage','elimination'].includes(this.mode.id);}
+ get respawns(){return !['sabotage','elimination','survival'].includes(this.mode.id);}
  enemies(a,b){return a.id!==b.id&&(!this.mode.teams||a.team!==b.team);}
  get sabotageSites(){return this.points.filter((_,index)=>index===0||index===2);}
  assignCharge(actors){
@@ -314,15 +316,31 @@ export class MatchRules {
    }
   }
  }
+ updateSurvival(engine){
+  const allies=engine.actors.filter(actor=>actor.team===0&&!actor.dead).length;
+  const enemies=engine.actors.filter(actor=>actor.team===1&&!actor.dead).length;
+  this.scores[1]=enemies;
+  if(!allies){this.finish(1);return;}
+  if(!enemies){
+   this.scores[0]++;
+   if(this.scores[0]>=this.mode.limit){this.finish(0);return;}
+   this.phase='roundBreak';this.roundWait=6;
+   this.message=`WAVE ${this.round} CLEARED · SQUAD REGROUPING`;
+   engine.emit('round',{text:this.message});
+   return;
+  }
+  if(this.time<=0)this.finish(1);
+ }
  update(dt,engine) {
   if(this.phase==='finished')return;
   if(this.phase==='roundBreak') {
    this.roundWait-=dt;
-   if(this.roundWait<=0){this.nextRound();engine.resetRound();}
+   if(this.roundWait<=0){this.nextRound();if(this.mode.id==='survival')engine.startSurvivalWave();else engine.resetRound();}
    return;
   }
   const elapsed=Math.min(dt,this.time);
   this.time=Math.max(0,this.time-dt);
+  if(this.mode.id==='survival'){this.updateSurvival(engine);return;}
   if(this.mode.id==='ctf')this.updateFlags(elapsed,engine);
   if(this.mode.id==='hardpoint')this.updateHardpoint(elapsed,engine);
   if(this.mode.id==='confirmed')this.updateTags(elapsed,engine);
