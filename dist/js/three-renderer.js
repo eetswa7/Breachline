@@ -1,45 +1,45 @@
-import {loadProductionTextures,loadProductionLightmap,stageTextureUploads} from './production-textures.js?v=86';
-import {ProductionLighting} from './production-lighting.js?v=86';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=86';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=86';
-import {patchBlenderMaterial} from './blender-material.js?v=86';
-import {blenderWorld} from './blender-world.js?v=86';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=86';
-import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=86';
-import {updateWeaponClearance} from './weapon-clearance.js?v=86';
-import {WEAPONS} from './weapons.js?v=86';
-import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=86';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=86';
-import {patchAtmosphere} from './atmosphere.js?v=86';
-import {weatherLighting} from './weather-lighting.js?v=86';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=86';
-import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=86';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=86';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=86';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=86';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=86';
-import {DecalSystem} from './decal-system.js?v=86';
-import {ShotTrails} from './shot-trails.js?v=86';
-import {ExplosionShockSystem} from './explosion-shock.js?v=86';
-import {EnvironmentalFireSystem} from './environmental-fire.js?v=86';
-import {GlassDamageSystem} from './glass-damage.js?v=86';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=86';
-import {LightingField} from './lighting-field.js?v=86';
-import {RoomLights} from './room-lights.js?v=86';
-import {waterMaterial,patchWater} from './water-material.js?v=86';
-import {visualGroundHeight} from './surface-placement.js?v=86';
-import {patchSurfaceDetail} from './material-detail.js?v=86';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=86';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=86';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=86';
+import {loadProductionTextures,loadProductionLightmap,stageTextureUploads} from './production-textures.js?v=87';
+import {ProductionLighting} from './production-lighting.js?v=87';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=87';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=87';
+import {patchBlenderMaterial} from './blender-material.js?v=87';
+import {blenderWorld} from './blender-world.js?v=87';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=87';
+import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=87';
+import {updateWeaponClearance} from './weapon-clearance.js?v=87';
+import {WEAPONS} from './weapons.js?v=87';
+import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=87';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=87';
+import {patchAtmosphere} from './atmosphere.js?v=87';
+import {weatherLighting} from './weather-lighting.js?v=87';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=87';
+import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=87';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=87';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=87';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=87';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=87';
+import {DecalSystem} from './decal-system.js?v=87';
+import {ShotTrails} from './shot-trails.js?v=87';
+import {ExplosionShockSystem} from './explosion-shock.js?v=87';
+import {EnvironmentalFireSystem} from './environmental-fire.js?v=87';
+import {GlassDamageSystem} from './glass-damage.js?v=87';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=87';
+import {LightingField} from './lighting-field.js?v=87';
+import {RoomLights} from './room-lights.js?v=87';
+import {waterMaterial,patchWater} from './water-material.js?v=87';
+import {visualGroundHeight} from './surface-placement.js?v=87';
+import {patchSurfaceDetail} from './material-detail.js?v=87';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=87';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=87';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=87';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=86';
-import { actorModel, material, part } from './geometry.js?v=86';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=86';
-import { loadImages } from './textures.js?v=86';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=86';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=86';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=86';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=87';
+import { actorModel, material, part } from './geometry.js?v=87';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=87';
+import { loadImages } from './textures.js?v=87';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=87';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=87';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=87';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -773,12 +773,12 @@ export class Renderer {
     }
   }
 
-  updateActors(game, preparing = false) {
+  updateActors(game, preparing = false, view = game.player) {
     this.resetDynamic(this.actorBatches);
     const player = game.player;
     for (const a of game.actors) {
-      const actorDistance = distance(a, player);
-      if (a.id === player.id || actorDistance > this.camera.far) continue;
+      const actorDistance = distance(a, view);
+      if (a.id === view.id || actorDistance > this.camera.far) continue;
       if (!preparing && this.frustum && actorDistance > 3) {
         // Include the held rifle and posed limbs, even if the body centre is
         // outside the view. Falling operators need room for their root lean.
@@ -979,8 +979,14 @@ export class Renderer {
     if (this.lost || !this.loaded) return;
     this.frames++; this.lastFPS += elapsed;
     if (this.lastFPS >= .6) { this.fps = Math.round(this.frames / this.lastFPS); this.frames = 0; this.lastFPS = 0; }
-    this.applyQuality(); const aspect = this.resize(), p = game.player;
-    if(menu)p.weaponObstruction=0;else updateWeaponClearance(this.weaponClearanceState??(this.weaponClearanceState={}),this.arena,p,game.paused?0:dt);
+    this.applyQuality();
+    const aspect = this.resize(), p = menu ? game.player : game.cameraActor ?? game.player;
+    const spectating = p !== game.player;
+    if(this.cameraSubject!==p){
+      this.cameraSubject=p;this.cameraY=null;
+      this.cameraBobState={};this.movementFovState={};this.weaponClearanceState={};this.weaponPoseState={};
+    }
+    if(menu)p.weaponObstruction=0;else if(!spectating)updateWeaponClearance(this.weaponClearanceState??(this.weaponClearanceState={}),this.arena,p,game.paused?0:dt);
     let yaw = p.yaw, pitch = p.pitch, fov;
     if (menu) {
       const t = game.time * .04; this.eye.x = 15 + Math.sin(t) * 2; this.eye.y = 6.5; this.eye.z = 25;
@@ -995,7 +1001,7 @@ export class Renderer {
       pitch += this.settings.motion !== false ? p.visualKick * .10 * (1 - p.ads) : 0;
       const d = direction(yaw, pitch); this.target.set(this.eye.x + d.x, this.eye.y + d.y, this.eye.z + d.z);
       const horizontal=movementFov(this.movementFovState??(this.movementFovState={}),p,this.settings.fov??80,game.paused?0:dt,this.settings.motion!==false);
-      fov = verticalFov(aimFov(horizontal, p.weapon, p.ads), aspect) / RAD;
+      fov = verticalFov(spectating ? horizontal : aimFov(horizontal, p.weapon, p.ads), aspect) / RAD;
     }
     this.weatherYaw=yaw;this.weatherPitch=pitch;
     this.camera.position.set(this.eye.x, this.eye.y, this.eye.z); this.camera.lookAt(this.target);
@@ -1004,14 +1010,14 @@ export class Renderer {
     this.frustum?.setFromProjectionMatrix(this.worldVP);
     this.lightingField?.update();this.sceneLOD?.update(this,dt);this.blenderAssets?.updateLOD(this,dt);
     this.windTime.value = game.time;
-    this.updateActors(game); this.updateEffects(menu || game.paused ? 0 : dt, game); this.uploadDynamic(this.actorBatches);
+    this.updateActors(game,false,p); this.updateEffects(menu || game.paused ? 0 : dt, game); this.uploadDynamic(this.actorBatches);
     this.updateLighting(dt);
     this.shadowDraws=0;
     const renderStart=performance.now();this.profiler?.begin();
     this.renderer.info.reset(); this.renderer.setRenderTarget(null); this.renderer.clear(true, true, false);
     this.renderer.render(this.scene, this.camera);this.renderPasses=1;
     // A magnified optic sees only the world scene. The shared HUD draws the clear reticle.
-    if (!p.dead && (menu || !scopeVisible(p))) {this.renderWeapon(game, aspect, menu);this.renderPasses++;}
+    if (!spectating && !p.dead && (menu || !scopeVisible(p))) {this.renderWeapon(game, aspect, menu);this.renderPasses++;}
     this.profiler?.end();if(this.profiler)this.profiler.renderCpuMs=performance.now()-renderStart;
     if(this.shadowDraws)this.lastShadowDraws=this.shadowDraws;
     this.drawCalls = this.renderer.info.render.calls;this.triangles=this.renderer.info.render.triangles??0;this.shaderPrograms=this.renderer.info.programs?.length??0;

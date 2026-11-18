@@ -100,3 +100,7 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 }
 
 .result-xp-breakdown{margin-top:16px}
+
+.spectator-status{position:absolute;z-index:4;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:9px 15px;background:#0a160deb;border:1px solid var(--line);color:var(--muted);font-size:10px;letter-spacing:1px}
+.spectator-status strong{color:var(--accent);font-size:13px}
+.hud.spectating :is(.health-display,.ammo-display,.damage-direction,.hitmarker,.kill-confirm),.touch-layer.round-spectating{visibility:hidden}

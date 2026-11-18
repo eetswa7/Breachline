@@ -1,12 +1,12 @@
-import {MODES,MatchRules} from './modes.js?v=86';
-import {MAPS} from './maps.js?v=86';
-import {drawDeploymentMap} from './deployment-map.js?v=86';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=86';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=86';
-import {ATTACHMENT_SPECS} from './attachments.js?v=86';
-import {clamp,distance} from './math.js?v=86';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=86';
-import {identityFor,canIdentify} from './combat-identity.js?v=86';
+import {MODES,MatchRules} from './modes.js?v=87';
+import {MAPS} from './maps.js?v=87';
+import {drawDeploymentMap} from './deployment-map.js?v=87';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=87';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=87';
+import {ATTACHMENT_SPECS} from './attachments.js?v=87';
+import {clamp,distance} from './math.js?v=87';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=87';
+import {identityFor,canIdentify} from './combat-identity.js?v=87';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -116,7 +116,7 @@ export class Interface {
   const duration=seconds=>`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
   $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
- play(){this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',true);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=MAPS[this.app.config.map].name;$('hud-mode').textContent=MODES.find(m=>m.id===this.app.config.mode).name;this.app.input.layout();this.app.orientation();}
+ play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',true);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=MAPS[this.app.config.map].name;$('hud-mode').textContent=MODES.find(m=>m.id===this.app.config.mode).name;this.app.input.layout();this.app.orientation();}
  menu(){this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
  modal(title,caption,body,buttons){$('modal-title').textContent=title;$('modal-caption').textContent=caption;$('modal-content').innerHTML=body;$('modal-actions').replaceChildren();for(const [label,fn,primary]of buttons){const b=document.createElement('button');b.textContent=label;b.className=primary?'primary-button':'secondary-button';b.onclick=fn;$('modal-actions').append(b);}show('modal',true);$('modal-actions').firstElementChild?.focus();}
  closeModal(){show('modal',false);}
@@ -145,7 +145,7 @@ export class Interface {
    if(e.type==='assist'&&e.source===g.player.id){this.killUntil=g.time+1.5;$('kill-confirm').textContent=e.text;}
    if(['capture','round'].includes(e.type)){this.announceUntil=g.time+3;$('announcement').textContent=e.text;}
   }}
- update(dt){const g=this.app.game,p=g.player,r=g.rules;this.hudClock+=dt;this.radarClock+=dt;show('scope',scopeVisible(p));show('ads-reticle',p.ads>.6&&!isScoped(p.weapon)&&!p.dead);if(this.hudClock<.066)return;this.hudClock=0;
+ update(dt){const g=this.app.game,p=g.player,r=g.rules,view=g.cameraActor??p,spectating=view!==p;this.hudClock+=dt;this.radarClock+=dt;show('scope',!p.dead&&scopeVisible(p));show('ads-reticle',p.ads>.6&&!isScoped(p.weapon)&&!p.dead);if(this.hudClock<.066)return;this.hudClock=0;
   $('health').textContent=Math.ceil(Math.max(0,p.health));$('health-fill').style.width=`${Math.max(0,p.health)}%`;$('health-fill').style.background=p.health<30?'#ff785e':'var(--accent)';$('ammo').textContent=p.weapon.def.id===12?'∞':p.weapon.ammo;$('reserve').textContent=p.weapon.reserve;$('hud-weapon').textContent=p.weapon.def.name.toUpperCase();$('fire-mode').textContent=p.weapon.def.burst?'BURST':p.weapon.def.automatic?'AUTO':p.weapon.def.id===12?'MELEE':'SEMI';$('reload-label').textContent=p.weapon.reloadLeft>0?`${p.weapon.def.shellReload?'LOAD SHELL':'RELOADING'} ${p.weapon.reloadLeft.toFixed(1)}s`:p.switchLeft>0?'SWITCHING':'';show('reload-track',p.weapon.reloadLeft>0);$('reload-fill').style.transform=`scaleX(${clamp(1-p.weapon.reloadLeft/p.weapon.reloadTime,0,1)})`;
   $('grenade-count').textContent=`${p.equipment.toUpperCase()} · ${p.grenades}`;
   $('hud-mode').textContent=r.overtime?'OVERTIME':r.mode.name;
@@ -173,8 +173,12 @@ export class Interface {
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
   $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead?0:1;
   $('scope-zoom').textContent=`${opticMagnification(p.weapon)}×`;this.app.input.layer.classList.toggle('aiming',p.ads>.6);const jump=this.app.input.layer.querySelector('[data-action="jump"]');jump.classList.toggle('crouched',p.crouched);jump.setAttribute('aria-label',p.crouched?'Stand up':'Jump');
-  $('damage-vignette').style.opacity=p.dead?0:clamp((45-p.health)/50,0,.65)+clamp(1-(g.time-p.lastDamage)*2,0,.3);$('damage-direction').style.opacity=clamp(1-(g.time-p.lastDamage),0,1);$('damage-direction').style.transform=`rotate(${g.damageYaw-p.yaw}rad)`;$('flash-overlay').style.opacity=clamp(p.flashed/1.5,0,1);
-  show('death-overlay',p.dead);if(p.dead){$('death-name').textContent=g.lastKiller?`ELIMINATED BY ${g.lastKiller}`:'OPERATOR DOWN';$('respawn-message').textContent=r.respawns?`Redeploying in ${Math.ceil(p.respawnLeft)}…`:'One life this round. Your team is still fighting.';}
+  $('damage-vignette').style.opacity=p.dead?0:clamp((45-p.health)/50,0,.65)+clamp(1-(g.time-p.lastDamage)*2,0,.3);$('damage-direction').style.opacity=clamp(1-(g.time-p.lastDamage),0,1);$('damage-direction').style.transform=`rotate(${g.damageYaw-p.yaw}rad)`;$('flash-overlay').style.opacity=clamp(view.flashed/1.5,0,1);
+  $('hud').classList.toggle('spectating',spectating);
+  this.app.input.layer.classList.toggle('round-spectating',spectating);
+  show('spectator-status',spectating);
+  if(spectating)$('spectator-name').textContent=view.name;
+  show('death-overlay',p.dead&&!spectating);if(p.dead&&!spectating){$('death-name').textContent=g.lastKiller?`ELIMINATED BY ${g.lastKiller}`:'OPERATOR DOWN';$('respawn-message').textContent=r.respawns?`Redeploying in ${Math.ceil(p.respawnLeft)}…`:'One life this round. Your team is still fighting.';}
   const live=this.feed.filter(f=>f.until>g.time);if(live.length!==this.lastFeedCount||live[0]?.text!==this.lastFeedText){$('killfeed').innerHTML=live.map(f=>`<div class="feed-entry ${f.ours?'ours':f.relation}">${esc(f.text)}</div>`).join('');this.lastFeedCount=live.length;this.lastFeedText=live[0]?.text;}
   show('debug-hud',this.debugVisible);if(this.debugVisible)$('debug-hud').textContent=`${this.app.renderer.fps} FPS · ${this.app.renderer.quality}\n${this.app.renderer.diagnostics?.()??`${g.actors.filter(a=>!a.dead).length} ACTIVE`}\n${p.x.toFixed(1)} / ${p.y.toFixed(1)} / ${p.z.toFixed(1)} m`;
   if(this.radarClock>.1){this.radarClock=0;this.radar();}
@@ -191,13 +195,13 @@ export class Interface {
   }
   const target=$('target-identity');target.classList.toggle('hidden',!centred);if(centred){target.dataset.relation=centred.identity.key;target.textContent=centred.el.textContent;}
  }
- radar(){const g=this.app.game,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-g.player.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-g.player.x-b.w/2)*s,(b.z-g.player.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-g.player.x)*s,(p.z-g.player.z)*s);}
+ radar(){const g=this.app.game,view=g.cameraActor??g.player,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-view.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-view.x-b.w/2)*s,(b.z-view.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-view.x)*s,(p.z-view.z)*s);}
   const charge=g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
   if(charge&&charge!==g.player){
    c.fillStyle='#ffcf61';c.font='bold 13px Arial';
-   c.fillText('◆',(charge.x-g.player.x)*s-5,(charge.z-g.player.z)*s+4);
+   c.fillText('◆',(charge.x-view.x)*s-5,(charge.z-view.z)*s+4);
   }
-  for(const flag of g.rules.flags??[]){const x=(flag.x-g.player.x)*s,z=(flag.z-g.player.z)*s;c.fillStyle=flag.team===g.player.team?'#70e5f5':'#ff786e';c.beginPath();c.moveTo(x,z-5);c.lineTo(x+4,z);c.lineTo(x,z+5);c.lineTo(x-4,z);c.closePath();c.fill();c.fillStyle='#102019';c.font='bold 7px Arial';c.fillText(flag.team===0?'B':'R',x-2,z+2);}
-  for(const tag of g.rules.tags??[]){c.fillStyle=tag.team===g.player.team?'#70e5f5':'#ff786e';c.fillRect((tag.x-g.player.x)*s-2,(tag.z-g.player.z)*s-3,4,6);}
-  for(const a of g.actors){if(a.dead||a.id===0)continue;const friendly=g.rules.mode.teams&&a.team===g.player.team;if(!friendly&&g.time-a.lastShot>1.8)continue;c.fillStyle=friendly?'#70e5f5':'#ff786e';c.beginPath();c.arc((a.x-g.player.x)*s,(a.z-g.player.z)*s,3,0,Math.PI*2);c.fill();}c.restore();c.fillStyle='#ddff7b';c.beginPath();c.moveTo(80,72);c.lineTo(75,86);c.lineTo(80,82);c.lineTo(85,86);c.closePath();c.fill();}
+  for(const flag of g.rules.flags??[]){const x=(flag.x-view.x)*s,z=(flag.z-view.z)*s;c.fillStyle=flag.team===g.player.team?'#70e5f5':'#ff786e';c.beginPath();c.moveTo(x,z-5);c.lineTo(x+4,z);c.lineTo(x,z+5);c.lineTo(x-4,z);c.closePath();c.fill();c.fillStyle='#102019';c.font='bold 7px Arial';c.fillText(flag.team===0?'B':'R',x-2,z+2);}
+  for(const tag of g.rules.tags??[]){c.fillStyle=tag.team===g.player.team?'#70e5f5':'#ff786e';c.fillRect((tag.x-view.x)*s-2,(tag.z-view.z)*s-3,4,6);}
+  for(const a of g.actors){if(a.dead||a===view)continue;const friendly=g.rules.mode.teams&&a.team===g.player.team;if(!friendly&&g.time-a.lastShot>1.8)continue;c.fillStyle=friendly?'#70e5f5':'#ff786e';c.beginPath();c.arc((a.x-view.x)*s,(a.z-view.z)*s,3,0,Math.PI*2);c.fill();}c.restore();c.fillStyle='#ddff7b';c.beginPath();c.moveTo(80,72);c.lineTo(75,86);c.lineTo(80,82);c.lineTo(85,86);c.closePath();c.fill();}
 }

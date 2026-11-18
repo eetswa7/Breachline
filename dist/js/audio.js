@@ -1,9 +1,9 @@
-import {Ambience} from './ambience.js?v=86';
-import {WEAPONS} from './weapons.js?v=86';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=86';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=86';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=86';
-import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=86';
+import {Ambience} from './ambience.js?v=87';
+import {WEAPONS} from './weapons.js?v=87';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=87';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=87';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=87';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=87';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts and environmental beds.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -208,7 +208,7 @@ export class AudioSystem {
   if(this.master)this.master.gain.value=this.settings.volume;let impacts=0,ballistic=0,cases=0,foley=0;
   // Empty batches update listener direction and bounded live world acoustics.
   // No audio-specific timer, propagation delay or moving emitted wave origin.
-  const p=game.player,eye=game.eye?.(p)??{x:p.x,y:p.y+(p.height??1.67)-.12,z:p.z};
+  const p=game.cameraActor??game.player,eye=game.eye?.(p)??{x:p.x,y:p.y+(p.height??1.67)-.12,z:p.z};
   this.spatialReady=updateSpatialListener(this.context,listenerFrame(p,eye));
   const budget=coverBudget();
   if(this.context?.state==='running'&&!this.muted){
@@ -222,17 +222,17 @@ export class AudioSystem {
    }
   }
   for(const e of events){
-   const dx=e.position?e.position.x-game.player.x:0,dy=e.position?e.position.y-game.player.y:0,dz=e.position?e.position.z-game.player.z:0;
+   const dx=e.position?e.position.x-p.x:0,dy=e.position?e.position.y-p.y:0,dz=e.position?e.position.z-p.z:0;
    const d=Math.hypot(dx,dy,dz),own=e.source===0;
    const spatial=['shot','step','land','impact','ricochet','penetration','casing','explosion','weaponFoley'].includes(e.type);
    // A local muzzle/boot stays immediate; the player's distant bullet contacts
    // still travel from their struck surface and pass through intervening cover.
-   const localSource=own&&['shot','step','land','weaponFoley'].includes(e.type);
+   const localSource=p===game.player&&own&&['shot','step','land','weaponFoley'].includes(e.type);
    const position=spatial&&!localSource?e.position:undefined;
    const height=e.type==='step'?1.1:.08,occluded=!!(position&&coverOcclusion(game,position,d,height,budget));
    const volume=localSource||!e.position?1:distanceGain(d,occluded);
    const acoustics=position?{attenuation:volume,minimum:e.type==='explosion'?.06:0,height,listener:p}:undefined;
-   const pan=localSource?0:e.position?Math.sin(Math.atan2(dx,-dz)-game.player.yaw):0;
+   const pan=localSource?0:e.position?Math.sin(Math.atan2(dx,-dz)-p.yaw):0;
    const room=spatial?roomAcoustics(game.arena,e.position):null;
    switch(e.type){
     case 'shot':this.play(`${e.suppressed?'suppressed':'shot'}${e.weapon}`,{volume:volume*(own?.85:.72)*(e.loudness??1),pan,rate:.985+Math.random()*.030,indoor:room??(!e.position&&e.indoor),distance:d,important:own,occluded,position,acoustics});if(own)this.haptic(8);break;

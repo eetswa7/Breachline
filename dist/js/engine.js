@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=86';
-import {Navigation} from './navigation.js?v=86';
-import {SpawnDirector} from './spawns.js?v=86';
-import {MatchRules} from './modes.js?v=86';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=86';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=86';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=86';
-import {traceBullet} from './ballistics.js?v=86';
-import {beginVault,advanceVault} from './traversal.js?v=86';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=86';
+import {Arena,MAPS} from './maps.js?v=87';
+import {Navigation} from './navigation.js?v=87';
+import {SpawnDirector} from './spawns.js?v=87';
+import {MatchRules} from './modes.js?v=87';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=87';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=87';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=87';
+import {traceBullet} from './ballistics.js?v=87';
+import {beginVault,advanceVault} from './traversal.js?v=87';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=87';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -33,6 +33,11 @@ export class Game {
   this.player=this.actors[0];
   if(this.rules.mode.id==='gun')for(const a of this.actors)a.weapons=[new Weapon(GUN_ORDER[0]),new Weapon(10)];
   this.resetRound();
+ }
+ get cameraActor(){
+  const player=this.player;
+  if(!player.dead||this.rules.respawns)return player;
+  return this.actors.find(actor=>!actor.dead&&actor.team===player.team)??player;
  }
  eye(a){return{x:a.x,y:a.y+a.height-.12,z:a.z};}
  emit(type,data={}){if(this.events.length<180)this.events.push({type,time:this.time,...data});}

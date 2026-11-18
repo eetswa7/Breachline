@@ -12,7 +12,7 @@ export function coverOcclusion(game,position,distance,height,budget){
  if(budget.cache.has(key))return budget.cache.get(key);
  if(budget.remaining<=0)return null;
  budget.remaining--;
- const p=game.player,result=game.arena.visible({x:p.x,y:p.y+1.55,z:p.z},{x:position.x,y:position.y+height,z:position.z})===false;
+ const p=game.cameraActor??game.player,result=game.arena.visible({x:p.x,y:p.y+1.55,z:p.z},{x:position.x,y:position.y+height,z:position.z})===false;
  budget.cache.set(key,result);return result;
 }
 export class WorldAcoustics {
@@ -21,7 +21,7 @@ export class WorldAcoustics {
  remove(voice){const i=this.voices.indexOf(voice);if(i<0)return;this.voices.splice(i,1);if(i<this.cursor)this.cursor--;if(this.cursor>=this.voices.length)this.cursor=0;}
  update(game,context,budget){
   const voices=this.voices,count=voices.length;if(!count)return;
-  const p=game.player,now=context.currentTime??0;
+  const p=game.cameraActor??game.player,now=context.currentTime??0;
   // At most four existing voices request cover per gameplay batch. The shared
   // eight-ray budget includes new emissions; identical contacts share a ray.
   // Round-robin avoids starving later tails. Clips under 180 ms and the final

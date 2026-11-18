@@ -4,7 +4,7 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
  <meta name="theme-color" content="#101817"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Breachline">
  <meta name="description" content="A tactical first-person shooter. Eleven bot modes, sixteen battlegrounds, thirty weapons, and touch controls built for iPhone.">
- <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=86">
+ <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=87">
 </head>
 <body>
  <canvas id="world" aria-label="3D battlefield"></canvas>
@@ -48,7 +48,7 @@
   <div id="crosshair" class="crosshair"><i></i><i></i><i></i><i></i><b></b></div><div id="hitmarker" class="hitmarker">×</div><div id="kill-confirm" class="kill-confirm"></div><div id="ads-reticle" class="ads-reticle hidden"></div><div id="scope" class="scope hidden"><div class="scope-lens"><i class="scope-marks"></i><span id="scope-zoom">4×</span></div></div>
   <div class="health-display"><span>VITALS</span><strong id="health">100</strong><div><i id="health-fill"></i></div></div><div class="ammo-display"><div><span id="hud-weapon">KESTREL AR</span><small id="fire-mode">AUTO</small></div><strong id="ammo">30</strong><span class="ammo-divider">/</span><span id="reserve">150</span><small id="reload-label"></small><span id="reload-track" class="reload-track hidden" aria-hidden="true"><i id="reload-fill"></i></span></div>
   <div id="interact-prompt" class="interact-prompt"></div><div id="damage-direction" class="damage-direction"></div><div id="damage-vignette"></div><div id="flash-overlay"></div>
-  <div id="death-overlay" class="death-overlay hidden"><span>OPERATOR DOWN</span><h2 id="death-name"></h2><p id="respawn-message"></p></div><div id="debug-hud" class="debug-hud hidden"></div>
+  <div id="death-overlay" class="death-overlay hidden"><span>OPERATOR DOWN</span><h2 id="death-name"></h2><p id="respawn-message"></p></div><div id="spectator-status" class="spectator-status hidden"><span>SPECTATING</span><strong id="spectator-name"></strong></div><div id="debug-hud" class="debug-hud hidden"></div>
  </section>
  <section id="touch-layer" class="touch-layer hidden" aria-label="Touch controls">
   <div id="stick"><div id="stick-knob"></div><span>MOVE</span></div>
@@ -63,5 +63,5 @@
  <div id="benchmark-watermark" class="benchmark-watermark hidden" aria-label="Benchmark recording status"></div>
  <div id="toast" class="toast hidden" role="status"></div>
  <noscript><div class="fatal">JavaScript is required to play Breachline.</div></noscript>
- <script type="module" src="./js/boot.js?v=86"></script>
+ <script type="module" src="./js/boot.js?v=87"></script>
 </body></html>
