@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 91.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 92.** 30 weapons, 16 maps and 12 modes.
+
+## Release 92: Last Stand
+
+Select **Last Stand** from the game mode list. A three-operator squad faces
+six timed waves of four to fourteen enemies. Teammates can revive one another
+during a wave and regroup after it. Ammunition and grenades carry forward.
+The squad starts with three supply drops, drawn from the marked station.
+A wipe or an uncleared wave at timeout ends the run.
 
 ## Release 91: campaign squad revives
 
