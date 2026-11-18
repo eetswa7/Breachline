@@ -1,9 +1,9 @@
-import {rng,rayBox,distance,clamp} from './math.js?v=110';
-import {dressWorld} from './world-detail.js?v=110';
-import {RayGrid} from './ray-grid.js?v=110';
-import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=110';
-import {buildNuketown} from './nuketown.js?v=110';
-import {buildFloodgate} from './floodgate.js?v=110';
+import {rng,rayBox,distance,clamp} from './math.js?v=111';
+import {dressWorld} from './world-detail.js?v=111';
+import {RayGrid} from './ray-grid.js?v=111';
+import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=111';
+import {buildNuketown} from './nuketown.js?v=111';
+import {buildFloodgate} from './floodgate.js?v=111';
 export const MAPS=[
  {id:0,name:'OLD QUARTER',location:'Coastal city',size:32,weather:'sun',tag:'URBAN',description:'Market alleys, a central plaza and elevated terraces.',sky:[.47,.65,.76],fog:[.59,.66,.65],sun:[-.5,.8,.35]},
  {id:1,name:'FOUNDRY',location:'Industrial district',size:35,weather:'overcast',tag:'INDUSTRIAL',description:'Four loading entrances connect the machinery hall to covered freight lanes.',sky:[.27,.38,.48],fog:[.35,.43,.46],sun:[-.6,.7,-.3]},

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {Renderer} from '../dist/js/three-renderer.js';
 import {Application} from '../dist/js/main.js';
 import {FramePacer} from '../dist/js/frame-pacer.js';
 import {Game,emptyInput} from '../dist/js/engine.js';
@@ -24,6 +25,14 @@ function fixture(){
 function defer(){let resolve;const promise=new Promise(r=>resolve=r);return{promise,resolve};}
 
 test('deployment holds controls until preparation finishes and ignores duplicate starts',async()=>{
+ const arena={info:{id:14,sun:[0,1,0],fog:[.4,.5,.6]},decor:[]},lightmaps=[];
+ const color={setRGB(){return this;},clone(){return this;},isColor:true};
+ const renderer=Object.assign(Object.create(Renderer.prototype),{
+  effects:[],actorBatches:new Map(),color,scene:{},sun:{color:{setHex(){}}},hemi:{},
+  selectLightmap(selected){assert.equal(this.arena,selected);lightmaps.push(selected);return Promise.resolve(null);}
+ });
+ renderer.setArena(arena);
+ assert.deepEqual(lightmaps,[arena],'the initial map starts its lightmap even before the renderer is ready');
  const env=environment();try{
   const {app,calls}=fixture(),gate=defer(),entered=defer();let prepares=0;
   app.renderer.prepareMatch=async()=>{prepares++;entered.resolve();await gate.promise;};
