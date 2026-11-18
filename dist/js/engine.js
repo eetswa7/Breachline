@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=100';
-import {Navigation} from './navigation.js?v=100';
-import {SpawnDirector} from './spawns.js?v=100';
-import {Convoy} from './convoy.js?v=100';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=100';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=100';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=100';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=100';
-import {traceBullet} from './ballistics.js?v=100';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=100';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=100';
+import {Arena,MAPS} from './maps.js?v=101';
+import {Navigation} from './navigation.js?v=101';
+import {SpawnDirector} from './spawns.js?v=101';
+import {Convoy} from './convoy.js?v=101';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=101';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=101';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=101';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=101';
+import {traceBullet} from './ballistics.js?v=101';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=101';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=101';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -17,7 +17,7 @@ export class Actor {
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.ride=null;this.ziplineCooldown=0;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.ride=null;this.ziplineCooldown=0;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.dropPending=false;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {
@@ -26,7 +26,7 @@ export class Game {
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
   this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
   this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
-  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.deployables=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
+  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.deployables=[];this.fieldWeapons=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
   this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[],decision:null,support:null}:null;
@@ -155,7 +155,7 @@ export class Game {
    if(actor.rescueTarget!==ally.id){actor.rescueTarget=ally.id;actor.rescueProgress=0;}
    actor.rescueProgress+=dt;
    if(actor.rescueProgress<2)continue;
-   ally.health=45;ally.downedUntil=0;ally.revived=true;ally.spawnProtection=.75;
+   ally.health=45;ally.downedUntil=0;ally.dropPending=false;ally.revived=true;ally.spawnProtection=.75;
    ally.damageContributors.clear();ally.lastDamage=this.time;ally.interacting=false;
    ally.vx=ally.vy=ally.vz=0;ally.sprinting=false;ally.sliding=false;ally.vault=null;
    ally.grounded=true;ally.path=[];ally.pathIndex=0;ally.pathClock=0;ally.aiClock=0;
@@ -225,6 +225,41 @@ export class Game {
   actor.vy=bail?3.4:0;
   if(!bail){actor.vx=actor.vz=0;actor.grounded=!blocked;}
  }
+ dropWeapon(actor,weapon=actor.weapon){
+  if(this.rules.mode.id==='gun'||weapon.def.id===12||weapon.ammo+weapon.reserve<=0)return false;
+  const point={x:actor.x,y:this.arena.floorAt(actor,actor.y+.08),z:actor.z};
+  const copy=new Weapon(weapon.def.id,weapon.attachments);
+  copy.ammo=weapon.ammo;copy.reserve=weapon.reserve;
+  if(this.fieldWeapons.length>=16)this.fieldWeapons.shift();
+  this.fieldWeapons.push({...point,weapon:copy,yaw:actor.yaw,until:this.time+45});
+  return true;
+ }
+ weaponInReach(actor){
+  if(actor.dead||actor.ride||this.rules.mode.id==='gun')return null;
+  let closest=null,best=1.85;
+  for(const drop of this.fieldWeapons){
+   const gap=distance(actor,drop);
+   if(gap>=best||drop.until<=this.time||Math.abs(actor.y-drop.y)>1.5||
+      !this.arena.visible(this.eye(actor),{x:drop.x,y:drop.y+.25,z:drop.z}))continue;
+   best=gap;closest=drop;
+  }
+  return closest;
+ }
+ recoverWeapon(actor,drop){
+  if(!drop||drop!==this.weaponInReach(actor))return false;
+  const previous=actor.weapon;
+  this.fieldWeapons.splice(this.fieldWeapons.indexOf(drop),1);
+  if(actor===this.player&&!actor.fieldKit)actor.fieldKit=actor.weapons.slice();
+  this.dropWeapon(actor,previous);
+  this.emit('weaponFoleyCancel',{source:actor.id,weapon:previous.def.id});
+  actor.weapons[actor.slot]=drop.weapon;actor.switchLeft=.45;actor.ads=0;
+  this.emit('switch',{source:actor.id,weapon:drop.weapon.def.id});
+  return true;
+ }
+ dropEliminatedWeapon(actor){
+  actor.dropPending=false;
+  if(this.dropWeapon(actor)&&this.survival&&actor.team===0)actor.weapon.ammo=actor.weapon.reserve=0;
+ }
  gateInReach(actor){
   if(actor.dead)return null;
   return this.arena.doors.find(gate=>!gate.opening&&!gate.barrier.destroyed&&gate.panels.some(panel=>
@@ -244,9 +279,11 @@ export class Game {
  eye(a){return{x:a.x,y:a.y+a.height-.12,z:a.z};}
  emit(type,data={}){if(this.events.length<180)this.events.push({type,time:this.time,...data});}
  spawn(a,initial=false){
-  const p=this.spawner.select(a,this,initial);a.reset(p,p.yaw);a.vault=null;
+  const p=this.spawner.select(a,this,initial);
+  if(a.fieldKit&&!this.survival){a.weapons=a.fieldKit;a.fieldKit=null;}
+  a.reset(p,p.yaw);a.vault=null;
  }
- resetRound(){this.squadOrder=null;this.clearDeployables();this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
+ resetRound(){this.squadOrder=null;this.fieldWeapons.length=0;this.clearDeployables();this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;
@@ -275,6 +312,7 @@ export class Game {
   this.updateGates(dt);
   for(const a of this.actors){
    if(a.dead){
+    if(a.dropPending&&a.downedUntil<=this.time)this.dropEliminatedWeapon(a);
     if(a.downedUntil<=this.time&&this.canRedeploy(a)){
      a.respawnLeft-=dt;
      if(a.respawnLeft<=0){if(this.reinforcements)this.reinforcements[a.team]--;this.spawn(a);}
@@ -321,7 +359,11 @@ export class Game {
     else {
      const gate=this.gateInReach(p);
      if(gate)gate.opening=true;
-     else {const entry=this.ziplineInReach(p);if(entry)this.mountZipline(p,entry);}
+     else {
+      const entry=this.ziplineInReach(p);
+      if(entry)this.mountZipline(p,entry);
+      else if(this.fieldWeapons.length)this.recoverWeapon(p,this.weaponInReach(p));
+     }
     }
    }
    p.interacting=input.interact;
@@ -330,7 +372,7 @@ export class Game {
   }
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
-  updateCasings(this,dt);this.updateEquipment(dt);if(this.deployables.length)this.clearDeployables(true);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
+  updateCasings(this,dt);this.updateEquipment(dt);if(this.fieldWeapons.length)this.fieldWeapons=this.fieldWeapons.filter(drop=>drop.until>this.time);if(this.deployables.length)this.clearDeployables(true);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
   if(this.reinforcements&&this.rules.phase==='playing'){
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
@@ -401,8 +443,8 @@ export class Game {
   if(victim.health>0)return;
   victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;victim.ride=null;this.rules.onDeath(victim,this);
   if((this.operation||this.survival&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
-   victim.downedUntil=this.time+9;victim.respawnLeft=0;
-  }
+   victim.downedUntil=this.time+9;victim.respawnLeft=0;victim.dropPending=true;
+  }else this.dropEliminatedWeapon(victim);
   if(this.survival?.guards.includes(victim)&&!this.livingRelayGuards)this.emit('capture',{text:'RELAY GUARDS DOWN · COMMANDER VULNERABLE'});
   if(victim.id===0)this.lastKiller=killer?.name??'FALL';
   if(killer&&killer.id!==victim.id){killer.kills++;killer.streak++;killer.bestStreak=Math.max(killer.bestStreak,killer.streak);

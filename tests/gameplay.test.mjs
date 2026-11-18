@@ -62,6 +62,25 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const field=duel('tdm');
+ field.t.weapons[0]=new Weapon(3,{optic:2});
+ field.t.weapon.ammo=7;field.t.weapon.reserve=13;
+ field.g.damage(field.t,200,field.p);
+ assert.equal(field.g.fieldWeapons.length,1);
+ const drop=field.g.fieldWeapons[0];
+ Object.assign(field.p,{x:drop.x,y:drop.y,z:drop.z+.4});
+ assert.equal(field.g.weaponInReach(field.p),drop);
+ assert(field.g.recoverWeapon(field.p,drop));
+ assert.equal(field.p.weapon.def.id,3);
+ assert.equal(field.p.weapon.ammo,7);
+ assert.equal(field.p.weapon.reserve,13);
+ assert.deepEqual(field.p.weapon.attachments,field.t.weapon.attachments);
+ assert.equal(field.g.fieldWeapons.length,1);
+ field.g.spawn(field.t);
+ assert.equal(field.p.weapon.ammo,7);
+ field.g.spawn(field.p);
+ assert.equal(field.p.weapon.def.id,0);
+
  const gadgets=duel('tdm');
  gadgets.p.equipment='shield';
  assert(gadgets.g.throwGrenade(gadgets.p));

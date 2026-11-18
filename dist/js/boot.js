@@ -1,6 +1,6 @@
 // Controlled clients retain the atomic release handoff. A fresh visit can
 // load from the network while offline installation remains optional.
-const RELEASE='100';
+const RELEASE='101';
 
 function version(worker) {
  if(!worker)return Promise.resolve(null);
@@ -19,7 +19,7 @@ function offlineStatus(text) {
 }
 
 async function installRelease(workers,upgrading) {
- const registration=await workers.register('./sw.js?v=100',{updateViaCache:'none'});
+ const registration=await workers.register('./sw.js?v=101',{updateViaCache:'none'});
  if(upgrading)await registration.update();
  const deadline=Date.now()+180000;
  const initial=registration.installing||registration.waiting;
@@ -46,11 +46,11 @@ async function boot() {
   }
 
   document.getElementById('game-version').textContent=`BREACHLINE · VERSION ${RELEASE}`;
-  const { application }=await import('./main.js?v=100');
+  const { application }=await import('./main.js?v=101');
   if(!workers){offlineStatus('Offline play unavailable');return;}
   if(controlled){
    offlineStatus('Ready for offline play');
-   workers.register('./sw.js?v=100',{updateViaCache:'none'}).catch(()=>{});
+   workers.register('./sw.js?v=101',{updateViaCache:'none'}).catch(()=>{});
    return;
   }
   if(!application)return;

@@ -1,9 +1,9 @@
-import {Ambience} from './ambience.js?v=100';
-import {WEAPONS} from './weapons.js?v=100';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=100';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=100';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=100';
-import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=100';
+import {Ambience} from './ambience.js?v=101';
+import {WEAPONS} from './weapons.js?v=101';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=101';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=101';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=101';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=101';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts and environmental beds.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
