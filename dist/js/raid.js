@@ -1,7 +1,16 @@
-import {distance} from './math.js?v=103';
+import {distance} from './math.js?v=104';
+
+export const RAID_INSERTIONS = [
+ {id:'standard',name:'Standard',cost:0,armor:0,hostiles:6,time:240,extract:4,minimum:1,multiplier:1,description:'Three operators against six defenders.'},
+ {id:'armored',name:'Armored',cost:180,armor:65,hostiles:6,time:240,extract:4,minimum:1,multiplier:1,description:'Start with 65 armor per squad member.'},
+ {id:'rapid',name:'Rapid extraction',cost:160,armor:0,hostiles:6,time:240,extract:2,minimum:1,multiplier:1,description:'Extract in two uncontested seconds.'},
+ {id:'contract',name:'High stakes',cost:250,armor:0,hostiles:10,time:180,extract:4,minimum:375,multiplier:2,description:'Face ten defenders in three minutes. Extract at least 375 salvage for double payout.'}
+];
+export const raidInsertion=id=>RAID_INSERTIONS.find(plan=>plan.id===id);
 
 export class Raid {
- constructor(arena,nav){
+ constructor(arena,nav,plan=RAID_INSERTIONS[0]){
+  this.plan=plan;
   const snap=point=>{
    const node=nav.nodes[nav.nearest(point)]??point;
    return {x:node.x,y:node.y,z:node.z};
@@ -11,6 +20,7 @@ export class Raid {
   this.exit={...snap(home),name:'EXTRACTION',kind:'exit'};
   this.carried=0;this.banked=0;this.stash=null;this.target=null;this.progress=0;this.alert=false;
  }
+ get payout(){return this.banked*this.plan.multiplier;}
  near(actor,point,engine,radius){
   return !actor.dead&&distance(actor,point)<radius&&Math.abs(actor.y-point.y)<1.6&&
    engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.55,z:point.z});
@@ -24,7 +34,7 @@ export class Raid {
   if(this.stash&&this.near(actor,this.stash,engine,2.3))return this.stash;
   const cache=this.caches.find(cache=>!cache.opened&&this.near(actor,cache,engine,2.6));
   if(cache)return cache;
-  return this.carried>0&&this.near(actor,this.exit,engine,3.1)?this.exit:null;
+  return this.carried>=this.plan.minimum&&this.near(actor,this.exit,engine,3.1)?this.exit:null;
  }
  onDeath(victim,engine){
   if(victim!==engine.player||!this.carried)return;
@@ -46,7 +56,7 @@ export class Raid {
    engine.emit('capture',{text:'EXTRACTION SIGNAL SENT · HOSTILES INBOUND',position:this.exit});
   }
   this.progress+=dt;
-  if(this.progress<(target.kind==='exit'?4:target.kind==='stash'?.65:1.5))return;
+  if(this.progress<(target.kind==='exit'?this.plan.extract:target.kind==='stash'?.65:1.5))return;
   this.target=null;this.progress=0;
   if(target.kind==='exit'){
    this.banked=this.carried;this.carried=0;rules.finish(0);return;

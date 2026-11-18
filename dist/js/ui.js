@@ -1,15 +1,15 @@
-import {Raid} from './raid.js?v=103';
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=103';
-import {Convoy} from './convoy.js?v=103';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=103';
-import {MAPS} from './maps.js?v=103';
-import {drawDeploymentMap} from './deployment-map.js?v=103';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=103';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=103';
-import {ATTACHMENT_SPECS} from './attachments.js?v=103';
-import {clamp,distance} from './math.js?v=103';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=103';
-import {identityFor,canIdentify} from './combat-identity.js?v=103';
+import {Raid,RAID_INSERTIONS,raidInsertion} from './raid.js?v=104';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=104';
+import {Convoy} from './convoy.js?v=104';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=104';
+import {MAPS} from './maps.js?v=104';
+import {drawDeploymentMap} from './deployment-map.js?v=104';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=104';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=104';
+import {ATTACHMENT_SPECS} from './attachments.js?v=104';
+import {clamp,distance} from './math.js?v=104';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=104';
+import {identityFor,canIdentify} from './combat-identity.js?v=104';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -26,7 +26,7 @@ export class Interface {
   for(const button of $('map-selector').children)button.onclick=()=>this.configureMatch({map:Number(button.dataset.map)});
   $('difficulty').value=this.app.config.difficulty;
   $('difficulty').onchange=()=>this.configureMatch({difficulty:$('difficulty').value});
-  $('deploy').onclick=()=>this.app.start();
+  $('deploy').onclick=()=>this.app.config.mode==='raid'?this.raidBoard():this.app.start();
   $('career-replay').onclick=()=>this.app.start(null,this.app.lastReplay);
   $('operation-board').onclick=()=>this.operationBoard();
   this.deploymentBrief();
@@ -126,11 +126,18 @@ export class Interface {
  refreshCareer(){show('career-replay',!!this.app.lastReplay);const d=this.store.data,l=this.store.level;$('level-badge').textContent=String(l).padStart(2,'0');$('career-xp').textContent=`${d.xp.toLocaleString()} XP`;$('career-stats').innerHTML=[['MATCHES',d.matches],['VICTORIES',d.wins],['ELIMINATIONS',d.kills],['BEST STREAK',d.bestStreak]].map(([k,v])=>`<div class="career-stat"><strong>${v}</strong><span>${k}</span></div>`).join('');$('progress-label').textContent=`LEVEL ${l} · ${d.xp} / ${this.store.nextXP} XP`;$('xp-progress').style.width=`${(d.xp-(l-1)**2*450)/(this.store.nextXP-(l-1)**2*450)*100}%`;this.renderMatchHistory();}
  renderMatchHistory(){const history=this.store.data.matchHistory??[],wins=history.filter(r=>r.outcome==='win').length,kills=history.reduce((n,r)=>n+r.kills,0),deaths=history.reduce((n,r)=>n+r.deaths,0);
   $('recent-form').textContent=history.length?`${history.length} recent ${history.length===1?'match':'matches'} · ${wins} ${wins===1?'victory':'victories'} · ${deaths?(kills/deaths).toFixed(2):kills} K/D`:'Complete a match to start your record. Your last 12 results stay on this device.';
-  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.mode==='raid'?[['SALVAGE',r.salvage]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
+  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}${r.raidPlan?` · ${raidInsertion(r.raidPlan).name.toUpperCase()}`:''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.mode==='raid'?[['SALVAGE',r.salvage],['PAYOUT',r.raidPayout]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',!this.app.replayPlayer);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=this.app.game.arena.info.name;$('hud-mode').textContent=this.app.game.rules.mode.name;this.app.input.layout();this.app.orientation();}
  menu(){show('squad-button',false);this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
  modal(title,caption,body,buttons){$('modal-title').textContent=title;$('modal-caption').textContent=caption;$('modal-content').innerHTML=body;$('modal-actions').replaceChildren();for(const [label,fn,primary]of buttons){const b=document.createElement('button');b.textContent=label;b.className=primary?'primary-button':'secondary-button';b.onclick=fn;$('modal-actions').append(b);}show('modal',true);$('modal-actions').firstElementChild?.focus();}
+ raidBoard(){
+  const balance=this.store.data.raidWallet;
+  const cards=RAID_INSERTIONS.map(plan=>`<article><h3>${plan.name}</h3><p>${plan.description}</p><strong>${plan.cost?`${plan.cost} SALVAGE`:'FREE'}${plan.cost>balance?' · UNAVAILABLE':''}</strong></article>`).join('');
+  this.modal('SALVAGE RAID',`${balance.toLocaleString()} SALVAGE BANKED`,`<div class="operation-missions">${cards}</div>`,
+   [...RAID_INSERTIONS.filter(plan=>plan.cost<=balance).map(plan=>[plan.name.toUpperCase(),()=>this.app.start(null,null,plan.id),plan.id==='standard']),
+    ['BACK',()=>this.closeModal()]]);
+ }
  operationBoard(){
   const operation=this.store.data.operation;
   if(operation?.status!=='active'){
@@ -194,7 +201,7 @@ export class Interface {
  }if(this.app.game.awaitingSurvivalSupport){this.survivalSupport();return;}if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],...(this.app.game.operation?[]:[['RESTART',()=>this.app.start()]]),['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
  results(){const g=this.app.game,r=g.result();if(!g.saved){this.store.finish(r);g.saved=true;}this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
  const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
- this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} SALVAGE EXTRACTED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
+ this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
  installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  controllerMenu(pad){
@@ -236,7 +243,7 @@ export class Interface {
    const raid=r.raid;
    $('team-blue-label').textContent='SALVAGE CARRIED';$('team-red-label').textContent='HOSTILES LEFT';
    $('score-blue').textContent=raid.carried;$('score-red').textContent=g.actors.filter(actor=>actor.team===1&&!actor.dead).length;
-   $('objective').textContent=p.dead?'AWAIT SQUAD REVIVE':raid.carried?'RETURN TO EXTRACTION OR RAID ANOTHER CACHE':'LOCATE SALVAGE CACHES';
+   $('objective').textContent=p.dead?'AWAIT SQUAD REVIVE':raid.carried>=raid.plan.minimum?'RETURN TO EXTRACTION OR RAID ANOTHER CACHE':raid.plan.minimum>1?`CONTRACT MINIMUM · ${raid.carried} / ${raid.plan.minimum} SALVAGE`:'LOCATE SALVAGE CACHES';
   }else if(r.convoy){
    const convoy=r.convoy,first=convoy.results[0];
    const instructions=r.round-1===p.team?'ESCORT THE DRONE':'STOP THE DRONE';
@@ -294,7 +301,7 @@ export class Interface {
   const raid=game.rules.raid;
   if(target.kind==='exit'&&raid.contested(game))return 'EXTRACTION CONTESTED';
   const action=target.kind==='exit'?'EXTRACT':target.kind==='cache'?`OPEN CACHE ${target.name}`:'RECOVER SALVAGE';
-  const seconds=target.kind==='exit'?4:target.kind==='cache'?1.5:.65;
+  const seconds=target.kind==='exit'?raid.plan.extract:target.kind==='cache'?1.5:.65;
   return raid.target===target?`${action} · ${Math.min(99,Math.floor(raid.progress/seconds*100))}%`:`HOLD INTERACT TO ${action}`;
  }
  updateIdentities(dt){

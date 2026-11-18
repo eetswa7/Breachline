@@ -38,6 +38,14 @@ test('saved loadouts, settings and progression round-trip',()=>{let data='';cons
   assert(resumed.finish({...record,map:attempt.map,mode:attempt.mode,operation:attempt,win:false}));
  }
  assert.equal(new SaveStore(storage).data.operation.status,'lost');
+ const raidResult={mode:'raid',map:0,difficulty:'regular',xp:550,win:true,kills:0,deaths:0,streak:0,weaponKills:{},salvage:400,raidPayout:800,raidPlan:'contract'};
+ assert(resumed.finish(raidResult));
+ assert.equal(resumed.data.raidWallet,800);
+ assert(resumed.payRaidInsertion('armored'));
+ assert.equal(new SaveStore(storage).data.raidWallet,620);
+ assert(resumed.finish({...raidResult,win:false,raidPayout:0}));
+ assert.equal(resumed.data.raidWallet,620);
+
 });
 test('corrupt saves and quota failures do not stop gameplay',()=>{const bad=new SaveStore({getItem:()=>'{bad',setItem(){throw Error('quota');}});assert.equal(bad.data.loadout.primary,0);assert(!bad.persist());const malformed=new SaveStore({getItem:()=>JSON.stringify({version:1,loadout:{primary:999,secondary:-9},settings:{sensitivity:900,fov:-20}})});assert.equal(malformed.data.loadout.primary,9);assert.equal(malformed.data.loadout.secondary,10);assert.equal(malformed.data.settings.fov,65);});
 
