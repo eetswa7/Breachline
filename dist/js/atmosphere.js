@@ -1,7 +1,7 @@
 // Height haze and forward sun scattering in the existing fog stage. No extra
 // framebuffer, texture sample or full-screen draw; hero weapons remain clear.
-export function patchAtmosphere(shader,sun,haze){
- shader.uniforms.uBreachHazeSun=sun;shader.uniforms.uBreachHaze=haze;
+export function patchAtmosphere(shader,sun,haze,hazeColor){
+ shader.uniforms.uBreachHazeSun=sun;shader.uniforms.uBreachHaze=haze;shader.uniforms.uBreachHazeColor=hazeColor;
  shader.vertexShader='varying vec3 vBreachHazeWorld; varying float vBreachHazeDensity;\n'+shader.vertexShader;
  shader.vertexShader=shader.vertexShader.replace('#include <worldpos_vertex>',`#include <worldpos_vertex>
   vec4 breachHazeWorld=vec4(transformed,1.0);
@@ -16,7 +16,7 @@ export function patchAtmosphere(shader,sun,haze){
   float breachDelta=(breachStart-breachEnd)*.075;
   float breachIntegral=abs(breachDelta)<.01?1.0+breachDelta*.5:(exp(breachDelta)-1.0)/breachDelta;
   vBreachHazeDensity=exp(-breachStart*.075)*breachIntegral;`);
- shader.fragmentShader='varying vec3 vBreachHazeWorld; varying float vBreachHazeDensity; uniform vec3 uBreachHazeSun; uniform float uBreachHaze;\n'+shader.fragmentShader;
+ shader.fragmentShader='varying vec3 vBreachHazeWorld; varying float vBreachHazeDensity; uniform vec3 uBreachHazeSun; uniform float uBreachHaze; uniform vec3 uBreachHazeColor;\n'+shader.fragmentShader;
  shader.fragmentShader=shader.fragmentShader.replace('#include <fog_fragment>',`
   #ifdef USE_FOG
    #ifdef FOG_EXP2
@@ -29,7 +29,7 @@ export function patchAtmosphere(shader,sun,haze){
    float breachVeil=breachOpticalDepth/(1.0+breachOpticalDepth);
    vec3 breachRay=normalize(vBreachHazeWorld-cameraPosition);
    float breachScatter=pow(max(0.0,dot(breachRay,uBreachHazeSun)),8.0)*breachDistance;
-   vec3 breachHazeColor=mix(fogColor,vec3(1.0,.87,.68),breachScatter*.12);
+   vec3 breachHazeColor=mix(fogColor,uBreachHazeColor,breachScatter*.22);
    gl_FragColor.rgb=mix(gl_FragColor.rgb,breachHazeColor,clamp(fogFactor+breachVeil*(1.0-fogFactor),0.0,1.0));
   #endif`);
 }

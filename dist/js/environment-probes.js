@@ -1,34 +1,40 @@
 import * as THREE from '../vendor/three.module.min.js';
+import {weatherLighting} from './weather-lighting.js?v=76';
 
 // HDR radiance combines each map's atmosphere with authored cloud shading. One
 // PMREM per map load, never a cubemap capture during combat. 128 px cube faces.
 export function environmentRadiance(info,width=512,height=256,clouds=null){
   const pixels=new Uint16Array(width*height*4),sun=new THREE.Vector3(...info.sun).normalize();
   const sky=new THREE.Color().setRGB(...info.sky,THREE.SRGBColorSpace),fog=new THREE.Color().setRGB(...info.fog,THREE.SRGBColorSpace);
-  const overcast=info.weather==='overcast'||info.weather==='rain',azimuth=Math.atan2(sun.z,sun.x);
+  const weather=weatherLighting(info),azimuth=Math.atan2(sun.z,sun.x);
+  const solarColor=new THREE.Color(weather.sunColor).toArray();
   const skyChannels=[sky.r,sky.g,sky.b],fogChannels=[fog.r,fog.g,fog.b];
   // Longitude and cloud addressing stay identical along a column. Precompute
   // them once; avoid six trigonometric calls and temporary RGB arrays per pixel.
   const longitudes=Array.from({length:width},(_,x)=>{
     const longitude=((x+.5)/width-.5)*Math.PI*2;
-    return {cos:Math.cos(longitude),sin:Math.sin(longitude),cloudUV:((longitude-azimuth)/(Math.PI*2)+1.5)%1};
+    return {cos:Math.cos(longitude),sin:Math.sin(longitude),cloudUV:((longitude-azimuth)/(Math.PI*2)+1.5+(weather.cloudOffset??0))%1};
   }),cloudRGB=[0,0,0];
   for(let y=0;y<height;y++){
    const latitude=((y+.5)/height-.5)*Math.PI,dy=Math.sin(latitude),radial=Math.cos(latitude);
-   const horizon=Math.pow(1-Math.abs(dy),3),ground=dy<0,elevation=latitude/(Math.PI/2);
+   const horizon=Math.pow(1-Math.abs(dy),3),ground=dy<0,elevation=latitude/(Math.PI/2),cloudY=Math.min(1,Math.max(0,elevation*weather.cloudStretch));
    for(let x=0;x<width;x++){
     const column=longitudes[x],dx=radial*column.cos,dz=radial*column.sin;
-    const dot=dx*sun.x+dy*sun.y+dz*sun.z,solar=overcast?Math.exp((dot-1)*12)*.28:Math.exp((dot-1)*1200)*22;
+    const dot=dx*sun.x+dy*sun.y+dz*sun.z,solar=Math.exp((dot-1)*weather.solarFocus)*weather.solarPower;
+    const corona=Math.exp((dot-1)*12)*weather.coronaPower;
     const i=(y*width+x)*4;
-    const cloud=clouds&&dy>0?sampleCloud(clouds,column.cloudUV,elevation):0;
-    const photographed=clouds?.rgba&&dy>0?sampleCloudColor(clouds,column.cloudUV,elevation,cloudRGB):null;
+    const cloud=clouds&&dy>0?sampleCloud(clouds,column.cloudUV,cloudY):0;
+    const photographed=clouds?.rgba&&dy>0?sampleCloudColor(clouds,column.cloudUV,cloudY,cloudRGB):null;
     const brightness=photographed?(photographed[0]*.2126+photographed[1]*.7152+photographed[2]*.0722)/255:.72;
     const cloudShade=Math.max(.20,Math.min(1,Math.pow(brightness,1.45)*1.1));
-    const cover=overcast?.45+cloud*.5:cloud*.9;
+    const cover=Math.min(1,weather.cloudBase+cloud*weather.cloudWeight)*(1-Math.max(0,elevation)**9);
     for(let c=0;c<3;c++){
       let base=ground?fogChannels[c]*.24:skyChannels[c]*(1-horizon*.55)+fogChannels[c]*horizon*.75;
-      if(!ground)base=base*(1-cover)+(cloudShade*(overcast?.78:1)+horizon*.06)*[1,.98,.94][c]*cover;
-      pixels[i+c]=THREE.DataUtils.toHalfFloat(base+solar*[1,.86,.66][c]);
+      if(!ground){
+        const cloudRadiance=(cloudShade*weather.cloudLight+horizon*.06)*weather.cloudTint[c];
+        base=base*(1-cover)+cloudRadiance*cover+(solar*(1-cover*.91)+corona*(1+cover*.35))*solarColor[c];
+      }
+      pixels[i+c]=THREE.DataUtils.toHalfFloat(base);
     }pixels[i+3]=THREE.DataUtils.toHalfFloat(1);
    }
   }return {pixels,width,height};
