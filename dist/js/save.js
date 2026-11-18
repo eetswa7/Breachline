@@ -1,8 +1,8 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=104';
-import {MODES} from './modes.js?v=104';
-import {raidInsertion} from './raid.js?v=104';
-import {MAPS} from './maps.js?v=104';
-import {restoreOperation,finishOperationBattle} from './operation.js?v=104';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=105';
+import {MODES} from './modes.js?v=105';
+import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=105';
+import {MAPS} from './maps.js?v=105';
+import {restoreOperation,finishOperationBattle} from './operation.js?v=105';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){
@@ -20,8 +20,14 @@ export const LOADOUT_SLOTS=3;
 const KEY='breachline-save-v1';
 export const DEFAULT_SETTINGS={controllerSensitivity:1,controllerADSSensitivity:.55,controllerDeadzone:.14,controllerInvertY:false,controlProfile:'simple',aimFire:true,aimAssist:true,autoReload:true,quality:'auto',frameRate:60,fov:80,sensitivity:.85,adsSensitivity:.6,aimAcceleration:false,adsMode:'toggle',autoSprint:true,leftHanded:false,gyro:false,gyroSensitivity:1,motion:true,volume:.75,ambience:.65,music:.22,haptics:true,opacity:.7,buttonScale:1,layout:{}};
 export class SaveStore {
- constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],raidWallet:0,operation:null,matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),activeLoadout:0,loadouts:Array.from({length:LOADOUT_SLOTS},defaultLoadout),settings:{...DEFAULT_SETTINGS,layout:{}}};
+ constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],raidWallet:0,raidStash:[],raidStashSerial:0,operation:null,matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),activeLoadout:0,loadouts:Array.from({length:LOADOUT_SLOTS},defaultLoadout),settings:{...DEFAULT_SETTINGS,layout:{}}};
   try{const d=JSON.parse(storage?.getItem(KEY)||'null');if(d&&d.version===1){for(const k of ['xp','matches','wins','kills','deaths','bestStreak'])if(Number.isFinite(d[k]))this.data[k]=Math.max(0,d[k]);this.data.unlockAll=d.unlockAll===true;this.data.weaponXP=d.weaponXP&&typeof d.weaponXP==='object'?d.weaponXP:{};this.data.matchHistory=Array.isArray(d.matchHistory)?d.matchHistory.slice(0,MATCH_HISTORY_LIMIT).map(r=>r&&['win','draw','loss'].includes(r.outcome)?matchRecord({...r,win:r.outcome==='win',draw:r.outcome==='draw'},r.completedAt??null):null).filter(Boolean):[];this.data.raidWallet=d.raidWallet===undefined?this.data.matchHistory.reduce((sum,match)=>sum+(match.mode==='raid'&&match.outcome==='win'?match.raidPayout:0),0):count(d.raidWallet);
+  for(const entry of Array.isArray(d.raidStash)?d.raidStash.slice(0,RAID_STASH_LIMIT):[]){
+   const weapon=restoreRaidWeapon(entry);
+   if(!weapon||!Number.isSafeInteger(entry.id)||entry.id<=0||this.data.raidStash.some(item=>item.id===entry.id))continue;
+   this.data.raidStash.push({...raidWeaponRecord(weapon),id:entry.id});
+  }
+  this.data.raidStashSerial=Math.max(count(d.raidStashSerial,Number.MAX_SAFE_INTEGER-100),...this.data.raidStash.map(item=>item.id));
   this.data.operation=restoreOperation(d.operation);this.data.matchSetup=matchSetup(d.matchSetup);this.restoreLoadouts(d);this.data.settings={...DEFAULT_SETTINGS,...d.settings};if(!d.controlRevision){this.data.settings.controlProfile='simple';this.data.settings.layout={};this.data.settings.autoSprint=true;this.data.settings.aimFire=true;}this.sanitize();}}catch{this.error=true;}
  }
  restoreLoadouts(saved){
@@ -47,13 +53,15 @@ export class SaveStore {
  get nextXP(){return this.level*this.level*450;}
  unlocked(weapon){return this.data.unlockAll||weapon.unlock<=this.level;}
  persist(){try{if(!this.storage?.setItem)throw new Error('Saving unavailable');this.data.loadouts[this.data.activeLoadout]=sanitizeLoadout(this.data.loadout);this.storage.setItem(KEY,JSON.stringify(this.data));this.error=false;return true;}catch{this.error=true;return false;}}
- payRaidInsertion(id){
-  const plan=raidInsertion(id);
-  if(!plan||plan.cost>this.data.raidWallet)return false;
-  if(!plan.cost)return true;
+ payRaidInsertion(id,gearId=null){
+  const plan=raidInsertion(id),gearIndex=this.data.raidStash.findIndex(item=>item.id===gearId);
+  if(!plan||plan.cost>this.data.raidWallet||gearId!==null&&gearIndex<0)return false;
+  if(!plan.cost&&gearIndex<0)return true;
   this.data.raidWallet-=plan.cost;
+  const [gear]=gearIndex<0?[]:this.data.raidStash.splice(gearIndex,1);
   if(this.persist())return true;
   this.data.raidWallet+=plan.cost;
+  if(gear)this.data.raidStash.splice(gearIndex,0,gear);
   return false;
  }
  beginOperation(difficulty){
@@ -61,5 +69,12 @@ export class SaveStore {
   this.data.operation=restoreOperation({difficulty});
   this.persist();
  }
- finish(result){if(result.operation&&!finishOperationBattle(this.data.operation,result))return false;const record=matchRecord(result);if(record?.mode==='raid'&&record.outcome==='win')this.data.raidWallet=count(this.data.raidWallet+record.raidPayout);if(record)this.data.matchHistory=[record,...this.data.matchHistory].slice(0,MATCH_HISTORY_LIMIT);this.data.xp+=result.xp;this.data.matches++;this.data.wins+=Number(result.win);this.data.kills+=result.kills;this.data.deaths+=result.deaths;this.data.bestStreak=Math.max(this.data.bestStreak,result.streak);for(const [id,n]of Object.entries(result.weaponKills))this.data.weaponXP[id]=(this.data.weaponXP[id]??0)+n*100;return this.persist();}
+ finish(result){if(result.operation&&!finishOperationBattle(this.data.operation,result))return false;const record=matchRecord(result);if(record?.mode==='raid'&&record.outcome==='win'){
+  this.data.raidWallet=count(this.data.raidWallet+record.raidPayout);
+  for(const item of Array.isArray(result.raidRecovered)?result.raidRecovered.slice(0,2):[]){
+   const weapon=restoreRaidWeapon(item);
+   if(!weapon||this.data.raidStash.length>=RAID_STASH_LIMIT)continue;
+   this.data.raidStash.push({...raidWeaponRecord(weapon),id:++this.data.raidStashSerial});
+  }
+ }if(record)this.data.matchHistory=[record,...this.data.matchHistory].slice(0,MATCH_HISTORY_LIMIT);this.data.xp+=result.xp;this.data.matches++;this.data.wins+=Number(result.win);this.data.kills+=result.kills;this.data.deaths+=result.deaths;this.data.bestStreak=Math.max(this.data.bestStreak,result.streak);for(const [id,n]of Object.entries(result.weaponKills))this.data.weaponXP[id]=(this.data.weaponXP[id]??0)+n*100;return this.persist();}
 }

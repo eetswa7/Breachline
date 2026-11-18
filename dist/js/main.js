@@ -1,18 +1,18 @@
-import {MatchRecording,ReplayCursor} from './replay.js?v=104';
-import {raidInsertion} from './raid.js?v=104';
-import {operationBattle} from './operation.js?v=104';
-import {Game,emptyInput} from './engine.js?v=104';
-import {Renderer} from './three-renderer.js?v=104';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=104';
-import {TouchInput} from './input.js?v=104';
-import {AudioSystem} from './audio.js?v=104';
-import {SaveStore} from './save.js?v=104';
-import {Interface,$} from './ui.js?v=104';
-import {Weapon} from './weapons.js?v=104';
-import {opticMagnification} from './aim.js?v=104';
-import {FramePacer} from './frame-pacer.js?v=104';
-import {BenchmarkController} from './benchmark.js?v=104';
-import {updateAimAssist} from './aim-assist.js?v=104';
+import {MatchRecording,ReplayCursor} from './replay.js?v=105';
+import {raidInsertion} from './raid.js?v=105';
+import {operationBattle} from './operation.js?v=105';
+import {Game,emptyInput} from './engine.js?v=105';
+import {Renderer} from './three-renderer.js?v=105';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=105';
+import {TouchInput} from './input.js?v=105';
+import {AudioSystem} from './audio.js?v=105';
+import {SaveStore} from './save.js?v=105';
+import {Interface,$} from './ui.js?v=105';
+import {Weapon} from './weapons.js?v=105';
+import {opticMagnification} from './aim.js?v=105';
+import {FramePacer} from './frame-pacer.js?v=105';
+import {BenchmarkController} from './benchmark.js?v=105';
+import {updateAimAssist} from './aim-assist.js?v=105';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -31,21 +31,23 @@ export class Application {
  }
  orientation(){const portrait=innerHeight>innerWidth,need=(this.playing||this.input.editing)&&portrait;$('rotation-hint').classList.toggle('hidden',!need);if(need&&this.playing&&!this.game.paused)this.pause();}
  lockMouse(){try{const result=$('world').requestPointerLock?.();result?.catch?.(()=>{});}catch{}}
- async start(missionId=null,replay=null,raidPlan='standard'){
+ async start(missionId=null,replay=null,raidPlan='standard',raidGearId=null){
   if(this.starting)return;
   const operation=replay?.operation??(missionId?operationBattle(this.store.data.operation,missionId):null);
   if(missionId&&!operation)return;
   const launchRaid=!replay&&!operation&&this.config.mode==='raid';
   const insertion=launchRaid?raidInsertion(raidPlan):null;
+  const raidGear=launchRaid&&raidGearId!==null?this.store.data.raidStash?.find(item=>item.id===raidGearId):null;
+  if(launchRaid&&raidGearId!==null&&!raidGear)return;
   if(launchRaid&&(!insertion||insertion.cost>(this.store.data.raidWallet??0)))return;if(this.assetsFailed){location.reload();return;}this.starting=true;await this.audio.start();await Promise.resolve(this.renderer.ready).catch(()=>{});this.ui.closeModal();this.input.reset();this.input.active=false;this.ui.toastTimer&&clearTimeout(this.ui.toastTimer);$('toast').classList.add('hidden');$('loading').classList.remove('hidden');
   if(!this.isTouch&&!replay)this.lockMouse();
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   try{this.config.loadout={...this.store.data.loadout};const seed=replay?.seed??Date.now();
-   this.game=new Game(replay?.config??(operation?{...this.config,...operation}:launchRaid?{...this.config,raidPlan}:this.config),{operation,seed});
+   this.game=new Game(replay?.config??(operation?{...this.config,...operation}:launchRaid?{...this.config,raidPlan,raidGear}:this.config),{operation,seed});
    this.replayPlayer=replay?new ReplayCursor(replay):null;this.replaySpeed=1;this.replayIncomplete=false;
    this.recording=replay?null:new MatchRecording(this.game.config,seed,operation);
    this.game.recordReplayAction=(type,value)=>this.recording?.addAction(type,value);this.renderer.setArena(this.game.arena);this.renderer.weaponKey='';this.renderer.frameAverage=16.7;this.audio.prepareAmbience?.(this.game.arena);await this.renderer.prepareMatch?.(this.game);if(this.renderer.lost)throw new Error('Graphics context unavailable');
-   if(insertion?.cost&&!this.store.payRaidInsertion(insertion.id))throw new Error('The salvage charge could not be saved');
+   if((insertion?.cost||raidGear)&&!this.store.payRaidInsertion(insertion.id,raidGearId))throw new Error('The salvage charge could not be saved');
    this.playing=true;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.input.active=!this.replayPlayer;this.ui.play();this.last=0;if(document.hidden)this.pause();
    this.wakeLock?.release();this.wakeLock=null;const match=this.game;if(navigator.wakeLock&&!document.hidden&&!match.paused)navigator.wakeLock.request('screen').then(l=>{if(this.playing&&this.game===match&&!match.paused&&!document.hidden)this.wakeLock=l;else l.release();}).catch(()=>{});
    if(this.store.data.settings.gyro&&!this.input.gyroListening)this.ui.toast('Enable gyroscope again in Settings to grant motion access.');

@@ -1,15 +1,15 @@
-import {Raid,RAID_INSERTIONS,raidInsertion} from './raid.js?v=104';
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=104';
-import {Convoy} from './convoy.js?v=104';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=104';
-import {MAPS} from './maps.js?v=104';
-import {drawDeploymentMap} from './deployment-map.js?v=104';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=104';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=104';
-import {ATTACHMENT_SPECS} from './attachments.js?v=104';
-import {clamp,distance} from './math.js?v=104';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=104';
-import {identityFor,canIdentify} from './combat-identity.js?v=104';
+import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=105';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=105';
+import {Convoy} from './convoy.js?v=105';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=105';
+import {MAPS} from './maps.js?v=105';
+import {drawDeploymentMap} from './deployment-map.js?v=105';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=105';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=105';
+import {ATTACHMENT_SPECS} from './attachments.js?v=105';
+import {clamp,distance} from './math.js?v=105';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=105';
+import {identityFor,canIdentify} from './combat-identity.js?v=105';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -135,8 +135,18 @@ export class Interface {
   const balance=this.store.data.raidWallet;
   const cards=RAID_INSERTIONS.map(plan=>`<article><h3>${plan.name}</h3><p>${plan.description}</p><strong>${plan.cost?`${plan.cost} SALVAGE`:'FREE'}${plan.cost>balance?' · UNAVAILABLE':''}</strong></article>`).join('');
   this.modal('SALVAGE RAID',`${balance.toLocaleString()} SALVAGE BANKED`,`<div class="operation-missions">${cards}</div>`,
-   [...RAID_INSERTIONS.filter(plan=>plan.cost<=balance).map(plan=>[plan.name.toUpperCase(),()=>this.app.start(null,null,plan.id),plan.id==='standard']),
+   [...RAID_INSERTIONS.filter(plan=>plan.cost<=balance).map(plan=>[plan.name.toUpperCase(),()=>this.selectRaidGear(plan),plan.id==='standard']),
     ['BACK',()=>this.closeModal()]]);
+ }
+ selectRaidGear(plan){
+  const stash=this.store.data.raidStash;
+  if(!stash.length){this.app.start(null,null,plan.id);return;}
+  const cards=stash.map(item=>`<article><h3>${esc(WEAPONS[item.weapon].name)}</h3><p>${item.ammo} loaded · ${item.reserve} reserve</p></article>`).join('');
+  this.modal('CHOOSE RAID WEAPON',`${stash.length} / ${RAID_STASH_LIMIT} STASH SLOTS USED`,
+   `<p>Take one stashed weapon in its current condition. You keep it only if you extract with it. Your saved kit is always available.</p><div class="operation-missions">${cards}</div>`,
+   [['USE SAVED KIT',()=>this.app.start(null,null,plan.id),true],
+    ...stash.map(item=>[`${WEAPONS[item.weapon].name.toUpperCase()} · ${item.ammo}/${item.reserve}`,()=>this.app.start(null,null,plan.id,item.id)]),
+    ['BACK',()=>this.raidBoard()]]);
  }
  operationBoard(){
   const operation=this.store.data.operation;
@@ -199,9 +209,14 @@ export class Interface {
    [['RESUME',()=>this.app.resume(),true],[`PLAY AT ${speed}×`,()=>{this.app.replaySpeed=speed;this.app.resume();}],['EXIT REPLAY',()=>this.app.toMenu()]]);
   return;
  }if(this.app.game.awaitingSurvivalSupport){this.survivalSupport();return;}if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],...(this.app.game.operation?[]:[['RESTART',()=>this.app.start()]]),['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
- results(){const g=this.app.game,r=g.result();if(!g.saved){this.store.finish(r);g.saved=true;}this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
+ results(){const g=this.app.game,r=g.result();
+  const stashBefore=this.store.data.raidStash.length;
+  if(!g.saved){this.store.finish(r);g.saved=true;}
+  const stashed=this.store.data.raidStash.slice(stashBefore);
+  const raidGearSummary=r.mode==='raid'&&r.raidRecovered.length?`<p>${stashed.length?`STASHED ${stashed.map(item=>esc(WEAPONS[item.weapon].name)).join(', ')}`:'STASH FULL'}</p>`:'';
+ this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
  const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
- this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
+ this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${raidGearSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
  installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  controllerMenu(pad){

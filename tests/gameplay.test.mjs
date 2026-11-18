@@ -88,8 +88,9 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  abandoned.rules.update(1,abandoned);
  assert.equal(abandoned.rules.winner,1);
  assert.equal(abandoned.result().salvage,0);
- const highStakes=new Game({mode:'raid',map:0,raidPlan:'contract'},{seed:891});
+ const highStakes=new Game({mode:'raid',map:0,raidPlan:'contract',raidGear:{weapon:3,ammo:4,reserve:12,attachments:{optic:2}}},{seed:891});
  assert.equal(highStakes.rules.time,180);
+ assert.equal(highStakes.player.weapon.ammo,4);
  assert.equal(highStakes.actors.filter(actor=>actor.team===1).length,10);
  const contract=highStakes.rules.raid;
  Object.assign(highStakes.player,contract.exit);
@@ -101,6 +102,7 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  highStakes.player.interacting=true;
  highStakes.rules.update(4,highStakes);
  assert.equal(highStakes.result().raidPayout,750);
+ assert.equal(highStakes.result().raidRecovered[0].reserve,12);
 
 
  const field=duel('tdm');

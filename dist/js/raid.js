@@ -1,4 +1,5 @@
-import {distance} from './math.js?v=104';
+import {Weapon,WEAPONS} from './weapons.js?v=105';
+import {distance} from './math.js?v=105';
 
 export const RAID_INSERTIONS = [
  {id:'standard',name:'Standard',cost:0,armor:0,hostiles:6,time:240,extract:4,minimum:1,multiplier:1,description:'Three operators against six defenders.'},
@@ -7,6 +8,21 @@ export const RAID_INSERTIONS = [
  {id:'contract',name:'High stakes',cost:250,armor:0,hostiles:10,time:180,extract:4,minimum:375,multiplier:2,description:'Face ten defenders in three minutes. Extract at least 375 salvage for double payout.'}
 ];
 export const raidInsertion=id=>RAID_INSERTIONS.find(plan=>plan.id===id);
+
+export const RAID_STASH_LIMIT=8;
+
+export function restoreRaidWeapon(record){
+ if(!Number.isInteger(record?.weapon)||!WEAPONS[record.weapon]||WEAPONS[record.weapon].kind==='MELEE')return null;
+ const weapon=new Weapon(record.weapon,record.attachments);
+ weapon.ammo=Number.isFinite(record.ammo)?Math.max(0,Math.min(weapon.capacity,Math.floor(record.ammo))):0;
+ weapon.reserve=Number.isFinite(record.reserve)?Math.max(0,Math.min(weapon.capacity*5,Math.floor(record.reserve))):0;
+ weapon.raidClaim=true;
+ return weapon;
+}
+
+export function raidWeaponRecord(weapon){
+ return {weapon:weapon.def.id,attachments:{...weapon.attachments},ammo:weapon.ammo,reserve:weapon.reserve};
+}
 
 export class Raid {
  constructor(arena,nav,plan=RAID_INSERTIONS[0]){

@@ -1,5 +1,5 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {weatherLighting} from './weather-lighting.js?v=104';
+import {weatherLighting} from './weather-lighting.js?v=105';
 
 // HDR radiance combines each map's atmosphere with authored cloud shading. One
 // PMREM per map load, never a cubemap capture during combat. 128 px cube faces.
