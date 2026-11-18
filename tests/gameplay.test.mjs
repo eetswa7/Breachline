@@ -63,6 +63,32 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const raidGame=new Game({mode:'raid',map:16},{seed:891}),raid=raidGame.rules.raid;
+ const salvager=raidGame.player,raidGuard=raidGame.actors.find(actor=>actor.team===1);
+ raidGame.arena.visible=()=>true;
+ for(const actor of raidGame.actors)if(actor.team===1)actor.x=100;
+ Object.assign(salvager,raid.caches[0]);
+ salvager.interacting=true;
+ raidGame.rules.update(1.5,raidGame);
+ assert.equal(raid.carried,100);
+ assert.equal(raid.banked,0);
+ Object.assign(salvager,raid.exit);
+ Object.assign(raidGuard,raid.exit);
+ raidGame.rules.update(5,raidGame);
+ assert.equal(raidGame.rules.phase,'playing');
+ assert.equal(raid.progress,0);
+ raidGuard.x=100;
+ raidGame.rules.update(4,raidGame);
+ assert.equal(raidGame.rules.winner,0);
+ assert.equal(raidGame.result().salvage,100);
+
+ const abandoned=new Game({mode:'raid',map:0},{seed:891});
+ abandoned.rules.raid.carried=425;
+ abandoned.rules.time=.1;
+ abandoned.rules.update(1,abandoned);
+ assert.equal(abandoned.rules.winner,1);
+ assert.equal(abandoned.result().salvage,0);
+
  const field=duel('tdm');
  field.t.weapons[0]=new Weapon(3,{optic:2});
  field.t.weapon.ammo=7;field.t.weapon.reserve=13;

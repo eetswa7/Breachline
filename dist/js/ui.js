@@ -1,14 +1,15 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=102';
-import {Convoy} from './convoy.js?v=102';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=102';
-import {MAPS} from './maps.js?v=102';
-import {drawDeploymentMap} from './deployment-map.js?v=102';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=102';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=102';
-import {ATTACHMENT_SPECS} from './attachments.js?v=102';
-import {clamp,distance} from './math.js?v=102';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=102';
-import {identityFor,canIdentify} from './combat-identity.js?v=102';
+import {Raid} from './raid.js?v=103';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=103';
+import {Convoy} from './convoy.js?v=103';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=103';
+import {MAPS} from './maps.js?v=103';
+import {drawDeploymentMap} from './deployment-map.js?v=103';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=103';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=103';
+import {ATTACHMENT_SPECS} from './attachments.js?v=103';
+import {clamp,distance} from './math.js?v=103';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=103';
+import {identityFor,canIdentify} from './combat-identity.js?v=103';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -55,7 +56,7 @@ export class Interface {
   const {map,mode}=this.app.config,info=MAPS[map],arena=this.app.game.arena;
   const rules=new MatchRules(mode,arena),teamSize=info.teamSize??4;
   const modeDescription=rules.mode.description.replace(/^4 vs 4\. /,'');
-  $('mode-detail').textContent=`${mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
+  $('mode-detail').textContent=`${mode==='raid'?'3 raiders vs 6 defenders':mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
   $('selected-map-label').textContent=info.name;
   $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across`;
   $('selected-map-description').textContent=info.description;
@@ -66,8 +67,9 @@ export class Interface {
    button.setAttribute('aria-pressed',String(selected));
   }
   const spawnKey=rules.mode.teams?'Blue and red starts':'Operator starts';
+  if(mode==='raid')rules.raid=this.app.game.rules.raid??new Raid(arena,this.app.game.nav);
   if(mode==='convoy')rules.convoy=this.app.game.rules.convoy??new Convoy(arena,this.app.game.nav);
-  const modeKey=mode==='convoy'?'Convoy route':mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
+  const modeKey=mode==='raid'?'Salvage caches and extraction':mode==='convoy'?'Convoy route':mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
   const legend=modeKey?`${spawnKey} · ${modeKey}`:spawnKey;
   $('deployment-legend').textContent=legend;
   const canvas=$('deployment-map');
@@ -124,7 +126,7 @@ export class Interface {
  refreshCareer(){show('career-replay',!!this.app.lastReplay);const d=this.store.data,l=this.store.level;$('level-badge').textContent=String(l).padStart(2,'0');$('career-xp').textContent=`${d.xp.toLocaleString()} XP`;$('career-stats').innerHTML=[['MATCHES',d.matches],['VICTORIES',d.wins],['ELIMINATIONS',d.kills],['BEST STREAK',d.bestStreak]].map(([k,v])=>`<div class="career-stat"><strong>${v}</strong><span>${k}</span></div>`).join('');$('progress-label').textContent=`LEVEL ${l} · ${d.xp} / ${this.store.nextXP} XP`;$('xp-progress').style.width=`${(d.xp-(l-1)**2*450)/(this.store.nextXP-(l-1)**2*450)*100}%`;this.renderMatchHistory();}
  renderMatchHistory(){const history=this.store.data.matchHistory??[],wins=history.filter(r=>r.outcome==='win').length,kills=history.reduce((n,r)=>n+r.kills,0),deaths=history.reduce((n,r)=>n+r.deaths,0);
   $('recent-form').textContent=history.length?`${history.length} recent ${history.length===1?'match':'matches'} · ${wins} ${wins===1?'victory':'victories'} · ${deaths?(kills/deaths).toFixed(2):kills} K/D`:'Complete a match to start your record. Your last 12 results stay on this device.';
-  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
+  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.mode==='raid'?[['SALVAGE',r.salvage]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',!this.app.replayPlayer);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=this.app.game.arena.info.name;$('hud-mode').textContent=this.app.game.rules.mode.name;this.app.input.layout();this.app.orientation();}
  menu(){show('squad-button',false);this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
@@ -192,7 +194,7 @@ export class Interface {
  }if(this.app.game.awaitingSurvivalSupport){this.survivalSupport();return;}if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],...(this.app.game.operation?[]:[['RESTART',()=>this.app.start()]]),['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
  results(){const g=this.app.game,r=g.result();if(!g.saved){this.store.finish(r);g.saved=true;}this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
  const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
- this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
+ this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} SALVAGE EXTRACTED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
  installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  controllerMenu(pad){
@@ -230,7 +232,12 @@ export class Interface {
   if(g.reinforcements)$('reinforcements').textContent=`REINFORCEMENTS  ${g.reinforcements[p.team]} ◆ / ${g.reinforcements[1-p.team]} ▼`;
   const remaining=Math.max(0,Math.ceil(r.mode.id==='sabotage'&&r.planted?r.bombTime:r.time));$('timer').textContent=`${Math.floor(remaining/60).toString().padStart(2,'0')}:${Math.ceil(remaining%60).toString().padStart(2,'0')}`;
   if(r.mode.teams){$('score-blue').textContent=r.scores[0];$('score-red').textContent=r.scores[1];}else{$('score-blue').textContent=r.mode.id==='gun'?p.gunStage:r.mode.id==='hill'?p.hillScore??0:p.kills;$('score-red').textContent=Math.max(...g.actors.slice(1).map(a=>r.mode.id==='gun'?a.gunStage:r.mode.id==='hill'?a.hillScore??0:a.kills));}
-  if(r.convoy){
+  if(r.raid){
+   const raid=r.raid;
+   $('team-blue-label').textContent='SALVAGE CARRIED';$('team-red-label').textContent='HOSTILES LEFT';
+   $('score-blue').textContent=raid.carried;$('score-red').textContent=g.actors.filter(actor=>actor.team===1&&!actor.dead).length;
+   $('objective').textContent=p.dead?'AWAIT SQUAD REVIVE':raid.carried?'RETURN TO EXTRACTION OR RAID ANOTHER CACHE':'LOCATE SALVAGE CACHES';
+  }else if(r.convoy){
    const convoy=r.convoy,first=convoy.results[0];
    const instructions=r.round-1===p.team?'ESCORT THE DRONE':'STOP THE DRONE';
    const target=first?.delivered?` · TARGET ${Math.ceil(first.elapsed)}s`:first?` · TARGET ${r.scores[0]}%`:'';
@@ -265,10 +272,10 @@ export class Interface {
   }
   else $('objective').textContent=r.mode.id==='gun'?`TIER ${Math.min(GUN_ORDER.length,p.gunStage+1)} / ${GUN_ORDER.length}`:`FIRST TO ${r.mode.limit}`;
   const rescue=g.findRescue(p);
-  const canResupply=g.canUseSupplies(p);
+  const canResupply=g.canUseSupplies(p),raidTarget=r.raid?.available(g);
   const gate=g.gateInReach(p),zipline=g.ziplineInReach(p),pickup=g.weaponInReach(p);
-  const canInteract=!!rescue||canResupply||!!gate||!!zipline||!!pickup||r.canUseCharge(p,g);
-  $('interact-prompt').textContent=p.ride?'JUMP TO DISMOUNT':rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':gate?`INTERACT TO OPEN ${gate.name.toUpperCase()}`:zipline?'INTERACT TO RIDE ZIPLINE':pickup?`SWAP FOR ${pickup.weapon.def.name.toUpperCase()} · ${pickup.weapon.ammo} / ${pickup.weapon.reserve}`:canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
+  const canInteract=!!rescue||!!raidTarget||canResupply||!!gate||!!zipline||!!pickup||r.canUseCharge(p,g);
+  $('interact-prompt').textContent=p.ride?'JUMP TO DISMOUNT':rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):raidTarget?this.raidPrompt(g,raidTarget):canResupply?'INTERACT TO RESUPPLY SQUAD':gate?`INTERACT TO OPEN ${gate.name.toUpperCase()}`:zipline?'INTERACT TO RIDE ZIPLINE':pickup?`SWAP FOR ${pickup.weapon.def.name.toUpperCase()} · ${pickup.weapon.ammo} / ${pickup.weapon.reserve}`:canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
   this.app.input.setContext(canInteract);
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
   $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead||p.ride?0:1;
@@ -282,6 +289,13 @@ export class Interface {
   const live=this.feed.filter(f=>f.until>g.time);if(live.length!==this.lastFeedCount||live[0]?.text!==this.lastFeedText){$('killfeed').innerHTML=live.map(f=>`<div class="feed-entry ${f.ours?'ours':f.relation}">${esc(f.text)}</div>`).join('');this.lastFeedCount=live.length;this.lastFeedText=live[0]?.text;}
   show('debug-hud',this.debugVisible);if(this.debugVisible)$('debug-hud').textContent=`${this.app.renderer.fps} FPS · ${this.app.renderer.quality}\n${this.app.renderer.diagnostics?.()??`${g.actors.filter(a=>!a.dead).length} ACTIVE`}\n${p.x.toFixed(1)} / ${p.y.toFixed(1)} / ${p.z.toFixed(1)} m`;
   if(this.radarClock>.1){this.radarClock=0;this.radar();}
+ }
+ raidPrompt(game,target){
+  const raid=game.rules.raid;
+  if(target.kind==='exit'&&raid.contested(game))return 'EXTRACTION CONTESTED';
+  const action=target.kind==='exit'?'EXTRACT':target.kind==='cache'?`OPEN CACHE ${target.name}`:'RECOVER SALVAGE';
+  const seconds=target.kind==='exit'?4:target.kind==='cache'?1.5:.65;
+  return raid.target===target?`${action} · ${Math.min(99,Math.floor(raid.progress/seconds*100))}%`:`HOLD INTERACT TO ${action}`;
  }
  updateIdentities(dt){
   const g=this.app.game;this.identityClock-=dt;const refresh=this.identityClock<=0;if(refresh)this.identityClock=.13;let centred=null,best=.025;
@@ -323,6 +337,13 @@ export class Interface {
   for(const {barrier} of g.arena.doors){
    c.fillStyle=barrier.destroyed?'#81ecaa':'#e7b063';c.font='bold 11px Arial';
    c.fillText(barrier.destroyed?'▱':'▰',(barrier.x-view.x)*s-4,(barrier.z-view.z)*s+3);
+  }
+  if(g.rules.raid){
+   const raid=g.rules.raid,points=[...raid.caches.filter(cache=>!cache.opened),raid.exit,...(raid.stash?[raid.stash]:[])];
+   for(const point of points){
+    c.fillStyle=point.kind==='exit'?'#80f4c6':'#ffce6b';c.font='bold 12px Arial';
+    c.fillText(point.kind==='exit'?'X':point.name??'+',(point.x-view.x)*s-4,(point.z-view.z)*s+4);
+   }
   }
   if(g.rules.convoy){
    const convoy=g.rules.convoy,pos=convoy.position;

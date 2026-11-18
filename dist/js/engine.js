@@ -1,14 +1,15 @@
-import {Arena,MAPS} from './maps.js?v=102';
-import {Navigation} from './navigation.js?v=102';
-import {SpawnDirector} from './spawns.js?v=102';
-import {Convoy} from './convoy.js?v=102';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=102';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=102';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=102';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=102';
-import {traceBullet} from './ballistics.js?v=102';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=102';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=102';
+import {Arena,MAPS} from './maps.js?v=103';
+import {Navigation} from './navigation.js?v=103';
+import {SpawnDirector} from './spawns.js?v=103';
+import {Raid} from './raid.js?v=103';
+import {Convoy} from './convoy.js?v=103';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=103';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=103';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=103';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=103';
+import {traceBullet} from './ballistics.js?v=103';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=103';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=103';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -24,16 +25,17 @@ export class Game {
  constructor(config={},options={}){
   const seed=options.seed??Date.now(),arsenalRandom=rng((seed^0x51b4e329)>>>0);
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
-  this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
+  this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);if(this.rules.mode.id==='raid')this.rules.raid=new Raid(this.arena,this.nav);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
   this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.deployables=[];this.fieldWeapons=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
   this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[],decision:null,support:null}:null;
-  this.teamSize=survival?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
+  const raid=!!this.rules.raid;
+  this.teamSize=survival||raid?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
   // simulation randomness stable as the weapon catalogue grows.
-  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1).roles.length:this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
+  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1).roles.length:raid?9:this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
   this.player=this.actors[0];
   if(this.rules.mode.id==='gun')for(const a of this.actors)a.weapons=[new Weapon(GUN_ORDER[0]),new Weapon(10)];
   if(survival)this.startSurvivalWave();else this.resetRound();
@@ -139,7 +141,7 @@ export class Game {
   return this.rules.respawns&&(!this.reinforcements||this.reinforcements[actor.team]>0);
  }
  findRescue(actor,radius=2.4,requireSight=true){
-  if(!(this.operation||this.survival)||actor.dead)return null;
+  if(!(this.operation||this.survival||this.rules.raid)||actor.dead)return null;
   let target=null,best=radius;
   for(const ally of this.actors){
    if(!ally.dead||ally.team!==actor.team||ally.downedUntil<=this.time||Math.abs(actor.y-ally.y)>1.45)continue;
@@ -356,7 +358,7 @@ export class Game {
    if((p.weapon.burstRemaining>0||input.fire&&(p.weapon.def.automatic||input.firePressed||input.repeatFire))&&!p.sprinting&&!p.vault)this.shoot(p,false);
    if(input.grenade)this.throwGrenade(p);
    if(input.melee&&this.rules.mode.id!=='gun')this.melee(p);
-   if(input.interact&&!p.interacting&&!this.findRescue(p)&&!this.rules.canUseCharge(p,this)){
+   if(input.interact&&!p.interacting&&!this.findRescue(p)&&!this.rules.canUseCharge(p,this)&&!this.rules.raid?.available(this)){
     if(this.canUseSupplies(p))this.resupplySquad();
     else {
      const gate=this.gateInReach(p);
@@ -374,7 +376,7 @@ export class Game {
   }
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
-  updateCasings(this,dt);this.updateEquipment(dt);if(this.fieldWeapons.length)this.fieldWeapons=this.fieldWeapons.filter(drop=>drop.until>this.time);if(this.deployables.length)this.clearDeployables(true);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
+  updateCasings(this,dt);this.updateEquipment(dt);if(this.fieldWeapons.length)this.fieldWeapons=this.fieldWeapons.filter(drop=>drop.until>this.time);if(this.deployables.length)this.clearDeployables(true);if(this.operation||this.survival||this.rules.raid)this.updateRescues(dt);this.rules.update(dt,this);
   if(this.reinforcements&&this.rules.phase==='playing'){
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
@@ -444,7 +446,7 @@ export class Game {
   if(victim.id===0){this.damageYaw=killer?Math.atan2(killer.x-victim.x,-(killer.z-victim.z)):victim.yaw;this.emit('hurt',{value:amount,angle:this.damageYaw});}
   if(victim.health>0)return;
   victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;victim.ride=null;this.rules.onDeath(victim,this);
-  if((this.operation||this.survival&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
+  if((this.operation||(this.survival||this.rules.raid)&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
    victim.downedUntil=this.time+9;victim.respawnLeft=0;victim.dropPending=true;
   }else this.dropEliminatedWeapon(victim);
   if(this.survival?.guards.includes(victim)&&!this.livingRelayGuards)this.emit('capture',{text:'RELAY GUARDS DOWN · COMMANDER VULNERABLE'});
@@ -541,10 +543,10 @@ export class Game {
  spawnBot(){if(this.actors.length>=Math.max(12,this.teamSize*2))return;const id=this.actors.length,a=new Actor(id,1,id%6);this.actors.push(a);this.spawn(a);}
  result(){
   const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
-  const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,revives:p.revives*150,objective:p.objectiveXP,victory:win?350:0};
+  const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,revives:p.revives*150,objective:p.objectiveXP,salvage:r.raid?.banked??0,victory:win?350:0};
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
   return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,operation:this.operation,
    kills:p.kills,assists:p.assists,revives:p.revives,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
-   xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time,waves:this.survival?r.scores[0]:undefined};
+   xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time,salvage:r.raid?.banked,waves:this.survival?r.scores[0]:undefined};
  }
 }

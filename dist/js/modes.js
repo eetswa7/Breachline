@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=102';
-import {distance} from './math.js?v=102';
+import {GUN_ORDER} from './weapons.js?v=103';
+import {distance} from './math.js?v=103';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -14,7 +14,8 @@ export const MODES = [
  {id:'elimination',name:'ELIMINATION',short:'ELIM',description:'4 vs 4. One life each round. Eliminate the other team. First to 5 rounds.',limit:5,time:75,teams:true},
  {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true},
  {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true},
- {id:'convoy',name:'CONVOY',short:'CONVOY',description:'Escort the moving drone through the route, then swap sides. Furthest distance wins. Full deliveries are decided by time.',limit:100,time:150,teams:true}
+ {id:'convoy',name:'CONVOY',short:'CONVOY',description:'Escort the moving drone through the route, then swap sides. Furthest distance wins. Full deliveries are decided by time.',limit:100,time:150,teams:true},
+ {id:'raid',name:'SALVAGE RAID',short:'RAID',description:'Recover salvage caches and return to extraction before time expires. Extract early or risk the squad for more.',limit:800,time:240,teams:true}
 ];
 
 export const SURVIVAL_WAVES=[
@@ -68,7 +69,7 @@ export class MatchRules {
   actor.objectiveXP+=OBJECTIVE_XP[this.mode.id][action]*amount;
  }
  get attackingTeam(){return Math.floor((this.round-1)/3)%2;}
- get respawns(){return !['sabotage','elimination','survival'].includes(this.mode.id);}
+ get respawns(){return !['sabotage','elimination','survival','raid'].includes(this.mode.id);}
  enemies(a,b){return a.id!==b.id&&(!this.mode.teams||a.team!==b.team);}
  get sabotageSites(){return this.points.filter((_,index)=>index===0||index===2);}
  assignCharge(actors){
@@ -88,6 +89,7 @@ export class MatchRules {
    engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.7,z:point.z});
  }
  onDeath(victim,engine){
+  this.raid?.onDeath(victim,engine);
   if(this.payload?.carrier===victim.id){
    this.payload.carrier=null;
    this.payload.position={x:victim.x,y:engine.arena.floorAt(victim,victim.y+.08),z:victim.z};
@@ -373,6 +375,7 @@ export class MatchRules {
   }
   const elapsed=Math.min(dt,this.time);
   this.time=Math.max(0,this.time-dt);
+  if(this.raid){this.raid.update(elapsed,engine);return;}
   if(this.convoy){this.updateConvoy(elapsed,engine);return;}
   if(this.mode.id==='survival'){this.updateSurvival(engine);return;}
   if(this.mode.id==='ctf')this.updateFlags(elapsed,engine);
