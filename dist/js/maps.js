@@ -1,8 +1,9 @@
-import {rng,rayBox,distance,clamp} from './math.js?v=95';
-import {dressWorld} from './world-detail.js?v=95';
-import {RayGrid} from './ray-grid.js?v=95';
-import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=95';
-import {buildNuketown} from './nuketown.js?v=95';
+import {rng,rayBox,distance,clamp} from './math.js?v=96';
+import {dressWorld} from './world-detail.js?v=96';
+import {RayGrid} from './ray-grid.js?v=96';
+import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=96';
+import {buildNuketown} from './nuketown.js?v=96';
+import {buildFloodgate} from './floodgate.js?v=96';
 export const MAPS=[
  {id:0,name:'OLD QUARTER',location:'Coastal city',size:32,weather:'sun',tag:'URBAN',description:'Market alleys, a central plaza and elevated terraces.',sky:[.47,.65,.76],fog:[.59,.66,.65],sun:[-.5,.8,.35]},
  {id:1,name:'FOUNDRY',location:'Industrial district',size:35,weather:'overcast',tag:'INDUSTRIAL',description:'Four loading entrances connect the machinery hall to covered freight lanes.',sky:[.27,.38,.48],fog:[.35,.43,.46],sun:[-.6,.7,-.3]},
@@ -19,7 +20,8 @@ export const MAPS=[
  {id:12,name:'EMBERWORKS',location:'Copper processing district',size:41,weather:'sun',tag:'REFINERY',description:'Twin processing halls, tank farms and an accessible pipe-service catwalk.',sky:[.62,.57,.47],fog:[.72,.61,.48],sun:[-.71,.48,.51]},
  {id:13,teamSize:20,name:'CROSSFIRE DISTRICT',location:'Coastal financial quarter',size:60,weather:'sun',tag:'CITY',groundSurface:'asphalt',colliderBudget:260,decorBudget:1500,description:'A 120 m city district with open-window interiors, traffic cover and a 3.6 m overpass.',sky:[.48,.63,.74],fog:[.62,.68,.70],sun:[-.65,.75,.25]},
  {id:14,teamSize:20,name:'BLACKSITE',location:'Restricted power station',size:58,weather:'overcast',tag:'INDUSTRIAL',groundSurface:'asphalt',colliderBudget:230,decorBudget:1200,description:'A 116 m facility with a generator hall, four bunkers, raised service routes and cargo flanks.',sky:[.29,.40,.51],fog:[.40,.48,.53],sun:[.45,.76,-.3]},
- {id:15,name:'NUKETOWN',location:'Nevada test neighbourhood',size:32,navigationStep:.75,ridgeTemplate:2,authoredDressing:true,groundSurface:'grass',colliderBudget:340,decorBudget:1400,weather:'sun',tag:'CLASSIC',description:'Classic Nuketown recreation: twin two-storey houses, garages, rear balconies, a school bus and an open moving truck.',sky:[.53,.69,.81],fog:[.68,.72,.68],sun:[-.45,.85,.34]}
+ {id:15,name:'NUKETOWN',location:'Nevada test neighbourhood',size:32,navigationStep:.75,ridgeTemplate:2,authoredDressing:true,groundSurface:'grass',colliderBudget:340,decorBudget:1400,weather:'sun',tag:'CLASSIC',description:'Classic Nuketown recreation: twin two-storey houses, garages, rear balconies, a school bus and an open moving truck.',sky:[.53,.69,.81],fog:[.68,.72,.68],sun:[-.45,.85,.34]},
+ {id:16,name:'FLOODGATE',location:'Mountain hydroelectric works',size:42,navigationStep:.8,authoredDressing:true,groundSurface:'concrete',weather:'rain',tag:'HYDRO STATION',description:'Fight through the open turbine hall, cross the raised service gantry, or take the spillway flank.',sky:[.32,.44,.49],fog:[.49,.6,.63],sun:[-.62,.7,-.37]}
 ];
 export const SURFACES={concrete:{color:[.45,.47,.45],rough:.92,metal:0,pattern:1},sand:{color:[.61,.51,.35],rough:1,metal:0,pattern:1},stone:{color:[.68,.61,.48],rough:.94,metal:0,pattern:2},steel:{color:[.22,.3,.31],rough:.55,metal:.7,pattern:3},rust:{color:[.39,.2,.13],rough:.88,metal:.08,pattern:3},wood:{color:[.39,.28,.16],rough:.9,metal:0,pattern:4},dark:{color:[.075,.095,.105],rough:.6,metal:.5,pattern:0},white:{color:[.78,.79,.7],rough:.88,metal:0,pattern:1},blue:{color:[.12,.29,.37],rough:.66,metal:.05,pattern:3},orange:{color:[.79,.32,.08],rough:.7,metal:.2,pattern:0},glass:{color:[.11,.24,.29],rough:.18,metal:.65,pattern:0},green:{color:[.2,.29,.18],rough:.88,metal:0,pattern:1}};
 const surfaceTexture={concrete:0,sand:6,stone:1,steel:8,rust:11,wood:10,dark:8,white:0,blue:8,orange:-1,glass:-1,green:9};
@@ -106,6 +108,7 @@ export class Arena {
   if(id===13)buildDistrict(this);
   if(id===14)buildBlacksite(this);
   if(id===15){buildNuketown(this);return;}
+  if(id===16){buildFloodgate(this);return;}
   this.improveFlow();
   // Set dressing stays separate from collision; small breakables have their own hit state.
   for(let i=0;i<26;i++){let x=(this.random()-.5)*(s*2-5),z=(this.random()-.5)*(s*2-5);if(this.collides({x,y:0,z},.6,1.9))continue;this.detail(x,.012,z,.06+this.random()*.22,.025,.1+this.random()*.15,'dark',{yaw:this.random()*6.28});}

@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=95';
-import {Navigation} from './navigation.js?v=95';
-import {SpawnDirector} from './spawns.js?v=95';
-import {Convoy} from './convoy.js?v=95';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=95';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=95';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=95';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=95';
-import {traceBullet} from './ballistics.js?v=95';
-import {beginVault,advanceVault} from './traversal.js?v=95';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=95';
+import {Arena,MAPS} from './maps.js?v=96';
+import {Navigation} from './navigation.js?v=96';
+import {SpawnDirector} from './spawns.js?v=96';
+import {Convoy} from './convoy.js?v=96';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=96';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=96';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=96';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=96';
+import {traceBullet} from './ballistics.js?v=96';
+import {beginVault,advanceVault} from './traversal.js?v=96';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=96';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
