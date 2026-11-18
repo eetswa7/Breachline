@@ -32,6 +32,18 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 77 continuation tasks
+
+- [x] Replace fixed shot markers with moving depth-tested tracers in WebGL.
+  Runtime source `a356f4d` uses one bounded batch and the first resolved
+  surface contact. Tracers have no role in hit resolution.
+- [x] Rebuild explosions with separate flame, smoke and fragment motion inside
+  the shared effects pool. Runtime source `a356f4d` uses 12 particles on low
+  quality and 20 on other presets, down from 30.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review tracer readability, shader output and effects timing in gameplay.
+
 ## Release 76 continuation tasks
 
 - [x] Author a shared atmosphere profile for every battleground. Runtime source

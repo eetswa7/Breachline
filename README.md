@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 76.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 77.** 30 weapons, 16 maps and 11 modes.
+
+## Release 77: combat effects
+
+Selected unsuppressed shots now show a short moving tracer in WebGL. A tracer
+follows the resolved shot path up to its first surface contact. Explosions have
+an expanding flame core, rising smoke and falling fragments, using fewer
+particles than the previous effect.
 
 ## Release 76: sky and daylight
 
