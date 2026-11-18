@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 85.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 86.** 30 weapons, 16 maps and 11 modes.
+
+## Release 86: sudden-death overtime
+
+Tied respawn modes get up to 90 seconds of sudden death. The first scoring lead
+wins under the mode's normal rules. The HUD, debrief and match history mark
+overtime. Sabotage and Elimination keep their round rules.
 
 ## Release 85: combat credit
 
