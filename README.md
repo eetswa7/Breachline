@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 90.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 91.** 30 weapons, 16 maps and 11 modes.
+
+## Release 91: campaign squad revives
+
+When a teammate is still standing, a fallen operator can be revived within
+nine seconds. Hold Interact for two seconds within reach to restore them to
+45 health without spending a reinforcement. Both teams' bots can attempt
+rescues, and each operator can be revived once per deployment.
 
 ## Release 90: Blacksite vault extraction
 
