@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {Game,emptyInput} from '../dist/js/engine.js';
 import {Weapon,WEAPONS,GUN_ORDER} from '../dist/js/weapons.js';
 import {Arena,MAPS} from '../dist/js/maps.js';
+import {Convoy} from '../dist/js/convoy.js';
 import {Navigation} from '../dist/js/navigation.js';
 import {rayBox,direction} from '../dist/js/math.js';
 
@@ -59,6 +60,27 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.p.spawnProtection=0;
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
+
+ const escort=duel('convoy');
+ escort.g.arena.visible=()=>true;
+ const convoy=escort.g.rules.convoy;
+ Object.assign(escort.p,convoy.position);
+ Object.assign(escort.t,convoy.position);
+ escort.g.rules.update(1,escort.g);
+ assert(convoy.contested);
+ assert.equal(convoy.progress,0);
+ escort.t.x+=100;
+ escort.g.rules.update(1,escort.g);
+ assert(convoy.progress>0);
+ escort.g.rules.time=.1;
+ escort.g.rules.update(1,escort.g);
+ assert.equal(escort.g.rules.phase,'roundBreak');
+ escort.g.rules.update(5,escort.g);
+ assert.equal(escort.g.rules.round,2);
+ Object.assign(escort.t,convoy.position);
+ escort.p.x+=100;
+ escort.g.rules.update(2,escort.g);
+ assert.equal(escort.g.rules.winner,1);
 
  const survival=new Game({mode:'survival',map:0},{seed:891});
  survival.arena.visible=()=>true;
@@ -202,5 +224,5 @@ test('sabotage can recover, plant, defuse, switch teams and start another round'
  for(let i=0;i<190;i++)g.rules.update(1/60,g);assert(g.rules.planted);assert.equal(g.rules.bombSite,0);assert.equal(g.result().xpBreakdown.objective,300);p.interacting=false;t.x=site.x;t.z=site.z;t.interacting=true;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(g.rules.phase,'roundBreak');assert.equal(g.rules.scores[1],1);g.rules.round=3;g.rules.nextRound();assert.equal(g.rules.attackingTeam,1);assert(!g.rules.planted);});
 test('a planted charge remains live when all attackers die',()=>{const{g,p,t}=duel('sabotage');g.rules.planted=true;g.rules.bombSite=0;g.rules.bombTime=.05;p.health=0;g.rules.update(.02,g);assert.equal(g.rules.phase,'playing');g.rules.update(.04,g);assert.equal(g.rules.scores[0],1);});
 test('sabotage disables mid-round respawning',()=>{const{g,p,t}=duel('sabotage');g.actors.push(Object.assign(Object.create(Object.getPrototypeOf(t)),t,{id:1,team:0,x:15,z:15,health:100,aiClock:1000}));g.damage(p,200,t);assert.equal(g.cameraActor.id,1);advance(g,4);assert(p.dead);assert.equal(g.cameraActor.id,1);g.actors.find(actor=>actor.id===1).health=0;assert.equal(g.cameraActor,p);g.resetRound();assert.equal(g.cameraActor,p);});
-test('every map has safe spawns and navigable routes to the objectives',()=>{for(let id=0;id<MAPS.length;id++){const arena=new Arena(id),nav=new Navigation(arena);for(const spawn of arena.spawns)assert(!arena.collides(spawn,.31,1.75),`map ${id} invalid spawn`);for(const objective of arena.objectives){const path=nav.path(arena.spawns[0],objective);assert(path.length>0,`map ${id} no path`);assert(distance2(path.at(-1),objective)<4.5,`map ${id} ${objective.name} unreachable`);}}});
+test('every map has safe spawns and navigable routes to the objectives',()=>{for(let id=0;id<MAPS.length;id++){const arena=new Arena(id),nav=new Navigation(arena);const convoy=new Convoy(arena,nav);assert(convoy.length>10,`map ${id} convoy route too short`);assert(distance2(convoy.route.at(-1),arena.objectives.at(-1))<4.5,`map ${id} convoy finish unreachable`);for(const spawn of arena.spawns)assert(!arena.collides(spawn,.31,1.75),`map ${id} invalid spawn`);for(const objective of arena.objectives){const path=nav.path(arena.spawns[0],objective);assert(path.length>0,`map ${id} no path`);assert(distance2(path.at(-1),objective)<4.5,`map ${id} ${objective.name} unreachable`);}}});
 function distance2(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}

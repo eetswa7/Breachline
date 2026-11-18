@@ -1,13 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=94';
-import {Navigation} from './navigation.js?v=94';
-import {SpawnDirector} from './spawns.js?v=94';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=94';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=94';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=94';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=94';
-import {traceBullet} from './ballistics.js?v=94';
-import {beginVault,advanceVault} from './traversal.js?v=94';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=94';
+import {Arena,MAPS} from './maps.js?v=95';
+import {Navigation} from './navigation.js?v=95';
+import {SpawnDirector} from './spawns.js?v=95';
+import {Convoy} from './convoy.js?v=95';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=95';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=95';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=95';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=95';
+import {traceBullet} from './ballistics.js?v=95';
+import {beginVault,advanceVault} from './traversal.js?v=95';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=95';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -23,7 +24,7 @@ export class Game {
  constructor(config={},options={}){
   const seed=options.seed??Date.now(),arsenalRandom=rng((seed^0x51b4e329)>>>0);
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
-  this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
+  this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
   this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));

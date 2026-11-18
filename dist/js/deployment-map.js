@@ -42,6 +42,16 @@ export function drawDeploymentMap(canvas, arena, rules) {
     context.fill();
   }
 
+  if (rules.convoy) {
+    context.beginPath();
+    context.strokeStyle = '#ffd46b';
+    context.lineWidth = 4;
+    rules.convoy.route.forEach((point,index) => {
+      if(index)context.lineTo(x(point.x),z(point.z));
+      else context.moveTo(x(point.x),z(point.z));
+    });
+    context.stroke();
+  }
   const mode = rules.mode.id;
   const points = mode === 'ctf' ? rules.flags.map(flag => ({
     ...flag, name: flag.team ? 'R' : 'B', color: flag.team ? '#f1a78d' : '#9fe4f5'

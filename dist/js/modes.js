@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=94';
-import {distance} from './math.js?v=94';
+import {GUN_ORDER} from './weapons.js?v=95';
+import {distance} from './math.js?v=95';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -13,7 +13,8 @@ export const MODES = [
  {id:'hill',name:'KING OF THE HILL',short:'KOTH',description:'Every operator for themselves. Occupy the hill alone to score. First to 75.',limit:75,time:480,teams:false},
  {id:'elimination',name:'ELIMINATION',short:'ELIM',description:'4 vs 4. One life each round. Eliminate the other team. First to 5 rounds.',limit:5,time:75,teams:true},
  {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true},
- {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true}
+ {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true},
+ {id:'convoy',name:'CONVOY',short:'CONVOY',description:'Escort the moving drone through the route, then swap sides. Furthest distance wins. Full deliveries are decided by time.',limit:100,time:150,teams:true}
 ];
 
 export const SURVIVAL_WAVES=[
@@ -323,6 +324,30 @@ export class MatchRules {
    }
   }
  }
+ updateConvoy(dt,engine){
+  const convoy=this.convoy,attacking=this.round-1;
+  convoy.move(dt,engine,attacking);
+  this.scores[attacking]=Math.floor(100*convoy.progress/(convoy.length||1));
+  if(!convoy.checkpointReached&&convoy.progress>=convoy.checkpoint&&convoy.progress>0){
+   convoy.checkpointReached=true;this.time+=35;
+   engine.emit('capture',{text:'CONVOY CHECKPOINT · +35 SECONDS'});
+  }
+  const delivered=convoy.progress>=convoy.length;
+  const first=convoy.results[0];
+  if(first){
+   if(!first.delivered&&convoy.progress>first.progress){this.finish(attacking);return;}
+   if(delivered||this.time<=0||first.delivered&&convoy.elapsed>first.elapsed+1e-6){
+    this.finish(delivered&&first.delivered&&Math.abs(convoy.elapsed-first.elapsed)<1e-6?-1:
+     delivered&&convoy.elapsed<first.elapsed?attacking:convoy.progress===first.progress&&!first.delivered?-1:0);
+   }
+   return;
+  }
+  if(!delivered&&this.time>0)return;
+  convoy.results.push({delivered,progress:convoy.progress,elapsed:convoy.elapsed});
+  this.phase='roundBreak';this.roundWait=5;
+  this.message='SIDES SWAPPING · BEAT THE FIRST RUN';
+  engine.emit('round',{text:this.message});
+ }
  updateSurvival(engine){
   const allies=engine.actors.filter(actor=>actor.team===0&&!actor.dead).length;
   let enemies=engine.actors.filter(actor=>actor.team===1&&!actor.dead).length;
@@ -343,11 +368,12 @@ export class MatchRules {
   if(this.phase==='finished')return;
   if(this.phase==='roundBreak') {
    this.roundWait-=dt;
-   if(this.roundWait<=0){this.nextRound();if(this.mode.id==='survival')engine.startSurvivalWave();else engine.resetRound();}
+   if(this.roundWait<=0){this.nextRound();this.convoy?.reset();if(this.mode.id==='survival')engine.startSurvivalWave();else engine.resetRound();}
    return;
   }
   const elapsed=Math.min(dt,this.time);
   this.time=Math.max(0,this.time-dt);
+  if(this.convoy){this.updateConvoy(elapsed,engine);return;}
   if(this.mode.id==='survival'){this.updateSurvival(engine);return;}
   if(this.mode.id==='ctf')this.updateFlags(elapsed,engine);
   if(this.mode.id==='hardpoint')this.updateHardpoint(elapsed,engine);

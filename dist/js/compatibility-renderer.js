@@ -1,16 +1,16 @@
-import {updateWeaponClearance} from './weapon-clearance.js?v=94';
-import {animateWeaponParts} from './weapon-models.js?v=94';
-import {muzzleFlash} from './firing-presentation.js?v=94';
-import {identityFor} from './combat-identity.js?v=94';
-import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=94';
-import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=94';
-import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=94';
-import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=94';
-import {loadImages} from './textures.js?v=94';
-import {weatherParticles} from './particles.js?v=94';
-import {operatorTorso,operatorLimb} from './operator-meshes.js?v=94';
-import {weatherLighting} from './weather-lighting.js?v=94';
-import {actorDeathProgress} from './actor-pose.js?v=94';
+import {updateWeaponClearance} from './weapon-clearance.js?v=95';
+import {animateWeaponParts} from './weapon-models.js?v=95';
+import {muzzleFlash} from './firing-presentation.js?v=95';
+import {identityFor} from './combat-identity.js?v=95';
+import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=95';
+import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=95';
+import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=95';
+import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=95';
+import {loadImages} from './textures.js?v=95';
+import {weatherParticles} from './particles.js?v=95';
+import {operatorTorso,operatorLimb} from './operator-meshes.js?v=95';
+import {weatherLighting} from './weather-lighting.js?v=95';
+import {actorDeathProgress} from './actor-pose.js?v=95';
 
 const corners=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];
 const faces=[[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]];
@@ -126,6 +126,11 @@ export class CompatibilityRenderer {
   if(game.survival?.supplies>0){
    const station=game.survival.station;
    polygons.push(...this.box(part(station.x,station.y+.25,station.z,.85,.5,.62,'steel',{color:[.53,.86,.24]})));
+  }
+  if(game.rules.convoy){
+   const pos=game.rules.convoy.position,y=pos.y+.65+Math.sin(game.time*3)*.055;
+   polygons.push(...this.box(part(pos.x,y,pos.z,.82,.36,.72,'steel',{mesh:'bevel',yaw:game.time*.8,color:[.26,.33,.36]})),
+    ...this.box(part(pos.x,y+.22,pos.z,.55,.16,.66,'steel',{mesh:'bevel',yaw:game.time*.8,color:[1,.68,.2]})));
   }
   const charge=game.rules.payload?.position??game.rules.droppedCharge??(game.rules.planted?game.rules.points[game.rules.bombSite]:null);
   if(charge)polygons.push(...this.box(part(charge.x,charge.y+.18,charge.z,.44,.24,.32,'steel',{color:[1,.66,.23]})));

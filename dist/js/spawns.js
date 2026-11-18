@@ -73,8 +73,9 @@ export class SpawnDirector {
   this.deaths=this.deaths.filter(p=>time-p.time<18);
   const enemies=[],allies=[];
   for(const other of actors)if(other.id!==actor.id&&!other.dead)(rules.enemies(actor,other)?enemies:allies).push(other);
-  const side=actor.team?1:-1;
-  const home=this.starts.filter(p=>p.team===actor.team&&(p.x+p.z)*side>this.arena.info.size*.4);
+  const homeTeam=rules.convoy&&rules.round===2?1-actor.team:actor.team;
+  const side=homeTeam?1:-1;
+  const home=this.starts.filter(p=>p.team===homeTeam&&(p.x+p.z)*side>this.arena.info.size*.4);
   let pool=initial&&teams?home:this.candidates;
   if(!pool.length)pool=this.candidates.length?this.candidates:this.starts;
   if(rules.mode.id==='frontline'){
@@ -150,7 +151,6 @@ export class SpawnDirector {
   // Initial anchors are intentionally a small authored set. If all are occupied
   // use the same-side connected pockets, with no unchecked random displacement.
   if(!best&&initial&&teams){
-   const side=actor.team?1:-1;
    const fallback=this.candidates.filter(p=>(p.x+p.z)*side>this.arena.info.size*.4&&rules.spawnAllowed(actor,p));
    const free=fallback.find(p=>!actors.some(a=>a.id!==actor.id&&!a.dead&&separation(p,a)<1.6));
    best=free??fallback[0];

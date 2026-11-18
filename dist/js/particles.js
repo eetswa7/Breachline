@@ -1,4 +1,4 @@
-import {QUALITY} from './graphics-quality.js?v=94';
+import {QUALITY} from './graphics-quality.js?v=95';
 
 export const billboardVertex = `
 attribute vec3 instancePosition;

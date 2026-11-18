@@ -1,13 +1,14 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=94';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=94';
-import {MAPS} from './maps.js?v=94';
-import {drawDeploymentMap} from './deployment-map.js?v=94';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=94';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=94';
-import {ATTACHMENT_SPECS} from './attachments.js?v=94';
-import {clamp,distance} from './math.js?v=94';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=94';
-import {identityFor,canIdentify} from './combat-identity.js?v=94';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=95';
+import {Convoy} from './convoy.js?v=95';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=95';
+import {MAPS} from './maps.js?v=95';
+import {drawDeploymentMap} from './deployment-map.js?v=95';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=95';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=95';
+import {ATTACHMENT_SPECS} from './attachments.js?v=95';
+import {clamp,distance} from './math.js?v=95';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=95';
+import {identityFor,canIdentify} from './combat-identity.js?v=95';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -60,7 +61,8 @@ export class Interface {
    button.setAttribute('aria-pressed',String(selected));
   }
   const spawnKey=rules.mode.teams?'Blue and red starts':'Operator starts';
-  const modeKey=mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
+  if(mode==='convoy')rules.convoy=this.app.game.rules.convoy??new Convoy(arena,this.app.game.nav);
+  const modeKey=mode==='convoy'?'Convoy route':mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
   const legend=modeKey?`${spawnKey} · ${modeKey}`:spawnKey;
   $('deployment-legend').textContent=legend;
   const canvas=$('deployment-map');
@@ -191,7 +193,13 @@ export class Interface {
   if(g.reinforcements)$('reinforcements').textContent=`REINFORCEMENTS  ${g.reinforcements[p.team]} ◆ / ${g.reinforcements[1-p.team]} ▼`;
   const remaining=Math.max(0,Math.ceil(r.mode.id==='sabotage'&&r.planted?r.bombTime:r.time));$('timer').textContent=`${Math.floor(remaining/60).toString().padStart(2,'0')}:${Math.ceil(remaining%60).toString().padStart(2,'0')}`;
   if(r.mode.teams){$('score-blue').textContent=r.scores[0];$('score-red').textContent=r.scores[1];}else{$('score-blue').textContent=r.mode.id==='gun'?p.gunStage:r.mode.id==='hill'?p.hillScore??0:p.kills;$('score-red').textContent=Math.max(...g.actors.slice(1).map(a=>r.mode.id==='gun'?a.gunStage:r.mode.id==='hill'?a.hillScore??0:a.kills));}
-  if(g.survival){
+  if(r.convoy){
+   const convoy=r.convoy,first=convoy.results[0];
+   const instructions=r.round-1===p.team?'ESCORT THE DRONE':'STOP THE DRONE';
+   const target=first?.delivered?` · TARGET ${Math.ceil(first.elapsed)}s`:first?` · TARGET ${r.scores[0]}%`:'';
+   $('objective').textContent=r.phase==='roundBreak'?r.message:`RUN ${r.round} / 2 · ${convoy.contested?'CONTESTED':instructions}${target}`;
+   $('score-blue').textContent=`${r.scores[p.team]}%`;$('score-red').textContent=`${r.scores[1-p.team]}%`;
+  }else if(g.survival){
    $('team-blue-label').textContent='WAVES CLEARED';
    $('team-red-label').textContent='ENEMIES LEFT';
    $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} · ${SURVIVAL_WAVES[r.round-1].name.toUpperCase()} · ${g.survival.supplies} SUPPLY DROPS LEFT${p.armor?` · ${Math.ceil(p.armor)} ARMOR`:''}`;
@@ -259,6 +267,13 @@ export class Interface {
    if(!enemy||enemy.dead)continue;
    c.fillStyle='#ff986d';c.font='bold 12px Arial';
    c.fillText(enemy===g.survival.commander?'◆':'◇',(enemy.x-view.x)*s-5,(enemy.z-view.z)*s+4);
+  }
+  if(g.rules.convoy){
+   const convoy=g.rules.convoy,pos=convoy.position;
+   c.strokeStyle='#ffd46b66';c.lineWidth=2;c.beginPath();
+   convoy.route.forEach((point,i)=>{const x=(point.x-view.x)*s,z=(point.z-view.z)*s;if(i)c.lineTo(x,z);else c.moveTo(x,z);});
+   c.stroke();c.fillStyle='#ffd46b';c.font='bold 14px Arial';
+   c.fillText('◆',(pos.x-view.x)*s-5,(pos.z-view.z)*s+4);
   }
   const payload=g.rules.payload;
   const charge=payload?.position??(payload?g.actors.find(actor=>actor.id===payload.carrier):null)??g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
