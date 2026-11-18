@@ -15,9 +15,9 @@ export class RoomLights {
     if(roof){this.bounds.value[index].set(roof.x,roof.z,roof.w/2-.5,roof.d/2-.5);this.ceiling.value[index]=roof.y-roof.h/2;}
     else{this.bounds.value[index].set(0,0,1e6,1e6);this.ceiling.value[index]=1e6;}
   }
-  patch(shader){
+  patch(shader,position='vBreachLightPosition'){
     shader.uniforms.uBreachRoomBounds=this.bounds;shader.uniforms.uBreachRoomCeiling=this.ceiling;
-    // LightingField already supplies this world position for both actors and walls.
+    // The lighting and ground material paths each supply a world position.
     shader.fragmentShader=`uniform vec4 uBreachRoomBounds[3];
       uniform float uBreachRoomCeiling[3];
       float breachRoomLight(vec3 p,vec4 bounds,float ceiling){
@@ -29,7 +29,7 @@ export class RoomLights {
     const lights=THREE.ShaderChunk.lights_fragment_begin.replace(
       'getPointLightInfo( pointLight, geometryPosition, directLight );',
       `getPointLightInfo( pointLight, geometryPosition, directLight );
-       directLight.color*=breachRoomLight(vBreachLightPosition,uBreachRoomBounds[i],uBreachRoomCeiling[i]);`);
+       directLight.color*=breachRoomLight(${position},uBreachRoomBounds[i],uBreachRoomCeiling[i]);`);
     shader.fragmentShader=shader.fragmentShader.replace('#include <lights_fragment_begin>',lights);
   }
 }

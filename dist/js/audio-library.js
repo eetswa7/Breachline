@@ -1,4 +1,4 @@
-import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=72';
+import {AUDIO_BANK,AUDIO_PARTS} from './audio-files.js?v=73';
 
 export async function loadSoundLibrary(context,onSound){
  const chunks=new Array(AUDIO_PARTS.length);let next=0;
@@ -49,12 +49,13 @@ export function footstepSurface(arena,position){
 export function roomAcoustics(arena,position){
  if(!position)return null;
  let selected=null;
- for(const roof of arena.nearby?.(position)??arena.blocks??[]){
-  if(!roof.roof||roof.destroyed||position.y>=roof.y-roof.h*.5)continue;
+ const geometry=arena.nearby?.(position)??arena.blocks;
+ for(const roof of geometry??[]){
+  if(!roof.roof||roof.catwalk||roof.destroyed||position.y>=roof.y-roof.h*.5)continue;
   const c=Math.cos(roof.yaw??0),s=Math.sin(roof.yaw??0),x=position.x-roof.x,z=position.z-roof.z;
   if(Math.abs(c*x-s*z)>=roof.w*.5||Math.abs(s*x+c*z)>=roof.d*.5)continue;
   if(!selected||roof.y<selected.y)selected=roof;
  }
  if(selected)return selected.w*selected.d*Math.max(1,selected.y-selected.h*.5)>450?'hall':'room';
- return arena.indoors?.(position)?'room':null;
+ return !geometry&&arena.indoors?.(position)?'room':null;
 }

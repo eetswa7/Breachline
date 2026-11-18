@@ -157,6 +157,27 @@ export function productionWorld(arena,parts){
     add(sign*17,3,0,22,6,.4,'blacksite_hall_wall_short',{
      surface:'concrete',yaw:sign>0?-Math.PI/2:Math.PI/2,productionRole:'turbine_hall_wall'},hall);
    }
+   // Parallel service aisles extend through all four entrances. The side
+   // bands read as grounded equipment bays and keep the lanes visually clear.
+   const hallFloor=(x,z,w,d,extra={})=>floor(x,z,w,d,'concrete',{
+    y:.043,surfaceLayer:5,productionEpoxy:true,rough:.75,...extra
+   },hall);
+   hallFloor(0,0,33.4,3.7,{color:[.77,.83,.82]});
+   for(const side of [-1,1]){
+    hallFloor(0,side*6.26,3.7,8.82,{color:[.77,.83,.82]});
+    for(const x of [-9.325,9.325])hallFloor(x,side*1.9,14.75,.10,{color:[.82,.70,.32]});
+    for(const axis of [-1,1]){
+     hallFloor(axis*1.9,side*6.33,.10,8.76,{color:[.82,.70,.32]});
+     hallFloor(side*10,axis*5,5.5,5.4,{color:[.60,.67,.66]});
+    }
+    // Repeated native infrastructure spans the hall above the equipment
+    // banks. Place the service runs behind the luminous fixture lenses.
+    add(side*9,5.19,0,18.8,.52,.70,'cable_tray',{yaw:Math.PI/2},hall);
+    add(side*14,5.20,0,19.4,.44,.69,'pipe_rack',{yaw:Math.PI/2},hall);
+    for(const z of [-6.5,0,6.5]){
+     add(side*11.5,5.19,z,4.9,.34,.48,'duct_run',{},hall);
+    }
+   }
    // The roof slab and deep supporting beams share one near/far native
    // assembly. Its lowest knee is 4.90 m above the unchanged playable floor.
    add(0,5.6,0,34.6,1.4,22.6,'blacksite_hall_ceiling',{

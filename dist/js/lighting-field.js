@@ -1,5 +1,5 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {clamp} from './math.js?v=72';
+import {clamp} from './math.js?v=73';
 
 // Small ground-plan light field, baked once per map. This is an approximation
 // of indirect light, not a GI solver. R sky access, G warm bounce, B roof height,
@@ -32,7 +32,7 @@ export function bakeLightField(arena,resolution=64,options={}){
       for(const p of lamps){const d2=(p.x-px)**2+(p.z-pz)**2+(p.y-1.2)**2;
         if(d2>90)continue;
         if(arena.visible?.({x:px,y:1.2,z:pz},{x:p.x,y:p.y-.15,z:p.z})===false)continue;
-        bounce+=.32/(1+d2*.11);
+        bounce+=.32*(p.lightIntensity ? Math.sqrt(p.lightIntensity/17) : 1)/(1+d2*.11);
       }
     }
     const i=(z*resolution+x)*4;

@@ -1,6 +1,6 @@
 // Authored combat spaces. Windows are holes in the collision walls, and raised
 // routes use the same walkable stairs as the ground navigation grid.
-function combatRoom(a,x,z,w,d,h=4.3,surface='plaster'){
+function combatRoom(a,x,z,w,d,h=4.3,surface='plaster',hall=false){
  const door=3.8,window=2.4,sill=1.02,lintel=2.35;
  const wall=(axis,edge,span)=>{
   const along=axis==='x'?'z':'x',centre=along==='x'?x:z,wing=span/2-door/2;
@@ -19,7 +19,16 @@ function combatRoom(a,x,z,w,d,h=4.3,surface='plaster'){
  for(const edge of [z-d/2,z+d/2])wall('z',edge,w);
  a.box(x,h+.15,z,w+.6,.3,d+.6,surface,{roof:true,room:true});
  a.detail(x,.022,z,w-.45,.035,d-.45,'tiles');
- for(const dz of [-d*.25,d*.25])a.detail(x,h-.23,z+dz,.45,.09,1.5,'white',{emissive:1.15});
+ if(hall){
+  // Two overhead service runs light the turbine banks and frame the central aisle.
+  for(const dx of [-9,9])for(const dz of [-6.5,0,6.5]){
+   a.detail(x+dx,h-1.13,z+dz,1.9,.10,.46,'white',{
+    emissive:1.65,lightIntensity:92,lightColor:0xe4ecff
+   });
+  }
+ }else{
+  for(const dz of [-d*.25,d*.25])a.detail(x,h-.23,z+dz,.45,.09,1.5,'white',{emissive:1.15});
+ }
  // Interior cover keeps the door-to-door firing lane from crossing the whole room.
  for(const sign of [-1,1]){
   a.box(x+sign*w*.28,.49,z-sign*d*.24,2.3,.98,1.2,'wood',{shellThickness:.035});
@@ -77,7 +86,7 @@ export function buildDistrict(a){
 
 export function buildBlacksite(a){
  a.detail(0,.014,0,114,.025,114,'asphalt');
- combatRoom(a,0,0,34,22,6,'steel');
+ combatRoom(a,0,0,34,22,6,'steel',true);
  for(const x of [-31,31])for(const z of [-28,28])a.room(x,z,12,15,4.1,'concrete',true,true);
  for(const x of [-10,10])for(const z of [-5,5]){
   a.box(x,1.15,z,3.2,2.3,3.6,'dark',{mesh:'bevel'});
