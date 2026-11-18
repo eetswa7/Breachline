@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 101.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 102.** 30 weapons, 17 maps and 13 modes.
+
+## Release 102: match replays
+
+Watch the last recorded match from its debrief or the Career page. Playback
+recreates the match from its original seed, inputs, squad orders and Last Stand
+support decisions. Use the pause menu for 1× or 2× playback. The replay stays
+available until another recorded match finishes or the app closes.
 
 ## Release 101: battlefield weapon recovery
 
