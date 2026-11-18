@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 87.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 88.** 30 weapons, 16 maps and 11 modes.
+
+## Release 88: objective bot squads
+
+Domination bots divide their team among sites based on travel distance, existing
+coverage and whether the point is contested. Hardpoint sends part of the squad
+ahead of the rotation while the rest keep fighting for the active zone.
 
 ## Release 87: teammate spectating
 
