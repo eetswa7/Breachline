@@ -1,18 +1,18 @@
-import {Game,emptyInput} from './engine.js?v=78';
-import {Renderer} from './three-renderer.js?v=78';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=78';
-import {TouchInput} from './input.js?v=78';
-import {AudioSystem} from './audio.js?v=78';
-import {SaveStore} from './save.js?v=78';
-import {Interface,$} from './ui.js?v=78';
-import {Weapon} from './weapons.js?v=78';
-import {opticMagnification} from './aim.js?v=78';
-import {FramePacer} from './frame-pacer.js?v=78';
-import {BenchmarkController} from './benchmark.js?v=78';
-import {updateAimAssist} from './aim-assist.js?v=78';
+import {Game,emptyInput} from './engine.js?v=79';
+import {Renderer} from './three-renderer.js?v=79';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=79';
+import {TouchInput} from './input.js?v=79';
+import {AudioSystem} from './audio.js?v=79';
+import {SaveStore} from './save.js?v=79';
+import {Interface,$} from './ui.js?v=79';
+import {Weapon} from './weapons.js?v=79';
+import {opticMagnification} from './aim.js?v=79';
+import {FramePacer} from './frame-pacer.js?v=79';
+import {BenchmarkController} from './benchmark.js?v=79';
+import {updateAimAssist} from './aim-assist.js?v=79';
 
 export class Application {
- constructor(){this.store=new SaveStore();this.config={mode:'tdm',map:14,difficulty:'regular',loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
+ constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
   try{this.renderer=new Renderer($('world'),this.store.data.settings);}catch(error){console.warn('WebGL renderer unavailable:',error.message);const fresh=$('world').cloneNode();$('world').replaceWith(fresh);this.renderer=new CompatibilityRenderer(fresh,this.store.data.settings);}
   this.game=new Game(this.config,{seed:881});this.renderer.setArena(this.game.arena);this.audio=new AudioSystem(this.store.data.settings);this.input=new TouchInput($('world'),$('touch-layer'),this.store.data.settings);this.benchmark=new BenchmarkController(this);this.ui=new Interface(this);this.benchmark.bindUI();this.controllerHUD=false;
   window.addEventListener('pointerdown',()=>{this.controllerHUD=false;this.touchUntil=performance.now()+750;document.body.classList.remove('controller-active');},{capture:true,passive:true});
@@ -39,7 +39,7 @@ export class Application {
  }
  pause(){if(!this.playing||this.game.rules.phase==='finished')return;this.game.paused=true;this.input.active=false;this.input.reset();this.aimAssistState={};this.pending=emptyInput();document.exitPointerLock?.();this.audio.pause();this.ui.pause();}
  resume(){if(!this.playing)return;this.ui.closeModal();this.input.reset();this.input.active=true;this.game.paused=false;this.last=0;this.accumulator=0;this.audio.start();if(!this.isTouch)this.lockMouse();this.orientation();}
- toMenu(){if(this.benchmark?.stress){void this.benchmark.stop('stress_cancelled');return;}this.playing=false;this.game.paused=true;this.input.active=false;this.input.reset();document.exitPointerLock?.();this.ui.menu();this.audio.stopAmbience?.();this.audio.start();this.wakeLock?.release();this.previewWeapon();}
+ toMenu(){if(this.benchmark?.stress){void this.benchmark.stop('stress_cancelled');return;}this.playing=false;this.game.paused=true;this.input.active=false;this.input.reset();document.exitPointerLock?.();this.audio.stopAmbience?.();this.previewMap(this.config.map);this.ui.menu();this.audio.start();this.wakeLock?.release();this.previewWeapon();}
  previewMap(id){if(this.playing)return;this.game=new Game({...this.config,map:id},{seed:881});this.renderer.setArena(this.game.arena);}
  previewWeapon(){if(this.playing)return;const slot=this.ui?.slot??'primary',id=this.store.data.loadout[slot];this.game.player.weapons[0]=new Weapon(id,slot==='primary'?this.store.data.loadout:{});this.game.player.slot=0;this.renderer.weaponKey='';}
  frame(now){requestAnimationFrame(this.frame);if(document.hidden||this.renderer.lost)return;const activeMatch=this.playing&&!this.game.paused&&this.game.rules.phase!=='finished',frameRate=activeMatch?this.store.data.settings.frameRate===30?30:60:this.playing?10:30;if(!this.last)this.framePacer.reset();if(!this.framePacer.accept(now,frameRate))return;const elapsed=this.last?Math.max(.001,(now-this.last)/1000):1/60,dt=Math.min(.08,elapsed);this.last=now;if(this.starting)return;

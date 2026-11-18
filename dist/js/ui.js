@@ -1,10 +1,12 @@
-import {MODES} from './modes.js?v=78';
-import {MAPS} from './maps.js?v=78';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=78';
-import {ATTACHMENT_SPECS} from './attachments.js?v=78';
-import {clamp,distance} from './math.js?v=78';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=78';
-import {identityFor,canIdentify} from './combat-identity.js?v=78';
+import {MODES,MatchRules} from './modes.js?v=79';
+import {MAPS} from './maps.js?v=79';
+import {drawDeploymentMap} from './deployment-map.js?v=79';
+import {matchSetup} from './save.js?v=79';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=79';
+import {ATTACHMENT_SPECS} from './attachments.js?v=79';
+import {clamp,distance} from './math.js?v=79';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=79';
+import {identityFor,canIdentify} from './combat-identity.js?v=79';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -12,11 +14,17 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 export class Interface {
  constructor(app){this.app=app;this.store=app.store;this.settings=this.store.data.settings;this.page='play';this.slot='primary';this.hudClock=0;this.radarClock=0;this.feed=[];this.hitUntil=0;this.killUntil=0;this.announceUntil=0;this.lastTap=0;this.taps=0;this.toastTimer=null;this.debugVisible=false;this.identityClock=0;this.identityMarkers=new Map();this.bind();this.refreshCareer();this.renderWeapons();this.renderSettings();}
  bind(){
-  $('mode-select').innerHTML=MODES.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');$('mode-select').value=this.app.config.mode;
-  $('mode-select').onchange=()=>{this.app.config.mode=$('mode-select').value;this.modeDetail();};this.modeDetail();$('map-count').textContent=`01 / ${String(MAPS.length).padStart(2,'0')}`;
-  $('map-selector').innerHTML=MAPS.map(m=>`<button class="map-card ${m.id===this.app.config.map?'active':''}" data-map="${m.id}" aria-label="Select ${m.name}"><span>${m.tag}</span><strong>${m.name}</strong></button>`).join('');
-  for(const b of document.querySelectorAll('[data-map]'))b.onclick=()=>{const id=Number(b.dataset.map);this.app.config.map=id;for(const c of document.querySelectorAll('[data-map]'))c.classList.toggle('active',c===b);$('map-count').textContent=`${String(id+1).padStart(2,'0')} / ${String(MAPS.length).padStart(2,'0')}`;$('selected-map-label').textContent=MAPS[id].name;$('selected-map-type').textContent=`${MAPS[id].tag} / ${MAPS[id].location.toUpperCase()}`;this.modeDetail();this.app.previewMap(id);this.app.audio.ui();};
-  $('difficulty').onchange=()=>{this.app.config.difficulty=$('difficulty').value;};$('deploy').onclick=()=>this.app.start();
+  $('mode-select').innerHTML=MODES.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  $('mode-select').value=this.app.config.mode;
+  $('mode-select').onchange=()=>this.configureMatch({mode:$('mode-select').value});
+  $('map-selector').innerHTML=MAPS.map(m=>`<button class="map-card" data-map="${m.id}" aria-pressed="false"><span>${m.tag}</span><strong>${m.name}</strong></button>`).join('');
+  for(const button of $('map-selector').children)button.onclick=()=>this.configureMatch({map:Number(button.dataset.map)});
+  $('difficulty').value=this.app.config.difficulty;
+  $('difficulty').onchange=()=>this.configureMatch({difficulty:$('difficulty').value});
+  $('deploy').onclick=()=>this.app.start();
+  this.deploymentBrief();
+  const selection=$('map-selector').querySelector('.active');
+  if(selection)$('map-selector').scrollTop=Math.max(0,selection.offsetTop-selection.offsetHeight);
   for(const b of document.querySelectorAll('[data-page]'))b.onclick=()=>this.setPage(b.dataset.page);
   $('settings-top').onclick=()=>this.setPage('settings');document.querySelector('.wordmark').onclick=e=>{e.preventDefault();this.setPage('play');const now=Date.now();this.taps=now-this.lastTap<500?this.taps+1:1;this.lastTap=now;if(this.taps===5){this.taps=0;this.developer();}};
   for(const b of document.querySelectorAll('[data-slot]'))b.onclick=()=>{this.slot=b.dataset.slot;this.renderWeapons();};
@@ -28,7 +36,36 @@ export class Interface {
   window.addEventListener('keydown',e=>{if(e.code==='Escape'&&this.app.playing){e.preventDefault();if(this.app.game.paused)this.app.resume();else this.app.pause();}if(e.code==='F3'){e.preventDefault();this.developer();}if(e.code==='Tab'&&this.app.playing){e.preventDefault();this.app.pause();}});
  }
  persist(){this.store.persist();$('save-status').textContent=this.store.error?'SAVE UNAVAILABLE':'PROGRESS SAVED ON THIS DEVICE';if(this.store.error)this.toast('Progress could not be saved. Browser storage may be full.');}
- modeDetail(){const mode=MODES.find(m=>m.id===this.app.config.mode),size=MAPS[this.app.config.map].teamSize??4;let text=mode.description;if(mode.teams)text=text.includes('4 vs 4')?text.replace('4 vs 4',`${size} vs ${size}`):`${size} vs ${size}. ${text}`;$('mode-detail').textContent=text;}
+ configureMatch(change){
+  const setup=matchSetup({...this.app.config,...change});
+  Object.assign(this.app.config,setup);
+  if(this.app.game.arena.info.id!==setup.map)this.app.previewMap(setup.map);
+  this.store.data.matchSetup=setup;
+  this.persist();this.deploymentBrief();this.app.audio.ui();
+ }
+ deploymentBrief(){
+  const {map,mode}=this.app.config,info=MAPS[map],arena=this.app.game.arena;
+  const rules=new MatchRules(mode,arena),teamSize=info.teamSize??4;
+  const modeDescription=rules.mode.description.replace(/^4 vs 4\. /,'');
+  $('mode-detail').textContent=`${rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
+  $('selected-map-label').textContent=info.name;
+  $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across`;
+  $('selected-map-description').textContent=info.description;
+  $('map-count').textContent=`${String(map+1).padStart(2,'0')} / ${MAPS.length}`;
+  for(const button of $('map-selector').children){
+   const selected=Number(button.dataset.map)===map;
+   button.classList.toggle('active',selected);
+   button.setAttribute('aria-pressed',String(selected));
+  }
+  const spawnKey=rules.mode.teams?'Blue and red starts':'Operator starts';
+  const modeKey=mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
+  const legend=modeKey?`${spawnKey} · ${modeKey}`:spawnKey;
+  $('deployment-legend').textContent=legend;
+  const canvas=$('deployment-map');
+  canvas.setAttribute('aria-label',`${info.name} floorplan. ${legend}.`);
+  drawDeploymentMap(canvas,arena,rules);
+ }
+
  setPage(page){this.page=page;for(const b of document.querySelectorAll('[data-page]'))b.classList.toggle('active',b.dataset.page===page);for(const p of document.querySelectorAll('.page'))p.classList.toggle('active',p.id===`${page}-page`);this.app.audio.ui();if(page==='career')this.refreshCareer();if(page==='loadout'){this.renderWeapons();this.app.previewWeapon();}}
  renderWeapons(){const loadout=this.store.data.loadout,chosen=loadout[this.slot],w=new Weapon(chosen,this.slot==='primary'?loadout:{}),d=w.def;for(const b of document.querySelectorAll('[data-slot]'))b.classList.toggle('active',b.dataset.slot===this.slot);
   $('weapon-list').innerHTML=WEAPONS.filter(d=>this.slot==='primary'?PRIMARY_IDS.includes(d.id):d.kind==='PISTOL').map(d=>`<button class="weapon-row ${d.id===chosen?'active':''} ${this.store.unlocked(d)?'':'locked'}" data-weapon="${d.id}"><span>${d.name}</span><small>${this.store.unlocked(d)?d.kind:`LV ${d.unlock}`}</small></button>`).join('');
@@ -56,7 +93,7 @@ export class Interface {
   $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',true);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=MAPS[this.app.config.map].name;$('hud-mode').textContent=MODES.find(m=>m.id===this.app.config.mode).name;this.app.input.layout();this.app.orientation();}
- menu(){this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.refreshCareer();}
+ menu(){this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
  modal(title,caption,body,buttons){$('modal-title').textContent=title;$('modal-caption').textContent=caption;$('modal-content').innerHTML=body;$('modal-actions').replaceChildren();for(const [label,fn,primary]of buttons){const b=document.createElement('button');b.textContent=label;b.className=primary?'primary-button':'secondary-button';b.onclick=fn;$('modal-actions').append(b);}show('modal',true);$('modal-actions').firstElementChild?.focus();}
  closeModal(){show('modal',false);}
  scoreboard(){const g=this.app.game,id=g.rules.mode.id,key=id==='ctf'?'captures':id==='hill'?'hillScore':id==='gun'?'gunStage':id==='confirmed'?'confirms':null,heading=id==='ctf'?'CAP':id==='hill'?'HILL':id==='gun'?'TIER':id==='confirmed'?'CONF':id==='elimination'?'STATUS':'',actors=g.actors.slice().sort((a,b)=>(key?(b[key]??0)-(a[key]??0):0)||b.kills-a.kills);return `<table><thead><tr><th>OPERATOR</th><th>TEAM</th>${heading?`<th>${heading}</th>`:''}<th>K</th><th>D</th></tr></thead><tbody>${actors.map(a=>`<tr class="${identityFor(a,g.player,g.rules).key}"><td>${a.name}</td><td>${identityFor(a,g.player,g.rules).label}</td>${heading?`<td>${id==='elimination'?a.dead?'DOWN':'ALIVE':id==='gun'?`${Math.min(GUN_ORDER.length,a.gunStage+1)}/${GUN_ORDER.length}`:a[key]??0}</td>`:''}<td>${a.kills}</td><td>${a.deaths}</td></tr>`).join('')}</tbody></table>`;}

@@ -4,7 +4,7 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
  <meta name="theme-color" content="#101817"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Breachline">
  <meta name="description" content="A tactical first-person shooter. Eleven bot modes, sixteen battlegrounds, thirty weapons, and touch controls built for iPhone.">
- <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=78">
+ <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=79">
 </head>
 <body>
  <canvas id="world" aria-label="3D battlefield"></canvas>
@@ -13,8 +13,27 @@
   <header class="topbar"><a class="wordmark" href="#" aria-label="Breachline home"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 3h15l7 7-7 4 7 4-7 7H3V3Zm6 6v4h8l3-2-3-2H9Zm0 8v3h8l3-2-3-1H9Z"/></svg>BREACHLINE<span class="edition">FIELD OPERATIONS</span></a><div class="profile"><span id="level-badge">01</span><div><strong>OPERATOR</strong><small id="career-xp">0 XP</small></div><button id="settings-top" class="icon-button" aria-label="Settings">⚙</button></div></header>
   <nav class="tabs" aria-label="Main navigation"><button class="tab active" data-page="play">PLAY</button><button class="tab" data-page="loadout">LOADOUT</button><button class="tab" data-page="career">CAREER</button><button class="tab" data-page="settings">SETTINGS</button></nav>
   <section id="play-page" class="page active">
-   <div class="menu-copy"><div class="eyebrow"><span class="short-line"></span> OFFLINE COMBAT</div><h1>HOLD<br>YOUR <em>GROUND.</em></h1><p class="brief">Choose your battleground.<br>Make every shot count.</p><div class="mission-line"><span class="diamond"></span><span id="selected-map-label">OLD QUARTER</span><small id="selected-map-type">URBAN / COASTAL CITY</small></div></div>
-   <div class="deployment-panel"><div class="panel-caption">MATCH SETUP <span>01 / READY</span></div><label class="field-label" for="mode-select">GAME MODE</label><select id="mode-select"></select><p id="mode-detail" class="mode-detail"></p><div class="map-heading"><span>BATTLEGROUND</span><span id="map-count">01 / 08</span></div><div class="map-selector" id="map-selector"></div><div class="difficulty-row"><label for="difficulty">BOT DIFFICULTY</label><select id="difficulty"><option value="recruit">Recruit</option><option value="regular" selected>Regular</option><option value="veteran">Veteran</option></select></div><button id="deploy" class="primary-button">DEPLOY <span>↗</span></button></div>
+   <div class="deployment-brief">
+    <header>
+     <p id="selected-map-type" class="eyebrow"></p>
+     <h1 id="selected-map-label"></h1>
+     <p id="selected-map-description" class="brief"></p>
+    </header>
+    <figure class="deployment-figure">
+     <canvas id="deployment-map" width="512" height="512" role="img" aria-label="Battleground layout"></canvas>
+     <figcaption id="deployment-legend"></figcaption>
+    </figure>
+   </div>
+   <div class="deployment-panel">
+    <h2 class="panel-caption">MATCH SETUP</h2>
+    <label class="field-label" for="mode-select">GAME MODE</label>
+    <select id="mode-select"></select>
+    <p id="mode-detail" class="mode-detail"></p>
+    <div class="map-heading"><span>BATTLEGROUND</span><span id="map-count"></span></div>
+    <div class="map-selector" id="map-selector" aria-label="Battlegrounds"></div>
+    <div class="difficulty-row"><label for="difficulty">BOT DIFFICULTY</label><select id="difficulty"><option value="recruit">Recruit</option><option value="regular" selected>Regular</option><option value="veteran">Veteran</option></select></div>
+    <button id="deploy" class="primary-button">DEPLOY <span aria-hidden="true">↗</span></button>
+   </div>
   </section>
   <section id="loadout-page" class="page"><div class="section-heading"><div><span class="eyebrow">ARMOURY</span><h2>YOUR LOADOUT</h2></div><p>Equip your primary and sidearm.<br>Attachments change handling and ballistics.</p></div><div class="loadout-grid"><div class="weapon-picker"><div class="weapon-tabs"><button class="active" data-slot="primary">PRIMARY</button><button data-slot="secondary">SIDEARM</button></div><div id="weapon-list"></div></div><div class="weapon-info"><span id="weapon-class" class="eyebrow">ASSAULT RIFLE</span><h3 id="weapon-name">Kestrel AR</h3><p id="weapon-unlock"></p><div id="weapon-stats" class="weapon-stats"></div><div class="attachment-grid"><label>OPTIC<select id="optic-select"></select></label><label>BARREL<select id="barrel-select"></select></label><label>HANDLING<select id="handling-select"></select></label><label>MAGAZINE<select id="magazine-select"></select></label><label>AMMUNITION<select id="ammo-select"></select></label><label>EQUIPMENT<select id="equipment-select"><option value="frag">Frag grenade</option><option value="smoke">Smoke grenade</option><option value="flash">Flash grenade</option></select></label></div><div id="attachment-effects" class="attachment-effects" aria-live="polite"></div></div></div></section>
   <section id="career-page" class="page"><div class="section-heading"><div><span class="eyebrow">SERVICE RECORD</span><h2>YOUR CAREER</h2></div></div><div id="career-stats" class="career-stats"></div><div class="progression-panel"><span id="progress-label"></span><div class="xp-track"><i id="xp-progress"></i></div><p>Earn XP through eliminations, headshots and completed matches. All progress stays on this device.</p></div><section class="match-history" aria-labelledby="match-history-heading"><h3 id="match-history-heading">RECENT MATCHES</h3><p id="recent-form" class="recent-form"></p><div id="match-history-list"></div></section></section>
@@ -44,5 +63,5 @@
  <div id="benchmark-watermark" class="benchmark-watermark hidden" aria-label="Benchmark recording status"></div>
  <div id="toast" class="toast hidden" role="status"></div>
  <noscript><div class="fatal">JavaScript is required to play Breachline.</div></noscript>
- <script type="module" src="./js/boot.js?v=78"></script>
+ <script type="module" src="./js/boot.js?v=79"></script>
 </body></html>
