@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 96.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 97.** 30 weapons, 17 maps and 13 modes.
+
+## Release 97: Floodgate shortcuts
+
+Use Interact at either terminal to raise the gantry or spillway gate. The
+outer lanes stay open throughout the match. Once a gate clears the opening,
+infantry and bots can take the shortcut, and the radar shows the new state.
 
 ## Release 96: Floodgate
 
