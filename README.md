@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 103.** 30 weapons, 17 maps and 14 modes.
+**Latest source checkpoint: Release 104.** 30 weapons, 17 maps and 14 modes.
+
+## Release 104: paid insertions and High Stakes
+
+Extracted salvage funds future raids. Standard insertion is free. Spend
+180 salvage for squad armor or 160 for a two-second extraction. A 250-salvage
+High Stakes contract pits the squad against ten defenders in three minutes
+and pays double if at least 375 salvage makes it out. Balance is saved locally.
 
 ## Release 103: Salvage Raid
 
