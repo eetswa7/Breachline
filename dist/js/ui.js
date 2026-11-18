@@ -1,14 +1,14 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=97';
-import {Convoy} from './convoy.js?v=97';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=97';
-import {MAPS} from './maps.js?v=97';
-import {drawDeploymentMap} from './deployment-map.js?v=97';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=97';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=97';
-import {ATTACHMENT_SPECS} from './attachments.js?v=97';
-import {clamp,distance} from './math.js?v=97';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=97';
-import {identityFor,canIdentify} from './combat-identity.js?v=97';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=98';
+import {Convoy} from './convoy.js?v=98';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=98';
+import {MAPS} from './maps.js?v=98';
+import {drawDeploymentMap} from './deployment-map.js?v=98';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=98';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=98';
+import {ATTACHMENT_SPECS} from './attachments.js?v=98';
+import {clamp,distance} from './math.js?v=98';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=98';
+import {identityFor,canIdentify} from './combat-identity.js?v=98';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -35,8 +35,10 @@ export class Interface {
   $('equipment-select').onchange=()=>{this.store.data.loadout.equipment=$('equipment-select').value;this.persist();};
   $('customise').onclick=()=>this.editLayout();$('save-layout').onclick=()=>{this.persist();this.app.input.editing=false;$('touch-layer').classList.remove('editing');show('touch-layer',false);show('edit-bar',false);show('menu',true);this.app.orientation();};
   $('reset-layout').onclick=()=>{this.settings.layout={};this.app.input.layout();};$('install-help').onclick=()=>this.installHelp();$('controls-help').onclick=()=>this.controlsHelp();
+  $('squad-button').onclick=()=>this.app.openSquadOrders();
+  document.body.append($('squad-button'));
   $('pause-button').onclick=()=>this.app.pause();$('pause-button').style.position='fixed';$('pause-button').style.zIndex='9';document.body.append($('pause-button'));show('pause-button',false);
-  window.addEventListener('keydown',e=>{if(e.code==='Escape'&&this.app.playing){e.preventDefault();if(this.app.game.paused)this.app.resume();else this.app.pause();}if(e.code==='F3'){e.preventDefault();this.developer();}if(e.code==='Tab'&&this.app.playing){e.preventDefault();this.app.pause();}});
+  window.addEventListener('keydown',e=>{if(e.code==='KeyB'&&!e.repeat&&this.app.playing){e.preventDefault();this.app.openSquadOrders();}if(e.code==='Escape'&&this.app.playing){e.preventDefault();if(this.app.game.paused)this.app.resume();else this.app.pause();}if(e.code==='F3'){e.preventDefault();this.developer();}if(e.code==='Tab'&&this.app.playing){e.preventDefault();this.app.pause();}});
  }
  persist(){this.store.persist();$('save-status').textContent=this.store.error?'SAVE UNAVAILABLE':'PROGRESS SAVED ON THIS DEVICE';if(this.store.error)this.toast('Progress could not be saved. Browser storage may be full.');}
  configureMatch(change){
@@ -121,7 +123,7 @@ export class Interface {
   $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',true);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=this.app.game.arena.info.name;$('hud-mode').textContent=this.app.game.rules.mode.name;this.app.input.layout();this.app.orientation();}
- menu(){this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
+ menu(){show('squad-button',false);this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
  modal(title,caption,body,buttons){$('modal-title').textContent=title;$('modal-caption').textContent=caption;$('modal-content').innerHTML=body;$('modal-actions').replaceChildren();for(const [label,fn,primary]of buttons){const b=document.createElement('button');b.textContent=label;b.className=primary?'primary-button':'secondary-button';b.onclick=fn;$('modal-actions').append(b);}show('modal',true);$('modal-actions').firstElementChild?.focus();}
  operationBoard(){
   const operation=this.store.data.operation;
@@ -147,6 +149,20 @@ export class Interface {
  }
  closeModal(){show('modal',false);}
  scoreboard(){const g=this.app.game,id=g.rules.mode.id,key=id==='ctf'?'captures':id==='hill'?'hillScore':id==='gun'?'gunStage':id==='confirmed'?'confirms':null,heading=id==='ctf'?'CAP':id==='hill'?'HILL':id==='gun'?'TIER':id==='confirmed'?'CONF':id==='elimination'?'STATUS':'',actors=g.actors.slice().sort((a,b)=>(key?(b[key]??0)-(a[key]??0):0)||b.kills-a.kills);return `<table><thead><tr><th>OPERATOR</th><th>TEAM</th>${heading?`<th>${heading}</th>`:''}<th>K</th>${g.rules.mode.teams?'<th>A</th>':''}<th>D</th></tr></thead><tbody>${actors.map(a=>`<tr class="${identityFor(a,g.player,g.rules).key}"><td>${a.name}</td><td>${identityFor(a,g.player,g.rules).label}</td>${heading?`<td>${id==='elimination'?a.dead?'DOWN':'ALIVE':id==='gun'?`${Math.min(GUN_ORDER.length,a.gunStage+1)}/${GUN_ORDER.length}`:a[key]??0}</td>`:''}<td>${a.kills}</td>${g.rules.mode.teams?`<td>${a.assists}</td>`:''}<td>${a.deaths}</td></tr>`).join('')}</tbody></table>`;}
+ squadOrders(){
+  const game=this.app.game;
+  this.modal('SQUAD ORDERS','NEAREST THREE ALLIES',
+   '<p>Rally brings allies to you. Hold Mark sends them to the ground you were aiming at. Orders last 35 seconds unless you release the squad sooner.</p>',
+   [['RALLY ON ME',()=>this.applySquadOrder(game,'follow'),true],
+    ['HOLD MARK',()=>this.applySquadOrder(game,'hold')],
+    ['RESUME MISSION',()=>this.applySquadOrder(game,'release')],
+    ['BACK',()=>this.app.resume()]]);
+ }
+ applySquadOrder(game,kind){
+  if(game!==this.app.game)return;
+  if(!game.issueSquadOrder(kind)){this.toast('Aim at reachable ground to mark a position.');return;}
+  this.app.resume();
+ }
  survivalSupport(){
   const game=this.app.game,next=SURVIVAL_WAVES[game.rules.round];
   const options=[
@@ -177,7 +193,7 @@ export class Interface {
   else if(direction&&el.type==='range'){el.value=String(Math.max(+el.min,Math.min(+el.max,+el.value+direction*(+el.step||1))));el.dispatchEvent(new Event('input',{bubbles:true}));}
   else if(e[0]&&el.tagName!=='SELECT'&&el.type!=='range')el.click();
  }
- controlsHelp(){this.modal('CONTROLS','FIELD MANUAL',`<p><strong>Two thumbs:</strong> Push the left stick forward to run. Hold and drag the big FIRE pad to aim and shoot with one thumb. Tap AIM to look down the sights without firing. Empty magazines reload automatically. Touch aim slows over visible enemies for finer control; switch Touch aim slowdown off in Settings for raw sensitivity.</p><p>Tap JUMP to jump, vault low cover or mantle reachable ledges while moving towards them. Jumps carry your momentum; hold it while moving fast to slide, or hold while still to crouch. Tap CROUCH to toggle stance in Advanced controls. A slide lasts briefly and has a short recovery. Reload and switch are on the small bottom strip. Tap SWAP to switch; hold it to inspect both sides of your weapon. Inspection ends as soon as you aim, fire or use another action. Interact appears only when an objective is in reach.</p><p><strong>Desktop:</strong> WASD move · Mouse aim · Click fire · Right-click ADS · R reload · Q switch · F inspect · Shift sprint · C crouch or slide while sprinting · Space jump · G grenade · E interact · V melee · Escape pause.</p><p><strong>Controller:</strong> DualSense: left stick move · Right stick aim · R2 fire · L2 hold ADS · Cross jump · Circle crouch or slide while sprinting · Square reload / hold to interact at objectives · Triangle switch · D-pad down inspect · L1 grenade · R1 or R3 melee · L3 sprint · Options pause / resume. D-pad up/down selects menu controls, left/right changes values, Cross confirms. Pair in iPhone Bluetooth settings, open the game and press a controller button. Release sticks and buttons after connecting or resuming. Touch controls remain available.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
+ controlsHelp(){this.modal('CONTROLS','FIELD MANUAL',`<p><strong>Two thumbs:</strong> Push the left stick forward to run. Hold and drag the big FIRE pad to aim and shoot with one thumb. Tap AIM to look down the sights without firing. Empty magazines reload automatically. Touch aim slows over visible enemies for finer control; switch Touch aim slowdown off in Settings for raw sensitivity.</p><p>Tap JUMP to jump, vault low cover or mantle reachable ledges while moving towards them. Jumps carry your momentum; hold it while moving fast to slide, or hold while still to crouch. Tap CROUCH to toggle stance in Advanced controls. A slide lasts briefly and has a short recovery. Reload and switch are on the small bottom strip. Tap SWAP to switch; hold it to inspect both sides of your weapon. Inspection ends as soon as you aim, fire or use another action. Interact appears only when an objective is in reach.</p><p><strong>Desktop:</strong> WASD move · Mouse aim · Click fire · Right-click ADS · R reload · Q switch · F inspect · Shift sprint · C crouch or slide while sprinting · Space jump · G grenade · E interact · V melee · B squad orders · Escape pause.</p><p><strong>Controller:</strong> DualSense: left stick move · Right stick aim · R2 fire · L2 hold ADS · Cross jump · Circle crouch or slide while sprinting · Square reload / hold to interact at objectives · Triangle switch · D-pad down inspect · D-pad up squad orders · L1 grenade · R1 or R3 melee · L3 sprint · Options pause / resume. D-pad up/down selects menu controls, left/right changes values, Cross confirms. Pair in iPhone Bluetooth settings, open the game and press a controller button. Release sticks and buttons after connecting or resuming. Touch controls remain available.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  developer(){if(this.app.playing){this.app.game.paused=true;this.app.input.reset();this.app.input.active=false;document.exitPointerLock?.();}const g=this.app.game;this.modal('DEVELOPER TOOLS','TESTING',`<p>FPS: ${this.app.renderer.fps} · Bots: ${g.actors.length-1}<br>${this.app.renderer.diagnostics?.().replaceAll('\n','<br>')??'Compatibility graphics'}<br>Position: ${g.player.x.toFixed(1)}, ${g.player.y.toFixed(1)}, ${g.player.z.toFixed(1)} m<br>God mode: ${g.debug.god?'ON':'OFF'} · Unlimited ammunition: ${g.debug.ammo?'ON':'OFF'}</p>`,[['GOD MODE',()=>{g.debug.god=!g.debug.god;this.developer();}],['UNLIMITED AMMO',()=>{g.debug.ammo=!g.debug.ammo;this.developer();}],['UNLOCK EVERYTHING',()=>{this.store.data.unlockAll=true;this.persist();this.renderWeapons();this.toast('All weapons unlocked.');}],['SPAWN ENEMY',()=>{g.spawnBot();this.developer();}],['FPS OVERLAY',()=>{this.debugVisible=!this.debugVisible;this.developer();}],['RESTART MATCH',()=>this.app.start()],['CLOSE',()=>{if(this.app.playing)this.app.resume();else this.closeModal();},true]]);}
  toast(text){$('toast').textContent=text;show('toast',true);clearTimeout(this.toastTimer);this.toastTimer=setTimeout(()=>show('toast',false),4000);}
  events(events){const g=this.app.game;for(const e of events){if(e.type==='hit'){this.hitUntil=g.time+.12;$('hitmarker').classList.toggle('head',e.headshot);}
@@ -188,6 +204,10 @@ export class Interface {
  update(dt){const g=this.app.game,p=g.player,r=g.rules,view=g.cameraActor??p,spectating=view!==p;this.hudClock+=dt;this.radarClock+=dt;show('scope',!p.dead&&scopeVisible(p));show('ads-reticle',p.ads>.6&&!isScoped(p.weapon)&&!p.dead);if(this.hudClock<.066)return;this.hudClock=0;
   $('health').textContent=Math.ceil(Math.max(0,p.health));$('health-fill').style.width=`${Math.max(0,p.health)}%`;$('health-fill').style.background=p.health<30?'#ff785e':'var(--accent)';$('ammo').textContent=p.weapon.def.id===12?'∞':p.weapon.ammo;$('reserve').textContent=p.weapon.reserve;$('hud-weapon').textContent=p.weapon.def.name.toUpperCase();$('fire-mode').textContent=p.weapon.def.burst?'BURST':p.weapon.def.automatic?'AUTO':p.weapon.def.id===12?'MELEE':'SEMI';$('reload-label').textContent=p.weapon.reloadLeft>0?`${p.weapon.def.shellReload?'LOAD SHELL':'RELOADING'} ${p.weapon.reloadLeft.toFixed(1)}s`:p.switchLeft>0?'SWITCHING':'';show('reload-track',p.weapon.reloadLeft>0);$('reload-fill').style.transform=`scaleX(${clamp(1-p.weapon.reloadLeft/p.weapon.reloadTime,0,1)})`;
   $('grenade-count').textContent=`${p.equipment.toUpperCase()} · ${p.grenades}`;
+  show('squad-button',g.canCommandSquad);
+  const order=g.activeSquadOrder;
+  show('squad-status',!!order);
+  if(order)$('squad-status').textContent=`${order.kind==='hold'?'HOLD MARK':'RALLY'} · ${Math.ceil(order.until-g.time)}s`;
   $('hud-mode').textContent=r.overtime?'OVERTIME':r.mode.name;
   show('reinforcements',!!g.reinforcements);
   if(g.reinforcements)$('reinforcements').textContent=`REINFORCEMENTS  ${g.reinforcements[p.team]} ◆ / ${g.reinforcements[1-p.team]} ▼`;
@@ -268,6 +288,11 @@ export class Interface {
    if(!enemy||enemy.dead)continue;
    c.fillStyle='#ff986d';c.font='bold 12px Arial';
    c.fillText(enemy===g.survival.commander?'◆':'◇',(enemy.x-view.x)*s-5,(enemy.z-view.z)*s+4);
+  }
+  const mark=g.activeSquadOrder?.point;
+  if(mark){
+   c.fillStyle='#9affbe';c.font='bold 14px Arial';
+   c.fillText('×',(mark.x-view.x)*s-5,(mark.z-view.z)*s+4);
   }
   for(const {barrier} of g.arena.doors){
    c.fillStyle=barrier.destroyed?'#81ecaa':'#e7b063';c.font='bold 11px Arial';

@@ -201,6 +201,14 @@ test('domination captures, contests, awards points and finishes',()=>{const{g,p,
  const assignments=squad.actors.filter(actor=>actor.id!==0&&actor.team===0).map(actor=>actor.objectivePoint);
  assert(assignments.every(Boolean));
  assert(new Set(assignments).size>1);
+ assert(squad.issueSquadOrder('follow'));
+ const ordered=squad.actors.find(actor=>actor.id===squad.activeSquadOrder.ids[0]);
+ advance(squad,.15);
+ assert.equal(ordered.state,'order');
+ assert(squad.issueSquadOrder('release'));
+ assert.equal(squad.activeSquadOrder,null);
+ advance(squad,.15);
+ assert.equal(ordered.state,'objective');
  const rotation=new Game({mode:'hardpoint'},{seed:891});
  rotation.rules.rotationRemaining=2;
  advance(rotation,.15);

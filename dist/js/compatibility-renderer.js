@@ -1,16 +1,16 @@
-import {updateWeaponClearance} from './weapon-clearance.js?v=97';
-import {animateWeaponParts} from './weapon-models.js?v=97';
-import {muzzleFlash} from './firing-presentation.js?v=97';
-import {identityFor} from './combat-identity.js?v=97';
-import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=97';
-import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=97';
-import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=97';
-import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=97';
-import {loadImages} from './textures.js?v=97';
-import {weatherParticles} from './particles.js?v=97';
-import {operatorTorso,operatorLimb} from './operator-meshes.js?v=97';
-import {weatherLighting} from './weather-lighting.js?v=97';
-import {actorDeathProgress} from './actor-pose.js?v=97';
+import {updateWeaponClearance} from './weapon-clearance.js?v=98';
+import {animateWeaponParts} from './weapon-models.js?v=98';
+import {muzzleFlash} from './firing-presentation.js?v=98';
+import {identityFor} from './combat-identity.js?v=98';
+import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=98';
+import {weaponModel,actorModel,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=98';
+import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=98';
+import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=98';
+import {loadImages} from './textures.js?v=98';
+import {weatherParticles} from './particles.js?v=98';
+import {operatorTorso,operatorLimb} from './operator-meshes.js?v=98';
+import {weatherLighting} from './weather-lighting.js?v=98';
+import {actorDeathProgress} from './actor-pose.js?v=98';
 
 const corners=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];
 const faces=[[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]];
@@ -127,6 +127,8 @@ export class CompatibilityRenderer {
    const station=game.survival.station;
    polygons.push(...this.box(part(station.x,station.y+.25,station.z,.85,.5,.62,'steel',{color:[.53,.86,.24]})));
   }
+  const mark=game.activeSquadOrder?.point;
+  if(mark)polygons.push(...this.box(part(mark.x,mark.y+.06,mark.z,1.4,.08,1.4,'steel',{mesh:'tube',color:[.25,.95,.58]})));
   for(const gate of game.arena.doors){
    const b=gate.barrier;
    polygons.push(...this.box(part(b.x,b.y+gate.lift*(b.h+.18),b.z,b.w,b.h,b.d,'steel',{mesh:'bevel',color:[.34,.45,.47]})));

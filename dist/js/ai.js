@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=97';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=98';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};
@@ -117,6 +117,10 @@ export function updateBot(bot,dt,e){
   }
   const pursuit=e.survival&&bot.team===1&&!target?
    e.actors.reduce((nearest,actor)=>actor.team===0&&!actor.dead&&(!nearest||distance(bot,actor)<distance(bot,nearest))?actor:nearest,null):null;
+  const order=e.activeSquadOrder;
+  const carrying=bot.id===e.rules.chargeCarrier||bot.id===e.rules.payload?.carrier||
+   e.rules.flags.some(flag=>flag.carrier===bot.id);
+  const squadOrder=!carrying&&order?.ids.includes(bot.id)?order:null;
   const pickup=e.rules.mode.id==='confirmed'?nearestTag(bot,e.rules):null;
   const chargeGoal=e.rules.mode.id==='sabotage'?sabotageGoal(bot,e.rules,e.actors):null;
   const ctfGoal=e.rules.mode.id==='ctf'?flagGoal(bot,e.rules,e.actors):null;
@@ -130,6 +134,10 @@ export function updateBot(bot,dt,e){
    bot.goal=cover??{x:bot.x-Math.sin(bot.yaw)*7,y:bot.y,z:bot.z+Math.cos(bot.yaw)*7};
   }else if(rescue&&!closeRescuer&&(!target||distance(bot,rescue)<3)){
    bot.goal=rescue;bot.state='rescue';
+  }else if(squadOrder){
+   const anchor=squadOrder.point??e.player,angle=bot.id*2.399963;
+   bot.goal={x:anchor.x+Math.cos(angle)*2.1,y:anchor.y,z:anchor.z+Math.sin(angle)*2.1};
+   bot.state='order';
   }else if(point){
    const angle=bot.id*2.399963;
    const payload=e.rules.payload;
@@ -155,7 +163,7 @@ export function updateBot(bot,dt,e){
   }else if(bot.state==='patrol'||bot.state==='investigate'&&distance(bot,bot.lastKnown)<2){
    if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
   }
-  const assignment=bot.state==='rescue'?rescue:bot.state==='objective'?point??null:null;
+  const assignment=bot.state==='rescue'?rescue:bot.state==='order'?squadOrder:bot.state==='objective'?point??null:null;
   if(assignment!==bot.objectivePoint){
    bot.objectivePoint=assignment;bot.pathClock=0;bot.path=[];bot.pathIndex=0;
   }

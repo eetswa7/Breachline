@@ -114,3 +114,6 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 .operation-log{padding:0;list-style:none;margin:10px 0}
 .operation-log li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:4px 0}
 .reinforcements{margin-top:4px;color:var(--accent);text-align:center;font-size:9px;letter-spacing:.8px}
+
+.squad-button{position:fixed;z-index:9;right:max(62px,calc(env(safe-area-inset-right) + 45px));top:14px;border:1px solid #fff4;background:#0c1718bc;min-width:58px;height:33px;pointer-events:auto;font-size:10px;letter-spacing:.65px}
+.squad-status{position:absolute;top:50px;right:max(64px,calc(env(safe-area-inset-right) + 47px));font-size:10px;color:var(--cyan);letter-spacing:.7px}

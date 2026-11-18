@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=97';
-import {Navigation} from './navigation.js?v=97';
-import {SpawnDirector} from './spawns.js?v=97';
-import {Convoy} from './convoy.js?v=97';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=97';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=97';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=97';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=97';
-import {traceBullet} from './ballistics.js?v=97';
-import {beginVault,advanceVault} from './traversal.js?v=97';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=97';
+import {Arena,MAPS} from './maps.js?v=98';
+import {Navigation} from './navigation.js?v=98';
+import {SpawnDirector} from './spawns.js?v=98';
+import {Convoy} from './convoy.js?v=98';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=98';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=98';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=98';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=98';
+import {traceBullet} from './ballistics.js?v=98';
+import {beginVault,advanceVault} from './traversal.js?v=98';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=98';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -163,6 +163,36 @@ export class Game {
    this.emit('capture',{text:`${ally.name} REVIVED`,source:actor.team,actor:actor.id,position:{x:ally.x,y:ally.y,z:ally.z}});
   }
  }
+ get canCommandSquad(){
+  return this.rules.mode.teams&&this.rules.phase==='playing'&&!this.player.dead&&
+   this.actors.some(actor=>actor!==this.player&&actor.team===this.player.team&&!actor.dead);
+ }
+ get activeSquadOrder(){
+  return this.squadOrder?.until>this.time?this.squadOrder:null;
+ }
+ issueSquadOrder(kind){
+  if(!this.canCommandSquad||!['follow','hold','release'].includes(kind))return false;
+  const player=this.player;
+  const allies=this.actors.filter(actor=>actor!==player&&actor.team===player.team&&!actor.dead)
+   .sort((a,b)=>distance(a,player)-distance(b,player)).slice(0,3);
+  let point=null;
+  if(kind==='hold'){
+   const eye=this.eye(player),aim=direction(player.yaw,player.pitch);
+   const trace=this.arena.trace(eye,aim,26),range=Math.max(0,trace.t-.8);
+   const target={x:eye.x+aim.x*range,y:eye.y+aim.y*range,z:eye.z+aim.z*range};
+   target.y=this.arena.floorAt(target,Math.max(player.y+.45,target.y));
+   const node=this.nav.nodes[this.nav.nearest(target)];
+   if(!node||distance(node,target)>4)return false;
+   point={x:node.x,y:node.y,z:node.z};
+  }
+  const assigned=kind==='release'?this.activeSquadOrder?.ids??[]:allies.map(actor=>actor.id);
+  this.squadOrder=kind==='release'?null:{kind,point,ids:assigned,until:this.time+35};
+  for(const actor of this.actors)if(assigned.includes(actor.id)||actor.state==='order'){
+   actor.aiClock=0;actor.pathClock=0;actor.path=[];actor.pathIndex=0;
+  }
+  this.emit('capture',{text:kind==='hold'?'SQUAD HOLDING MARK':kind==='follow'?'SQUAD RALLYING ON YOU':'SQUAD BACK ON MISSION',source:player.team,position:point});
+  return true;
+ }
  gateInReach(actor){
   if(actor.dead)return null;
   return this.arena.doors.find(gate=>!gate.opening&&!gate.barrier.destroyed&&gate.panels.some(panel=>
@@ -184,7 +214,7 @@ export class Game {
  spawn(a,initial=false){
   const p=this.spawner.select(a,this,initial);a.reset(p,p.yaw);a.vault=null;
  }
- resetRound(){this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
+ resetRound(){this.squadOrder=null;this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;
