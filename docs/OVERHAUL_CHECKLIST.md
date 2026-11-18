@@ -32,6 +32,15 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 81 continuation tasks
+
+- [x] Load and upload the selected arena’s baked lighting on demand. Runtime
+  source `3088e19` keeps one resident bake, cancels superseded requests and
+  retains all sixteen bakes in the offline package.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Measure fresh startup and arena switching on physical iPhone.
+
 ## Release 80 continuation tasks
 
 - [x] Give a fresh online launch priority over the complete offline install.

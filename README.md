@@ -1,6 +1,11 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 80.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 81.** 30 weapons, 16 maps and 11 modes.
+
+## Release 81: on-demand arena lighting
+
+The renderer loads the selected arena’s baked ground lighting and releases it
+when the map changes. All sixteen bakes remain in the offline package.
 
 ## Release 80: first launch and offline install
 
