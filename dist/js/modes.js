@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=89';
-import {distance} from './math.js?v=89';
+import {GUN_ORDER} from './weapons.js?v=90';
+import {distance} from './math.js?v=90';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -22,7 +22,7 @@ export const MAX_TAGS = 32;
 export const FLAG_RETURN_SECONDS = 25;
 
 const OBJECTIVE_XP={
- domination:{capture:150},frontline:{capture:200},ctf:{capture:300,return:100},
+ domination:{capture:150},frontline:{capture:200,recover:100,extract:400},ctf:{capture:300,return:100},
  confirmed:{confirm:100,deny:75},hardpoint:{hold:10},hill:{hold:12},
  sabotage:{recover:75,plant:225,defuse:300}
 };
@@ -78,6 +78,11 @@ export class MatchRules {
    engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.7,z:point.z});
  }
  onDeath(victim,engine){
+  if(this.payload?.carrier===victim.id){
+   this.payload.carrier=null;
+   this.payload.position={x:victim.x,y:engine.arena.floorAt(victim,victim.y+.08),z:victim.z};
+   engine.emit('capture',{text:'DATA CORE DROPPED',position:this.payload.position});
+  }
   if(this.mode.id==='sabotage'&&!this.planted&&victim.id===this.chargeCarrier){
    this.chargeCarrier=null;
    this.droppedCharge={x:victim.x,y:engine.arena.floorAt(victim,victim.y+.08),z:victim.z};
@@ -212,7 +217,7 @@ export class MatchRules {
   }
  }
  spawnAllowed(actor,p){
-  if(this.mode.id!=='frontline'||this.points.length<2)return true;
+  if(this.payload||this.mode.id!=='frontline'||this.points.length<2)return true;
   const a=this.points[0],b=this.points.at(-1),front=this.points[this.activePoint],dx=b.x-a.x,dz=b.z-a.z,n=Math.hypot(dx,dz)||1;
   const separation=((p.x-front.x)*dx+(p.z-front.z)*dz)/n;
   return actor.team===0?separation<-6:separation>6;
@@ -232,11 +237,40 @@ export class MatchRules {
   point.owner=team;point.progress=0;point.capturing=-1;point.contested=false;this.frontlineProgress=0;
   this.scores=[this.points.filter(p=>p.owner===0).length,this.points.filter(p=>p.owner===1).length];
   for(const actor of occupants)if(actor.team===team){actor.captures++;this.awardObjective(actor,'capture');}
-  engine.emit('capture',{text:`${team===0?'BLUE':'RED'} SECURED ${point.name} · LINE ADVANCED`,source:team,position:{x:point.x,y:point.y,z:point.z}});
-  if(team===0&&old===this.points.length-1||team===1&&old===0){this.finish(team);return;}
-  this.activePoint+=team===0?1:-1;
+  if(team===0&&old===this.points.length-1&&engine.operation?.id==='siege'){
+   this.payload={carrier:null,position:{x:point.x,y:point.y,z:point.z}};
+   this.activePoint=0;this.time=150;
+   engine.emit('capture',{text:'VAULT BREACHED · EXTRACT THE DATA CORE',position:this.payload.position});
+  }else{
+   engine.emit('capture',{text:`${team===0?'BLUE':'RED'} SECURED ${point.name} · LINE ADVANCED`,source:team,position:{x:point.x,y:point.y,z:point.z}});
+   if(team===0&&old===this.points.length-1||team===1&&old===0){this.finish(team);return;}
+   this.activePoint+=team===0?1:-1;
+  }
   // Force a route refresh, with existing per-frame A* and spawn safety budgets.
   for(const actor of engine.actors)if(actor.id!==0){actor.pathClock=0;actor.aiClock=0;actor.path=[];actor.pathIndex=0;}
+ }
+ updateExtraction(engine){
+  const payload=this.payload,exit=this.points[this.activePoint];
+  const near=(actor,point,radius)=>distance(actor,point)<radius&&Math.abs(actor.y-point.y)<1.8&&
+   engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.4,z:point.z});
+  if(payload.carrier===null){
+   let collector=null,best=1.8;
+   for(const actor of engine.actors){
+    if(actor.dead||actor.team!==0||!near(actor,payload.position,best))continue;
+    collector=actor;best=distance(actor,payload.position);
+   }
+   if(collector){
+    payload.carrier=collector.id;payload.position=null;this.awardObjective(collector,'recover');
+    engine.emit('capture',{text:'DATA CORE SECURED · RETURN TO EXTRACTION',actor:collector.id});
+   }
+   return;
+  }
+  const carrier=engine.actors.find(actor=>actor.id===payload.carrier&&!actor.dead);
+  if(carrier&&near(carrier,exit,3.5)&&!engine.actors.some(actor=>!actor.dead&&actor.team===1&&near(actor,exit,4.8))){
+   this.awardObjective(carrier,'extract');
+   engine.emit('capture',{text:'DATA CORE EXTRACTED',source:0,position:exit});
+   this.finish(0);
+  }
  }
  updateElimination(engine){
   const alive=[0,0],health=[0,0];
@@ -293,7 +327,8 @@ export class MatchRules {
   if(this.mode.id==='hardpoint')this.updateHardpoint(elapsed,engine);
   if(this.mode.id==='confirmed')this.updateTags(elapsed,engine);
   if(this.mode.id==='hill')this.updateHill(elapsed,engine);
-  if(this.mode.id==='frontline')this.updateFrontline(elapsed,engine);
+  if(this.payload)this.updateExtraction(engine);
+  else if(this.mode.id==='frontline')this.updateFrontline(elapsed,engine);
   if(this.mode.id==='elimination'){this.updateElimination(engine);return;}
   if(this.phase==='finished')return;
   if(this.mode.id==='domination') {
@@ -354,7 +389,8 @@ export class MatchRules {
    }else{this.siteProgress=0;this.interactor=null;for(const a of engine.actors)a.interactProgress=0;}
   }
   if(this.phase==='playing'&&this.respawns){
-   if(this.time<=0)this.resolveTimedMatch(engine);
+   if(this.time<=0&&engine.operation?.id==='siege')this.finish(1);
+   else if(this.time<=0)this.resolveTimedMatch(engine);
    else if(this.overtime){
     const leader=this.scoreLeader(engine.actors);
     if(leader>=0)this.finish(leader);

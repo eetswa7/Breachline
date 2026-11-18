@@ -8,7 +8,7 @@ export const OPERATION_STAGES = [
   {id:'quarry',name:'Break the reserve force',map:9,mode:'confirmed',supply:0,pressure:12,reward:'12 fewer enemy reinforcements in the siege'}
  ],
  [
-  {id:'siege',name:'Take Blacksite',map:14,mode:'frontline',supply:0,pressure:0,reward:'Win the operation'}
+  {id:'siege',name:'Take Blacksite',map:14,mode:'frontline',supply:0,pressure:0,reward:'Breach the vault and extract the data core'}
  ]
 ];
 

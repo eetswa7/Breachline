@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=89';
-import {Navigation} from './navigation.js?v=89';
-import {SpawnDirector} from './spawns.js?v=89';
-import {MatchRules} from './modes.js?v=89';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=89';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=89';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=89';
-import {traceBullet} from './ballistics.js?v=89';
-import {beginVault,advanceVault} from './traversal.js?v=89';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=89';
+import {Arena,MAPS} from './maps.js?v=90';
+import {Navigation} from './navigation.js?v=90';
+import {SpawnDirector} from './spawns.js?v=90';
+import {MatchRules} from './modes.js?v=90';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=90';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=90';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=90';
+import {traceBullet} from './ballistics.js?v=90';
+import {beginVault,advanceVault} from './traversal.js?v=90';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=90';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -124,6 +124,7 @@ export class Game {
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
    const exhausted=this.reinforcements.map((tickets,team)=>tickets===0&&!alive[team]);
+   if(this.operation?.id==='siege')exhausted[1]=false;
    if(exhausted.some(Boolean))this.rules.finish(exhausted[0]===exhausted[1]?-1:exhausted[0]?1:0);
   }
  }

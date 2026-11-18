@@ -1,13 +1,13 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=89';
-import {MODES,MatchRules} from './modes.js?v=89';
-import {MAPS} from './maps.js?v=89';
-import {drawDeploymentMap} from './deployment-map.js?v=89';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=89';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=89';
-import {ATTACHMENT_SPECS} from './attachments.js?v=89';
-import {clamp,distance} from './math.js?v=89';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=89';
-import {identityFor,canIdentify} from './combat-identity.js?v=89';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=90';
+import {MODES,MatchRules} from './modes.js?v=90';
+import {MAPS} from './maps.js?v=90';
+import {drawDeploymentMap} from './deployment-map.js?v=90';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=90';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=90';
+import {ATTACHMENT_SPECS} from './attachments.js?v=90';
+import {clamp,distance} from './math.js?v=90';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=90';
+import {identityFor,canIdentify} from './combat-identity.js?v=90';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -181,6 +181,10 @@ export class Interface {
   if(r.mode.teams){$('score-blue').textContent=r.scores[0];$('score-red').textContent=r.scores[1];}else{$('score-blue').textContent=r.mode.id==='gun'?p.gunStage:r.mode.id==='hill'?p.hillScore??0:p.kills;$('score-red').textContent=Math.max(...g.actors.slice(1).map(a=>r.mode.id==='gun'?a.gunStage:r.mode.id==='hill'?a.hillScore??0:a.kills));}
   if(r.mode.id==='domination')$('objective').textContent=r.points.map(q=>`${q.name} ${q.contested?'CONTESTED':q.owner===p.team?'ALLIES':q.owner>=0?'ENEMIES':q.progress>0?'CAPTURING':'NEUTRAL'}`).join('   ');
   else if(r.mode.id==='hardpoint'){const q=r.points[r.activePoint];$('objective').textContent=`HOLD ${q.name} · ${q.contested?'CONTESTED':q.owner===p.team?'ALLIED CONTROL':q.owner>=0?'ENEMY CONTROL':'UNCLAIMED'} · ROTATES ${Math.ceil(r.rotationRemaining)}s`;}
+  else if(r.payload){
+   const carrier=g.actors.find(actor=>actor.id===r.payload.carrier);
+   $('objective').textContent=carrier===p?'CORE IN HAND · REACH EXTRACTION A':carrier?`ESCORT ${carrier.name} TO EXTRACTION A`:'RECOVER THE DATA CORE · EXTRACT AT A';
+  }
   else if(r.mode.id==='frontline'){const q=r.points[r.activePoint];$('objective').textContent=`PUSH ${q.name} · ${q.contested?'CONTESTED':q.progress>0?`${q.capturing===p.team?'ALLIES':'ENEMIES'} ${Math.round(q.progress*100)}%`:'CAPTURE SECTOR'} · ${r.scores[p.team]}/${r.points.length} SECTORS`; }
   else if(r.mode.id==='hill'){const q=r.points[r.activePoint];$('objective').textContent=`HILL ${q.name} · ${q.contested?'CONTESTED':q.owner===p.id?'YOU CONTROL':q.owner>=0?'ENEMY CONTROL':'UNCLAIMED'} · ROTATES ${Math.ceil(r.rotationRemaining)}s`;}
   else if(r.mode.id==='elimination'){$('objective').textContent=r.phase==='roundBreak'?r.message:`ROUND ${r.round} · ${g.actors.filter(a=>!a.dead&&a.team===p.team).length} ALLIES / ${g.actors.filter(a=>!a.dead&&a.team!==p.team).length} ENEMIES ALIVE`;}
@@ -224,7 +228,8 @@ export class Interface {
   const target=$('target-identity');target.classList.toggle('hidden',!centred);if(centred){target.dataset.relation=centred.identity.key;target.textContent=centred.el.textContent;}
  }
  radar(){const g=this.app.game,view=g.cameraActor??g.player,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-view.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-view.x-b.w/2)*s,(b.z-view.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-view.x)*s,(p.z-view.z)*s);}
-  const charge=g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
+  const payload=g.rules.payload;
+  const charge=payload?.position??(payload?g.actors.find(actor=>actor.id===payload.carrier):null)??g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
   if(charge&&charge!==g.player){
    c.fillStyle='#ffcf61';c.font='bold 13px Arial';
    c.fillText('◆',(charge.x-view.x)*s-5,(charge.z-view.z)*s+4);
