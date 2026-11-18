@@ -32,6 +32,15 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 79 continuation tasks
+
+- [x] Replace the generic Play headline with a live briefing for all sixteen
+  battlegrounds. Runtime source `5e80b59` draws arena layouts and mode-specific
+  startup markers, and persists the chosen match setup.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review deployment briefing layout and ease of selection on physical iPhone.
+
 ## Release 78 continuation tasks
 
 - [x] Build original turbine-generator trains for the four Blacksite machinery

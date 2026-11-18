@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 78.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 79.** 30 weapons, 16 maps and 11 modes.
+
+## Release 79: deployment briefing
+
+The Play screen now shows the selected battleground's floorplan, starting
+positions and the objectives for the chosen mode. It uses the same arena data
+as the match. Map, mode and difficulty are saved locally and restored when the
+game next opens.
 
 ## Release 78: Blacksite turbine-generator trains
 
