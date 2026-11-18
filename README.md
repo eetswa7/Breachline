@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 92.** 30 weapons, 16 maps and 12 modes.
+**Latest source checkpoint: Release 93.** 30 weapons, 16 maps and 12 modes.
+
+## Release 93: Last Stand encounters
+
+Each wave has its own lineup. Close Quarters fields rushers and shotguns,
+Overwatch mixes marksmen with infantry, Smoke Screen uses obscurants, and
+Second Front brings in a reserve squad mid-wave. In the finale, eliminate the
+three relay guards to drop the Commander's shield. Radar identifies the
+Commander and the surviving guards.
 
 ## Release 92: Last Stand
 
