@@ -26,7 +26,19 @@ test('movement cannot tunnel through walls and can step up short stairs',()=>{co
 test('ADS, swap, reload and equipment respond to input actions',()=>{const{g,p}=duel();advance(g,.4,{...emptyInput(),ads:true});assert(p.ads>.9);g.update(1/60,{...emptyInput(),swap:true});assert.equal(p.slot,1);advance(g,.4);p.weapon.ammo=0;g.update(1/60,{...emptyInput(),reload:true});assert(p.weapon.reloadLeft>0);g.update(1/60,{...emptyInput(),grenade:true});assert.equal(g.grenades.length,1);assert.equal(p.grenades,1);});
 test('frag damage falls off and respects cover',()=>{const{g,p,t}=duel();g.explode({x:0,y:1,z:-7,owner:p.id,kind:'frag'});assert(t.dead);const d=duel();d.g.arena.blocks.push({x:0,y:1.5,z:-6,w:8,h:3,d:1,surface:'concrete'});d.g.explode({x:0,y:1,z:-4,owner:0,kind:'frag'});assert.equal(d.t.health,100);});
 test('smoke blocks sight and expires; flash affects visible combatants',()=>{const{g,p,t}=duel();assert(g.canSee(p,t));g.explode({x:0,y:1,z:-4,owner:0,kind:'smoke'});g.smokes[0].age=2;assert(!g.canSee(p,t));g.updateEquipment(17);assert.equal(g.smokes.length,0);g.explode({x:0,y:1.4,z:-2,owner:0,kind:'flash'});assert(p.flashed>0);});
-test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t}=duel();g.damage(p,120,t);assert(p.dead);assert.equal(p.deaths,1);advance(g,3.1);assert(!p.dead);assert(p.spawnProtection>0);g.damage(p,100,t);assert.equal(p.health,100);});
+test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t}=duel();g.damage(p,120,t);assert(p.dead);assert.equal(p.deaths,1);advance(g,3.1);assert(!p.dead);assert(p.spawnProtection>0);g.damage(p,100,t);assert.equal(p.health,100);
+ const siege=duel('frontline');
+ siege.g.reinforcements=[1,1];
+ siege.g.damage(siege.p,200,siege.t);
+ advance(siege.g,3.1);
+ assert.equal(siege.g.reinforcements[0],0);
+ assert(!siege.p.dead);
+ siege.p.spawnProtection=0;
+ siege.g.damage(siege.p,200,siege.t);
+ siege.g.update(1/60);
+ assert.equal(siege.g.rules.phase,'finished');
+ assert.equal(siege.g.rules.winner,1);
+});
 test('paused and finished simulations cannot consume ammunition or time',()=>{const{g,p}=duel();g.paused=true;g.update(1/60,{...emptyInput(),fire:true});assert.equal(g.time,0);assert.equal(p.weapon.ammo,30);assert(!g.shoot(p));g.paused=false;g.rules.finish(0);g.update(1/60);assert.equal(g.time,0);});
 test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa']){const{g,p,t}=duel(mode);
  if(mode==='tdm'){

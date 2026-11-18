@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=88';
-import {Navigation} from './navigation.js?v=88';
-import {SpawnDirector} from './spawns.js?v=88';
-import {MatchRules} from './modes.js?v=88';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=88';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=88';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=88';
-import {traceBullet} from './ballistics.js?v=88';
-import {beginVault,advanceVault} from './traversal.js?v=88';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=88';
+import {Arena,MAPS} from './maps.js?v=89';
+import {Navigation} from './navigation.js?v=89';
+import {SpawnDirector} from './spawns.js?v=89';
+import {MatchRules} from './modes.js?v=89';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=89';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=89';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=89';
+import {traceBullet} from './ballistics.js?v=89';
+import {beginVault,advanceVault} from './traversal.js?v=89';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=89';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -24,6 +24,7 @@ export class Game {
   const seed=options.seed??Date.now(),arsenalRandom=rng((seed^0x51b4e329)>>>0);
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
   this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
+  this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   this.teamSize=this.rules.mode.teams?(this.arena.info.teamSize??4):4;
@@ -36,8 +37,11 @@ export class Game {
  }
  get cameraActor(){
   const player=this.player;
-  if(!player.dead||this.rules.respawns)return player;
+  if(!player.dead||this.canRedeploy(player))return player;
   return this.actors.find(actor=>!actor.dead&&actor.team===player.team)??player;
+ }
+ canRedeploy(actor){
+  return this.rules.respawns&&(!this.reinforcements||this.reinforcements[actor.team]>0);
  }
  eye(a){return{x:a.x,y:a.y+a.height-.12,z:a.z};}
  emit(type,data={}){if(this.events.length<180)this.events.push({type,time:this.time,...data});}
@@ -71,7 +75,13 @@ export class Game {
   if(this.rules.phase==='roundBreak'){this.rules.update(dt,this);return;}
   const p=this.player;
   for(const a of this.actors){
-   if(a.dead){if(this.rules.respawns){a.respawnLeft-=dt;if(a.respawnLeft<=0)this.spawn(a);}continue;}
+   if(a.dead){
+    if(this.canRedeploy(a)){
+     a.respawnLeft-=dt;
+     if(a.respawnLeft<=0){if(this.reinforcements)this.reinforcements[a.team]--;this.spawn(a);}
+    }
+    continue;
+   }
    a.spawnProtection=Math.max(0,a.spawnProtection-dt);a.switchLeft=Math.max(0,a.switchLeft-dt);a.knifeCooldown=Math.max(0,a.knifeCooldown-dt);a.flashed=Math.max(0,a.flashed-dt);a.hitReact*=Math.exp(-dt*14);a.visualKick*=Math.exp(-dt*17);a.landKick*=Math.exp(-dt*9);
    for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>{if(cue.cue==='caseDump')dumpRevolverCases(this,a,w,cue.count,this.eye(a));else this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)});}:undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
    if(this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
@@ -110,6 +120,12 @@ export class Game {
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
   updateCasings(this,dt);this.updateEquipment(dt);this.rules.update(dt,this);
+  if(this.reinforcements&&this.rules.phase==='playing'){
+   const alive=[false,false];
+   for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
+   const exhausted=this.reinforcements.map((tickets,team)=>tickets===0&&!alive[team]);
+   if(exhausted.some(Boolean))this.rules.finish(exhausted[0]===exhausted[1]?-1:exhausted[0]?1:0);
+  }
  }
  shoot(a,bot=false){
   const w=a.weapon,d=w.def;if(a.dead||this.rules.phase!=='playing'||this.paused||a.switchLeft>0||w.cooldown>0)return false;
@@ -211,7 +227,7 @@ export class Game {
   const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
   const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,objective:p.objectiveXP,victory:win?350:0};
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
-  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,
+  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,operation:this.operation,
    kills:p.kills,assists:p.assists,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
    xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};
  }

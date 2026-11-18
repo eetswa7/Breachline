@@ -1,15 +1,16 @@
-import {Game,emptyInput} from './engine.js?v=88';
-import {Renderer} from './three-renderer.js?v=88';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=88';
-import {TouchInput} from './input.js?v=88';
-import {AudioSystem} from './audio.js?v=88';
-import {SaveStore} from './save.js?v=88';
-import {Interface,$} from './ui.js?v=88';
-import {Weapon} from './weapons.js?v=88';
-import {opticMagnification} from './aim.js?v=88';
-import {FramePacer} from './frame-pacer.js?v=88';
-import {BenchmarkController} from './benchmark.js?v=88';
-import {updateAimAssist} from './aim-assist.js?v=88';
+import {operationBattle} from './operation.js?v=89';
+import {Game,emptyInput} from './engine.js?v=89';
+import {Renderer} from './three-renderer.js?v=89';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=89';
+import {TouchInput} from './input.js?v=89';
+import {AudioSystem} from './audio.js?v=89';
+import {SaveStore} from './save.js?v=89';
+import {Interface,$} from './ui.js?v=89';
+import {Weapon} from './weapons.js?v=89';
+import {opticMagnification} from './aim.js?v=89';
+import {FramePacer} from './frame-pacer.js?v=89';
+import {BenchmarkController} from './benchmark.js?v=89';
+import {updateAimAssist} from './aim-assist.js?v=89';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -28,11 +29,13 @@ export class Application {
  }
  orientation(){const portrait=innerHeight>innerWidth,need=(this.playing||this.input.editing)&&portrait;$('rotation-hint').classList.toggle('hidden',!need);if(need&&this.playing&&!this.game.paused)this.pause();}
  lockMouse(){try{const result=$('world').requestPointerLock?.();result?.catch?.(()=>{});}catch{}}
- async start(){
-  if(this.starting)return;if(this.assetsFailed){location.reload();return;}this.starting=true;await this.audio.start();await Promise.resolve(this.renderer.ready).catch(()=>{});this.ui.closeModal();this.input.reset();this.input.active=false;this.ui.toastTimer&&clearTimeout(this.ui.toastTimer);$('toast').classList.add('hidden');$('loading').classList.remove('hidden');
+ async start(missionId=null){
+  if(this.starting)return;
+  const operation=missionId?operationBattle(this.store.data.operation,missionId):null;
+  if(missionId&&!operation)return;if(this.assetsFailed){location.reload();return;}this.starting=true;await this.audio.start();await Promise.resolve(this.renderer.ready).catch(()=>{});this.ui.closeModal();this.input.reset();this.input.active=false;this.ui.toastTimer&&clearTimeout(this.ui.toastTimer);$('toast').classList.add('hidden');$('loading').classList.remove('hidden');
   if(!this.isTouch)this.lockMouse();
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-  try{this.config.loadout={...this.store.data.loadout};this.game=new Game(this.config);this.renderer.setArena(this.game.arena);this.renderer.weaponKey='';this.renderer.frameAverage=16.7;this.audio.prepareAmbience?.(this.game.arena);await this.renderer.prepareMatch?.(this.game);if(this.renderer.lost)throw new Error('Graphics context unavailable');this.playing=true;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.input.active=true;this.ui.play();this.last=0;if(document.hidden)this.pause();
+  try{this.config.loadout={...this.store.data.loadout};this.game=new Game(operation?{...this.config,...operation}:this.config,{operation});this.renderer.setArena(this.game.arena);this.renderer.weaponKey='';this.renderer.frameAverage=16.7;this.audio.prepareAmbience?.(this.game.arena);await this.renderer.prepareMatch?.(this.game);if(this.renderer.lost)throw new Error('Graphics context unavailable');this.playing=true;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.input.active=true;this.ui.play();this.last=0;if(document.hidden)this.pause();
    this.wakeLock?.release();this.wakeLock=null;const match=this.game;if(navigator.wakeLock&&!document.hidden&&!match.paused)navigator.wakeLock.request('screen').then(l=>{if(this.playing&&this.game===match&&!match.paused&&!document.hidden)this.wakeLock=l;else l.release();}).catch(()=>{});
    if(this.store.data.settings.gyro&&!this.input.gyroListening)this.ui.toast('Enable gyroscope again in Settings to grant motion access.');
   }catch(e){this.playing=false;this.game.paused=true;this.input.active=false;this.wakeLock?.release();this.wakeLock=null;document.exitPointerLock?.();this.ui.menu();this.ui.toast(`Match could not start: ${e.message}`);}finally{$('loading').classList.add('hidden');this.starting=false;this.last=0;this.framePacer.reset();}

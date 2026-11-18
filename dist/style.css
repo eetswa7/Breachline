@@ -104,3 +104,13 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 .spectator-status{position:absolute;z-index:4;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:9px 15px;background:#0a160deb;border:1px solid var(--line);color:var(--muted);font-size:10px;letter-spacing:1px}
 .spectator-status strong{color:var(--accent);font-size:13px}
 .hud.spectating :is(.health-display,.ammo-display,.damage-direction,.hitmarker,.kill-confirm),.touch-layer.round-spectating{visibility:hidden}
+
+.operation-board{width:100%;margin-top:8px;justify-content:center}
+.operation-missions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.operation-missions article{padding:12px;border:1px solid var(--line);background:var(--panel)}
+.operation-missions h3{font-size:14px;margin:0}
+.operation-missions p{margin:4px 0}
+.operation-missions strong,.operation-result{color:var(--accent)}
+.operation-log{padding:0;list-style:none;margin:10px 0}
+.operation-log li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:4px 0}
+.reinforcements{margin-top:4px;color:var(--accent);text-align:center;font-size:9px;letter-spacing:.8px}

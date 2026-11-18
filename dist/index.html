@@ -4,7 +4,7 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
  <meta name="theme-color" content="#101817"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Breachline">
  <meta name="description" content="A tactical first-person shooter. Eleven bot modes, sixteen battlegrounds, thirty weapons, and touch controls built for iPhone.">
- <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=88">
+ <title>BREACHLINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css?v=89">
 </head>
 <body>
  <canvas id="world" aria-label="3D battlefield"></canvas>
@@ -33,6 +33,7 @@
     <div class="map-selector" id="map-selector" aria-label="Battlegrounds"></div>
     <div class="difficulty-row"><label for="difficulty">BOT DIFFICULTY</label><select id="difficulty"><option value="recruit">Recruit</option><option value="regular" selected>Regular</option><option value="veteran">Veteran</option></select></div>
     <button id="deploy" class="primary-button">DEPLOY <span aria-hidden="true">↗</span></button>
+    <button id="operation-board" class="secondary-button operation-board">WAR CAMPAIGN</button>
    </div>
   </section>
   <section id="loadout-page" class="page"><div class="section-heading"><div><span class="eyebrow">ARMOURY</span><h2>YOUR LOADOUT</h2></div><p>Equip your primary and sidearm.<br>Attachments change handling and ballistics.</p></div><div id="loadout-kits" class="loadout-kits" role="group" aria-label="Saved loadouts"></div><div class="loadout-grid"><div class="weapon-picker"><div class="weapon-tabs"><button class="active" data-slot="primary">PRIMARY</button><button data-slot="secondary">SIDEARM</button></div><div id="weapon-list"></div></div><div class="weapon-info"><span id="weapon-class" class="eyebrow">ASSAULT RIFLE</span><h3 id="weapon-name">Kestrel AR</h3><p id="weapon-unlock"></p><div id="weapon-stats" class="weapon-stats"></div><div class="attachment-grid"><label>OPTIC<select id="optic-select"></select></label><label>BARREL<select id="barrel-select"></select></label><label>HANDLING<select id="handling-select"></select></label><label>MAGAZINE<select id="magazine-select"></select></label><label>AMMUNITION<select id="ammo-select"></select></label><label>EQUIPMENT<select id="equipment-select"><option value="frag">Frag grenade</option><option value="smoke">Smoke grenade</option><option value="flash">Flash grenade</option></select></label></div><div id="attachment-effects" class="attachment-effects" aria-live="polite"></div></div></div></section>
@@ -42,7 +43,7 @@
  </main>
  <section id="hud" class="hud safe hidden" aria-label="Match information">
   <div class="radar-box"><canvas id="radar" width="160" height="160"></canvas><span id="radar-map">OLD QUARTER</span></div>
-  <div class="match-banner"><div class="match-scores"><div class="score-team"><b id="score-blue">0</b><small id="team-blue-label">ALLIES ◆</small></div><div><span id="hud-mode">TEAM DEATHMATCH</span><strong id="timer">06:00</strong></div><div class="score-team"><b id="score-red">0</b><small id="team-red-label">ENEMIES ▼</small></div></div><div id="objective" class="objective"></div></div>
+  <div class="match-banner"><div class="match-scores"><div class="score-team"><b id="score-blue">0</b><small id="team-blue-label">ALLIES ◆</small></div><div><span id="hud-mode">TEAM DEATHMATCH</span><strong id="timer">06:00</strong></div><div class="score-team"><b id="score-red">0</b><small id="team-red-label">ENEMIES ▼</small></div></div><div id="objective" class="objective"></div><div id="reinforcements" class="reinforcements hidden"></div></div>
   <button id="pause-button" class="pause-button" aria-label="Pause match">Ⅱ</button>
   <div id="combat-labels" class="combat-labels" aria-hidden="true"></div><div id="target-identity" class="target-identity hidden"></div><div id="killfeed" class="killfeed"></div><div id="announcement" class="announcement"></div>
   <div id="crosshair" class="crosshair"><i></i><i></i><i></i><i></i><b></b></div><div id="hitmarker" class="hitmarker">×</div><div id="kill-confirm" class="kill-confirm"></div><div id="ads-reticle" class="ads-reticle hidden"></div><div id="scope" class="scope hidden"><div class="scope-lens"><i class="scope-marks"></i><span id="scope-zoom">4×</span></div></div>
@@ -63,5 +64,5 @@
  <div id="benchmark-watermark" class="benchmark-watermark hidden" aria-label="Benchmark recording status"></div>
  <div id="toast" class="toast hidden" role="status"></div>
  <noscript><div class="fatal">JavaScript is required to play Breachline.</div></noscript>
- <script type="module" src="./js/boot.js?v=88"></script>
+ <script type="module" src="./js/boot.js?v=89"></script>
 </body></html>

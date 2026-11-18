@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {TouchInput,CONTROL_LAYOUT} from '../dist/js/input.js';
+import {operationBattle} from '../dist/js/operation.js';
 import {DEFAULT_SETTINGS,SaveStore} from '../dist/js/save.js';
 
 const classes=()=>({add(){},remove(){},toggle(){}});
@@ -19,7 +20,25 @@ test('dragging the fire button aims while holding fire',()=>{const{input,ev}=fix
 test('ADS supports both tap and hold without a stuck state',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,670,120,'ads'));input.pointerUp(ev(1,670,120,'ads'));assert(input.sample(.016).ads);input.pointerDown(ev(2,670,120,'ads'));input.pointerUp(ev(2,670,120,'ads'));assert(!input.sample(.016).ads);input.settings.adsMode='hold';input.pointerDown(ev(3,670,120,'ads'));assert(input.sample(.016).ads);input.pointerUp(ev(3,670,120,'ads'));assert(!input.sample(.016).ads);});
 test('cancel/reset releases all input after an interruption',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,90,260));input.pointerMove(ev(1,90,190));input.pointerDown(ev(2,700,200,'fire'));input.reset();const f=input.sample(.016);assert.equal(f.mz,0);assert.equal(f.lx,0);assert(!f.fire&&!f.ads);assert.equal(input.pointers.size,0);});
 test('touch layout clamps dragged buttons and mirrors left-handed positions',()=>{for(const [width,height]of [[667,375],[844,390],[932,430]]){const{input,ev,buttons}=fixture(width,height);input.editing=true;input.pointerDown(ev(1,width*.9,height*.5,'fire'));input.pointerMove(ev(1,width*2,height*2,'fire'));assert.equal(input.settings.layout.fire.x,.945);assert.equal(input.settings.layout.fire.y,.91);input.settings.leftHanded=true;input.layout();const centre=parseFloat(buttons.fire.style.left)/100*width;assert(centre>=parseFloat(buttons.fire.style.width)/2+7.9);}});
-test('saved loadouts, settings and progression round-trip',()=>{let data='';const storage={getItem:()=>data,setItem:(k,v)=>data=v},s=new SaveStore(storage);s.data.loadout.primary=3;s.data.settings.leftHanded=true;s.finish({xp:750,win:true,kills:4,deaths:1,streak:3,weaponKills:{3:4}});const loaded=new SaveStore(storage);assert.equal(loaded.data.loadout.primary,3);assert(loaded.data.settings.leftHanded);assert.equal(loaded.data.xp,750);assert.equal(loaded.data.weaponXP[3],400);assert.equal(loaded.level,2);});
+test('saved loadouts, settings and progression round-trip',()=>{let data='';const storage={getItem:()=>data,setItem:(k,v)=>data=v},s=new SaveStore(storage);s.data.loadout.primary=3;s.data.settings.leftHanded=true;s.finish({xp:750,win:true,kills:4,deaths:1,streak:3,weaponKills:{3:4}});const loaded=new SaveStore(storage);assert.equal(loaded.data.loadout.primary,3);assert(loaded.data.settings.leftHanded);assert.equal(loaded.data.xp,750);assert.equal(loaded.data.weaponXP[3],400);assert.equal(loaded.level,2);
+ loaded.beginOperation('veteran');
+ const first=operationBattle(loaded.data.operation,'rail');
+ const record={map:first.map,mode:first.mode,difficulty:first.difficulty,operation:first,xp:100,win:true,kills:0,deaths:0,streak:0,weaponKills:{}};
+ assert(loaded.finish(record));
+ assert.equal(loaded.finish(record),false);
+ const resumed=new SaveStore(storage);
+ assert.equal(resumed.data.operation.stage,1);
+ const second=operationBattle(resumed.data.operation,'quarry');
+ assert.deepEqual(second.tickets,[26,22]);
+ assert(resumed.finish({...record,map:second.map,mode:second.mode,operation:second}));
+ const siege=operationBattle(resumed.data.operation,'siege');
+ assert.deepEqual(siege.tickets,[40,32]);
+ for(let i=0;i<3;i++){
+  const attempt=operationBattle(resumed.data.operation,'siege');
+  assert(resumed.finish({...record,map:attempt.map,mode:attempt.mode,operation:attempt,win:false}));
+ }
+ assert.equal(new SaveStore(storage).data.operation.status,'lost');
+});
 test('corrupt saves and quota failures do not stop gameplay',()=>{const bad=new SaveStore({getItem:()=>'{bad',setItem(){throw Error('quota');}});assert.equal(bad.data.loadout.primary,0);assert(!bad.persist());const malformed=new SaveStore({getItem:()=>JSON.stringify({version:1,loadout:{primary:999,secondary:-9},settings:{sensitivity:900,fov:-20}})});assert.equal(malformed.data.loadout.primary,9);assert.equal(malformed.data.loadout.secondary,10);assert.equal(malformed.data.settings.fov,65);});
 
 test('simple controls combine aim and fire with one finger',()=>{const{input,ev}=fixture();input.pointerDown(ev(1,710,245,'fire'));input.pointerMove(ev(1,740,230,'fire'));const f=input.sample(.016);assert(f.fire&&f.ads&&f.repeatFire);assert(f.lx>0);input.pointerUp(ev(1,740,230,'fire'));const released=input.sample(.016);assert(!released.fire&&!released.ads);});
