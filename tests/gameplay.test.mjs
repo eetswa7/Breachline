@@ -63,6 +63,29 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const territoryGame=new Game({mode:'warfront'},{seed:891});
+ const territory={g:territoryGame,p:territoryGame.player,t:territoryGame.actors.find(actor=>actor.team===1)};
+ territory.g.actors=[territory.p,territory.t];
+ territory.t.spawnProtection=0;
+ territory.t.aiClock=1000;
+ assert.equal(territory.g.rules.points.length,5);
+ assert.deepEqual(territory.g.rules.scores,[120,120]);
+ territory.g.damage(territory.t,200,territory.p);
+ assert.equal(territory.g.rules.scores[1],119);
+ territory.g.time=10;
+ territory.g.update(1/60);
+ assert(territory.t.dead);
+ territory.g.time=12;
+ territory.g.update(1/60);
+ assert(!territory.t.dead);
+ territory.t.x=100;territory.t.z=100;
+ for(const point of territory.g.rules.points.slice(0,3))point.owner=0;
+ territory.g.rules.update(3,territory.g);
+ assert.equal(territory.g.rules.scores[1],118);
+ territory.g.rules.scores[1]=1;
+ territory.g.rules.update(3,territory.g);
+ assert.equal(territory.g.rules.winner,0);
+
  const ability=duel('tdm');
  ability.g.config.loadout.specialty='medic';
  ability.p.health=30;

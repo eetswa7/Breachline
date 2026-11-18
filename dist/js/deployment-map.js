@@ -55,7 +55,7 @@ export function drawDeploymentMap(canvas, arena, rules) {
   const mode = rules.mode.id;
   const points = rules.raid ? [...rules.raid.caches,{...rules.raid.exit,name:'X',color:'#80f4c6'}] : mode === 'ctf' ? rules.flags.map(flag => ({
     ...flag, name: flag.team ? 'R' : 'B', color: flag.team ? '#f1a78d' : '#9fe4f5'
-  })) : ['domination', 'frontline', 'hardpoint', 'hill', 'sabotage'].includes(mode) ?
+  })) : ['domination','warfront', 'frontline', 'hardpoint', 'hill', 'sabotage'].includes(mode) ?
     rules.points.filter((_, i) => mode !== 'sabotage' || i === 0 || i === 2) : [];
   context.textAlign = 'center';
   context.textBaseline = 'middle';

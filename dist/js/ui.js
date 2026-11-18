@@ -1,16 +1,16 @@
-import {SPECIALTIES} from './specialties.js?v=107';
-import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=107';
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=107';
-import {Convoy} from './convoy.js?v=107';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=107';
-import {MAPS} from './maps.js?v=107';
-import {drawDeploymentMap} from './deployment-map.js?v=107';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=107';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=107';
-import {ATTACHMENT_SPECS} from './attachments.js?v=107';
-import {clamp,distance} from './math.js?v=107';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=107';
-import {identityFor,canIdentify} from './combat-identity.js?v=107';
+import {SPECIALTIES} from './specialties.js?v=108';
+import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=108';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=108';
+import {Convoy} from './convoy.js?v=108';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=108';
+import {MAPS} from './maps.js?v=108';
+import {drawDeploymentMap} from './deployment-map.js?v=108';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=108';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=108';
+import {ATTACHMENT_SPECS} from './attachments.js?v=108';
+import {clamp,distance} from './math.js?v=108';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=108';
+import {identityFor,canIdentify} from './combat-identity.js?v=108';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -68,7 +68,7 @@ export class Interface {
   const {map,mode}=this.app.config,info=MAPS[map],arena=this.app.game.arena;
   const rules=new MatchRules(mode,arena),teamSize=info.teamSize??4;
   const modeDescription=rules.mode.description.replace(/^4 vs 4\. /,'');
-  $('mode-detail').textContent=`${mode==='raid'?'3 raiders vs 6 defenders':mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
+  $('mode-detail').textContent=`${mode==='warfront'?(info.size>=55?'12 vs 12':'6 vs 6'):mode==='raid'?'3 raiders vs 6 defenders':mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
   $('selected-map-label').textContent=info.name;
   $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across${this.app.config.night?' · NIGHT OPS':''}`;
   $('selected-map-description').textContent=info.description;
@@ -79,9 +79,10 @@ export class Interface {
    button.setAttribute('aria-pressed',String(selected));
   }
   const spawnKey=rules.mode.teams?'Blue and red starts':'Operator starts';
+  rules.setupWarfront(arena,this.app.game.nav);
   if(mode==='raid')rules.raid=this.app.game.rules.raid??new Raid(arena,this.app.game.nav);
   if(mode==='convoy')rules.convoy=this.app.game.rules.convoy??new Convoy(arena,this.app.game.nav);
-  const modeKey=mode==='raid'?'Salvage caches and extraction':mode==='convoy'?'Convoy route':mode==='ctf'?'Team flags':['domination','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
+  const modeKey=mode==='raid'?'Salvage caches and extraction':mode==='convoy'?'Convoy route':mode==='ctf'?'Team flags':['domination','warfront','frontline','hardpoint','hill','sabotage'].includes(mode)?'Objective sites':'';
   const legend=modeKey?`${spawnKey} · ${modeKey}`:spawnKey;
   $('deployment-legend').textContent=legend;
   const canvas=$('deployment-map');
@@ -228,10 +229,11 @@ export class Interface {
   const stashBefore=this.store.data.raidStash.length;
   if(!g.saved){this.store.finish(r);g.saved=true;}
   const stashed=this.store.data.raidStash.slice(stashBefore);
+  const ticketSummary=r.tickets?`<p class="operation-result">${r.tickets[0]} ALLIED TICKETS · ${r.tickets[1]} ENEMY TICKETS</p>`:'';
   const raidGearSummary=r.mode==='raid'&&r.raidRecovered.length?`<p>${stashed.length?`STASHED ${stashed.map(item=>esc(WEAPONS[item.weapon].name)).join(', ')}`:'STASH FULL'}</p>`:'';
  this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
  const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
- this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${raidGearSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
+ this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}${ticketSummary}${raidGearSummary}${r.mode==='raid'?`<p class="operation-result">${r.win?`${r.salvage} EXTRACTED · +${r.raidPayout} BANKED`:'NO SALVAGE RECOVERED'}</p>`:''}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else if(r.mode==='raid'){this.app.toMenu();this.raidBoard();}else this.app.start();},true],...(this.app.lastReplay?[['WATCH REPLAY',()=>this.app.start(null,this.app.lastReplay)]]:[]),['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
  installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  controllerMenu(pad){
@@ -276,7 +278,12 @@ export class Interface {
   if(g.reinforcements)$('reinforcements').textContent=`REINFORCEMENTS  ${g.reinforcements[p.team]} ◆ / ${g.reinforcements[1-p.team]} ▼`;
   const remaining=Math.max(0,Math.ceil(r.mode.id==='sabotage'&&r.planted?r.bombTime:r.time));$('timer').textContent=`${Math.floor(remaining/60).toString().padStart(2,'0')}:${Math.ceil(remaining%60).toString().padStart(2,'0')}`;
   if(r.mode.teams){$('score-blue').textContent=r.scores[0];$('score-red').textContent=r.scores[1];}else{$('score-blue').textContent=r.mode.id==='gun'?p.gunStage:r.mode.id==='hill'?p.hillScore??0:p.kills;$('score-red').textContent=Math.max(...g.actors.slice(1).map(a=>r.mode.id==='gun'?a.gunStage:r.mode.id==='hill'?a.hillScore??0:a.kills));}
-  if(r.raid){
+  if(r.warfront){
+   $('team-blue-label').textContent='ALLIED TICKETS';$('team-red-label').textContent='ENEMY TICKETS';
+   const controlled=r.points.filter(point=>point.owner===p.team&&!point.contested).length;
+   const objective=r.warfront.dominant===p.team?'DRAINING ENEMY TICKETS':r.warfront.dominant>=0?'YOUR TICKETS ARE DRAINING':'HOLD THREE SECTORS';
+   $('objective').textContent=`${controlled}/5 HELD · ${objective}`;
+  }else if(r.raid){
    const raid=r.raid;
    $('team-blue-label').textContent='SALVAGE CARRIED';$('team-red-label').textContent='HOSTILES LEFT';
    $('score-blue').textContent=raid.carried;$('score-red').textContent=g.actors.filter(actor=>actor.team===1&&!actor.dead).length;
@@ -329,7 +336,7 @@ export class Interface {
   this.app.input.layer.classList.toggle('round-spectating',spectating);
   show('spectator-status',spectating);
   if(spectating)$('spectator-name').textContent=p.downedUntil>g.time?`${view.name} · REVIVE WINDOW ${Math.ceil(p.downedUntil-g.time)}s`:view.name;
-  show('death-overlay',p.dead&&!spectating);if(p.dead&&!spectating){$('death-name').textContent=g.lastKiller?`ELIMINATED BY ${g.lastKiller}`:'OPERATOR DOWN';$('respawn-message').textContent=g.canRedeploy(p)?`Redeploying in ${Math.ceil(p.respawnLeft)}…`:g.operation?'No reinforcements remaining.':'One life this round. Your team is still fighting.';}
+  show('death-overlay',p.dead&&!spectating);if(p.dead&&!spectating){$('death-name').textContent=g.lastKiller?`ELIMINATED BY ${g.lastKiller}`:'OPERATOR DOWN';$('respawn-message').textContent=r.warfront?`Next reinforcement wave in ${Math.ceil(Math.max(0,r.warfront.nextWaveAt-g.time))}s`:g.canRedeploy(p)?`Redeploying in ${Math.ceil(p.respawnLeft)}…`:g.operation?'No reinforcements remaining.':'One life this round. Your team is still fighting.';}
   const live=this.feed.filter(f=>f.until>g.time);if(live.length!==this.lastFeedCount||live[0]?.text!==this.lastFeedText){$('killfeed').innerHTML=live.map(f=>`<div class="feed-entry ${f.ours?'ours':f.relation}">${esc(f.text)}</div>`).join('');this.lastFeedCount=live.length;this.lastFeedText=live[0]?.text;}
   show('debug-hud',this.debugVisible);if(this.debugVisible)$('debug-hud').textContent=`${this.app.renderer.fps} FPS · ${this.app.renderer.quality}\n${this.app.renderer.diagnostics?.()??`${g.actors.filter(a=>!a.dead).length} ACTIVE`}\n${p.x.toFixed(1)} / ${p.y.toFixed(1)} / ${p.z.toFixed(1)} m`;
   if(this.radarClock>.1){this.radarClock=0;this.radar();}
@@ -353,7 +360,7 @@ export class Interface {
   }
   const target=$('target-identity');target.classList.toggle('hidden',!centred);if(centred){target.dataset.relation=centred.identity.key;target.textContent=centred.el.textContent;}
  }
- radar(){const g=this.app.game,view=g.cameraActor??g.player,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-view.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-view.x-b.w/2)*s,(b.z-view.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-view.x)*s,(p.z-view.z)*s);}
+ radar(){const g=this.app.game,view=g.cameraActor??g.player,c=$('radar').getContext('2d'),w=160,s=2.3;c.clearRect(0,0,w,w);c.save();c.translate(w/2,w/2);c.rotate(-view.yaw);c.fillStyle='#233b3022';c.fillRect(-80,-80,160,160);for(const b of g.arena.blocks){if(b.ground||b.roof||b.destroyed)continue;c.fillStyle='#a1bba455';c.fillRect((b.x-view.x-b.w/2)*s,(b.z-view.z-b.d/2)*s,b.w*s,b.d*s);}for(let i=0;i<g.rules.points.length;i++){const p=g.rules.points[i],mode=g.rules.mode.id;if(!['domination','warfront','sabotage','hardpoint','hill','frontline'].includes(mode)||mode==='sabotage'&&(i===1||g.rules.planted&&i!==g.rules.bombSite)||['hardpoint','hill','frontline'].includes(mode)&&i!==g.rules.activePoint)continue;c.fillStyle=p.owner===(g.rules.mode.teams?g.player.team:g.player.id)?'#70e5f5':p.owner>=0?'#ff786e':'#e2e8b2';c.font='12px Arial';c.fillText(p.name,(p.x-view.x)*s,(p.z-view.z)*s);}
   if(g.survival?.supplies>0){
    const station=g.survival.station;
    c.fillStyle='#b7f978';c.font='bold 12px Arial';

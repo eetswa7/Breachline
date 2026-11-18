@@ -91,8 +91,10 @@ export class SpawnDirector {
   const frontX=ex-ax,frontZ=ez-az,frontLength=Math.hypot(frontX,frontZ)||1;
   // The map only removes breakable geometry during a match. Positions baked as
   // clear ground remain valid, so static capsule/floor tests are not repeated.
+  const controlled=!initial&&rules.warfront?rules.points.filter(point=>point.owner===actor.team&&!point.contested):[];
   const ranked=[];
   for(const p of pool){
+   if(game.deployables?.length&&!this.valid(p))continue;
    let occupied=false;
    for(const other of actors)if(other.id!==actor.id&&!other.dead&&Math.abs(other.y-p.y)<1.9&&separation(p,other)<1.6){occupied=true;break;}
    if(occupied)continue;
@@ -110,6 +112,10 @@ export class SpawnDirector {
     for(const ally of allies)nearAlly=Math.min(nearAlly,separation(p,ally));
     score-=Math.abs(nearAlly-11)*.48;
     if(allies.length&&enemies.length){const front=((p.x-ax)*frontX+(p.z-az)*frontZ)/frontLength;score-=Math.max(0,front)*.8;score+=Math.min(10,Math.max(0,-front))*.35;}
+   }
+   if(controlled.length){
+    const nearSector=Math.min(...controlled.map(point=>separation(point,p)));
+    score+=Math.max(0,24-Math.abs(nearSector-10)*1.5);
    }
    for(const death of this.deaths){
     if(teams&&death.team!==actor.team)continue;

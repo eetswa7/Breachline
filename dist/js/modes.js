@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=107';
-import {distance} from './math.js?v=107';
+import {GUN_ORDER} from './weapons.js?v=108';
+import {distance} from './math.js?v=108';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -15,7 +15,8 @@ export const MODES = [
  {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true},
  {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true},
  {id:'convoy',name:'CONVOY',short:'CONVOY',description:'Escort the moving drone through the route, then swap sides. Furthest distance wins. Full deliveries are decided by time.',limit:100,time:150,teams:true},
- {id:'raid',name:'SALVAGE RAID',short:'RAID',description:'Recover salvage caches and return to extraction before time expires. Extract early or risk the squad for more.',limit:800,time:240,teams:true}
+ {id:'raid',name:'SALVAGE RAID',short:'RAID',description:'Recover salvage caches and return to extraction before time expires. Extract early or risk the squad for more.',limit:800,time:240,teams:true},
+ {id:'warfront',name:'WARFRONT',short:'WARFRONT',description:'Hold three of five sectors to drain enemy tickets. Eliminations cost tickets, and reinforcements redeploy in waves.',limit:120,time:600,teams:true}
 ];
 
 export const SURVIVAL_WAVES=[
@@ -33,7 +34,7 @@ export const MAX_TAGS = 32;
 export const FLAG_RETURN_SECONDS = 25;
 
 const OBJECTIVE_XP={
- domination:{capture:150},frontline:{capture:200,recover:100,extract:400},ctf:{capture:300,return:100},
+ domination:{capture:150},warfront:{capture:200},frontline:{capture:200,recover:100,extract:400},ctf:{capture:300,return:100},
  confirmed:{confirm:100,deny:75},hardpoint:{hold:10},hill:{hold:12},
  sabotage:{recover:75,plant:225,defuse:300}
 };
@@ -68,6 +69,16 @@ export class MatchRules {
  awardObjective(actor,action,amount=1){
   actor.objectiveXP+=OBJECTIVE_XP[this.mode.id][action]*amount;
  }
+ setupWarfront(arena,nav){
+  if(this.mode.id!=='warfront')return;
+  this.warfront={nextWaveAt:12,bleed:0,dominant:-1};
+  this.scores=[this.mode.limit,this.mode.limit];
+  for(const [name,side] of [['D',-1],['E',1]]){
+   const goal={x:0,y:0,z:side*arena.info.size*.58};
+   const node=nav.nodes[nav.nearest(goal)]??goal;
+   this.points.push({name,x:node.x,y:node.y,z:node.z,owner:-1,capturing:-1,progress:0,contested:false});
+  }
+ }
  get attackingTeam(){return Math.floor((this.round-1)/3)%2;}
  get respawns(){return !['sabotage','elimination','survival','raid'].includes(this.mode.id);}
  enemies(a,b){return a.id!==b.id&&(!this.mode.teams||a.team!==b.team);}
@@ -89,6 +100,7 @@ export class MatchRules {
    engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.7,z:point.z});
  }
  onDeath(victim,engine){
+  if(this.warfront)this.scores[victim.team]=Math.max(0,this.scores[victim.team]-1);
   this.raid?.onDeath(victim,engine);
   if(this.payload?.carrier===victim.id){
    this.payload.carrier=null;
@@ -366,6 +378,36 @@ export class MatchRules {
   }
   if(this.time<=0)this.finish(1);
  }
+ updateControlPoints(dt,engine){
+   for(const p of this.points) {
+    const count=[0,0];
+    const occupants=engine.actors.filter(a=>!a.dead&&distance(a,p)<4.2&&Math.abs(a.y-p.y)<2.6);
+    for(const a of occupants)count[a.team]++;
+    p.contested=count[0]>0&&count[1]>0;
+    if(!p.contested&&(count[0]||count[1])) {
+     const team=count[0]?0:1;
+     if(p.owner!==team) {
+      if(p.capturing!==team){p.capturing=team;p.progress=0;}
+      p.progress+=dt*Math.min(2,count[team])/5;
+      if(p.progress>=1){p.owner=team;p.capturing=-1;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
+     }else p.progress=0;
+    }else if(!p.contested){p.progress=Math.max(0,p.progress-dt*.1);if(!p.progress)p.capturing=-1;}
+   }
+ }
+ updateWarfront(dt,engine){
+  this.updateControlPoints(dt,engine);
+  const held=[0,0];
+  for(const point of this.points)if(point.owner>=0&&!point.contested)held[point.owner]++;
+  const dominant=held[0]>=3?0:held[1]>=3?1:-1;
+  if(dominant!==this.warfront.dominant){this.warfront.dominant=dominant;this.warfront.bleed=0;}
+  if(dominant>=0){
+   this.warfront.bleed+=dt;
+   const loss=Math.floor(this.warfront.bleed/3);
+   this.warfront.bleed-=loss*3;
+   this.scores[1-dominant]=Math.max(0,this.scores[1-dominant]-loss);
+  }
+  if(this.scores.includes(0)||this.time<=0)this.finish(this.scoreLeader(engine.actors));
+ }
  update(dt,engine) {
   if(this.phase==='finished')return;
   if(this.phase==='roundBreak') {
@@ -375,6 +417,7 @@ export class MatchRules {
   }
   const elapsed=Math.min(dt,this.time);
   this.time=Math.max(0,this.time-dt);
+  if(this.warfront){this.updateWarfront(elapsed,engine);return;}
   if(this.raid){this.raid.update(elapsed,engine);return;}
   if(this.convoy){this.updateConvoy(elapsed,engine);return;}
   if(this.mode.id==='survival'){this.updateSurvival(engine);return;}
@@ -387,20 +430,7 @@ export class MatchRules {
   if(this.mode.id==='elimination'){this.updateElimination(engine);return;}
   if(this.phase==='finished')return;
   if(this.mode.id==='domination') {
-   for(const p of this.points) {
-    const count=[0,0];
-    const occupants=engine.actors.filter(a=>!a.dead&&distance(a,p)<4.2&&Math.abs(a.y-p.y)<2.6);
-    for(const a of occupants)count[a.team]++;
-    p.contested=count[0]>0&&count[1]>0;
-    if(!p.contested&&(count[0]||count[1])) {
-     const team=count[0]?0:1;
-     if(p.owner!==team) {
-      if(p.capturing!==team){p.capturing=team;p.progress=0;}
-      p.progress+=elapsed*Math.min(2,count[team])/5;
-      if(p.progress>=1){p.owner=team;p.capturing=-1;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
-     }else p.progress=0;
-    }else if(!p.contested){p.progress=Math.max(0,p.progress-elapsed*.1);if(!p.progress)p.capturing=-1;}
-   }
+   this.updateControlPoints(elapsed,engine);
    this.tick+=elapsed;
    if(this.tick>=1) {
     this.tick-=1;
