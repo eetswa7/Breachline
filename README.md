@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 99.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 100.** 30 weapons, 17 maps and 13 modes.
+
+## Release 100: deployable equipment
+
+The Armoury adds a deployable shield and a pulse sensor. The shield creates
+temporary cover that affects movement, navigation and incoming fire. The sensor
+reveals nearby enemies on your team's radar. Both can be damaged, expire on
+their own and use the existing equipment button.
 
 ## Release 99: ziplines
 
