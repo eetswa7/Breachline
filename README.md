@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 108.** 30 weapons, 17 maps and 15 modes.
+**Latest source checkpoint: Release 109.** 30 weapons, 17 maps and 15 modes.
+
+## Release 109: tactical map
+
+Open the map with M, the HUD button or the pause menu. It shows current
+sector ownership, squad positions and detected hostiles. Mark a position
+to send your squad there. In Warfront, queue an uncontested allied sector
+to guide your next redeployment, subject to spawn safety.
 
 ## Release 108: Warfront
 
