@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 107.** 30 weapons, 17 maps and 14 modes.
+**Latest source checkpoint: Release 108.** 30 weapons, 17 maps and 15 modes.
+
+## Release 108: Warfront
+
+Fight 6 vs 6 on standard maps or 12 vs 12 on Crossfire District and Blacksite.
+Each side begins with 120 tickets. Eliminations cost a ticket, and holding
+three uncontested sectors drains the opposition. Reinforcements arrive every
+12 seconds and favor safe positions near friendly sectors. The team with
+more tickets at timeout wins, or the match ends early when a side runs out.
 
 ## Release 107: operator specialties
 
