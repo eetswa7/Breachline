@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 82.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 84.** 30 weapons, 16 maps and 11 modes.
+
+## Release 84: objective progression
+
+Captures, contested-mode scoring, tag collection and charge actions earn career
+XP. The debrief itemizes completion, combat, objective and victory XP, and
+match history retains objective XP.
+
+## Release 83: Sabotage charge custody
+
+An attacker starts with the charge. If they fall, an attacker must recover it
+before planting. Bots change routes to recover, guard, plant or defuse it.
+Both renderers mark the dropped or armed charge.
 
 ## Release 82: saved loadout kits
 
