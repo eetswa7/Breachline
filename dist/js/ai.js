@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=90';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=91';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};
@@ -110,12 +110,16 @@ export function updateBot(bot,dt,e){
   const pickup=e.rules.mode.id==='confirmed'?nearestTag(bot,e.rules):null;
   const chargeGoal=e.rules.mode.id==='sabotage'?sabotageGoal(bot,e.rules,e.actors):null;
   const ctfGoal=e.rules.mode.id==='ctf'?flagGoal(bot,e.rules,e.actors):null;
+  const rescue=e.operation?e.findRescue(bot,13,false):null;
+  const closeRescuer=rescue&&e.actors.some(ally=>ally!==bot&&ally.id!==0&&!ally.dead&&ally.team===bot.team&&distance(ally,rescue)+1<distance(bot,rescue));
   let danger=null;for(const g of e.grenades)if(g.kind==='frag'&&g.fuse<1.8&&distance(bot,g)<7){danger=g;break;}
   if(danger){const n=Math.max(.1,distance(bot,danger));bot.goal={x:bot.x+(bot.x-danger.x)/n*9,y:bot.y,z:bot.z+(bot.z-danger.z)/n*9};bot.state='evade';}
   else if(bot.weapon.reloadLeft>0||target&&(bot.health<28||bot.suppression>0&&['tdm','ffa','gun'].includes(e.rules.mode.id)&&distance(bot,target)>3)){
    bot.state=bot.weapon.reloadLeft>0?'reload':'retreat';let cover=null,cost=Infinity;
    for(const p of e.arena.cover){const d=distance(bot,p);if(d<cost&&d<13&&!e.arena.collides(p,.35,1.7)&&(!target||!e.arena.visible({...p,y:p.y+1.3},e.eye(target)))){cover=p;cost=d;}}
    bot.goal=cover??{x:bot.x-Math.sin(bot.yaw)*7,y:bot.y,z:bot.z+Math.cos(bot.yaw)*7};
+  }else if(rescue&&!closeRescuer&&(!target||distance(bot,rescue)<3)){
+   bot.goal=rescue;bot.state='rescue';
   }else if(point){
    const angle=bot.id*2.399963;
    const payload=e.rules.payload;
@@ -139,7 +143,7 @@ export function updateBot(bot,dt,e){
   }else if(bot.state==='patrol'||bot.state==='investigate'&&distance(bot,bot.lastKnown)<2){
    if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
   }
-  const assignment=bot.state==='objective'?point??null:null;
+  const assignment=bot.state==='rescue'?rescue:bot.state==='objective'?point??null:null;
   if(assignment!==bot.objectivePoint){
    bot.objectivePoint=assignment;bot.pathClock=0;bot.path=[];bot.pathIndex=0;
   }
@@ -150,7 +154,7 @@ export function updateBot(bot,dt,e){
   const d=distance(bot,target),nearby=e.actors.filter(a=>!a.dead&&e.rules.enemies(bot,a)&&distance(a,target)<4).length;
   if(d>5.5&&d<15&&nearby>0&&e.canSee(bot,target)&&e.random()<dt*(nearby>1?.42:.12)){e.throwGrenade(bot);bot.grenadeCooldown=5.5+e.random()*2.5;}
  }
- bot.interacting=bot.state==='objective'&&e.rules.canUseCharge(bot,e);
+ bot.interacting=bot.state==='rescue'?!!e.findRescue(bot):bot.state==='objective'&&e.rules.canUseCharge(bot,e);
  let moving=false;
  if(!bot.interacting&&bot.pathIndex<bot.path.length){
   // Look ahead only along swept-clear ground, never through a diagonal wall.

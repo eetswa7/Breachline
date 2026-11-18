@@ -1,6 +1,6 @@
 import * as THREE from '../vendor/three.module.min.js';
-import {compose} from './math.js?v=90';
-import {boxInterval} from './ballistics.js?v=90';
+import {compose} from './math.js?v=91';
+import {boxInterval} from './ballistics.js?v=91';
 
 // Native facades sit just inside their retained broad gameplay collider. Only
 // its own glazing may receive a cosmetic contact behind an authoritative stop.

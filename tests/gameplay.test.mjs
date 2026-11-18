@@ -39,6 +39,27 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  assert.equal(siege.g.rules.phase,'finished');
  assert.equal(siege.g.rules.winner,1);
 
+ const rescue=duel('frontline');
+ rescue.g.operation={id:'rail'};rescue.g.reinforcements=[2,2];
+ rescue.g.arena.visible=()=>true;
+ const ally=Object.assign(Object.create(Object.getPrototypeOf(rescue.p)),rescue.p,{id:1,x:1});
+ rescue.g.actors.push(ally);
+ rescue.g.damage(rescue.p,200,rescue.t);
+ assert.equal(rescue.g.findRescue(ally),rescue.p);
+ ally.interacting=true;
+ rescue.g.updateRescues(1);
+ ally.interacting=false;
+ rescue.g.updateRescues(1);
+ assert(rescue.p.dead);
+ ally.interacting=true;
+ rescue.g.updateRescues(2);
+ assert(!rescue.p.dead);
+ assert.equal(ally.revives,1);
+ assert.deepEqual(rescue.g.reinforcements,[2,2]);
+ rescue.p.spawnProtection=0;
+ rescue.g.damage(rescue.p,200,rescue.t);
+ assert.equal(rescue.g.findRescue(ally),null);
+
  const extraction=duel('frontline'),{g:run,p:runner,t:guard}=extraction;
  run.operation={id:'siege'};
  run.arena.visible=()=>true;

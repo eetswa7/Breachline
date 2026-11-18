@@ -1,13 +1,13 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=90';
-import {MODES,MatchRules} from './modes.js?v=90';
-import {MAPS} from './maps.js?v=90';
-import {drawDeploymentMap} from './deployment-map.js?v=90';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=90';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=90';
-import {ATTACHMENT_SPECS} from './attachments.js?v=90';
-import {clamp,distance} from './math.js?v=90';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=90';
-import {identityFor,canIdentify} from './combat-identity.js?v=90';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=91';
+import {MODES,MatchRules} from './modes.js?v=91';
+import {MAPS} from './maps.js?v=91';
+import {drawDeploymentMap} from './deployment-map.js?v=91';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=91';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=91';
+import {ATTACHMENT_SPECS} from './attachments.js?v=91';
+import {clamp,distance} from './math.js?v=91';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=91';
+import {identityFor,canIdentify} from './combat-identity.js?v=91';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -199,8 +199,9 @@ export class Interface {
    $('objective').textContent=r.phase==='roundBreak'?r.message:`ROUND ${r.round} · ${task}`;
   }
   else $('objective').textContent=r.mode.id==='gun'?`TIER ${Math.min(GUN_ORDER.length,p.gunStage+1)} / ${GUN_ORDER.length}`:`FIRST TO ${r.mode.limit}`;
-  const canInteract=r.canUseCharge(p,g);
-  $('interact-prompt').textContent=canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
+  const rescue=g.findRescue(p);
+  const canInteract=!!rescue||r.canUseCharge(p,g);
+  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
   this.app.input.setContext(canInteract);
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
   $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead?0:1;
@@ -209,7 +210,7 @@ export class Interface {
   $('hud').classList.toggle('spectating',spectating);
   this.app.input.layer.classList.toggle('round-spectating',spectating);
   show('spectator-status',spectating);
-  if(spectating)$('spectator-name').textContent=view.name;
+  if(spectating)$('spectator-name').textContent=p.downedUntil>g.time?`${view.name} · REVIVE WINDOW ${Math.ceil(p.downedUntil-g.time)}s`:view.name;
   show('death-overlay',p.dead&&!spectating);if(p.dead&&!spectating){$('death-name').textContent=g.lastKiller?`ELIMINATED BY ${g.lastKiller}`:'OPERATOR DOWN';$('respawn-message').textContent=g.canRedeploy(p)?`Redeploying in ${Math.ceil(p.respawnLeft)}…`:g.operation?'No reinforcements remaining.':'One life this round. Your team is still fighting.';}
   const live=this.feed.filter(f=>f.until>g.time);if(live.length!==this.lastFeedCount||live[0]?.text!==this.lastFeedText){$('killfeed').innerHTML=live.map(f=>`<div class="feed-entry ${f.ours?'ours':f.relation}">${esc(f.text)}</div>`).join('');this.lastFeedCount=live.length;this.lastFeedText=live[0]?.text;}
   show('debug-hud',this.debugVisible);if(this.debugVisible)$('debug-hud').textContent=`${this.app.renderer.fps} FPS · ${this.app.renderer.quality}\n${this.app.renderer.diagnostics?.()??`${g.actors.filter(a=>!a.dead).length} ACTIVE`}\n${p.x.toFixed(1)} / ${p.y.toFixed(1)} / ${p.z.toFixed(1)} m`;
@@ -235,6 +236,9 @@ export class Interface {
    c.fillText('◆',(charge.x-view.x)*s-5,(charge.z-view.z)*s+4);
   }
   for(const flag of g.rules.flags??[]){const x=(flag.x-view.x)*s,z=(flag.z-view.z)*s;c.fillStyle=flag.team===g.player.team?'#70e5f5':'#ff786e';c.beginPath();c.moveTo(x,z-5);c.lineTo(x+4,z);c.lineTo(x,z+5);c.lineTo(x-4,z);c.closePath();c.fill();c.fillStyle='#102019';c.font='bold 7px Arial';c.fillText(flag.team===0?'B':'R',x-2,z+2);}
+  for(const ally of g.actors)if(ally.team===g.player.team&&ally.dead&&ally.downedUntil>g.time){
+   c.fillStyle='#70e5f5';c.font='bold 13px Arial';c.fillText('+',(ally.x-view.x)*s-4,(ally.z-view.z)*s+4);
+  }
   for(const tag of g.rules.tags??[]){c.fillStyle=tag.team===g.player.team?'#70e5f5':'#ff786e';c.fillRect((tag.x-view.x)*s-2,(tag.z-view.z)*s-3,4,6);}
   for(const a of g.actors){if(a.dead||a===view)continue;const friendly=g.rules.mode.teams&&a.team===g.player.team;if(!friendly&&g.time-a.lastShot>1.8)continue;c.fillStyle=friendly?'#70e5f5':'#ff786e';c.beginPath();c.arc((a.x-view.x)*s,(a.z-view.z)*s,3,0,Math.PI*2);c.fill();}c.restore();c.fillStyle='#ddff7b';c.beginPath();c.moveTo(80,72);c.lineTo(75,86);c.lineTo(80,82);c.lineTo(85,86);c.closePath();c.fill();}
 }
