@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 73.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 74.** 30 weapons, 16 maps and 11 modes.
+
+## Release 74: environmental audio
+
+All sixteen battlegrounds have original stereo environmental audio. Each location
+mixes different elements, such as industrial ventilation, coastal surf or
+monsoon rain. Entering an enclosed room crossfades to an interior mix.
+Environmental audio has a separate volume slider and works offline.
 
 ## Release 73: Blacksite turbine hall
 

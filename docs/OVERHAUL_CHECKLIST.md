@@ -32,6 +32,17 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 74 continuation tasks
+
+- [x] Build original stereo soundscapes for all sixteen maps. Runtime source
+  `a8aba81` crossfades two shared loops based on enclosure. It generates them
+  locally and retains only the current map's pair.
+- [x] Provide an independent saved environmental level and stop playback on
+  pause, results, and return to the menu. Runtime source `a8aba81`.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Listen in live matches and measure physical iPhone audio and frame timing.
+
 ## Release 73 continuation tasks
 
 - [x] Rework the Blacksite hall floor and overhead service infrastructure.
