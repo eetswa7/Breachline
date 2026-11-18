@@ -1,12 +1,12 @@
-import {MODES,MatchRules} from './modes.js?v=79';
-import {MAPS} from './maps.js?v=79';
-import {drawDeploymentMap} from './deployment-map.js?v=79';
-import {matchSetup} from './save.js?v=79';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=79';
-import {ATTACHMENT_SPECS} from './attachments.js?v=79';
-import {clamp,distance} from './math.js?v=79';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=79';
-import {identityFor,canIdentify} from './combat-identity.js?v=79';
+import {MODES,MatchRules} from './modes.js?v=80';
+import {MAPS} from './maps.js?v=80';
+import {drawDeploymentMap} from './deployment-map.js?v=80';
+import {matchSetup} from './save.js?v=80';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=80';
+import {ATTACHMENT_SPECS} from './attachments.js?v=80';
+import {clamp,distance} from './math.js?v=80';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=80';
+import {identityFor,canIdentify} from './combat-identity.js?v=80';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -100,7 +100,7 @@ export class Interface {
  pause(){if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],['RESTART',()=>this.app.start()],['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
  results(){const g=this.app.game,r=g.result();if(!g.saved){this.store.finish(r);g.saved=true;}this.refreshCareer();this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',g.rules.mode.name,`<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<div class="result-xp">+ ${r.xp} XP</div>`,[['PLAY AGAIN',()=>this.app.start(),true],['MAIN MENU',()=>this.app.toMenu()]]);}
  editLayout(){this.app.input.reset();show('menu',false);show('touch-layer',true);show('edit-bar',true);this.app.input.editing=true;$('touch-layer').classList.add('editing');this.app.input.layout();this.app.orientation();}
- installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Let the game load once before trying it offline. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
+ installHelp(){this.modal('ONE TOUCH TO DEPLOY','HOME SCREEN',`<p>On iPhone, open this game in <strong>Safari</strong>. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. If shown, keep <strong>Open as Web App</strong> enabled.</p><p>Launch from the new Breachline icon and turn your phone sideways. Wait for <strong>Ready for offline play</strong> on the Play screen before disconnecting. Your loadout and career are saved on this device.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  controllerMenu(pad){
   if(!pad.connected)return;const e=pad.edges;
   if(!e[0]&&!e[12]&&!e[13]&&!e[14]&&!e[15])return;

@@ -1,15 +1,15 @@
-import {Game,emptyInput} from './engine.js?v=79';
-import {Renderer} from './three-renderer.js?v=79';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=79';
-import {TouchInput} from './input.js?v=79';
-import {AudioSystem} from './audio.js?v=79';
-import {SaveStore} from './save.js?v=79';
-import {Interface,$} from './ui.js?v=79';
-import {Weapon} from './weapons.js?v=79';
-import {opticMagnification} from './aim.js?v=79';
-import {FramePacer} from './frame-pacer.js?v=79';
-import {BenchmarkController} from './benchmark.js?v=79';
-import {updateAimAssist} from './aim-assist.js?v=79';
+import {Game,emptyInput} from './engine.js?v=80';
+import {Renderer} from './three-renderer.js?v=80';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=80';
+import {TouchInput} from './input.js?v=80';
+import {AudioSystem} from './audio.js?v=80';
+import {SaveStore} from './save.js?v=80';
+import {Interface,$} from './ui.js?v=80';
+import {Weapon} from './weapons.js?v=80';
+import {opticMagnification} from './aim.js?v=80';
+import {FramePacer} from './frame-pacer.js?v=80';
+import {BenchmarkController} from './benchmark.js?v=80';
+import {updateAimAssist} from './aim-assist.js?v=80';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -65,4 +65,5 @@ export class Application {
  }
 }
 
-if(typeof document!=='undefined')try{new Application();}catch(e){console.error(e);$('loading').innerHTML='<div class="fatal"><h2>Unable to start Breachline</h2><p></p><button onclick="location.reload()">RELOAD</button></div>';$('loading').querySelector('p').textContent=e.message;}
+export let application=null;
+if(typeof document!=='undefined')try{application=new Application();}catch(e){console.error(e);$('loading').innerHTML='<div class="fatal"><h2>Unable to start Breachline</h2><p></p><button onclick="location.reload()">RELOAD</button></div>';$('loading').querySelector('p').textContent=e.message;}

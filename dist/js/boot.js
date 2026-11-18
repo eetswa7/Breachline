@@ -1,34 +1,74 @@
-// Activate a complete release before importing its module graph. This also
-// upgrades older Home Screen installations whose cache ignored URL versions.
-const RELEASE='79';
-function version(worker){
+// Controlled clients retain the atomic release handoff. A fresh visit can
+// load from the network while offline installation remains optional.
+const RELEASE='80';
+
+function version(worker) {
  if(!worker)return Promise.resolve(null);
- return new Promise(resolve=>{const channel=new MessageChannel();let settled=false;const finish=value=>{if(settled)return;settled=true;clearTimeout(timer);channel.port1.close();resolve(value);};const timer=setTimeout(()=>finish(null),700);channel.port1.onmessage=e=>finish(e.data?.release);try{worker.postMessage({type:'VERSION'},[channel.port2]);}catch{finish(null);}});
+ return new Promise(resolve=>{
+  const channel=new MessageChannel();
+  const finish=value=>{clearTimeout(timer);channel.port1.close();resolve(value);};
+  const timer=setTimeout(()=>finish(null),700);
+  channel.port1.onmessage=e=>finish(e.data?.release);
+  try{worker.postMessage({type:'VERSION'},[channel.port2]);}catch{finish(null);}
+ });
 }
-async function activateRelease(){
- if(!('serviceWorker'in navigator)||!window.isSecureContext)return;
- const workers=navigator.serviceWorker;
- if(await version(workers.controller)===RELEASE){workers.register('./sw.js?v=79',{updateViaCache:'none'}).catch(()=>{});return;}
- let timer;
- const label=document.getElementById('loading-label');if(label)label.textContent='DOWNLOADING UPDATED ARTWORK';
- const installation=(async()=>{
-  let registration;
-  try{registration=await workers.register('./sw.js?v=79',{updateViaCache:'none'});await registration.update();}
-  catch(error){if(!workers.controller)return;throw error;}
-  const until=Date.now()+180000;
-  while(Date.now()<until){
-   if(await version(workers.controller)===RELEASE)return;
-   const pending=registration.installing||registration.waiting;
-   if(pending?.state==='redundant')throw new Error('The update download was interrupted.');
-   await new Promise(resolve=>setTimeout(resolve,120));
+
+function offlineStatus(text) {
+ const status=document.getElementById('offline-status');
+ if(status)status.textContent=text;
+}
+
+async function installRelease(workers,upgrading) {
+ const registration=await workers.register('./sw.js?v=80',{updateViaCache:'none'});
+ if(upgrading)await registration.update();
+ const deadline=Date.now()+180000;
+ const initial=registration.installing||registration.waiting;
+ while(Date.now()<deadline){
+  if(await version(workers.controller)===RELEASE)return;
+  if(initial?.state==='redundant'&&!registration.installing&&!registration.waiting)
+   throw new Error('The update download was interrupted.');
+  await new Promise(resolve=>setTimeout(resolve,180));
+ }
+ throw new Error('The update download could not finish.');
+}
+
+async function boot() {
+ try{
+  const workers='serviceWorker'in navigator&&window.isSecureContext?navigator.serviceWorker:null;
+  const controlled=!!workers?.controller;
+  if(controlled&&await version(workers.controller)!==RELEASE){
+   const label=document.getElementById('loading-label');
+   if(label)label.textContent='DOWNLOADING UPDATED ARTWORK';
+   await installRelease(workers,true);
+   const style=document.querySelector('link[rel="stylesheet"]');
+   if(style)style.href=`./style.css?v=${RELEASE}&ready=1`;
+   if(label)label.textContent='PREPARING THE BATTLEGROUND';
   }
-  throw new Error('The update download could not finish.');
- })();
- try{await Promise.race([installation,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('The update download timed out.')),185000);})]);}finally{clearTimeout(timer);}
- // Reload the stylesheet through the newly activated cache as well.
- const style=document.querySelector('link[rel="stylesheet"]');if(style)style.href=`./style.css?v=${RELEASE}&ready=1`;
+
+  document.getElementById('game-version').textContent=`BREACHLINE · VERSION ${RELEASE}`;
+  const { application }=await import('./main.js?v=80');
+  if(!workers){offlineStatus('Offline play unavailable');return;}
+  if(controlled){
+   offlineStatus('Ready for offline play');
+   workers.register('./sw.js?v=80',{updateViaCache:'none'}).catch(()=>{});
+   return;
+  }
+  if(!application)return;
+
+  // Prioritize the game shell and visible art. The complete offline package
+  // still uses the existing atomic service-worker install and cache policy.
+  application.renderer.ready.then(async()=>{
+   offlineStatus('Installing offline files');
+   await installRelease(workers,false);
+   offlineStatus('Ready for offline play');
+  }).catch(()=>offlineStatus('Offline installation incomplete'));
+ }catch(error){
+  console.error(error);
+  const loading=document.getElementById('loading');
+  loading.classList.remove('hidden');
+  loading.innerHTML='<div class="fatal"><h2>Game update interrupted</h2><p>Check your connection, then retry. Your saved progress is kept.</p><button type="button">RETRY</button></div>';
+  loading.querySelector('button').onclick=()=>location.reload();
+ }
 }
-async function boot(){try{await activateRelease();document.getElementById('game-version').textContent=`BREACHLINE · VERSION ${RELEASE}`;await import('./main.js?v=79');}catch(error){
- console.error(error);const loading=document.getElementById('loading');loading.classList.remove('hidden');loading.innerHTML='<div class="fatal"><h2>Game update interrupted</h2><p>Check your connection, then retry. Your saved progress is kept.</p><button type="button">RETRY</button></div>';loading.querySelector('button').onclick=()=>location.reload();
-}}
+
 boot();
