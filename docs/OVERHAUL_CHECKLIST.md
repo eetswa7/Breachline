@@ -32,6 +32,15 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 82 continuation tasks
+
+- [x] Add three editable, persistent kits to the Armoury, preserving the
+  current loadout for existing saves. Runtime source `4d0c3b1`.
+- [x] Remove the 59 retired test files. They were outside the active test
+  command and remain available in Git history.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+
 ## Release 81 continuation tasks
 
 - [x] Load and upload the selected arena’s baked lighting on demand. Runtime

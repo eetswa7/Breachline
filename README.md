@@ -1,6 +1,11 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 81.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 82.** 30 weapons, 16 maps and 11 modes.
+
+## Release 82: saved loadout kits
+
+The Armoury saves three kits with separate weapons, attachments and equipment.
+Existing saves keep their current kit. The selected kit is used for deployment.
 
 ## Release 81: on-demand arena lighting
 
