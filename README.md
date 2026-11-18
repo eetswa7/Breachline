@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 98.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 99.** 30 weapons, 17 maps and 13 modes.
+
+## Release 99: ziplines
+
+Floodgate and Blacksite each have two ziplines linking raised positions to
+outer lanes. Use Interact at either end to ride. Jump to dismount early and
+carry your momentum into the landing. Weapons are stowed during the ride.
 
 ## Release 98: squad orders
 
