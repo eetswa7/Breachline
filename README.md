@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 84.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 85.** 30 weapons, 16 maps and 11 modes.
+
+## Release 85: combat credit
+
+Recent damage that helps a teammate finish an opponent earns an assist and
+50 XP. The scoreboard and match history track assists. Melee credits the
+knife, and grenade or environmental kills award no firearm mastery.
 
 ## Release 84: objective progression
 
