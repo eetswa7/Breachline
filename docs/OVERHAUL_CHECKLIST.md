@@ -32,6 +32,17 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 76 continuation tasks
+
+- [x] Author a shared atmosphere profile for every battleground. Runtime source
+  `315a183` connects sky radiance, map-load reflections, directional lighting,
+  and fog to the profile. Software rendering uses the same fog ranges and map
+  sky colors.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review exposure, cloud appearance, and target readability in matched
+  gameplay views. Physical iPhone GPU and frame timing remain unmeasured.
+
 ## Release 75 continuation tasks
 
 - [x] Add grounded boot contacts and distinct airborne poses to the shared

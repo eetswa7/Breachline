@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 75.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 76.** 30 weapons, 16 maps and 11 modes.
+
+## Release 76: sky and daylight
+
+All sixteen battlegrounds now have authored atmosphere settings. Coastal haze,
+dry sun, highland cloud, industrial overcast and monsoon light shape the visible
+sky, reflections, direct sun and distance fog. The software renderer shares the
+map palettes and fog ranges. This update uses the existing offline art.
 
 ## Release 75: operator movement
 
