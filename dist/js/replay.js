@@ -41,7 +41,8 @@ export class ReplayCursor {
   if(!run)return false;
   while(this.recording.actions[this.action]?.tick===this.tick){
    const {type,value}=this.recording.actions[this.action++];
-   if(type==='order')game.issueSquadOrder(value);
+   if(type==='order')game.issueSquadOrder(value.kind,value.point);
+   else if(type==='redeploy')game.chooseWarfrontSpawn(value);
    else if(type==='support')game.chooseSurvivalSupport(value);
   }
   for(const [index,key] of ANALOG.entries())this.input[key]=run.analog[index];

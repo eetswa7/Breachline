@@ -129,3 +129,9 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 .ability-button{position:fixed;z-index:9;right:max(63px,calc(env(safe-area-inset-right) + 47px));bottom:max(89px,calc(env(safe-area-inset-bottom) + 76px));border:1px solid #fff5;background:#0c1718de;min-height:34px;padding:6px 10px;font-size:10px;letter-spacing:.55px;pointer-events:auto}
 .ability-button:disabled{opacity:.52}
 @media(pointer:coarse){.ability-button{bottom:auto;top:72px}}
+
+.tactical-button{position:fixed;z-index:9;top:14px;right:max(128px,calc(env(safe-area-inset-right) + 112px));min-width:40px;height:33px;border:1px solid #fff4;background:#0c1718bc;pointer-events:auto;font-size:10px}
+.tactical-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(115px,.44fr);gap:14px;align-items:start}
+.tactical-layout canvas{display:block;width:min(100%,44dvh);aspect-ratio:1;border:1px solid var(--line);cursor:crosshair}
+.tactical-layout label{display:block;margin-bottom:6px;color:var(--muted);font-size:10px;letter-spacing:.8px}
+.tactical-layout select{width:100%}

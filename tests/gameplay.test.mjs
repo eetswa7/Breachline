@@ -80,6 +80,11 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  assert(!territory.t.dead);
  territory.t.x=100;territory.t.z=100;
  for(const point of territory.g.rules.points.slice(0,3))point.owner=0;
+ assert(territory.g.chooseWarfrontSpawn('A'));
+ assert.equal(territory.g.preferredSpawn.name,'A');
+ assert.equal(territory.g.chooseWarfrontSpawn('E'),false);
+ territory.g.spawn(territory.p);
+ assert.equal(territory.g.preferredSpawn,null);
  territory.g.rules.update(3,territory.g);
  assert.equal(territory.g.rules.scores[1],118);
  territory.g.rules.scores[1]=1;
@@ -365,7 +370,7 @@ test('domination captures, contests, awards points and finishes',()=>{const{g,p,
  original.recordReplayAction=(type,value)=>tape.addAction(type,value);
  assert(original.issueSquadOrder('follow'));
  for(let tick=0;tick<120;tick++){
-  if(tick===60)assert(original.issueSquadOrder('release'));
+  if(tick===60)assert(original.issueSquadOrder('hold',original.rules.points[0]));
   const input={...emptyInput(),mz:tick<30?.6:0,lx:tick===40?.4:0};
   tape.addInput(input);original.update(1/60,input);original.events.length=0;
  }
@@ -377,6 +382,7 @@ test('domination captures, contests, awards points and finishes',()=>{const{g,p,
  assert(tape.runs.length<120);
  assert.deepEqual(state(replay),state(original));
  assert.deepEqual(replay.rules.scores,original.rules.scores);
+ assert.deepEqual(replay.activeSquadOrder,original.activeSquadOrder);
  const rotation=new Game({mode:'hardpoint'},{seed:891});
  rotation.rules.rotationRemaining=2;
  advance(rotation,.15);

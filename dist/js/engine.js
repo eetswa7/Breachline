@@ -1,16 +1,16 @@
-import {SPECIALTIES} from './specialties.js?v=108';
-import {Arena,MAPS} from './maps.js?v=108';
-import {Navigation} from './navigation.js?v=108';
-import {SpawnDirector} from './spawns.js?v=108';
-import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=108';
-import {Convoy} from './convoy.js?v=108';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=108';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=108';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=108';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=108';
-import {traceBullet} from './ballistics.js?v=108';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=108';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=108';
+import {SPECIALTIES} from './specialties.js?v=109';
+import {Arena,MAPS} from './maps.js?v=109';
+import {Navigation} from './navigation.js?v=109';
+import {SpawnDirector} from './spawns.js?v=109';
+import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=109';
+import {Convoy} from './convoy.js?v=109';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=109';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=109';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=109';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=109';
+import {traceBullet} from './ballistics.js?v=109';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=109';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=109';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false,light:false,ability:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -217,17 +217,21 @@ export class Game {
  get activeSquadOrder(){
   return this.squadOrder?.until>this.time?this.squadOrder:null;
  }
- issueSquadOrder(kind){
+ issueSquadOrder(kind,location=null){
   if(!this.canCommandSquad||!['follow','hold','release'].includes(kind))return false;
   const player=this.player;
   const allies=this.actors.filter(actor=>actor!==player&&actor.team===player.team&&!actor.dead)
    .sort((a,b)=>distance(a,player)-distance(b,player)).slice(0,3);
   let point=null;
   if(kind==='hold'){
-   const eye=this.eye(player),aim=direction(player.yaw,player.pitch);
-   const trace=this.arena.trace(eye,aim,26),range=Math.max(0,trace.t-.8);
-   const target={x:eye.x+aim.x*range,y:eye.y+aim.y*range,z:eye.z+aim.z*range};
-   target.y=this.arena.floorAt(target,Math.max(player.y+.45,target.y));
+   let target=location;
+   if(!target){
+    const eye=this.eye(player),aim=direction(player.yaw,player.pitch);
+    const trace=this.arena.trace(eye,aim,26),range=Math.max(0,trace.t-.8);
+    target={x:eye.x+aim.x*range,y:eye.y+aim.y*range,z:eye.z+aim.z*range};
+    target.y=this.arena.floorAt(target,Math.max(player.y+.45,target.y));
+   }
+   if(!Number.isFinite(target.x+target.y+target.z)||Math.max(Math.abs(target.x),Math.abs(target.z))>this.arena.info.size)return false;
    const node=this.nav.nodes[this.nav.nearest(target)];
    if(!node||distance(node,target)>4)return false;
    point={x:node.x,y:node.y,z:node.z};
@@ -237,7 +241,7 @@ export class Game {
   for(const actor of this.actors)if(assigned.includes(actor.id)||actor.state==='order'){
    actor.aiClock=0;actor.pathClock=0;actor.path=[];actor.pathIndex=0;
   }
-  this.recordReplayAction?.('order',kind);
+  this.recordReplayAction?.('order',{kind,point});
   this.emit('capture',{text:kind==='hold'?'SQUAD HOLDING MARK':kind==='follow'?'SQUAD RALLYING ON YOU':'SQUAD BACK ON MISSION',source:player.team,position:point});
   return true;
  }
@@ -272,6 +276,14 @@ export class Game {
   actor.ride=null;actor.ziplineCooldown=this.time+.8;
   actor.vy=bail?3.4:0;
   if(!bail){actor.vx=actor.vz=0;actor.grounded=!blocked;}
+ }
+ chooseWarfrontSpawn(name){
+  if(!this.rules.warfront||this.rules.phase!=='playing')return false;
+  const point=this.rules.points.find(point=>point.name===name&&point.owner===this.player.team&&!point.contested);
+  if(name!==null&&!point)return false;
+  this.preferredSpawn=point??null;
+  this.recordReplayAction?.('redeploy',name);
+  return true;
  }
  dropWeapon(actor,weapon=actor.weapon){
   if(this.rules.mode.id==='gun'||weapon.def.id===12||weapon.ammo+weapon.reserve<=0)return false;
@@ -330,7 +342,7 @@ export class Game {
  spawn(a,initial=false){
   const p=this.spawner.select(a,this,initial);
   if(a.fieldKit&&!this.survival){a.weapons=a.fieldKit;a.fieldKit=null;}
-  a.reset(p,p.yaw);a.vault=null;
+  a.reset(p,p.yaw);a.vault=null;if(a===this.player)this.preferredSpawn=null;
  }
  resetRound(){this.squadOrder=null;this.fieldWeapons.length=0;this.clearDeployables();this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);

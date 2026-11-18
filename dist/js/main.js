@@ -1,18 +1,18 @@
-import {MatchRecording,ReplayCursor} from './replay.js?v=108';
-import {raidInsertion} from './raid.js?v=108';
-import {operationBattle} from './operation.js?v=108';
-import {Game,emptyInput} from './engine.js?v=108';
-import {Renderer} from './three-renderer.js?v=108';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=108';
-import {TouchInput} from './input.js?v=108';
-import {AudioSystem} from './audio.js?v=108';
-import {SaveStore} from './save.js?v=108';
-import {Interface,$} from './ui.js?v=108';
-import {Weapon} from './weapons.js?v=108';
-import {opticMagnification} from './aim.js?v=108';
-import {FramePacer} from './frame-pacer.js?v=108';
-import {BenchmarkController} from './benchmark.js?v=108';
-import {updateAimAssist} from './aim-assist.js?v=108';
+import {MatchRecording,ReplayCursor} from './replay.js?v=109';
+import {raidInsertion} from './raid.js?v=109';
+import {operationBattle} from './operation.js?v=109';
+import {Game,emptyInput} from './engine.js?v=109';
+import {Renderer} from './three-renderer.js?v=109';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=109';
+import {TouchInput} from './input.js?v=109';
+import {AudioSystem} from './audio.js?v=109';
+import {SaveStore} from './save.js?v=109';
+import {Interface,$} from './ui.js?v=109';
+import {Weapon} from './weapons.js?v=109';
+import {opticMagnification} from './aim.js?v=109';
+import {FramePacer} from './frame-pacer.js?v=109';
+import {BenchmarkController} from './benchmark.js?v=109';
+import {updateAimAssist} from './aim-assist.js?v=109';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -53,10 +53,13 @@ export class Application {
    if(this.store.data.settings.gyro&&!this.input.gyroListening)this.ui.toast('Enable gyroscope again in Settings to grant motion access.');
   }catch(e){this.playing=false;this.replayPlayer=null;this.recording=null;this.game.paused=true;this.input.active=false;this.wakeLock?.release();this.wakeLock=null;document.exitPointerLock?.();this.ui.menu();this.ui.toast(`Match could not start: ${e.message}`);}finally{$('loading').classList.add('hidden');this.starting=false;this.last=0;this.framePacer.reset();}
  }
+ openTacticalMap(){
+  if(this.playing&&!this.game.paused&&!this.replayPlayer&&!this.benchmark?.stress&&this.game.rules.phase!=='finished')this.pause('tactical');
+ }
  openSquadOrders(){
   if(this.playing&&!this.replayPlayer&&!this.game.paused&&this.game.canCommandSquad)this.pause('squad');
  }
- pause(reason){if(!this.playing||this.game.rules.phase==='finished')return;this.game.paused=true;this.input.active=false;this.input.reset();this.aimAssistState={};this.pending=emptyInput();document.exitPointerLock?.();this.audio.pause();if(reason==='squad')this.ui.squadOrders();else this.ui.pause();}
+ pause(reason){if(!this.playing||this.game.rules.phase==='finished')return;this.game.paused=true;this.input.active=false;this.input.reset();this.aimAssistState={};this.pending=emptyInput();document.exitPointerLock?.();this.audio.pause();if(reason==='squad')this.ui.squadOrders();else if(reason==='tactical')this.ui.tacticalMap();else this.ui.pause();}
  resume(){if(!this.playing)return;if(!this.replayPlayer&&this.game.awaitingSurvivalSupport)this.game.chooseSurvivalSupport('bank');this.ui.closeModal();this.input.reset();this.input.active=!this.replayPlayer;this.game.paused=false;this.last=0;this.accumulator=0;this.audio.start();if(!this.isTouch&&!this.replayPlayer)this.lockMouse();this.orientation();}
  toMenu(){if(this.benchmark?.stress){void this.benchmark.stop('stress_cancelled');return;}this.playing=false;this.recording=null;this.replayPlayer=null;this.game.paused=true;this.input.active=false;this.input.reset();document.exitPointerLock?.();this.audio.stopAmbience?.();this.previewMap(this.config.map);this.ui.menu();this.audio.start();this.wakeLock?.release();this.previewWeapon();}
  previewMap(id){if(this.playing)return;this.game=new Game({...this.config,map:id},{seed:881});this.renderer.setArena(this.game.arena);}

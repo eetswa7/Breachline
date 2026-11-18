@@ -92,6 +92,7 @@ export class SpawnDirector {
   // The map only removes breakable geometry during a match. Positions baked as
   // clear ground remain valid, so static capsule/floor tests are not repeated.
   const controlled=!initial&&rules.warfront?rules.points.filter(point=>point.owner===actor.team&&!point.contested):[];
+  const preferred=actor===game.player&&controlled.includes(game.preferredSpawn)?game.preferredSpawn:null;
   const ranked=[];
   for(const p of pool){
    if(game.deployables?.length&&!this.valid(p))continue;
@@ -113,6 +114,7 @@ export class SpawnDirector {
     score-=Math.abs(nearAlly-11)*.48;
     if(allies.length&&enemies.length){const front=((p.x-ax)*frontX+(p.z-az)*frontZ)/frontLength;score-=Math.max(0,front)*.8;score+=Math.min(10,Math.max(0,-front))*.35;}
    }
+   if(preferred)score+=Math.max(0,88-Math.abs(separation(preferred,p)-9)*5);
    if(controlled.length){
     const nearSector=Math.min(...controlled.map(point=>separation(point,p)));
     score+=Math.max(0,24-Math.abs(nearSector-10)*1.5);
