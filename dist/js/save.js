@@ -1,6 +1,6 @@
-import {sanitizeLoadout,defaultLoadout} from './weapons.js?v=81';
-import {MODES} from './modes.js?v=81';
-import {MAPS} from './maps.js?v=81';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=82';
+import {MODES} from './modes.js?v=82';
+import {MAPS} from './maps.js?v=82';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){
@@ -14,16 +14,35 @@ export function matchSetup(value) {
   difficulty:['recruit','regular','veteran'].includes(value?.difficulty)?value.difficulty:'regular'
  };
 }
+export const LOADOUT_SLOTS=3;
 const KEY='breachline-save-v1';
 export const DEFAULT_SETTINGS={controllerSensitivity:1,controllerADSSensitivity:.55,controllerDeadzone:.14,controllerInvertY:false,controlProfile:'simple',aimFire:true,aimAssist:true,autoReload:true,quality:'auto',frameRate:60,fov:80,sensitivity:.85,adsSensitivity:.6,aimAcceleration:false,adsMode:'toggle',autoSprint:true,leftHanded:false,gyro:false,gyroSensitivity:1,motion:true,volume:.75,ambience:.65,music:.22,haptics:true,opacity:.7,buttonScale:1,layout:{}};
 export class SaveStore {
- constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),settings:{...DEFAULT_SETTINGS,layout:{}}};
-  try{const d=JSON.parse(storage?.getItem(KEY)||'null');if(d&&d.version===1){for(const k of ['xp','matches','wins','kills','deaths','bestStreak'])if(Number.isFinite(d[k]))this.data[k]=Math.max(0,d[k]);this.data.unlockAll=d.unlockAll===true;this.data.weaponXP=d.weaponXP&&typeof d.weaponXP==='object'?d.weaponXP:{};this.data.matchHistory=Array.isArray(d.matchHistory)?d.matchHistory.slice(0,MATCH_HISTORY_LIMIT).map(r=>r&&['win','draw','loss'].includes(r.outcome)?matchRecord({...r,win:r.outcome==='win',draw:r.outcome==='draw'},r.completedAt??null):null).filter(Boolean):[];this.data.matchSetup=matchSetup(d.matchSetup);this.data.loadout=sanitizeLoadout(d.loadout);this.data.settings={...DEFAULT_SETTINGS,...d.settings};if(!d.controlRevision){this.data.settings.controlProfile='simple';this.data.settings.layout={};this.data.settings.autoSprint=true;this.data.settings.aimFire=true;}this.sanitize();}}catch{this.error=true;}
+ constructor(storage){this.error=false;if(arguments.length===0){try{storage=globalThis.localStorage;}catch{this.error=true;}}this.storage=storage;this.data={version:1,controlRevision:2,xp:0,matches:0,wins:0,kills:0,deaths:0,bestStreak:0,weaponXP:{},matchHistory:[],matchSetup:matchSetup(),unlockAll:false,loadout:defaultLoadout(),activeLoadout:0,loadouts:Array.from({length:LOADOUT_SLOTS},defaultLoadout),settings:{...DEFAULT_SETTINGS,layout:{}}};
+  try{const d=JSON.parse(storage?.getItem(KEY)||'null');if(d&&d.version===1){for(const k of ['xp','matches','wins','kills','deaths','bestStreak'])if(Number.isFinite(d[k]))this.data[k]=Math.max(0,d[k]);this.data.unlockAll=d.unlockAll===true;this.data.weaponXP=d.weaponXP&&typeof d.weaponXP==='object'?d.weaponXP:{};this.data.matchHistory=Array.isArray(d.matchHistory)?d.matchHistory.slice(0,MATCH_HISTORY_LIMIT).map(r=>r&&['win','draw','loss'].includes(r.outcome)?matchRecord({...r,win:r.outcome==='win',draw:r.outcome==='draw'},r.completedAt??null):null).filter(Boolean):[];this.data.matchSetup=matchSetup(d.matchSetup);this.restoreLoadouts(d);this.data.settings={...DEFAULT_SETTINGS,...d.settings};if(!d.controlRevision){this.data.settings.controlProfile='simple';this.data.settings.layout={};this.data.settings.autoSprint=true;this.data.settings.aimFire=true;}this.sanitize();}}catch{this.error=true;}
+ }
+ restoreLoadouts(saved){
+  const index=saved.activeLoadout;
+  this.data.activeLoadout=Number.isInteger(index)&&index>=0&&index<LOADOUT_SLOTS?index:0;
+  this.data.loadouts=Array.from({length:LOADOUT_SLOTS},(_,slot)=>
+   sanitizeLoadout(Array.isArray(saved.loadouts)?saved.loadouts[slot]:undefined));
+  this.data.loadout=sanitizeLoadout(saved.loadout??this.data.loadouts[this.data.activeLoadout]);
+  this.data.loadouts[this.data.activeLoadout]={...this.data.loadout};
+ }
+ selectLoadout(index){
+  const data=this.data;
+  if(!Number.isInteger(index)||index<0||index>=LOADOUT_SLOTS||index===data.activeLoadout)return false;
+  data.loadouts[data.activeLoadout]=sanitizeLoadout(data.loadout);
+  const kit=sanitizeLoadout(data.loadouts[index]),defaults=defaultLoadout();
+  for(const key of ['primary','secondary'])if(!this.unlocked(WEAPONS[kit[key]]))kit[key]=defaults[key];
+  data.loadout=sanitizeLoadout(kit);
+  data.activeLoadout=index;
+  return true;
  }
  sanitize(){const s=this.data.settings;if(!['simple','advanced'].includes(s.controlProfile))s.controlProfile='simple';for(const [k,a,b]of [['controllerSensitivity',.2,2.5],['controllerADSSensitivity',.2,1.5],['controllerDeadzone',.05,.35],['fov',65,100],['sensitivity',.2,2.5],['adsSensitivity',.2,1.5],['gyroSensitivity',.2,2],['volume',0,1],['ambience',0,1],['music',0,.6],['opacity',.25,1],['buttonScale',.7,1.4]])s[k]=Number.isFinite(+s[k])?Math.max(a,Math.min(b,+s[k])):DEFAULT_SETTINGS[k];s.aimAssist=s.aimAssist!==false;s.frameRate=Number(s.frameRate)===30?30:60;if(!['auto','low','medium','high','ultra'].includes(s.quality))s.quality='auto';if(!['toggle','hold'].includes(s.adsMode))s.adsMode='toggle';if(!s.layout||typeof s.layout!=='object')s.layout={};for(const [key,pos]of Object.entries(s.layout))if(!pos||!Number.isFinite(pos.x)||!Number.isFinite(pos.y))delete s.layout[key];}
  get level(){return 1+Math.floor(Math.sqrt(this.data.xp/450));}
  get nextXP(){return this.level*this.level*450;}
  unlocked(weapon){return this.data.unlockAll||weapon.unlock<=this.level;}
- persist(){try{if(!this.storage?.setItem)throw new Error('Saving unavailable');this.storage.setItem(KEY,JSON.stringify(this.data));this.error=false;return true;}catch{this.error=true;return false;}}
+ persist(){try{if(!this.storage?.setItem)throw new Error('Saving unavailable');this.data.loadouts[this.data.activeLoadout]=sanitizeLoadout(this.data.loadout);this.storage.setItem(KEY,JSON.stringify(this.data));this.error=false;return true;}catch{this.error=true;return false;}}
  finish(result){const record=matchRecord(result);if(record)this.data.matchHistory=[record,...this.data.matchHistory].slice(0,MATCH_HISTORY_LIMIT);this.data.xp+=result.xp;this.data.matches++;this.data.wins+=Number(result.win);this.data.kills+=result.kills;this.data.deaths+=result.deaths;this.data.bestStreak=Math.max(this.data.bestStreak,result.streak);for(const [id,n]of Object.entries(result.weaponKills))this.data.weaponXP[id]=(this.data.weaponXP[id]??0)+n*100;return this.persist();}
 }

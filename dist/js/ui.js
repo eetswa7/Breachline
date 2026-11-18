@@ -1,12 +1,12 @@
-import {MODES,MatchRules} from './modes.js?v=81';
-import {MAPS} from './maps.js?v=81';
-import {drawDeploymentMap} from './deployment-map.js?v=81';
-import {matchSetup} from './save.js?v=81';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=81';
-import {ATTACHMENT_SPECS} from './attachments.js?v=81';
-import {clamp,distance} from './math.js?v=81';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=81';
-import {identityFor,canIdentify} from './combat-identity.js?v=81';
+import {MODES,MatchRules} from './modes.js?v=82';
+import {MAPS} from './maps.js?v=82';
+import {drawDeploymentMap} from './deployment-map.js?v=82';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=82';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=82';
+import {ATTACHMENT_SPECS} from './attachments.js?v=82';
+import {clamp,distance} from './math.js?v=82';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=82';
+import {identityFor,canIdentify} from './combat-identity.js?v=82';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -67,7 +67,31 @@ export class Interface {
  }
 
  setPage(page){this.page=page;for(const b of document.querySelectorAll('[data-page]'))b.classList.toggle('active',b.dataset.page===page);for(const p of document.querySelectorAll('.page'))p.classList.toggle('active',p.id===`${page}-page`);this.app.audio.ui();if(page==='career')this.refreshCareer();if(page==='loadout'){this.renderWeapons();this.app.previewWeapon();}}
- renderWeapons(){const loadout=this.store.data.loadout,chosen=loadout[this.slot],w=new Weapon(chosen,this.slot==='primary'?loadout:{}),d=w.def;for(const b of document.querySelectorAll('[data-slot]'))b.classList.toggle('active',b.dataset.slot===this.slot);
+ renderLoadoutSlots(){
+  const data=this.store.data,group=$('loadout-kits');
+  if(!group.children.length){
+   for(let index=0;index<LOADOUT_SLOTS;index++){
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='secondary-button';
+    button.onclick=()=>{
+     if(!this.store.selectLoadout(index))return;
+     this.persist();
+     this.renderWeapons();
+     this.app.previewWeapon();
+     this.app.audio.ui();
+    };
+    group.append(button);
+   }
+  }
+  for(let index=0;index<LOADOUT_SLOTS;index++){
+   const active=index===data.activeLoadout,kit=active?data.loadout:data.loadouts[index];
+   const button=group.children[index];
+   button.textContent=`Kit ${index+1} · ${WEAPONS[kit.primary].name}`;
+   button.setAttribute('aria-pressed',String(active));
+  }
+ }
+ renderWeapons(){this.renderLoadoutSlots();const loadout=this.store.data.loadout,chosen=loadout[this.slot],w=new Weapon(chosen,this.slot==='primary'?loadout:{}),d=w.def;for(const b of document.querySelectorAll('[data-slot]'))b.classList.toggle('active',b.dataset.slot===this.slot);
   $('weapon-list').innerHTML=WEAPONS.filter(d=>this.slot==='primary'?PRIMARY_IDS.includes(d.id):d.kind==='PISTOL').map(d=>`<button class="weapon-row ${d.id===chosen?'active':''} ${this.store.unlocked(d)?'':'locked'}" data-weapon="${d.id}"><span>${d.name}</span><small>${this.store.unlocked(d)?d.kind:`LV ${d.unlock}`}</small></button>`).join('');
   for(const b of document.querySelectorAll('[data-weapon]'))b.onclick=()=>{const id=+b.dataset.weapon;if(!this.store.unlocked(WEAPONS[id])){this.toast(`Unlocks at operator level ${WEAPONS[id].unlock}.`);return;}loadout[this.slot]=id;this.persist();this.renderWeapons();this.app.previewWeapon();this.app.audio.ui();};
   $('weapon-class').textContent=d.kind;$('weapon-name').textContent=d.name;$('weapon-unlock').textContent=`${this.store.data.weaponXP[d.id]??0} WEAPON XP · ${d.burst?`${d.burst}-ROUND BURST`:d.automatic?'AUTOMATIC':d.shellReload?'PUMP ACTION':d.kind==='SNIPER'?'BOLT ACTION':d.revolver?'REVOLVER':'SEMI AUTOMATIC'}`;

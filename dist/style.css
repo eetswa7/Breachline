@@ -87,3 +87,14 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
   .deployment-figure { width: min(32vh, 100%); }
   .deployment-brief h1 { font-size: clamp(28px, 9vw, 56px); }
 }
+
+.loadout-kits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.loadout-kits button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}

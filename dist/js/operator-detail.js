@@ -1,6 +1,6 @@
-import {weaponModel,muzzlePosition,animateWeaponParts,prepareWeaponAnimation} from './weapon-models.js?v=81';
-import {clamp} from './math.js?v=81';
-import {poseSegment,transformOperatorPose} from './actor-pose.js?v=81';
+import {weaponModel,muzzlePosition,animateWeaponParts,prepareWeaponAnimation} from './weapon-models.js?v=82';
+import {clamp} from './math.js?v=82';
+import {poseSegment,transformOperatorPose} from './actor-pose.js?v=82';
 
 const templates=new Map(),MAX_TEMPLATES=32;
 function template(w){
