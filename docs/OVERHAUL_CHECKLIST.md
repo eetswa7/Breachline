@@ -32,6 +32,19 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 73 continuation tasks
+
+- [x] Rework the Blacksite hall floor and overhead service infrastructure.
+  Runtime source `cf32399` adds a cross-hall aisle, machinery bays, and native
+  cable trays, pipe racks and duct runs without changing collision.
+- [x] Add six authored hall fixtures with individual light levels and color
+  using the existing three-light budget. Keep catwalks open acoustically and
+  apply the room response to generic impacts. Runtime source `cf32399`.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review gameplay images, audio, and physical iPhone performance. This
+  checkpoint does not establish the final Blacksite production standard.
+
 ## Release 72 continuation tasks
 
 Scoped progress for 18 October 2026, continuing from merged Release 71

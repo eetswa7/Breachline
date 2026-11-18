@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 72.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 73.** 30 weapons, 16 maps and 11 modes.
+
+## Release 73: Blacksite turbine hall
+
+The turbine hall now has distinct access aisles and equipment bays, overhead
+service runs, and six industrial fixtures with cool local lighting. Its open
+approaches and interior have different acoustic responses, including impacts.
+The new hall dressing uses existing native assets and preserves the layout.
 
 ## Release 72: operator reload exchange
 
