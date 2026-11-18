@@ -37,6 +37,12 @@ const storm = {
   cloudStretch: .82, solarPower: .16, solarFocus: 16, coronaPower: .12
 };
 
+const night={
+  ...overcast,sunColor:0xa6c9ff,sunPower:.44,fillPower:.58,fogNear:18,fogFar:96,
+  haze:.06,hazeColor:[.12,.18,.31],cloudBase:.33,cloudWeight:.67,cloudLight:.15,
+  solarPower:.28,solarFocus:220,coronaPower:.04
+};
+
 const maps = [
   { ...marine, cloudOffset: .17 },
   { ...overcast, cloudOffset: .29, cloudTint: [.83, .89, .93] },
@@ -57,6 +63,7 @@ const maps = [
 ];
 
 export function weatherLighting(info) {
+  if(info.night)return night;
   const authored = maps[info.id];
   if (authored) return authored;
   if (info.weather === 'rain') return storm;

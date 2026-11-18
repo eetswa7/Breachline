@@ -1,17 +1,18 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=105';
-import {MODES} from './modes.js?v=105';
-import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=105';
-import {MAPS} from './maps.js?v=105';
-import {restoreOperation,finishOperationBattle} from './operation.js?v=105';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=106';
+import {MODES} from './modes.js?v=106';
+import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=106';
+import {MAPS} from './maps.js?v=106';
+import {restoreOperation,finishOperationBattle} from './operation.js?v=106';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){
  if(!result||!MODES.some(m=>m.id===result.mode)||!Number.isInteger(result.map)||!MAPS[result.map])return null;
- return {mode:result.mode,map:result.map,difficulty:['recruit','regular','veteran'].includes(result.difficulty)?result.difficulty:'regular',completedAt:Number.isFinite(completedAt)&&completedAt>0?Math.min(completedAt,8640000000000000):null,outcome:result.draw?'draw':result.win?'win':'loss',overtime:result.overtime===true,kills:count(result.kills),assists:count(result.assists),waves:count(result.waves,6),salvage:count(result.salvage,800),raidPayout:count(result.raidPayout??result.salvage,1600),raidPlan:raidInsertion(result.raidPlan)?.id??null,deaths:count(result.deaths),headshots:count(result.headshots),accuracy:count(result.accuracy,100),xp:count(result.xp),objectiveXP:count(result.xpBreakdown?.objective??result.objectiveXP),streak:count(result.streak),time:count(result.time,86400)};
+ return {mode:result.mode,map:result.map,difficulty:['recruit','regular','veteran'].includes(result.difficulty)?result.difficulty:'regular',completedAt:Number.isFinite(completedAt)&&completedAt>0?Math.min(completedAt,8640000000000000):null,outcome:result.draw?'draw':result.win?'win':'loss',overtime:result.overtime===true,night:result.night===true,kills:count(result.kills),assists:count(result.assists),waves:count(result.waves,6),salvage:count(result.salvage,800),raidPayout:count(result.raidPayout??result.salvage,1600),raidPlan:raidInsertion(result.raidPlan)?.id??null,deaths:count(result.deaths),headshots:count(result.headshots),accuracy:count(result.accuracy,100),xp:count(result.xp),objectiveXP:count(result.xpBreakdown?.objective??result.objectiveXP),streak:count(result.streak),time:count(result.time,86400)};
 }
 export function matchSetup(value) {
  return {
   map:Number.isInteger(value?.map)&&MAPS[value.map]?value.map:14,
+  night:value?.night===true,
   mode:MODES.some(mode=>mode.id===value?.mode)?value.mode:'tdm',
   difficulty:['recruit','regular','veteran'].includes(value?.difficulty)?value.difficulty:'regular'
  };

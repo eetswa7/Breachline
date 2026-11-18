@@ -1,18 +1,18 @@
-import {MatchRecording,ReplayCursor} from './replay.js?v=105';
-import {raidInsertion} from './raid.js?v=105';
-import {operationBattle} from './operation.js?v=105';
-import {Game,emptyInput} from './engine.js?v=105';
-import {Renderer} from './three-renderer.js?v=105';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=105';
-import {TouchInput} from './input.js?v=105';
-import {AudioSystem} from './audio.js?v=105';
-import {SaveStore} from './save.js?v=105';
-import {Interface,$} from './ui.js?v=105';
-import {Weapon} from './weapons.js?v=105';
-import {opticMagnification} from './aim.js?v=105';
-import {FramePacer} from './frame-pacer.js?v=105';
-import {BenchmarkController} from './benchmark.js?v=105';
-import {updateAimAssist} from './aim-assist.js?v=105';
+import {MatchRecording,ReplayCursor} from './replay.js?v=106';
+import {raidInsertion} from './raid.js?v=106';
+import {operationBattle} from './operation.js?v=106';
+import {Game,emptyInput} from './engine.js?v=106';
+import {Renderer} from './three-renderer.js?v=106';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=106';
+import {TouchInput} from './input.js?v=106';
+import {AudioSystem} from './audio.js?v=106';
+import {SaveStore} from './save.js?v=106';
+import {Interface,$} from './ui.js?v=106';
+import {Weapon} from './weapons.js?v=106';
+import {opticMagnification} from './aim.js?v=106';
+import {FramePacer} from './frame-pacer.js?v=106';
+import {BenchmarkController} from './benchmark.js?v=106';
+import {updateAimAssist} from './aim-assist.js?v=106';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -74,7 +74,8 @@ export class Application {
   else if(pad.edges[12])this.openSquadOrders();
   if(this.playing&&!this.game.paused&&this.game.rules.phase!=='finished'){
    this.input.aimAssistGain=this.isTouch?updateAimAssist(this.aimAssistState??(this.aimAssistState={}),this.game,dt,this.store.data.settings.aimAssist!==false):1;
-   this.input.crouched=this.game.player.crouched;this.input.scopeScale=1/Math.sqrt(opticMagnification(this.game.player.weapon));const next=this.benchmark?.stress||this.replayPlayer?emptyInput():this.input.sample(dt);this.pending.mx=next.mx;this.pending.mz=next.mz;this.pending.lx+=next.lx;this.pending.ly+=next.ly;for(const key of ['fire','ads','sprint','interact','repeatFire','autoReload'])this.pending[key]=next[key];for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]||=next[key];
+   this.input.crouched=this.game.player.crouched;this.input.scopeScale=1/Math.sqrt(opticMagnification(this.game.player.weapon));const next=this.benchmark?.stress||this.replayPlayer?emptyInput():this.input.sample(dt);this.pending.mx=next.mx;this.pending.mz=next.mz;this.pending.lx+=next.lx;this.pending.ly+=next.ly;for(const key of ['fire','ads','sprint','interact','repeatFire','autoReload'])this.pending[key]=next[key];for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee','light'])this.pending[key]||=next[key];
+   if(!this.replayPlayer&&pad.edges[15])this.pending.light=true;
    const speed=this.replayPlayer?this.replaySpeed:1;
    this.accumulator=Math.min(.1*speed,this.accumulator+dt*speed);
    let steps=0;
@@ -91,7 +92,7 @@ export class Application {
     }
     this.accumulator-=1/60;
     this.pending.lx=this.pending.ly=0;
-    for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]=false;
+    for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee','light'])this.pending[key]=false;
    }
    if(this.benchmark?.enabled)this.benchmark.events(this.game.events);this.renderer.events(this.game.events,this.game);this.audio.events(this.game.events,this.game);this.ui.events(this.game.events);this.game.events.length=0;this.ui.update(dt);if(!this.replayPlayer&&this.game.awaitingSurvivalSupport)this.pause();
   }else if(!this.playing)this.game.time+=dt;

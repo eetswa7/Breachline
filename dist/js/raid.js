@@ -1,5 +1,5 @@
-import {Weapon,WEAPONS} from './weapons.js?v=105';
-import {distance} from './math.js?v=105';
+import {Weapon,WEAPONS} from './weapons.js?v=106';
+import {distance} from './math.js?v=106';
 
 export const RAID_INSERTIONS = [
  {id:'standard',name:'Standard',cost:0,armor:0,hostiles:6,time:240,extract:4,minimum:1,multiplier:1,description:'Three operators against six defenders.'},

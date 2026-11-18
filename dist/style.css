@@ -120,3 +120,8 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 
 .replay-status{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#0c1718e8;border:1px solid var(--line);padding:7px 12px;color:var(--cyan);font-size:10px;letter-spacing:.8px}
 #career-replay{margin-bottom:8px}
+
+.night-toggle{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:10px;letter-spacing:1px;margin:6px 0}
+.night-toggle input{accent-color:var(--accent);margin:0}
+.flashlight-button{position:fixed;z-index:9;right:max(18px,env(safe-area-inset-right));top:52px;border:1px solid #fff4;background:#0c1718bc;height:31px;min-width:37px;pointer-events:auto;font-size:9px}
+.flashlight-button[aria-pressed="true"]{background:#bcdbef;color:#101b26}

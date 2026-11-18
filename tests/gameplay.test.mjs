@@ -63,6 +63,20 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const night=duel('tdm');
+ night.g.config.night=true;
+ night.t.z=-25;
+ assert(!night.g.canSee(night.p,night.t));
+ night.p.yaw=0;night.p.pitch=0;
+ night.g.update(1/60,{...emptyInput(),light:true});
+ assert(night.p.light);
+ assert(night.g.canSee(night.p,night.t));
+ assert(night.g.canSee(night.t,night.p));
+ night.g.update(1/60,{...emptyInput(),light:true});
+ assert(!night.p.light);
+ night.t.lastShot=night.g.time;
+ assert(night.g.canSee(night.p,night.t));
+
  const raidGame=new Game({mode:'raid',map:16},{seed:891}),raid=raidGame.rules.raid;
  const salvager=raidGame.player,raidGuard=raidGame.actors.find(actor=>actor.team===1);
  raidGame.arena.visible=()=>true;

@@ -1,4 +1,4 @@
-import {clamp,lerp} from './math.js?v=105';
+import {clamp,lerp} from './math.js?v=106';
 
 export function beginVault(actor,arena,dx,dz){
  const length=Math.hypot(dx,dz);

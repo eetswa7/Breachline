@@ -1,15 +1,15 @@
-import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=105';
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=105';
-import {Convoy} from './convoy.js?v=105';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=105';
-import {MAPS} from './maps.js?v=105';
-import {drawDeploymentMap} from './deployment-map.js?v=105';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=105';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=105';
-import {ATTACHMENT_SPECS} from './attachments.js?v=105';
-import {clamp,distance} from './math.js?v=105';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=105';
-import {identityFor,canIdentify} from './combat-identity.js?v=105';
+import {Raid,RAID_INSERTIONS,RAID_STASH_LIMIT,raidInsertion} from './raid.js?v=106';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=106';
+import {Convoy} from './convoy.js?v=106';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=106';
+import {MAPS} from './maps.js?v=106';
+import {drawDeploymentMap} from './deployment-map.js?v=106';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=106';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=106';
+import {ATTACHMENT_SPECS} from './attachments.js?v=106';
+import {clamp,distance} from './math.js?v=106';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=106';
+import {identityFor,canIdentify} from './combat-identity.js?v=106';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const GADGET_NAMES={shield:'DEPLOYABLE SHIELD',sensor:'PULSE SENSOR'};
@@ -26,6 +26,11 @@ export class Interface {
   for(const button of $('map-selector').children)button.onclick=()=>this.configureMatch({map:Number(button.dataset.map)});
   $('difficulty').value=this.app.config.difficulty;
   $('difficulty').onchange=()=>this.configureMatch({difficulty:$('difficulty').value});
+  $('night-ops').checked=!!this.app.config.night;
+  $('night-ops').onchange=()=>this.configureMatch({night:$('night-ops').checked});
+  const light=$('flashlight-button');
+  light.onclick=()=>{if(this.app.playing&&!this.app.replayPlayer&&this.app.input.active)this.app.input.actions.light=true;};
+  document.body.append(light);
   $('deploy').onclick=()=>this.app.config.mode==='raid'?this.raidBoard():this.app.start();
   $('career-replay').onclick=()=>this.app.start(null,this.app.lastReplay);
   $('operation-board').onclick=()=>this.operationBoard();
@@ -48,7 +53,7 @@ export class Interface {
  configureMatch(change){
   const setup=matchSetup({...this.app.config,...change});
   Object.assign(this.app.config,setup);
-  if(this.app.game.arena.info.id!==setup.map)this.app.previewMap(setup.map);
+  if(this.app.game.arena.info.id!==setup.map||!!this.app.game.arena.info.night!==setup.night)this.app.previewMap(setup.map);
   this.store.data.matchSetup=setup;
   this.persist();this.deploymentBrief();this.app.audio.ui();
  }
@@ -58,7 +63,7 @@ export class Interface {
   const modeDescription=rules.mode.description.replace(/^4 vs 4\. /,'');
   $('mode-detail').textContent=`${mode==='raid'?'3 raiders vs 6 defenders':mode==='survival'?'3-operator squad':rules.mode.teams?`${teamSize} vs ${teamSize}`:`${teamSize*2} operators`} · ${modeDescription}`;
   $('selected-map-label').textContent=info.name;
-  $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across`;
+  $('selected-map-type').textContent=`${info.location} · ${2*info.size} m across${this.app.config.night?' · NIGHT OPS':''}`;
   $('selected-map-description').textContent=info.description;
   $('map-count').textContent=`${String(map+1).padStart(2,'0')} / ${MAPS.length}`;
   for(const button of $('map-selector').children){
@@ -126,10 +131,10 @@ export class Interface {
  refreshCareer(){show('career-replay',!!this.app.lastReplay);const d=this.store.data,l=this.store.level;$('level-badge').textContent=String(l).padStart(2,'0');$('career-xp').textContent=`${d.xp.toLocaleString()} XP`;$('career-stats').innerHTML=[['MATCHES',d.matches],['VICTORIES',d.wins],['ELIMINATIONS',d.kills],['BEST STREAK',d.bestStreak]].map(([k,v])=>`<div class="career-stat"><strong>${v}</strong><span>${k}</span></div>`).join('');$('progress-label').textContent=`LEVEL ${l} · ${d.xp} / ${this.store.nextXP} XP`;$('xp-progress').style.width=`${(d.xp-(l-1)**2*450)/(this.store.nextXP-(l-1)**2*450)*100}%`;this.renderMatchHistory();}
  renderMatchHistory(){const history=this.store.data.matchHistory??[],wins=history.filter(r=>r.outcome==='win').length,kills=history.reduce((n,r)=>n+r.kills,0),deaths=history.reduce((n,r)=>n+r.deaths,0);
   $('recent-form').textContent=history.length?`${history.length} recent ${history.length===1?'match':'matches'} · ${wins} ${wins===1?'victory':'victories'} · ${deaths?(kills/deaths).toFixed(2):kills} K/D`:'Complete a match to start your record. Your last 12 results stay on this device.';
-  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}${r.raidPlan?` · ${raidInsertion(r.raidPlan).name.toUpperCase()}`:''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.mode==='raid'?[['SALVAGE',r.salvage],['PAYOUT',r.raidPayout]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
+  $('match-history-list').innerHTML=history.map(r=>{const date=r.completedAt?new Date(r.completedAt):null,mode=MODES.find(m=>m.id===r.mode);return `<article class="match-record"><div class="match-record-heading"><strong class="match-outcome ${r.outcome}">${r.outcome==='win'?'VICTORY':r.outcome==='draw'?'DRAW':'DEFEAT'}</strong><span>${date?`<time datetime="${date.toISOString()}">${esc(date.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time>`:'Date unavailable'}</span></div><h4>${esc(MAPS[r.map].name)} <span>· ${esc(mode.short)}</span></h4><p class="match-context">${esc(r.difficulty.toUpperCase())} · ${duration(r.time)}${r.overtime?' · OVERTIME':''}${r.night?' · NIGHT OPS':''}${r.raidPlan?` · ${raidInsertion(r.raidPlan).name.toUpperCase()}`:''}</p><dl class="match-record-stats">${[['K / D',`${r.kills} / ${r.deaths}`],...(r.mode==='survival'?[['WAVES CLEARED',r.waves]]:[]),...(r.mode==='raid'?[['SALVAGE',r.salvage],['PAYOUT',r.raidPayout]]:[]),...(r.assists?[['ASSISTS',r.assists]]:[]),['ACCURACY',`${r.accuracy}%`],['HEADSHOTS',r.headshots],['BEST STREAK',r.streak],...(r.objectiveXP?[['OBJECTIVE XP',`+${r.objectiveXP}`]]:[]),['XP',`+${r.xp}`]].map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></article>`;}).join('');
  }
  play(){$('hud').classList.remove('spectating');this.app.input.layer.classList.remove('round-spectating');show('spectator-status',false);this.identityClock=0;this.identityMarkers.clear();$('combat-labels').replaceChildren();const teams=this.app.game.rules.mode.teams;$('team-blue-label').textContent=teams?'ALLIES ◆':'YOU';$('team-red-label').textContent=teams?'ENEMIES ▼':'LEADER';this.app.input.mode=this.app.game.rules.mode.id;show('menu',false);show('hud',true);show('touch-layer',!this.app.replayPlayer);show('pause-button',true);show('modal',false);document.body.classList.add('playing');this.feed=[];$('killfeed').replaceChildren();$('radar-map').textContent=this.app.game.arena.info.name;$('hud-mode').textContent=this.app.game.rules.mode.name;this.app.input.layout();this.app.orientation();}
- menu(){show('squad-button',false);this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
+ menu(){show('flashlight-button',false);show('squad-button',false);this.app.input.mode=null;show('hud',false);show('touch-layer',false);show('pause-button',false);show('modal',false);show('rotation-hint',false);show('menu',true);document.body.classList.remove('playing');this.deploymentBrief();this.refreshCareer();}
  modal(title,caption,body,buttons){$('modal-title').textContent=title;$('modal-caption').textContent=caption;$('modal-content').innerHTML=body;$('modal-actions').replaceChildren();for(const [label,fn,primary]of buttons){const b=document.createElement('button');b.textContent=label;b.className=primary?'primary-button':'secondary-button';b.onclick=fn;$('modal-actions').append(b);}show('modal',true);$('modal-actions').firstElementChild?.focus();}
  raidBoard(){
   const balance=this.store.data.raidWallet;
@@ -231,7 +236,7 @@ export class Interface {
   else if(direction&&el.type==='range'){el.value=String(Math.max(+el.min,Math.min(+el.max,+el.value+direction*(+el.step||1))));el.dispatchEvent(new Event('input',{bubbles:true}));}
   else if(e[0]&&el.tagName!=='SELECT'&&el.type!=='range')el.click();
  }
- controlsHelp(){this.modal('CONTROLS','FIELD MANUAL',`<p><strong>Two thumbs:</strong> Push the left stick forward to run. Hold and drag the big FIRE pad to aim and shoot with one thumb. Tap AIM to look down the sights without firing. Empty magazines reload automatically. Touch aim slows over visible enemies for finer control; switch Touch aim slowdown off in Settings for raw sensitivity.</p><p>Tap JUMP to jump, vault low cover or mantle reachable ledges while moving towards them. Jumps carry your momentum; hold it while moving fast to slide, or hold while still to crouch. Tap CROUCH to toggle stance in Advanced controls. A slide lasts briefly and has a short recovery. Reload and switch are on the small bottom strip. Tap SWAP to switch; hold it to inspect both sides of your weapon. Inspection ends as soon as you aim, fire or use another action. Interact appears only when an objective is in reach.</p><p><strong>Desktop:</strong> WASD move · Mouse aim · Click fire · Right-click ADS · R reload · Q switch · F inspect · Shift sprint · C crouch or slide while sprinting · Space jump · G grenade · E interact · V melee · B squad orders · Escape pause.</p><p><strong>Controller:</strong> DualSense: left stick move · Right stick aim · R2 fire · L2 hold ADS · Cross jump · Circle crouch or slide while sprinting · Square reload / hold to interact at objectives · Triangle switch · D-pad down inspect · D-pad up squad orders · L1 grenade · R1 or R3 melee · L3 sprint · Options pause / resume. D-pad up/down selects menu controls, left/right changes values, Cross confirms. Pair in iPhone Bluetooth settings, open the game and press a controller button. Release sticks and buttons after connecting or resuming. Touch controls remain available.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
+ controlsHelp(){this.modal('CONTROLS','FIELD MANUAL',`<p><strong>Two thumbs:</strong> Push the left stick forward to run. Hold and drag the big FIRE pad to aim and shoot with one thumb. Tap AIM to look down the sights without firing. Empty magazines reload automatically. Touch aim slows over visible enemies for finer control; switch Touch aim slowdown off in Settings for raw sensitivity.</p><p>Tap JUMP to jump, vault low cover or mantle reachable ledges while moving towards them. Jumps carry your momentum; hold it while moving fast to slide, or hold while still to crouch. Tap CROUCH to toggle stance in Advanced controls. A slide lasts briefly and has a short recovery. Reload and switch are on the small bottom strip. Tap SWAP to switch; hold it to inspect both sides of your weapon. Inspection ends as soon as you aim, fire or use another action. Interact appears only when an objective is in reach.</p><p><strong>Desktop:</strong> WASD move · Mouse aim · Click fire · Right-click ADS · R reload · Q switch · F inspect · Shift sprint · C crouch or slide while sprinting · Space jump · G grenade · E interact · V melee · B squad orders · T flashlight · Escape pause.</p><p><strong>Controller:</strong> DualSense: left stick move · Right stick aim · R2 fire · L2 hold ADS · Cross jump · Circle crouch or slide while sprinting · Square reload / hold to interact at objectives · Triangle switch · D-pad down inspect · D-pad up squad orders · D-pad right flashlight · L1 grenade · R1 or R3 melee · L3 sprint · Options pause / resume. D-pad up/down selects menu controls, left/right changes values, Cross confirms. Pair in iPhone Bluetooth settings, open the game and press a controller button. Release sticks and buttons after connecting or resuming. Touch controls remain available.</p>`,[['GOT IT',()=>this.closeModal(),true]]);}
  developer(){if(this.app.replayPlayer)return;if(this.app.playing){this.app.recording=null;this.app.game.paused=true;this.app.input.reset();this.app.input.active=false;document.exitPointerLock?.();}const g=this.app.game;this.modal('DEVELOPER TOOLS','TESTING',`<p>FPS: ${this.app.renderer.fps} · Bots: ${g.actors.length-1}<br>${this.app.renderer.diagnostics?.().replaceAll('\n','<br>')??'Compatibility graphics'}<br>Position: ${g.player.x.toFixed(1)}, ${g.player.y.toFixed(1)}, ${g.player.z.toFixed(1)} m<br>God mode: ${g.debug.god?'ON':'OFF'} · Unlimited ammunition: ${g.debug.ammo?'ON':'OFF'}</p>`,[['GOD MODE',()=>{g.debug.god=!g.debug.god;this.developer();}],['UNLIMITED AMMO',()=>{g.debug.ammo=!g.debug.ammo;this.developer();}],['UNLOCK EVERYTHING',()=>{this.store.data.unlockAll=true;this.persist();this.renderWeapons();this.toast('All weapons unlocked.');}],['SPAWN ENEMY',()=>{g.spawnBot();this.developer();}],['FPS OVERLAY',()=>{this.debugVisible=!this.debugVisible;this.developer();}],['RESTART MATCH',()=>this.app.start()],['CLOSE',()=>{if(this.app.playing)this.app.resume();else this.closeModal();},true]]);}
  toast(text){$('toast').textContent=text;show('toast',true);clearTimeout(this.toastTimer);this.toastTimer=setTimeout(()=>show('toast',false),4000);}
  events(events){const g=this.app.game;for(const e of events){if(e.type==='hit'){this.hitUntil=g.time+.12;$('hitmarker').classList.toggle('head',e.headshot);}
@@ -244,6 +249,8 @@ export class Interface {
   $('grenade-count').textContent=`${GADGET_NAMES[p.equipment]??p.equipment.toUpperCase()} · ${p.grenades}`;
   const replay=this.app.replayPlayer;
   show('squad-button',!replay&&g.canCommandSquad);
+  show('flashlight-button',!replay&&g.config.night&&!p.dead&&r.phase!=='finished');
+  $('flashlight-button').setAttribute('aria-pressed',String(p.light));
   show('replay-status',!!replay);
   if(replay)$('replay-status').textContent=`REPLAY · ${duration(replay.tick/60)} / ${duration(replay.recording.ticks/60)} · ${this.app.replaySpeed}×`;
   const order=g.activeSquadOrder;

@@ -1,31 +1,31 @@
-import {Arena,MAPS} from './maps.js?v=105';
-import {Navigation} from './navigation.js?v=105';
-import {SpawnDirector} from './spawns.js?v=105';
-import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=105';
-import {Convoy} from './convoy.js?v=105';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=105';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=105';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=105';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=105';
-import {traceBullet} from './ballistics.js?v=105';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=105';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=105';
+import {Arena,MAPS} from './maps.js?v=106';
+import {Navigation} from './navigation.js?v=106';
+import {SpawnDirector} from './spawns.js?v=106';
+import {Raid,raidInsertion,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=106';
+import {Convoy} from './convoy.js?v=106';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=106';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=106';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=106';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=106';
+import {traceBullet} from './ballistics.js?v=106';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=106';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=106';
 
-export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
+export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false,light:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
 export class Actor {
  constructor(id,team,role,loadout){this.id=id;this.name=names[id]??`OPERATOR ${id}`;this.team=team;this.role=role;this.weapons=[new Weapon(loadout?.primary??(role===0&&id%2?13:role===1&&id%2===0?14:ROLES[role].weapon),loadout),new Weapon(loadout?.secondary??10)];this.equipment=loadout?.equipment??'frag';this.slot=0;this.kills=0;this.assists=0;this.revives=0;this.deaths=0;this.captures=0;this.confirms=0;this.denies=0;this.streak=0;this.bestStreak=0;this.gunStage=0;this.hillScore=0;this.objectiveXP=0;this.reset({x:0,y:0,z:0},0);}
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.ride=null;this.ziplineCooldown=0;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.dropPending=false;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.ride=null;this.light=false;this.ziplineCooldown=0;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.dropPending=false;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {
  constructor(config={},options={}){
   const seed=options.seed??Date.now(),arsenalRandom=rng((seed^0x51b4e329)>>>0);
-  this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
-  this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);if(this.rules.mode.id==='raid'){
+  this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',night:config.night===true,loadout:sanitizeLoadout(config.loadout)};
+  this.arena=new Arena(this.config.map,this.config.night);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);if(this.rules.mode.id==='raid'){
    const plan=raidInsertion(config.raidPlan)??raidInsertion('standard');
    this.config.raidPlan=plan.id;
    const startingWeapon=restoreRaidWeapon(config.raidGear);
@@ -303,7 +303,18 @@ export class Game {
   a.reset(p,p.yaw);a.vault=null;
  }
  resetRound(){this.squadOrder=null;this.fieldWeapons.length=0;this.clearDeployables();this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
- canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
+ canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);
+  if(this.config.night){
+   const gap=distance(a,b),illuminated=b.light||this.time-b.lastShot<1;
+   if(gap>16&&!illuminated){
+    if(!a.light||gap>36)return false;
+    const beam=direction(a.yaw,a.pitch);
+    const alignment=(beam.x*(to.x-from.x)+beam.y*(to.y-from.y)+beam.z*(to.z-from.z))/Math.max(gap,.01);
+    if(alignment<.89)return false;
+   }
+   if(gap>55)return false;
+  }
+  if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;
   // Releasing the stick in flight retains launch momentum. Ground friction
@@ -328,6 +339,7 @@ export class Game {
   if(this.paused||this.rules.phase==='finished')return;dt=clamp(dt,0,1/30);this.time+=dt;
   if(this.rules.phase==='roundBreak'){this.rules.update(dt,this);return;}
   const p=this.player;
+  if(this.config.night&&input.light&&!p.dead)p.light=!p.light;
   this.updateGates(dt);
   for(const a of this.actors){
    if(a.dead){
@@ -560,7 +572,7 @@ export class Game {
   const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
   const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,revives:p.revives*150,objective:p.objectiveXP,salvage:r.raid?.banked??0,victory:win?350:0};
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
-  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,operation:this.operation,
+  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,night:this.config.night,win,draw:r.winner===-1,overtime:r.overtime,operation:this.operation,
    kills:p.kills,assists:p.assists,revives:p.revives,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
    xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time,salvage:r.raid?.banked,raidPayout:r.raid?.payout,raidPlan:r.raid?.plan.id,raidRecovered:r.raid&&win?p.weapons.filter(weapon=>weapon.raidClaim&&weapon.ammo+weapon.reserve>0).map(raidWeaponRecord):[],waves:this.survival?r.scores[0]:undefined};
  }

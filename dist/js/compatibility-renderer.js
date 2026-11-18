@@ -1,16 +1,16 @@
-import {updateWeaponClearance} from './weapon-clearance.js?v=105';
-import {animateWeaponParts} from './weapon-models.js?v=105';
-import {muzzleFlash} from './firing-presentation.js?v=105';
-import {identityFor} from './combat-identity.js?v=105';
-import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=105';
-import {weaponModel,actorModel,fieldWeaponParts,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=105';
-import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=105';
-import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=105';
-import {loadImages} from './textures.js?v=105';
-import {weatherParticles} from './particles.js?v=105';
-import {operatorTorso,operatorLimb} from './operator-meshes.js?v=105';
-import {weatherLighting} from './weather-lighting.js?v=105';
-import {actorDeathProgress} from './actor-pose.js?v=105';
+import {updateWeaponClearance} from './weapon-clearance.js?v=106';
+import {animateWeaponParts} from './weapon-models.js?v=106';
+import {muzzleFlash} from './firing-presentation.js?v=106';
+import {identityFor} from './combat-identity.js?v=106';
+import {identity,lookAt,multiply,compose,direction,clamp,lerp,distance} from './math.js?v=106';
+import {weaponModel,actorModel,fieldWeaponParts,part,material,makeCube,makeCylinder,makeSphere} from './geometry.js?v=106';
+import {roundedBox,tube,leafCard,rockMesh,ridgeMesh,ridgeTint,coniferMesh,coniferTint,strataRockMesh,strataTint} from './meshes.js?v=106';
+import {aimFov,verticalFov,scopeVisible,weaponPose,movementFov} from './aim.js?v=106';
+import {loadImages} from './textures.js?v=106';
+import {weatherParticles} from './particles.js?v=106';
+import {operatorTorso,operatorLimb} from './operator-meshes.js?v=106';
+import {weatherLighting} from './weather-lighting.js?v=106';
+import {actorDeathProgress} from './actor-pose.js?v=106';
 
 const corners=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];
 const faces=[[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]];
@@ -161,6 +161,16 @@ export class CompatibilityRenderer {
   for(const w of weatherParticles(this,game.time??0))polygons.push(...this.box(part(w.x,w.y,w.z,w.sizeX,w.sizeY,w.sizeZ,w.kind?'white':'stone',{yaw:w.yaw,color:w.color})));
   this.paint(polygons);
   for(const smoke of game.smokes){const from=this.eye,d=Math.hypot(smoke.x-from.x,smoke.z-from.z);if(d<7){c.fillStyle=`rgba(118,128,128,${clamp((7-d)/7,0,.8)*Math.min(1,smoke.age)})`;c.fillRect(0,0,width,height);}}
+  if(this.arena.info.night){
+   if(!menu&&p.light&&!p.dead){
+    const beam=c.createRadialGradient(width*.5,height*.5,0,width*.5,height*.5,Math.max(width,height)*.66);
+    beam.addColorStop(0,'rgba(6,13,29,.06)');
+    beam.addColorStop(.38,'rgba(6,13,29,.28)');
+    beam.addColorStop(1,'rgba(4,9,21,.76)');
+    c.fillStyle=beam;
+   }else c.fillStyle='rgba(4,9,23,.70)';
+   c.fillRect(0,0,width,height);
+  }
   if(!spectating&&!p.dead&&!p.ride&&(menu||!scopeVisible(p))){
    const weapon=p.weapon,key=[weapon.def.id,weapon.optic,weapon.barrel,weapon.grip,weapon.magazine,weapon.ammunition].join('/');if(key!==this.weaponKey){this.weaponKey=key;this.weaponParts=weaponModel(weapon,{reloadExchange:true});}animateWeaponParts(this.weaponParts,weapon,p,game.time,menu);
    if(menu)p.weaponObstruction=0;else updateWeaponClearance(this.weaponClearanceState??(this.weaponClearanceState={}),this.arena,p,game.paused?0:dt);const pose=weaponPose(p,game.time,this.settings.motion!==false,menu);compose(this.parent,pose.x,pose.y,pose.z,pose.scale,pose.scale,pose.scale,pose.yaw,pose.pitch,pose.roll);
