@@ -1,13 +1,13 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=93';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=93';
-import {MAPS} from './maps.js?v=93';
-import {drawDeploymentMap} from './deployment-map.js?v=93';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=93';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=93';
-import {ATTACHMENT_SPECS} from './attachments.js?v=93';
-import {clamp,distance} from './math.js?v=93';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=93';
-import {identityFor,canIdentify} from './combat-identity.js?v=93';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=94';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=94';
+import {MAPS} from './maps.js?v=94';
+import {drawDeploymentMap} from './deployment-map.js?v=94';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=94';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=94';
+import {ATTACHMENT_SPECS} from './attachments.js?v=94';
+import {clamp,distance} from './math.js?v=94';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=94';
+import {identityFor,canIdentify} from './combat-identity.js?v=94';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -145,7 +145,19 @@ export class Interface {
  }
  closeModal(){show('modal',false);}
  scoreboard(){const g=this.app.game,id=g.rules.mode.id,key=id==='ctf'?'captures':id==='hill'?'hillScore':id==='gun'?'gunStage':id==='confirmed'?'confirms':null,heading=id==='ctf'?'CAP':id==='hill'?'HILL':id==='gun'?'TIER':id==='confirmed'?'CONF':id==='elimination'?'STATUS':'',actors=g.actors.slice().sort((a,b)=>(key?(b[key]??0)-(a[key]??0):0)||b.kills-a.kills);return `<table><thead><tr><th>OPERATOR</th><th>TEAM</th>${heading?`<th>${heading}</th>`:''}<th>K</th>${g.rules.mode.teams?'<th>A</th>':''}<th>D</th></tr></thead><tbody>${actors.map(a=>`<tr class="${identityFor(a,g.player,g.rules).key}"><td>${a.name}</td><td>${identityFor(a,g.player,g.rules).label}</td>${heading?`<td>${id==='elimination'?a.dead?'DOWN':'ALIVE':id==='gun'?`${Math.min(GUN_ORDER.length,a.gunStage+1)}/${GUN_ORDER.length}`:a[key]??0}</td>`:''}<td>${a.kills}</td>${g.rules.mode.teams?`<td>${a.assists}</td>`:''}<td>${a.deaths}</td></tr>`).join('')}</tbody></table>`;}
- pause(){if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],...(this.app.game.operation?[]:[['RESTART',()=>this.app.start()]]),['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
+ survivalSupport(){
+  const game=this.app.game,next=SURVIVAL_WAVES[game.rules.round];
+  const options=[
+   ['ammo','REARM','Refill the squad’s magazines, reserve ammo and grenades.'],
+   ['armor','ARMOR','Give each squad member 65 points of armor for the next wave.'],
+   ['reinforce','RESERVE GUNNER','Deploy a fourth squad member for the next wave.'],
+   ['bank','SAVE DROP','Keep the drop for a later wave or use it at the supply station.']
+  ];
+  const cards=options.map(([,label,description])=>`<article><h3>${label}</h3><p>${description}</p></article>`).join('');
+  this.modal(next.name.toUpperCase(),`NEXT WAVE · ${game.survival.supplies} DROPS LEFT`,`<div class="operation-missions">${cards}</div>`,
+   options.map(([key,label])=>[label,()=>{if(game.chooseSurvivalSupport(key))this.app.resume();},key==='bank']));
+ }
+ pause(){if(this.app.game.awaitingSurvivalSupport){this.survivalSupport();return;}if(this.app.benchmark?.stress){this.modal('STRESS TEST PAUSED','BENCHMARK MODE','<p>The scripted sequence is suspended. Resume to continue or stop to save an incomplete test.</p>',[['RESUME',()=>this.app.resume(),true],['STOP TEST',()=>this.app.benchmark.stop('stress_cancelled')]]);return;}this.modal('MATCH PAUSED',this.app.game.rules.mode.name,this.scoreboard(),[['RESUME',()=>this.app.resume(),true],...(this.app.game.operation?[]:[['RESTART',()=>this.app.start()]]),['MAIN MENU',()=>this.app.toMenu()],...(this.app.benchmark?[[this.app.benchmark.enabled?'BENCHMARK OFF':'BENCHMARK ON',()=>this.app.benchmark.toggle(!this.app.benchmark.enabled).then(()=>this.pause()).catch(e=>this.toast(e.message))]]:[])]);}
  results(){const g=this.app.game,r=g.result();if(!g.saved){this.store.finish(r);g.saved=true;}this.refreshCareer();const operation=r.operation?this.store.data.operation:null;
  const operationSummary=operation?`<p class="operation-result">${operation.status==='won'?'BLACKSITE TAKEN · OPERATION WON':operation.status==='lost'?'ASSAULT RESERVES EXHAUSTED · OPERATION LOST':r.win?`SECTOR SECURED · ${r.operation.reward}`:`ASSAULT FAILED · ${operation.reserves} RESERVES LEFT`}</p>`:'';
  this.modal(r.draw?'DRAW':r.win?'VICTORY':'DEFEAT',`${g.rules.mode.name}${r.overtime?' · OVERTIME':''}`,`${operationSummary}<div class="result-overview"><div><strong>${r.kills}</strong><span>ELIMINATIONS</span></div><div><strong>${r.deaths}</strong><span>DEATHS</span></div><div><strong>${r.accuracy}%</strong><span>ACCURACY</span></div><div><strong>${r.headshots}</strong><span>HEADSHOTS</span></div></div>${this.scoreboard()}<dl class="match-record-stats result-xp-breakdown">${Object.entries(r.xpBreakdown).filter(([,amount])=>amount>0).map(([label,amount])=>`<div><dt>${label.toUpperCase()}</dt><dd>+${amount} XP</dd></div>`).join('')}</dl><div class="result-xp">+ ${r.xp} TOTAL XP</div>`,[[operation?'WAR CAMPAIGN':'PLAY AGAIN',()=>{if(operation){this.app.toMenu();this.operationBoard();}else this.app.start();},true],['MAIN MENU',()=>this.app.toMenu()]]);}
@@ -182,7 +194,7 @@ export class Interface {
   if(g.survival){
    $('team-blue-label').textContent='WAVES CLEARED';
    $('team-red-label').textContent='ENEMIES LEFT';
-   $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} · ${SURVIVAL_WAVES[r.round-1].name.toUpperCase()} · ${g.survival.supplies} SUPPLY DROPS LEFT`;
+   $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} · ${SURVIVAL_WAVES[r.round-1].name.toUpperCase()} · ${g.survival.supplies} SUPPLY DROPS LEFT${p.armor?` · ${Math.ceil(p.armor)} ARMOR`:''}`;
    const commander=g.survival.commander;
    if(commander&&!commander.dead)$('objective').textContent=g.livingRelayGuards?
     `COMMANDER SHIELDED · ${g.livingRelayGuards} RELAY GUARDS LEFT`:

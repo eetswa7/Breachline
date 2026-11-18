@@ -1,16 +1,16 @@
-import {operationBattle} from './operation.js?v=93';
-import {Game,emptyInput} from './engine.js?v=93';
-import {Renderer} from './three-renderer.js?v=93';
-import {CompatibilityRenderer} from './compatibility-renderer.js?v=93';
-import {TouchInput} from './input.js?v=93';
-import {AudioSystem} from './audio.js?v=93';
-import {SaveStore} from './save.js?v=93';
-import {Interface,$} from './ui.js?v=93';
-import {Weapon} from './weapons.js?v=93';
-import {opticMagnification} from './aim.js?v=93';
-import {FramePacer} from './frame-pacer.js?v=93';
-import {BenchmarkController} from './benchmark.js?v=93';
-import {updateAimAssist} from './aim-assist.js?v=93';
+import {operationBattle} from './operation.js?v=94';
+import {Game,emptyInput} from './engine.js?v=94';
+import {Renderer} from './three-renderer.js?v=94';
+import {CompatibilityRenderer} from './compatibility-renderer.js?v=94';
+import {TouchInput} from './input.js?v=94';
+import {AudioSystem} from './audio.js?v=94';
+import {SaveStore} from './save.js?v=94';
+import {Interface,$} from './ui.js?v=94';
+import {Weapon} from './weapons.js?v=94';
+import {opticMagnification} from './aim.js?v=94';
+import {FramePacer} from './frame-pacer.js?v=94';
+import {BenchmarkController} from './benchmark.js?v=94';
+import {updateAimAssist} from './aim-assist.js?v=94';
 
 export class Application {
  constructor(){this.store=new SaveStore();this.config={...this.store.data.matchSetup,loadout:this.store.data.loadout};this.playing=false;this.starting=false;this.assetsFailed=false;this.resultShown=false;this.accumulator=0;this.pending=emptyInput();this.wakeLock=null;this.last=0;this.framePacer=new FramePacer();
@@ -41,7 +41,7 @@ export class Application {
   }catch(e){this.playing=false;this.game.paused=true;this.input.active=false;this.wakeLock?.release();this.wakeLock=null;document.exitPointerLock?.();this.ui.menu();this.ui.toast(`Match could not start: ${e.message}`);}finally{$('loading').classList.add('hidden');this.starting=false;this.last=0;this.framePacer.reset();}
  }
  pause(){if(!this.playing||this.game.rules.phase==='finished')return;this.game.paused=true;this.input.active=false;this.input.reset();this.aimAssistState={};this.pending=emptyInput();document.exitPointerLock?.();this.audio.pause();this.ui.pause();}
- resume(){if(!this.playing)return;this.ui.closeModal();this.input.reset();this.input.active=true;this.game.paused=false;this.last=0;this.accumulator=0;this.audio.start();if(!this.isTouch)this.lockMouse();this.orientation();}
+ resume(){if(!this.playing)return;if(this.game.awaitingSurvivalSupport)this.game.chooseSurvivalSupport('bank');this.ui.closeModal();this.input.reset();this.input.active=true;this.game.paused=false;this.last=0;this.accumulator=0;this.audio.start();if(!this.isTouch)this.lockMouse();this.orientation();}
  toMenu(){if(this.benchmark?.stress){void this.benchmark.stop('stress_cancelled');return;}this.playing=false;this.game.paused=true;this.input.active=false;this.input.reset();document.exitPointerLock?.();this.audio.stopAmbience?.();this.previewMap(this.config.map);this.ui.menu();this.audio.start();this.wakeLock?.release();this.previewWeapon();}
  previewMap(id){if(this.playing)return;this.game=new Game({...this.config,map:id},{seed:881});this.renderer.setArena(this.game.arena);}
  previewWeapon(){if(this.playing)return;const slot=this.ui?.slot??'primary',id=this.store.data.loadout[slot];this.game.player.weapons[0]=new Weapon(id,slot==='primary'?this.store.data.loadout:{});this.game.player.slot=0;this.renderer.weaponKey='';}
@@ -59,7 +59,7 @@ export class Application {
    this.input.aimAssistGain=this.isTouch?updateAimAssist(this.aimAssistState??(this.aimAssistState={}),this.game,dt,this.store.data.settings.aimAssist!==false):1;
    this.input.crouched=this.game.player.crouched;this.input.scopeScale=1/Math.sqrt(opticMagnification(this.game.player.weapon));const next=this.benchmark?.stress?emptyInput():this.input.sample(dt);this.pending.mx=next.mx;this.pending.mz=next.mz;this.pending.lx+=next.lx;this.pending.ly+=next.ly;for(const key of ['fire','ads','sprint','interact','repeatFire','autoReload'])this.pending[key]=next[key];for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]||=next[key];
    this.accumulator=Math.min(.1,this.accumulator+dt);let steps=0;while(this.accumulator>=1/60&&steps++<6){this.game.update(1/60,this.benchmark?.stressInput()??this.pending);this.accumulator-=1/60;this.pending.lx=this.pending.ly=0;for(const key of ['firePressed','jump','crouch','reload','swap','inspect','grenade','melee'])this.pending[key]=false;}
-   if(this.benchmark?.enabled)this.benchmark.events(this.game.events);this.renderer.events(this.game.events,this.game);this.audio.events(this.game.events,this.game);this.ui.events(this.game.events);this.game.events.length=0;this.ui.update(dt);
+   if(this.benchmark?.enabled)this.benchmark.events(this.game.events);this.renderer.events(this.game.events,this.game);this.audio.events(this.game.events,this.game);this.ui.events(this.game.events);this.game.events.length=0;this.ui.update(dt);if(this.game.awaitingSurvivalSupport)this.pause();
   }else if(!this.playing)this.game.time+=dt;
   const rendered=this.renderer.render(this.game,dt,!this.playing,elapsed);if(this.playing&&!this.game.paused)this.ui.updateIdentities(dt);
   const cpuMs=performance.now()-cpuStart;this.renderer.recordFrame?.(cpuMs,elapsed,activeMatch);if(this.benchmark?.enabled)this.benchmark.endFrame(now,cpuMs,rendered,activeMatch);

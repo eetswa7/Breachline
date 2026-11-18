@@ -75,14 +75,26 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  for(const actor of survival.actors)if(actor.team===1)actor.health=0;
  survival.rules.update(1,survival);
  assert.equal(survival.rules.phase,'roundBreak');
+ assert(survival.chooseSurvivalSupport('armor'));
+ assert.equal(survival.chooseSurvivalSupport('ammo'),false);
  survival.rules.update(6,survival);
  assert.equal(survival.rules.round,2);
  assert.equal(survival.rules.scores[1],6);
  assert(!survival.player.dead);
  assert.equal(survival.player.weapon.reserve,17);
+ assert.equal(survival.player.armor,65);
+ survival.player.spawnProtection=0;
+ const enemy=survival.actors.find(actor=>actor.team===1&&!actor.dead);
+ survival.damage(survival.player,75,enemy);
+ assert.equal(survival.player.armor,0);
+ assert.equal(survival.player.health,90);
 
+ survival.rules.phase='roundBreak';
+ assert(survival.chooseSurvivalSupport('reinforce'));
+ survival.rules.phase='playing';
  survival.rules.round=5;
  survival.startSurvivalWave();
+ assert(!survival.survival.support.dead);
  assert.equal(survival.survival.pending.length,5);
  survival.rules.time=92;
  survival.rules.update(1,survival);
@@ -90,6 +102,7 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  assert.equal(survival.rules.scores[1],12);
  survival.rules.round=6;
  survival.startSurvivalWave();
+ assert(survival.survival.support.dead);
  const commander=survival.survival.commander;
  commander.spawnProtection=0;
  assert.equal(survival.damage(commander,300,survival.player),false);

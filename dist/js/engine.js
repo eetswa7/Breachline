@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=93';
-import {Navigation} from './navigation.js?v=93';
-import {SpawnDirector} from './spawns.js?v=93';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=93';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=93';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=93';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=93';
-import {traceBullet} from './ballistics.js?v=93';
-import {beginVault,advanceVault} from './traversal.js?v=93';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=93';
+import {Arena,MAPS} from './maps.js?v=94';
+import {Navigation} from './navigation.js?v=94';
+import {SpawnDirector} from './spawns.js?v=94';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=94';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=94';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=94';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=94';
+import {traceBullet} from './ballistics.js?v=94';
+import {beginVault,advanceVault} from './traversal.js?v=94';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=94';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -16,7 +16,7 @@ export class Actor {
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {
@@ -28,7 +28,7 @@ export class Game {
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
-  this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[]}:null;
+  this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[],decision:null,support:null}:null;
   this.teamSize=survival?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
   // simulation randomness stable as the weapon catalogue grows.
@@ -43,7 +43,8 @@ export class Game {
   this.grenades.length=0;this.smokes.length=0;this.casings.length=0;
   for(const actor of this.actors)if(actor.team===1)actor.health=0;
   for(const ally of this.actors){
-   if(ally.team!==0)continue;
+   if(ally.team!==0||ally===this.survival.support)continue;
+   ally.armor=0;
    if(wave===1)this.spawn(ally,true);
    else if(ally.dead){
     const ammo=ally.weapons.map(weapon=>[weapon.ammo,weapon.reserve]),grenades=ally.grenades;
@@ -53,6 +54,19 @@ export class Game {
    }
    ally.health=100;
   }
+  const decision=this.survival.decision;
+  if(this.survival.support)this.survival.support.health=0;
+  if(decision==='reinforce'){
+   if(!this.survival.support){
+    const actor=new Actor(this.actors.length,0,4,{primary:9});
+    actor.name='RESERVE GUNNER';
+    this.survival.support=actor;this.actors.push(actor);
+   }
+   this.spawn(this.survival.support,true);
+  }
+  if(decision==='armor')for(const ally of this.actors)if(ally.team===0&&!ally.dead)ally.armor=65;
+  if(decision==='ammo')this.fillSurvivalSupplies(true);
+  this.survival.decision=null;
   if(!this.survival.station)this.survival.station={x:this.player.x,y:this.player.y,z:this.player.z};
   const roster=this.actors.filter(actor=>actor.team===1);
   this.survival.pending=[];
@@ -82,21 +96,36 @@ export class Game {
  get livingRelayGuards(){
   return this.survival?.guards.filter(guard=>!guard.dead).length??0;
  }
+ get awaitingSurvivalSupport(){
+  return !!this.survival&&this.rules.phase==='roundBreak'&&this.survival.supplies>0&&this.survival.decision===null;
+ }
+ chooseSurvivalSupport(choice){
+  if(!this.awaitingSurvivalSupport||!['bank','ammo','armor','reinforce'].includes(choice))return false;
+  if(choice!=='bank')this.survival.supplies--;
+  this.survival.decision=choice;
+  return true;
+ }
+ fillSurvivalSupplies(reload=false){
+  for(const ally of this.actors){
+   if(ally.team!==0||ally===this.survival.support)continue;
+   for(const weapon of ally.weapons){
+    weapon.reserve=weapon.capacity*5;
+    if(reload){weapon.ammo=weapon.capacity;weapon.reloadLeft=0;}
+   }
+   ally.grenades=2;
+  }
+ }
  canUseSupplies(actor){
   const station=this.survival?.station;
   return !!station&&this.survival.supplies>0&&!actor.dead&&this.rules.phase==='playing'&&
-   this.actors.some(ally=>ally.team===0&&(ally.grenades<2||ally.weapons.some(weapon=>weapon.reserve<weapon.capacity*5)))&&
+   this.actors.some(ally=>ally.team===0&&ally!==this.survival.support&&(ally.grenades<2||ally.weapons.some(weapon=>weapon.reserve<weapon.capacity*5)))&&
    distance(actor,station)<3&&Math.abs(actor.y-station.y)<1.5&&
    this.arena.visible(this.eye(actor),{...station,y:station.y+.4});
  }
  resupplySquad(){
   if(!this.canUseSupplies(this.player))return;
-  const allies=this.actors.filter(actor=>actor.team===0);
   this.survival.supplies--;
-  for(const actor of allies){
-   for(const weapon of actor.weapons)weapon.reserve=weapon.capacity*5;
-   actor.grenades=2;
-  }
+  this.fillSurvivalSupplies();
   this.emit('capture',{text:`SQUAD RESUPPLIED · ${this.survival.supplies} DROPS LEFT`,source:0,position:this.survival.station});
  }
  get cameraActor(){
@@ -265,6 +294,11 @@ export class Game {
   if(victim.dead||victim.spawnProtection>0||(victim.id===0&&this.debug.god)||this.rules.phase!=='playing')return;
   if(killer&&killer.id!==victim.id&&!this.rules.enemies(killer,victim))return;
   if(victim===this.survival?.commander&&this.livingRelayGuards)return false;
+  if(victim.armor>0){
+   const absorbed=Math.min(victim.armor,amount);
+   victim.armor-=absorbed;amount-=absorbed;
+   if(amount<=0)return false;
+  }
   if(this.rules.mode.teams&&killer&&victim.team!==killer.team){
    const previous=victim.damageContributors.get(killer.id);
    const recent=previous&&this.time-previous.at<=8?previous.amount:0;
