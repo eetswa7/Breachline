@@ -1,4 +1,4 @@
-import {rayBox} from './math.js?v=76';
+import {rayBox} from './math.js?v=77';
 
 // Static world broadphase. The narrowphase remains the exact gameplay AABB test.
 // Ground is tested once; walls, stairs and props are visited along the ray only.

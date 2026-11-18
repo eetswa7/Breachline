@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=76';
-import {Navigation} from './navigation.js?v=76';
-import {SpawnDirector} from './spawns.js?v=76';
-import {MatchRules} from './modes.js?v=76';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=76';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=76';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=76';
-import {traceBullet} from './ballistics.js?v=76';
-import {beginVault,advanceVault} from './traversal.js?v=76';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=76';
+import {Arena,MAPS} from './maps.js?v=77';
+import {Navigation} from './navigation.js?v=77';
+import {SpawnDirector} from './spawns.js?v=77';
+import {MatchRules} from './modes.js?v=77';
+import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=77';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=77';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=77';
+import {traceBullet} from './ballistics.js?v=77';
+import {beginVault,advanceVault} from './traversal.js?v=77';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=77';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -136,7 +136,7 @@ export class Game {
     if(b.breakable){b.hp-=d.damage;if(b.hp<=0&&!b.destroyed){b.destroyed=true;this.explode({...b,owner:a.id,kind:'frag'},5.5,90);}}
    }
    if(i===0){const finalContact=result.impacts.at(-1),stoppedBlock=!result.target&&finalContact&&!finalContact.penetrated?finalContact.block:null;
-    this.emit('shot',{position:origin,end:impact,stoppedBlock,source:a.id,weapon:d.id,suppressed:w.suppressed,loudness:w.ammunition===3?.7:w.barrel===5?1.15:1,indoor:this.arena.indoors(a)});}
+    this.emit('shot',{position:origin,end:impact,trailEnd:result.impacts[0]?.position??impact,stoppedBlock,source:a.id,weapon:d.id,suppressed:w.suppressed,loudness:w.ammunition===3?.7:w.barrel===5?1.15:1,indoor:this.arena.indoors(a)});}
   }
   if(a.id===0){this.shots++;if(anyHit){this.hits++;this.emit('hit',{headshot:head});}const r=w.recoilFor(a.ads,a.crouched,Math.hypot(a.vx,a.vz)<.6);const nextPitch=clamp(a.pitch+r,-1.48,1.48);a.recoilPitch+=nextPitch-a.pitch;a.pitch=nextPitch;a.yaw+=Math.sin(w.shotIndex*1.73+d.id)*r*.45*w.horizontalRecoil;a.visualKick+=r*2.5;}
   ejectCasing(this,a,w,origin);a.lastShot=this.time;w.sinceShot=0;w.shotIndex++;w.shotSerial=(w.shotSerial??0)+1;w.cancelInspection();

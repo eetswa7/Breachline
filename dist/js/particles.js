@@ -1,4 +1,4 @@
-import {QUALITY} from './graphics-quality.js?v=76';
+import {QUALITY} from './graphics-quality.js?v=77';
 
 export const billboardVertex = `
 attribute vec3 instancePosition;
@@ -18,7 +18,7 @@ void main() {
     vec2 fall=(viewMatrix*vec4(.08,-1.0,0.0,0.0)).xy;
     fall=length(fall)>.03?normalize(fall):vec2(0.0,-1.0);
     centre.xy+=vec2(-fall.y,fall.x)*local.x+fall*local.y;
-  }else if(vKind>0.5&&vKind<4.5){
+  }else if((vKind>0.5&&vKind<4.5)||vKind>7.5){
     float c=cos(vSpin),s=sin(vSpin);
     centre.xy+=mat2(c,s,-s,c)*local;
   }else centre.xy+=local;
@@ -36,8 +36,9 @@ void main(){
   bool shard=vKind>3.5&&vKind<4.5;
   bool rain=vKind>4.5&&vKind<5.5;
   bool snow=vKind>5.5&&vKind<6.5;
-  bool mote=vKind>6.5;
-  bool smoke=vKind<.5;
+  bool mote=vKind>6.5&&vKind<7.5;
+  bool flame=vKind>7.5;
+  bool smoke=vKind<.5||flame;
   float shape;vec3 c=vTint;
   if(rain){
     shape=(1.0-smoothstep(.08,.78,abs(p.x)))*(1.0-smoothstep(.5,1.0,abs(p.y)));
@@ -66,6 +67,11 @@ void main(){
       shape=(1.0-exp(-density*2.2))*(1.0-smoothstep(.83,1.0,radius));
       float volume=sqrt(max(0.0,1.0-radius*radius));
       c*=.72+.28*clamp(volume*.65-p.y*.35+.25,0.0,1.0);
+      if(flame){
+        float hot=volume*volume*density;
+        c=mix(vTint*.43,vTint*1.6,hot);
+        shape*=.78+.22*hot;
+      }
     }
   }
   if(chip||shard){

@@ -1,44 +1,45 @@
-import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=76';
-import {ProductionLighting} from './production-lighting.js?v=76';
-import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=76';
-import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=76';
-import {patchBlenderMaterial} from './blender-material.js?v=76';
-import {blenderWorld} from './blender-world.js?v=76';
-import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=76';
-import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=76';
-import {updateWeaponClearance} from './weapon-clearance.js?v=76';
-import {WEAPONS} from './weapons.js?v=76';
-import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=76';
-import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=76';
-import {patchAtmosphere} from './atmosphere.js?v=76';
-import {weatherLighting} from './weather-lighting.js?v=76';
-import {installMetricUV,patchMetricUV} from './surface-uv.js?v=76';
-import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=76';
-import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=76';
-import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=76';
-import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=76';
-import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=76';
-import {DecalSystem} from './decal-system.js?v=76';
-import {ExplosionShockSystem} from './explosion-shock.js?v=76';
-import {EnvironmentalFireSystem} from './environmental-fire.js?v=76';
-import {GlassDamageSystem} from './glass-damage.js?v=76';
-import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=76';
-import {LightingField} from './lighting-field.js?v=76';
-import {RoomLights} from './room-lights.js?v=76';
-import {waterMaterial,patchWater} from './water-material.js?v=76';
-import {visualGroundHeight} from './surface-placement.js?v=76';
-import {patchSurfaceDetail} from './material-detail.js?v=76';
-import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=76';
-import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=76';
-import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=76';
+import {loadProductionTextures,stageTextureUploads} from './production-textures.js?v=77';
+import {ProductionLighting} from './production-lighting.js?v=77';
+import {objectiveBannerTexture,patchObjectiveBanner} from './objective-banner.js?v=77';
+import {loadBlenderAssets,syncBlenderWeapon} from './blender-assets.js?v=77';
+import {patchBlenderMaterial} from './blender-material.js?v=77';
+import {blenderWorld} from './blender-world.js?v=77';
+import {operatorMuzzle,operatorWeaponMount,nativeOperatorWeapon} from './operator-detail.js?v=77';
+import {actorDeathProgress,transformOperatorPose} from './actor-pose.js?v=77';
+import {updateWeaponClearance} from './weapon-clearance.js?v=77';
+import {WEAPONS} from './weapons.js?v=77';
+import {muzzleFlash,muzzleGas} from './firing-presentation.js?v=77';
+import {hardWeaponBevel,patchWeaponBevel} from './weapon-surface.js?v=77';
+import {patchAtmosphere} from './atmosphere.js?v=77';
+import {weatherLighting} from './weather-lighting.js?v=77';
+import {installMetricUV,patchMetricUV} from './surface-uv.js?v=77';
+import {worldMaterialVariationEligible,patchWorldMaterialVariation} from './world-material-variation.js?v=77';
+import {SceneLOD,detailThickness,actorDetailLevel} from './scene-lod.js?v=77';
+import {positionSun,shadowDue,shadowBias} from './shadow-system.js?v=77';
+import {billboardVertex,billboardFragment,ambientDust,weatherParticles,grenadeSmokeBillboards} from './particles.js?v=77';
+import {configurePresentation,presentationCapabilities} from './render-pipeline.js?v=77';
+import {DecalSystem} from './decal-system.js?v=77';
+import {ShotTrails} from './shot-trails.js?v=77';
+import {ExplosionShockSystem} from './explosion-shock.js?v=77';
+import {EnvironmentalFireSystem} from './environmental-fire.js?v=77';
+import {GlassDamageSystem} from './glass-damage.js?v=77';
+import {EnvironmentProbes,orientWeaponEnvironment,roomProbeSelected,cloudMask} from './environment-probes.js?v=77';
+import {LightingField} from './lighting-field.js?v=77';
+import {RoomLights} from './room-lights.js?v=77';
+import {waterMaterial,patchWater} from './water-material.js?v=77';
+import {visualGroundHeight} from './surface-placement.js?v=77';
+import {patchSurfaceDetail} from './material-detail.js?v=77';
+import {QUALITY,GraphicsQuality} from './graphics-quality.js?v=77';
+import {GraphicsProfiler,textureBytes} from './graphics-profiler.js?v=77';
+import {framebufferSize,sceneryOcclusion} from './render-budget.js?v=77';
 import * as THREE from '../vendor/three.module.min.js';
-import { clamp, lerp, compose, direction, distance } from './math.js?v=76';
-import { actorModel, material, part } from './geometry.js?v=76';
-import { ridgeMesh, ridgeTint } from './meshes.js?v=76';
-import { loadImages } from './textures.js?v=76';
-import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=76';
-import { weaponModel, animateWeaponParts } from './weapon-models.js?v=76';
-import { identityFor, IDENTITIES } from './combat-identity.js?v=76';
+import { clamp, lerp, compose, direction, distance } from './math.js?v=77';
+import { actorModel, material, part } from './geometry.js?v=77';
+import { ridgeMesh, ridgeTint } from './meshes.js?v=77';
+import { loadImages } from './textures.js?v=77';
+import { aimFov, verticalFov, scopeVisible, weaponPose, cameraBob, movementFov } from './aim.js?v=77';
+import { weaponModel, animateWeaponParts } from './weapon-models.js?v=77';
+import { identityFor, IDENTITIES } from './combat-identity.js?v=77';
 
 const FRIEND = IDENTITIES.ally.band, ENEMY = IDENTITIES.enemy.band;
 const FX_CAPACITY = 280;
@@ -136,6 +137,7 @@ export class Renderer {
     this.effectCursor = 0; this.nearestLights = [null, null, null]; this.lightDistances = [Infinity, Infinity, Infinity];
     this.createEffectPool(); this.createMuzzle();this.decalSystem=new DecalSystem(this.scene);
     this.explosionShock=new ExplosionShockSystem(this.scene);
+    this.shotTrails=new ShotTrails(this.scene);
     this.environmentalFire=new EnvironmentalFireSystem(this.scene);
     this.glassDamage=new GlassDamageSystem(this.scene);
     this.onContextLost = event => { event.preventDefault(); this.lost = true;
@@ -197,7 +199,7 @@ export class Renderer {
     if(this.qualityController){this.qualityController.warmup=2;this.qualityController.slow=this.qualityController.fast=0;}
     for (const effect of this.effects) effect.life = 0;
     this.decalSystem?.clear();
-    this.explosionShock?.clear();
+    this.explosionShock?.clear();this.shotTrails?.clear();
     this.environmentalFire?.clear();this.glassDamage?.clear();
     this.clearDynamic(this.actorBatches);
     const info = arena.info, weather = weatherLighting(info);
@@ -622,9 +624,10 @@ export class Renderer {
   events(events, game) {
     for (const event of events) {
       const p = event.position ?? game.eye(game.player);
-      if(event.type==='round'){this.explosionShock?.clear();this.environmentalFire?.clear();this.glassDamage?.clear();}
+      if(event.type==='round'){this.explosionShock?.clear();this.shotTrails?.clear();this.environmentalFire?.clear();this.glassDamage?.clear();}
       if (event.type === 'shot') {
         this.glassDamage?.shot(event);
+        this.shotTrails?.add(event,event.source===game.player.id,this.quality);
         if (event.source === game.player.id) {
           const aim = direction(game.player.yaw, game.player.pitch);
           // A killing Gun Game shot can promote the held weapon before its
@@ -637,9 +640,6 @@ export class Renderer {
         } else if (event.end) {
           const source=game.actors.find(a=>a.id===event.source),start=source?operatorMuzzle(source,{def:WEAPONS[event.weapon],barrel:event.suppressed?1:0}):p;
           if(!event.suppressed)this.particle(start,2,[2.3,1.3,.45],.08,.045);
-          for (let i = 1; i <= 3; i++) { const t = i * .15;
-            this.particle({ x: lerp(start.x, event.end.x, t), y: lerp(start.y, event.end.y, t), z: lerp(start.z, event.end.z, t) },
-              2, [1.8, 1.14, .38], .025, .055); }
         }
       } else if (event.type === 'impact') {
         const steel = ['steel','rust','dark','blue','brass'].includes(event.surface),glass=event.surface==='glass',water=event.surface==='water',wood=event.surface==='wood';
@@ -659,9 +659,18 @@ export class Renderer {
         const floor=visualGroundHeight(this.arena,p.x,p.z,this.arena.floorAt(p,p.y));
         this.explosionShock?.add(p,event.value,floor);
         if(event.environmentalFire)this.environmentalFire?.add(p,floor);
-        for (let i = 0; i < 30; i++) { const angle = Math.random() * 6.28, speed = Math.random() * 5;
-          this.particle(p, i < 12 ? 2 : 0, i < 12 ? [2.4, .65, .08] : [.25, .24, .21],
-            i < 12 ? .25 : .4, .45 + Math.random() * 1.1, Math.cos(angle) * speed, Math.random() * 4, Math.sin(angle) * speed); }
+        const scale=clamp((event.value??8)/8,.5,1.4),low=this.quality==='low';
+        // Fast expanding flame, a separate rising smoke column, then short
+        // fragment trails. Share the existing billboard pool and smoke atlas.
+        this.particle(p,8,[4.2,2.0,.68],.62*scale,.18,0,.8,0);
+        const sparks=low?6:10,smoke=low?5:9;
+        for(let i=0;i<sparks+smoke;i++){
+          const angle=i*2.39996+this.effectCursor*.067,fragment=i<sparks;
+          const radial=(fragment?3.9:1.52)*(.6+(i*.618%1)*.8)*scale;
+          const vx=Math.cos(angle)*radial,vz=Math.sin(angle)*radial;
+          if(fragment)this.particle(p,2,[2.9,.97,.24],.044,.27+(i*.31%1)*.20,vx,1.3+(i*.43%1)*3.4,vz);
+          else this.particle(p,0,[.28,.26,.24],.40*scale,1.15+(i*.41%1)*.55,vx,.45+(i*.23%1)*1.3,vz);
+        }
       } else if (event.type === 'flash') this.particle(p, 2, [3, 3, 2.7], .7, .12);
     }
   }
@@ -677,6 +686,7 @@ export class Renderer {
   updateEffects(dt, game) {
     this.decalSystem?.update(dt);
     this.explosionShock?.update(dt,this.quality,this.eye);
+    this.shotTrails?.update(dt);
     this.environmentalFire?.update(dt,this.quality,this.eye);this.glassDamage?.update();
     let count = 0, shadowCount = 0;
     for (const a of game.actors) if (!a.dead && a.grounded && shadowCount < 64) {
@@ -693,12 +703,12 @@ export class Renderer {
       if (e.life <= 0) continue;
       e.life -= dt; if (e.life <= 0) continue;
       e.x += e.vx * dt; e.y += e.vy * dt; e.z += e.vz * dt;
-      if (e.kind > .5) e.vy -= dt * 8;
+      if (e.kind > .5 && e.kind < 7.5) e.vy -= dt * 8;
       if (e.y < .025) { e.y = .025; e.vy = 0; e.vx *= .8; e.vz *= .8; }
-      const age = 1 - e.life / e.max, soft = e.kind < .5;
-      const size = e.size * (soft ? 2 + age * 4 : 2);
+      const age = 1 - e.life / e.max, soft = e.kind < .5, flame=e.kind>7.5;
+      const size = e.size * (flame ? 1.2+3.2*age : soft ? 2 + age * 4 : 2);
       count = this.writeBillboard(count, e.x, e.y, e.z, size, e.kind === 3 ? size * .35 : size,
-        e.r, e.g, e.b, Math.min(1, e.life * 7) * (soft ? .28 : 1), e.kind + ((e.seed ?? 0) + age * (soft ? .07 : .55)) % 1);
+        e.r, e.g, e.b, (flame?(1-age)**1.45:Math.min(1,e.life*7)*(soft?.28:1)), e.kind + ((e.seed ?? 0) + age * (soft ? .07 : .55)) % 1);
     }
     // Engine-owned cosmetic positions synchronize visible cases with landing
     // audio, including raised decks and delayed pump/bolt ejection.
@@ -971,7 +981,7 @@ export class Renderer {
   dispose() {
     this.blenderAssets?.dispose();
     this.profiler?.dispose();this.lightingField?.dispose();this.decalSystem?.dispose();
-    this.explosionShock?.dispose();
+    this.explosionShock?.dispose();this.shotTrails?.dispose();
     this.environmentalFire?.dispose();this.glassDamage?.dispose();
     this.canvas.removeEventListener('webglcontextlost', this.onContextLost);
     this.canvas.removeEventListener('webglcontextrestored', this.onContextRestored);
