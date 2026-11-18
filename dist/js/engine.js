@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=99';
-import {Navigation} from './navigation.js?v=99';
-import {SpawnDirector} from './spawns.js?v=99';
-import {Convoy} from './convoy.js?v=99';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=99';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=99';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=99';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=99';
-import {traceBullet} from './ballistics.js?v=99';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=99';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=99';
+import {Arena,MAPS} from './maps.js?v=100';
+import {Navigation} from './navigation.js?v=100';
+import {SpawnDirector} from './spawns.js?v=100';
+import {Convoy} from './convoy.js?v=100';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=100';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=100';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=100';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=100';
+import {traceBullet} from './ballistics.js?v=100';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=100';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=100';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -26,7 +26,7 @@ export class Game {
   this.config={mode:config.mode??'tdm',map:clamp(Math.floor(Number(config.map)||0),0,MAPS.length-1),difficulty:config.difficulty??'regular',loadout:sanitizeLoadout(config.loadout)};
   this.arena=new Arena(this.config.map);this.nav=new Navigation(this.arena);this.spawner=new SpawnDirector(this.arena,this.nav);this.rules=new MatchRules(this.config.mode,this.arena);if(this.rules.mode.id==='convoy')this.rules.convoy=new Convoy(this.arena,this.nav);this.random=rng(seed);this.difficulty=DIFFICULTY[this.config.difficulty]??DIFFICULTY.regular;
   this.operation=options.operation??null;this.reinforcements=this.operation?.tickets.slice()??null;
-  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
+  this.time=0;this.paused=false;this.events=[];this.grenades=[];this.deployables=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
   this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[],decision:null,support:null}:null;
@@ -41,7 +41,7 @@ export class Game {
  startSurvivalWave(){
   const wave=this.rules.round,encounter=SURVIVAL_WAVES[wave-1],count=encounter.roles.length;
   this.spawner.resetRound();
-  this.grenades.length=0;this.smokes.length=0;this.casings.length=0;
+  this.grenades.length=0;this.clearDeployables();this.smokes.length=0;this.casings.length=0;
   for(const actor of this.actors)if(actor.team===1)actor.health=0;
   for(const ally of this.actors){
    if(ally.team!==0||ally===this.survival.support)continue;
@@ -246,7 +246,7 @@ export class Game {
  spawn(a,initial=false){
   const p=this.spawner.select(a,this,initial);a.reset(p,p.yaw);a.vault=null;
  }
- resetRound(){this.squadOrder=null;this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
+ resetRound(){this.squadOrder=null;this.clearDeployables();this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;
@@ -330,7 +330,7 @@ export class Game {
   }
   this.pathBudget=2;
   for(let i=1;i<this.actors.length;i++)if(!this.actors[i].dead)updateBot(this.actors[i],dt,this);
-  updateCasings(this,dt);this.updateEquipment(dt);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
+  updateCasings(this,dt);this.updateEquipment(dt);if(this.deployables.length)this.clearDeployables(true);if(this.operation||this.survival)this.updateRescues(dt);this.rules.update(dt,this);
   if(this.reinforcements&&this.rules.phase==='playing'){
    const alive=[false,false];
    for(const actor of this.actors)if(!actor.dead)alive[actor.team]=true;
@@ -370,6 +370,7 @@ export class Game {
     this.emit('impact',{position:contact.position,surface:b.surface,normal,value:d.kind==='SHOTGUN'?2:4,penetrated:contact.penetrated,ballisticAudio:contact.penetrated||glancing});
     if(contact.penetrated)this.emit('penetration',{position:contact.exitPosition,entry:contact.position,surface:b.surface,source:a.id,weapon:d.id,thickness:contact.thickness,normal:{x:-normal.x,y:-normal.y,z:-normal.z}});
     else if(glancing)this.emit('ricochet',{position:contact.position,surface:b.surface,source:a.id,weapon:d.id,incidence:contact.incidence,normal});
+    if(b.deployable)b.hp-=d.damage;
     if(b.breakable){b.hp-=d.damage;if(b.hp<=0&&!b.destroyed){b.destroyed=true;this.explode({...b,owner:a.id,kind:'frag'},5.5,90);}}
    }
    if(i===0){const finalContact=result.impacts.at(-1),stoppedBlock=!result.target&&finalContact&&!finalContact.penetrated?finalContact.block:null;
@@ -427,8 +428,46 @@ export class Game {
   let hit=null,best=2.2;for(const t of this.actors)if(!t.dead&&this.rules.enemies(a,t)){const d=distance(a,t),bearing=Math.atan2(t.x-a.x,-(t.z-a.z));if(d<best&&Math.abs(Math.atan2(Math.sin(bearing-a.yaw),Math.cos(bearing-a.yaw)))<.55&&this.canSee(a,t)){hit=t;best=d;}}
   if(hit){this.damage(hit,125,a,false,WEAPONS[12]);if(a.id===0)this.emit('hit');}return true;
  }
+ placeDeployable(actor){
+  if(this.deployables.some(device=>device.owner===actor.id)||!actor.grounded)return false;
+  const aim=direction(actor.yaw,0),x=actor.x+aim.x*2.15,z=actor.z+aim.z*2.15;
+  if(Math.max(Math.abs(x),Math.abs(z))>this.arena.info.size-1.6)return false;
+  const y=this.arena.floorAt({x,y:actor.y,z},actor.y+.35);
+  if(Math.abs(y-actor.y)>.35)return false;
+  const shield=actor.equipment==='shield',acrossX=Math.abs(aim.z)>=Math.abs(aim.x);
+  const h=shield?1.28:.19,w=shield&&acrossX?2.35:.28,d=shield&&!acrossX?2.35:.28;
+  for(const offset of shield?[-1,0,1]:[0]){
+   const foot={x:x+(acrossX?offset:0),y:y+.04,z:z+(acrossX?0:offset)};
+   if(this.arena.collides(foot,.23,h)||
+      Math.abs(this.arena.floorAt(foot,y+.25)-y)>.15||
+      this.actors.some(other=>!other.dead&&Math.abs(other.y-y)<1.5&&distance(foot,other)<.62))return false;
+  }
+  const block={x,y:y+h/2,z,w,h,d,surface:'steel',invisible:true,deployable:true,hp:shield?230:35};
+  this.arena.blocks.push(block);this.arena.deployableBlocks.push(block);this.arena.bakeCollision();
+  this.deployables.push({kind:actor.equipment,owner:actor.id,team:actor.team,x,y,z,until:this.time+(shield?36:24),block});
+  actor.grenades--;
+  for(const bot of this.actors)bot.pathClock=0;
+  this.emit('capture',{text:shield?'DEPLOYABLE COVER ACTIVE':'PULSE SENSOR ACTIVE',source:actor.team,actor:actor.id});
+  return true;
+ }
+ clearDeployables(expiredOnly=false){
+  const removed=new Set();
+  this.deployables=this.deployables.filter(device=>{
+   if(expiredOnly&&this.time<device.until&&device.block.hp>0)return true;
+   device.block.destroyed=true;removed.add(device.block);return false;
+  });
+  if(!removed.size)return;
+  this.arena.deployableBlocks=this.arena.deployableBlocks.filter(block=>!removed.has(block));
+  this.arena.blocks=this.arena.blocks.filter(block=>!removed.has(block));this.arena.bakeCollision();
+  for(const actor of this.actors)actor.pathClock=0;
+ }
+ sensorDetects(actor,observer=this.player){
+  return this.deployables.some(device=>device.kind==='sensor'&&
+   (this.rules.mode.teams?device.team===observer.team:device.owner===observer.id)&&
+   Math.abs(actor.y-device.y)<3.2&&distance(actor,device)<17);
+ }
  throwGrenade(a){
-  if(a.dead||a.grenades<=0||this.grenades.length>=16||this.rules.mode.id==='gun')return;a.grenades--;const d=direction(a.yaw,a.pitch+.22),eye=this.eye(a);this.grenades.push({...eye,vx:d.x*15,vy:d.y*15+2,vz:d.z*15,fuse:a.equipment==='smoke'?1.6:2.3,owner:a.id,kind:a.equipment});this.emit('throw',{source:a.id});
+  if(a.dead||a.grenades<=0||this.grenades.length>=16||this.rules.mode.id==='gun')return;if(a.equipment==='shield'||a.equipment==='sensor')return this.placeDeployable(a);a.grenades--;const d=direction(a.yaw,a.pitch+.22),eye=this.eye(a);this.grenades.push({...eye,vx:d.x*15,vy:d.y*15+2,vz:d.z*15,fuse:a.equipment==='smoke'?1.6:2.3,owner:a.id,kind:a.equipment});this.emit('throw',{source:a.id});
  }
  updateEquipment(dt){
   for(let i=this.grenades.length-1;i>=0;i--){const g=this.grenades[i];g.fuse-=dt;g.vy-=12*dt;const next={x:g.x+g.vx*dt,y:g.y+g.vy*dt,z:g.z+g.vz*dt};
@@ -444,6 +483,13 @@ export class Game {
   if(g.kind==='flash'){
    for(const a of this.actors){const d=distance(a,g);if(a.dead||d>18||!this.arena.visible({...g,y:g.y+.2},this.eye(a)))continue;const facing=direction(a.yaw,a.pitch),eye=this.eye(a),dot=(facing.x*(g.x-eye.x)+facing.y*(g.y-eye.y)+facing.z*(g.z-eye.z))/(d||1);a.flashed=(dot>.15?3.5:.7)*(1-d/22);}
    this.emit('flash',{position:{...g}});return;
+  }
+  for(const device of this.deployables){
+   const b=device.block,dx=b.x-g.x,dy=b.y-g.y,dz=b.z-g.z,distance=Math.hypot(dx,dy,dz);
+   if(distance>=radius)continue;
+   const length=distance||1;
+   if(this.arena.trace(g,{x:dx/length,y:dy/length,z:dz/length},distance,b).t>=distance-.12)
+    b.hp-=damage*(1-distance/radius);
   }
   this.emit('explosion',{position:{x:g.x,y:g.y,z:g.z},value:radius,environmentalFire:!!g.breakable});const owner=this.actors.find(a=>a.id===g.owner)??null;
   for(const a of this.actors){let d=Math.hypot(a.x-g.x,a.y+.8-g.y,a.z-g.z);if(a.dead||d>radius)continue;if(!this.arena.visible({...g,y:g.y+.2},{x:a.x,y:a.y+.8,z:a.z}))continue;this.damage(a,damage*(1-d/radius),owner,false,{name:g.breakable?'ENVIRONMENT':'FRAG GRENADE'});}

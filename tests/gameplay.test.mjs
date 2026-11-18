@@ -62,6 +62,23 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const gadgets=duel('tdm');
+ gadgets.p.equipment='shield';
+ assert(gadgets.g.throwGrenade(gadgets.p));
+ assert.equal(gadgets.p.grenades,1);
+ assert.equal(gadgets.g.throwGrenade(gadgets.p),false);
+ const device=gadgets.g.deployables[0];
+ assert.equal(gadgets.g.arena.trace({x:0,y:1,z:0},{x:0,y:0,z:-1},5).block,device.block);
+ device.block.hp=0;
+ gadgets.g.clearDeployables(true);
+ assert.equal(gadgets.g.arena.trace({x:0,y:1,z:0},{x:0,y:0,z:-1},5).block,null);
+ gadgets.p.equipment='sensor';
+ assert(gadgets.g.throwGrenade(gadgets.p));
+ assert(gadgets.g.sensorDetects(gadgets.t));
+ gadgets.g.time+=25;
+ gadgets.g.clearDeployables(true);
+ assert(!gadgets.g.sensorDetects(gadgets.t));
+
  const transit=new Game({mode:'tdm',map:16},{seed:891});
  const line=transit.arena.ziplines[0];
  Object.assign(transit.player,line.a);

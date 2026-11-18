@@ -1,4 +1,4 @@
-import {addZipline} from './traversal.js?v=99';
+import {addZipline} from './traversal.js?v=100';
 
 export function buildFloodgate(arena) {
   const box = (...args) => arena.box(...args);

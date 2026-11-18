@@ -1,4 +1,4 @@
-import {distance,rayBox} from './math.js?v=99';
+import {distance,rayBox} from './math.js?v=100';
 // A small layered navigation grid includes room floors and reachable stairs/terraces.
 // Connectivity is baked once per match; A* runs at most once per bot per second.
 export class Navigation {
@@ -58,13 +58,20 @@ export class Navigation {
   while(i*2+1<size){let child=i*2+1;if(child+1<size&&this.heapScores[child+1]<this.heapScores[child])child++;if(this.heapScores[child]>=lastScore)break;this.heapIds[i]=this.heapIds[child];this.heapScores[i]=this.heapScores[child];i=child;}
   if(size){this.heapIds[i]=lastId;this.heapScores[i]=lastScore;}return id;
  }
+ blockedByDeployable(from,to,blocks){
+  const length=distance(to,from);
+  const ray={x:(to.x-from.x)/length,y:0,z:(to.z-from.z)/length};
+  for(const block of blocks)if(!block.destroyed&&rayBox({x:from.x,y:from.y+.8,z:from.z},ray,{...block,w:block.w+.65,d:block.d+.65},length)!==null)return true;
+  return false;
+ }
  path(from,to){
   const start=this.nearest(from),goal=this.nearest(to);if(start<0||goal<0)return[];
+  const deployables=this.arena.deployableBlocks??[];
   let search=this.searchId=(this.searchId+1)>>>0;if(!search){this.closed.fill(0);this.seen.fill(0);search=this.searchId=1;}
   this.heapSize=0;this.g[start]=0;this.previous[start]=-1;this.seen[start]=search;
   this.pushNode(start,0);let reached=start,best=distance(from,to),count=0;
   while(this.heapSize&&count<5000){const id=this.popNode();if(this.closed[id]===search)continue;count++;this.closed[id]=search;const n=this.nodes[id],h=distance(n,this.nodes[goal]);if(h<best){best=h;reached=id;}if(id===goal){reached=id;break;}
-    for(const next of n.links){const gate=n.gateLinks?.get(next);if(this.closed[next]===search||gate&&!gate.destroyed)continue;let t=this.g[id]+distance(n,this.nodes[next])+Math.abs(n.y-this.nodes[next].y);if(this.seen[next]!==search||t<this.g[next]){this.seen[next]=search;this.g[next]=t;this.previous[next]=id;const q=this.nodes[next],end=this.nodes[goal];this.pushNode(next,t+distance(q,end)*1.15+Math.abs(q.y-end.y));}}
+    for(const next of n.links){const gate=n.gateLinks?.get(next);if(this.closed[next]===search||gate&&!gate.destroyed)continue;if(deployables.length&&this.blockedByDeployable(n,this.nodes[next],deployables))continue;let t=this.g[id]+distance(n,this.nodes[next])+Math.abs(n.y-this.nodes[next].y);if(this.seen[next]!==search||t<this.g[next]){this.seen[next]=search;this.g[next]=t;this.previous[next]=id;const q=this.nodes[next],end=this.nodes[goal];this.pushNode(next,t+distance(q,end)*1.15+Math.abs(q.y-end.y));}}
   }
   this.lastExpanded=count;this.lastReached=reached===goal;
   const path=[];for(let id=reached;id!==start&&id!==-1;id=this.previous[id])path.push(this.nodes[id]);return path.reverse();

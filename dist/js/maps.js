@@ -1,9 +1,9 @@
-import {rng,rayBox,distance,clamp} from './math.js?v=99';
-import {dressWorld} from './world-detail.js?v=99';
-import {RayGrid} from './ray-grid.js?v=99';
-import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=99';
-import {buildNuketown} from './nuketown.js?v=99';
-import {buildFloodgate} from './floodgate.js?v=99';
+import {rng,rayBox,distance,clamp} from './math.js?v=100';
+import {dressWorld} from './world-detail.js?v=100';
+import {RayGrid} from './ray-grid.js?v=100';
+import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=100';
+import {buildNuketown} from './nuketown.js?v=100';
+import {buildFloodgate} from './floodgate.js?v=100';
 export const MAPS=[
  {id:0,name:'OLD QUARTER',location:'Coastal city',size:32,weather:'sun',tag:'URBAN',description:'Market alleys, a central plaza and elevated terraces.',sky:[.47,.65,.76],fog:[.59,.66,.65],sun:[-.5,.8,.35]},
  {id:1,name:'FOUNDRY',location:'Industrial district',size:35,weather:'overcast',tag:'INDUSTRIAL',description:'Four loading entrances connect the machinery hall to covered freight lanes.',sky:[.27,.38,.48],fog:[.35,.43,.46],sun:[-.6,.7,-.3]},
@@ -34,7 +34,7 @@ Object.assign(SURFACES,{
  bark:{color:[.47,.38,.28],rough:1,metal:0,tile:15},rock:{color:[.86,.88,.82],rough:1,metal:0,tile:15},grass:{color:[.8,.89,.65],rough:1,metal:0,tile:13},moss:{color:[.8,.9,.67],rough:1,metal:0,tile:12},tiles:{color:[.9,.81,.70],rough:.85,metal:0,tile:14},snow:{color:[.78,.86,.91],rough:.92,metal:0,tile:1},brass:{color:[.55,.37,.12],rough:.33,metal:.9,tile:-1}
 });
 export class Arena {
- constructor(id=0){this.info=MAPS[Number.isFinite(id)?clamp(Math.floor(id),0,MAPS.length-1):0];this.blocks=[];this.decor=[];this.cover=[];this.doors=[];this.ziplines=[];this.breakables=[];this.spawns=[];this.objectives=[];this.random=rng(771+this.info.id*511);this.build();dressWorld(this);this.bakeCollision();}
+ constructor(id=0){this.info=MAPS[Number.isFinite(id)?clamp(Math.floor(id),0,MAPS.length-1):0];this.blocks=[];this.decor=[];this.cover=[];this.doors=[];this.ziplines=[];this.breakables=[];this.deployableBlocks=[];this.spawns=[];this.objectives=[];this.random=rng(771+this.info.id*511);this.build();dressWorld(this);this.bakeCollision();}
  box(x,y,z,w,h,d,surface='concrete',extra={}){const b={x,y,z,w,h,d,surface,...extra};this.blocks.push(b);this.collisionCells=null;if(h>.7&&h<2.3)this.cover.push({x:x+w/2+1,z,y:0},{x:x-w/2-1,z,y:0},{x,y:0,z:z+d/2+1},{x,y:0,z:z-d/2-1});return b;}
  detail(x,y,z,w,h,d,surface='dark',extra={}){const b={x,y,z,w,h,d,surface,...extra};this.decor.push(b);return b;}
  crate(x,z,stack=1){for(let i=0;i<stack;i++){this.box(x,i*1.18+.59,z,1.25,1.18,1.25,'wood',{shellThickness:.035});for(const dx of [-.43,.43])this.detail(x+dx,i*1.18+.6,z,.075,1.2,1.28,'steel');}}

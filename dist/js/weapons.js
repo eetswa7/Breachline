@@ -1,6 +1,6 @@
-import {clamp,lerp} from './math.js?v=99';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=99';
-export {ATTACHMENTS} from './attachments.js?v=99';
+import {clamp,lerp} from './math.js?v=100';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=100';
+export {ATTACHMENTS} from './attachments.js?v=100';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],
@@ -52,7 +52,7 @@ export function reloadFoleyStages(w){
  if(w.reloadStartedEmpty){if(w.def.kind==='PISTOL')stages.push(stage(.94,'close','slide'));else stages.push(stage(.84,'open','bolt'),stage(.94,'close','bolt'));}
  return stages.sort((a,b)=>a.phase-b.phase);
 }
-export function sanitizeLoadout(v={}){if(!v||typeof v!=='object')v={};const d=defaultLoadout();for(const k of ['primary','secondary'])if(Number.isFinite(v[k]))d[k]=Math.round(v[k]);d.primary=PRIMARY_IDS.includes(d.primary)?d.primary:clamp(d.primary,0,9);d.secondary=SECONDARY_IDS.includes(d.secondary)?d.secondary:clamp(d.secondary,10,11);for(const key of Object.keys(ATTACHMENTS))d[key]=attachmentIndex(key,v[key]??d[key],WEAPONS[d.primary].kind);d.equipment=['frag','smoke','flash'].includes(v.equipment)?v.equipment:'frag';return d;}
+export function sanitizeLoadout(v={}){if(!v||typeof v!=='object')v={};const d=defaultLoadout();for(const k of ['primary','secondary'])if(Number.isFinite(v[k]))d[k]=Math.round(v[k]);d.primary=PRIMARY_IDS.includes(d.primary)?d.primary:clamp(d.primary,0,9);d.secondary=SECONDARY_IDS.includes(d.secondary)?d.secondary:clamp(d.secondary,10,11);for(const key of Object.keys(ATTACHMENTS))d[key]=attachmentIndex(key,v[key]??d[key],WEAPONS[d.primary].kind);d.equipment=['frag','smoke','flash','shield','sensor'].includes(v.equipment)?v.equipment:'frag';return d;}
 export class Weapon {
  constructor(id,loadout={}){this.def=WEAPONS[Number.isFinite(id)?clamp(Math.floor(id),0,WEAPONS.length-1):0];const selection={};for(const key of Object.keys(ATTACHMENTS))selection[key]=attachmentIndex(key,loadout[key]??(key==='optic'&&this.def.kind==='SNIPER'?3:0),this.def.kind);if(this.def.integralSuppressor)selection.barrel=1;this.optic=selection.optic;this.barrel=selection.barrel;this.grip=selection.handling;this.magazine=selection.magazine;this.ammunition=selection.ammo;this.attachments=selection;this.modifiers=attachmentProfile(selection,this.def.kind);this.ammo=this.capacity;this.reserve=this.capacity*5;this.cooldown=0;this.burstRemaining=0;this.reloadLeft=0;this.reloadStartedEmpty=false;this.reloadFoley=[];this.reloadFoleyIndex=0;this.reloadCycle=0;this.spentCases=0;this.sinceShot=10;this.shotIndex=0;this.shotSerial=0;this.inspectLeft=0;}
  get capacity(){return Math.max(1,Math.round(this.def.magazine*this.modifiers.capacity));}
