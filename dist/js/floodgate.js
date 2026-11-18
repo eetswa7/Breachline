@@ -1,3 +1,5 @@
+import {addZipline} from './traversal.js?v=99';
+
 export function buildFloodgate(arena) {
   const box = (...args) => arena.box(...args);
   const detail = (...args) => arena.detail(...args);
@@ -67,6 +69,10 @@ export function buildFloodgate(arena) {
   for (const z of [-19.55,-14.45]) for(const x of [-9,0,9]) {
     detail(x,2.95,z,7.4,.08,.085,'orange');
     for(const offset of [-3.65,0,3.65])detail(x+offset,2.7,z,.08,.55,.085,'steel');
+  }
+
+  for(const side of [-1,1]){
+    addZipline(arena,{x:side*11,y:2.4,z:-14.55},{x:side*31,y:0,z:-5});
   }
 
   // A fenced spillway separates the southern path from its outer gallery.

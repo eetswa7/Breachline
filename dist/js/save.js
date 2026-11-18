@@ -1,7 +1,7 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=98';
-import {MODES} from './modes.js?v=98';
-import {MAPS} from './maps.js?v=98';
-import {restoreOperation,finishOperationBattle} from './operation.js?v=98';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=99';
+import {MODES} from './modes.js?v=99';
+import {MAPS} from './maps.js?v=99';
+import {restoreOperation,finishOperationBattle} from './operation.js?v=99';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){

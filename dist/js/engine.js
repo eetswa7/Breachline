@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=98';
-import {Navigation} from './navigation.js?v=98';
-import {SpawnDirector} from './spawns.js?v=98';
-import {Convoy} from './convoy.js?v=98';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=98';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=98';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=98';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=98';
-import {traceBullet} from './ballistics.js?v=98';
-import {beginVault,advanceVault} from './traversal.js?v=98';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=98';
+import {Arena,MAPS} from './maps.js?v=99';
+import {Navigation} from './navigation.js?v=99';
+import {SpawnDirector} from './spawns.js?v=99';
+import {Convoy} from './convoy.js?v=99';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=99';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=99';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=99';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=99';
+import {traceBullet} from './ballistics.js?v=99';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=99';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=99';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -17,7 +17,7 @@ export class Actor {
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.ride=null;this.ziplineCooldown=0;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.armor=0;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.downedUntil=0;this.revived=false;this.rescueTarget=null;this.rescueProgress=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {
@@ -193,6 +193,38 @@ export class Game {
   this.emit('capture',{text:kind==='hold'?'SQUAD HOLDING MARK':kind==='follow'?'SQUAD RALLYING ON YOU':'SQUAD BACK ON MISSION',source:player.team,position:point});
   return true;
  }
+ ziplineInReach(actor){
+  if(actor.dead||actor.ride||actor.vault||actor.ziplineCooldown>this.time)return null;
+  for(const line of this.arena.ziplines)for(const end of [0,1]){
+   const point=end?line.b:line.a;
+   if(distance(actor,point)<1.35&&Math.abs(actor.y-point.y)<.75&&
+      this.arena.visible(this.eye(actor),{...point,y:point.y+1.5}))return {line,end};
+  }
+  return null;
+ }
+ mountZipline(actor,entry){
+  const point=ziplinePoint(entry.line,entry.end);
+  if(this.arena.collides({...point,y:point.y+.04},.31,1.74))return;
+  actor.ride={line:entry.line,t:entry.end,direction:entry.end?-1:1};
+  Object.assign(actor,point);
+  actor.vx=actor.vy=actor.vz=0;
+  actor.ads=0;actor.sprinting=false;actor.sliding=false;actor.crouched=false;actor.grounded=false;
+  actor.weapon.cancelInspection();
+ }
+ advanceZipline(actor,dt,bail){
+  const ride=actor.ride;
+  const next=clamp(ride.t+ride.direction*12*dt/ride.line.length,0,1);
+  const point=ziplinePoint(ride.line,next);
+  const blocked=this.arena.collides({...point,y:point.y+.04},.31,1.74);
+  if(!bail&&!blocked){
+   actor.vx=(point.x-actor.x)/Math.max(.001,dt);actor.vz=(point.z-actor.z)/Math.max(.001,dt);
+   Object.assign(actor,point);ride.t=next;
+   if(next>0&&next<1)return;
+  }
+  actor.ride=null;actor.ziplineCooldown=this.time+.8;
+  actor.vy=bail?3.4:0;
+  if(!bail){actor.vx=actor.vz=0;actor.grounded=!blocked;}
+ }
  gateInReach(actor){
   if(actor.dead)return null;
   return this.arena.doors.find(gate=>!gate.opening&&!gate.barrier.destroyed&&gate.panels.some(panel=>
@@ -253,7 +285,11 @@ export class Game {
    for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>{if(cue.cue==='caseDump')dumpRevolverCases(this,a,w,cue.count,this.eye(a));else this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)});}:undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
    if(a!==this.survival?.commander&&this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
   }
-  if(!p.dead){
+  if(!p.dead&&p.ride){
+   p.yaw+=input.lx;p.pitch=clamp(p.pitch+input.ly,-1.48,1.48);
+   this.advanceZipline(p,dt,input.jump);
+   p.interacting=input.interact;
+  }else if(!p.dead){
    p.yaw+=input.lx;p.pitch=clamp(p.pitch+input.ly,-1.48,1.48);
    p.slideCooldown=Math.max(0,p.slideCooldown-dt);p.slideLeft=Math.max(0,p.slideLeft-dt);if(p.slideLeft<=0)p.sliding=false;
    p.sprinting=input.sprint&&input.mz>.2&&!input.ads&&!input.fire&&!p.crouched&&!p.sliding&&!p.vault;
@@ -285,6 +321,7 @@ export class Game {
     else {
      const gate=this.gateInReach(p);
      if(gate)gate.opening=true;
+     else {const entry=this.ziplineInReach(p);if(entry)this.mountZipline(p,entry);}
     }
    }
    p.interacting=input.interact;
@@ -361,7 +398,7 @@ export class Game {
   victim.health-=amount;victim.hitReact=Math.min(.16,(victim.hitReact??0)+amount/600);victim.lastDamage=this.time;
   if(victim.id===0){this.damageYaw=killer?Math.atan2(killer.x-victim.x,-(killer.z-victim.z)):victim.yaw;this.emit('hurt',{value:amount,angle:this.damageYaw});}
   if(victim.health>0)return;
-  victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;this.rules.onDeath(victim,this);
+  victim.health=0;for(const w of victim.weapons)this.emit('weaponFoleyCancel',{source:victim.id,weapon:w.def.id});this.spawner.noteDeath(victim,this.time);victim.deaths++;victim.streak=0;victim.respawnLeft=3;victim.interacting=false;victim.ride=null;this.rules.onDeath(victim,this);
   if((this.operation||this.survival&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
    victim.downedUntil=this.time+9;victim.respawnLeft=0;
   }

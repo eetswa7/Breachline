@@ -1,4 +1,4 @@
-import {distance} from './math.js?v=98';
+import {distance} from './math.js?v=99';
 
 const SPEED = 2.4;
 export class Convoy {

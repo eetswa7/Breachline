@@ -1,4 +1,4 @@
-import {clamp,lerp} from './math.js?v=98';
+import {clamp,lerp} from './math.js?v=99';
 
 export function beginVault(actor,arena,dx,dz){
  const length=Math.hypot(dx,dz);
@@ -27,4 +27,23 @@ export function advanceVault(actor,arena,dt){
  actor.x=next.x;actor.y=next.y;actor.z=next.z;
  if(t>=1){actor.vault=null;actor.y=arena.floorAt(actor,actor.y+.08);actor.grounded=true;actor.landKick=.025;}
  return true;
+}
+
+export function ziplinePoint(line,t){
+ return {x:lerp(line.a.x,line.b.x,t),y:lerp(line.a.y,line.b.y,t)+.85*Math.sin(Math.PI*t),z:lerp(line.a.z,line.b.z,t)};
+}
+
+export function addZipline(arena,a,b){
+ const line={a,b,length:Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z)};
+ arena.ziplines.push(line);
+ for(const point of [a,b]){
+  arena.detail(point.x,point.y+1.05,point.z,.12,2.1,.12,'steel');
+  arena.detail(point.x,point.y+1.88,point.z,.38,.16,.38,'orange',{emissive:.25});
+ }
+ for(let i=0;i<20;i++){
+  const from=ziplinePoint(line,i/20),to=ziplinePoint(line,(i+1)/20);
+  const dx=to.x-from.x,dy=to.y-from.y,dz=to.z-from.z;
+  arena.detail((from.x+to.x)/2,(from.y+to.y)/2+1.9,(from.z+to.z)/2,.055,.055,Math.hypot(dx,dy,dz)+.01,
+   'steel',{yaw:Math.atan2(dx,dz),pitch:-Math.atan2(dy,Math.hypot(dx,dz))});
+ }
 }

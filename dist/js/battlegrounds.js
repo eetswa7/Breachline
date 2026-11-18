@@ -1,3 +1,5 @@
+import {addZipline} from './traversal.js?v=99';
+
 // Authored combat spaces. Windows are holes in the collision walls, and raised
 // routes use the same walkable stairs as the ground navigation grid.
 function combatRoom(a,x,z,w,d,h=4.3,surface='plaster',hall=false){
@@ -112,5 +114,6 @@ export function buildBlacksite(a){
   for(const x of [-12,12])a.detail(x,3.7,z,.3,7.4,.3,'orange');
  }
  a.objectives=[{name:'A',x:-31,y:1.5,z:0},{name:'B',x:0,y:0,z:0},{name:'C',x:31,y:1.5,z:0}];
+ for(const side of [-1,1])addZipline(a,{x:side*35.7,y:1.5,z:0},{x:side*50,y:0,z:-side*5});
  a.flagBases=[{team:0,x:-44,y:0,z:14},{team:1,x:44,y:0,z:-14}];
 }

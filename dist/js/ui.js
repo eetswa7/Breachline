@@ -1,14 +1,14 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=98';
-import {Convoy} from './convoy.js?v=98';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=98';
-import {MAPS} from './maps.js?v=98';
-import {drawDeploymentMap} from './deployment-map.js?v=98';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=98';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=98';
-import {ATTACHMENT_SPECS} from './attachments.js?v=98';
-import {clamp,distance} from './math.js?v=98';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=98';
-import {identityFor,canIdentify} from './combat-identity.js?v=98';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=99';
+import {Convoy} from './convoy.js?v=99';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=99';
+import {MAPS} from './maps.js?v=99';
+import {drawDeploymentMap} from './deployment-map.js?v=99';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=99';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=99';
+import {ATTACHMENT_SPECS} from './attachments.js?v=99';
+import {clamp,distance} from './math.js?v=99';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=99';
+import {identityFor,canIdentify} from './combat-identity.js?v=99';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -249,12 +249,12 @@ export class Interface {
   else $('objective').textContent=r.mode.id==='gun'?`TIER ${Math.min(GUN_ORDER.length,p.gunStage+1)} / ${GUN_ORDER.length}`:`FIRST TO ${r.mode.limit}`;
   const rescue=g.findRescue(p);
   const canResupply=g.canUseSupplies(p);
-  const gate=g.gateInReach(p);
-  const canInteract=!!rescue||canResupply||!!gate||r.canUseCharge(p,g);
-  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':gate?`INTERACT TO OPEN ${gate.name.toUpperCase()}`:canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
+  const gate=g.gateInReach(p),zipline=g.ziplineInReach(p);
+  const canInteract=!!rescue||canResupply||!!gate||!!zipline||r.canUseCharge(p,g);
+  $('interact-prompt').textContent=p.ride?'JUMP TO DISMOUNT':rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':gate?`INTERACT TO OPEN ${gate.name.toUpperCase()}`:zipline?'INTERACT TO RIDE ZIPLINE':canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
   this.app.input.setContext(canInteract);
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
-  $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead?0:1;
+  $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead||p.ride?0:1;
   $('scope-zoom').textContent=`${opticMagnification(p.weapon)}×`;this.app.input.layer.classList.toggle('aiming',p.ads>.6);const jump=this.app.input.layer.querySelector('[data-action="jump"]');jump.classList.toggle('crouched',p.crouched);jump.setAttribute('aria-label',p.crouched?'Stand up':'Jump');
   $('damage-vignette').style.opacity=p.dead?0:clamp((45-p.health)/50,0,.65)+clamp(1-(g.time-p.lastDamage)*2,0,.3);$('damage-direction').style.opacity=clamp(1-(g.time-p.lastDamage),0,1);$('damage-direction').style.transform=`rotate(${g.damageYaw-p.yaw}rad)`;$('flash-overlay').style.opacity=clamp(view.flashed/1.5,0,1);
   $('hud').classList.toggle('spectating',spectating);
@@ -293,6 +293,10 @@ export class Interface {
   if(mark){
    c.fillStyle='#9affbe';c.font='bold 14px Arial';
    c.fillText('×',(mark.x-view.x)*s-5,(mark.z-view.z)*s+4);
+  }
+  for(const {a,b} of g.arena.ziplines){
+   c.strokeStyle='#8eddeb';c.lineWidth=1;c.beginPath();
+   c.moveTo((a.x-view.x)*s,(a.z-view.z)*s);c.lineTo((b.x-view.x)*s,(b.z-view.z)*s);c.stroke();
   }
   for(const {barrier} of g.arena.doors){
    c.fillStyle=barrier.destroyed?'#81ecaa':'#e7b063';c.font='bold 11px Arial';
