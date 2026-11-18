@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 100.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 101.** 30 weapons, 17 maps and 13 modes.
+
+## Release 101: battlefield weapon recovery
+
+Eliminated operators drop usable weapons with their remaining ammunition and
+attachments. Interact nearby to swap the weapon in your current slot. You
+keep recovered gear between Last Stand waves. A normal respawn restores your
+chosen kit. Gun Game keeps its fixed weapon ladder.
 
 ## Release 100: deployable equipment
 
