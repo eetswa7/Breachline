@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 102.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 103.** 30 weapons, 17 maps and 14 modes.
+
+## Release 103: Salvage Raid
+
+Lead a three-operator squad past six defenders to recover up to 800 salvage
+from three marked caches. Extract with an early haul or risk going deeper.
+The squad can revive you and you can recover dropped salvage. Activating
+extraction draws defenders to the exit, which must stay clear for four seconds.
+Only extracted salvage earns bonus XP and enters match history.
 
 ## Release 102: match replays
 
