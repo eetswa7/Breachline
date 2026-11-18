@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 104.** 30 weapons, 17 maps and 14 modes.
+**Latest source checkpoint: Release 105.** 30 weapons, 17 maps and 14 modes.
+
+## Release 105: raid weapon stash
+
+Extract with recovered weapons to keep their attachments and remaining
+ammunition in an eight-slot stash. Select one stashed weapon before a raid
+or deploy with your saved kit. The selected weapon leaves the stash when
+deployment succeeds and returns only if you extract with it.
 
 ## Release 104: paid insertions and High Stakes
 
