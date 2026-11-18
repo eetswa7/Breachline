@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 94.** 30 weapons, 16 maps and 12 modes.
+**Latest source checkpoint: Release 95.** 30 weapons, 16 maps and 13 modes.
+
+## Release 95: Convoy
+
+Escort a moving drone while the other team contests its route. Crossing the
+checkpoint adds 35 seconds. Teams swap spawn sides for the second run and
+must beat the first team's distance or delivery time. The deployment map and
+radar show the route on all sixteen battlegrounds.
 
 ## Release 94: Last Stand squad support
 
