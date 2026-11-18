@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 77.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 78.** 30 weapons, 16 maps and 11 modes.
+
+## Release 78: Blacksite turbine-generator trains
+
+Four dedicated turbine-generator assemblies now define the Blacksite hall.
+Painted shrouds, cooling grilles, skids and service panels replace the generic
+diesel generators in these bays. The original movement and cover geometry
+remains in place. The Blacksite ground-lighting bake reflects the new machinery
+and the hall changes from Release 73.
 
 ## Release 77: combat effects
 

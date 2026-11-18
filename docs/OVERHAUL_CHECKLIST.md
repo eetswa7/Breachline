@@ -32,6 +32,18 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 78 continuation tasks
+
+- [x] Build original turbine-generator trains for the four Blacksite machinery
+  bays. Runtime and editable Blender source `71e6ac1` contain near and far
+  models, with the existing cover and navigation geometry.
+- [x] Rebake Blacksite ground irradiance using Blender 4.3.2 and retain the
+  other fifteen lightmaps and existing material containers. The compressed
+  runtime mesh library and Blacksite lightmap together add 37,993 bytes.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Review the new machinery under actual gameplay cameras and on iPhone.
+
 ## Release 77 continuation tasks
 
 - [x] Replace fixed shot markers with moving depth-tested tracers in WebGL.
