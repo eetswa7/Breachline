@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 110.** 30 weapons, 17 maps and 15 modes.
+**Latest source checkpoint: Release 111.** 30 weapons, 17 maps and 15 modes.
+
+## Release 111: startup repair
+
+The renderer starts loading a battleground's optional lighting when the
+battleground is assigned. If startup fails, the error screen shows the cause
+and offers compatibility graphics alongside Retry.
 
 ## Release 110: Floodgate Evacuation
 
