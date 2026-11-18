@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 105.** 30 weapons, 17 maps and 14 modes.
+**Latest source checkpoint: Release 106.** 30 weapons, 17 maps and 14 modes.
+
+## Release 106: Night Ops
+
+Enable Night Ops on the deployment board to fight under moonlight on any
+map. Darkness limits detection range. A flashlight lets you see farther in
+the beam and reveals you to enemies with line of sight. Recent gunfire also
+gives away your position. Toggle the light with T, D-pad Right or the HUD
+button. Replays retain the lighting setup and flashlight inputs.
 
 ## Release 105: raid weapon stash
 
