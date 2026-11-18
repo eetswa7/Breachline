@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 97.** 30 weapons, 17 maps and 13 modes.
+**Latest source checkpoint: Release 98.** 30 weapons, 17 maps and 13 modes.
+
+## Release 98: squad orders
+
+Use the Squad button, B on keyboard or D-pad Up to order your three nearest
+allies. Rally keeps them with you. Hold Mark sends them to the ground you were
+aiming at and shows the position in the world and on radar. Orders expire after
+35 seconds or when you tell the squad to resume the mission.
 
 ## Release 97: Floodgate shortcuts
 
