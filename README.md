@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 93.** 30 weapons, 16 maps and 12 modes.
+**Latest source checkpoint: Release 94.** 30 weapons, 16 maps and 12 modes.
+
+## Release 94: Last Stand squad support
+
+Between waves, spend a supply drop to rearm the squad, issue single-wave
+armor or deploy a fourth operator for the next encounter. Save the drop to
+use it later, including at the supply station during a wave.
 
 ## Release 93: Last Stand encounters
 
