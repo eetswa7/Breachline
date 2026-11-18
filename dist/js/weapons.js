@@ -1,6 +1,7 @@
-import {clamp,lerp} from './math.js?v=106';
-import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=106';
-export {ATTACHMENTS} from './attachments.js?v=106';
+import {SPECIALTIES} from './specialties.js?v=107';
+import {clamp,lerp} from './math.js?v=107';
+import {ATTACHMENTS,attachmentIndex,attachmentProfile} from './attachments.js?v=107';
+export {ATTACHMENTS} from './attachments.js?v=107';
 // All distances are metres. Rates and timings drive the simulation, models and audio.
 const specs=[
  ['Kestrel AR','RIFLE',29,700,30,2.2,.019,.016,42,.19,1,true,1],
@@ -38,7 +39,7 @@ export const WEAPONS=specs.map((s,id)=>{const[name,kind,damage,rpm,magazine,relo
 export const PRIMARY_IDS=WEAPONS.filter(w=>!['PISTOL','MELEE'].includes(w.kind)).map(w=>w.id);
 export const SECONDARY_IDS=WEAPONS.filter(w=>w.kind==='PISTOL').map(w=>w.id);
 export const GUN_ORDER=[0,1,2,13,16,3,4,14,17,21,5,6,18,9,20,24,25,26,27,28,15,8,7,19,10,29,11,23,22];
-export const defaultLoadout=()=>({primary:0,secondary:10,optic:1,barrel:0,handling:0,magazine:0,ammo:0,equipment:'frag'});
+export const defaultLoadout=()=>({primary:0,secondary:10,optic:1,barrel:0,handling:0,magazine:0,ammo:0,equipment:'frag',specialty:'assault'});
 // Contact phases follow the component motions in animateWeaponParts. These are
 // simulation crossings, not an audio timer: pause/cancellation cannot leave a
 // complete recorded reload playing over a different weapon or a live shot.
@@ -52,7 +53,7 @@ export function reloadFoleyStages(w){
  if(w.reloadStartedEmpty){if(w.def.kind==='PISTOL')stages.push(stage(.94,'close','slide'));else stages.push(stage(.84,'open','bolt'),stage(.94,'close','bolt'));}
  return stages.sort((a,b)=>a.phase-b.phase);
 }
-export function sanitizeLoadout(v={}){if(!v||typeof v!=='object')v={};const d=defaultLoadout();for(const k of ['primary','secondary'])if(Number.isFinite(v[k]))d[k]=Math.round(v[k]);d.primary=PRIMARY_IDS.includes(d.primary)?d.primary:clamp(d.primary,0,9);d.secondary=SECONDARY_IDS.includes(d.secondary)?d.secondary:clamp(d.secondary,10,11);for(const key of Object.keys(ATTACHMENTS))d[key]=attachmentIndex(key,v[key]??d[key],WEAPONS[d.primary].kind);d.equipment=['frag','smoke','flash','shield','sensor'].includes(v.equipment)?v.equipment:'frag';return d;}
+export function sanitizeLoadout(v={}){if(!v||typeof v!=='object')v={};const d=defaultLoadout();for(const k of ['primary','secondary'])if(Number.isFinite(v[k]))d[k]=Math.round(v[k]);d.primary=PRIMARY_IDS.includes(d.primary)?d.primary:clamp(d.primary,0,9);d.secondary=SECONDARY_IDS.includes(d.secondary)?d.secondary:clamp(d.secondary,10,11);for(const key of Object.keys(ATTACHMENTS))d[key]=attachmentIndex(key,v[key]??d[key],WEAPONS[d.primary].kind);d.equipment=['frag','smoke','flash','shield','sensor'].includes(v.equipment)?v.equipment:'frag';d.specialty=Object.hasOwn(SPECIALTIES,v.specialty)?v.specialty:d.specialty;return d;}
 export class Weapon {
  constructor(id,loadout={}){this.def=WEAPONS[Number.isFinite(id)?clamp(Math.floor(id),0,WEAPONS.length-1):0];const selection={};for(const key of Object.keys(ATTACHMENTS))selection[key]=attachmentIndex(key,loadout[key]??(key==='optic'&&this.def.kind==='SNIPER'?3:0),this.def.kind);if(this.def.integralSuppressor)selection.barrel=1;this.optic=selection.optic;this.barrel=selection.barrel;this.grip=selection.handling;this.magazine=selection.magazine;this.ammunition=selection.ammo;this.attachments=selection;this.modifiers=attachmentProfile(selection,this.def.kind);this.ammo=this.capacity;this.reserve=this.capacity*5;this.cooldown=0;this.burstRemaining=0;this.reloadLeft=0;this.reloadStartedEmpty=false;this.reloadFoley=[];this.reloadFoleyIndex=0;this.reloadCycle=0;this.spentCases=0;this.sinceShot=10;this.shotIndex=0;this.shotSerial=0;this.inspectLeft=0;}
  get capacity(){return Math.max(1,Math.round(this.def.magazine*this.modifiers.capacity));}
@@ -70,7 +71,7 @@ export class Weapon {
  inspect(){if(this.inspectLeft>0||this.reloadLeft>0||this.cooldown>0||this.burstRemaining>0)return false;this.inspectLeft=this.inspectTime;return true;}
  cancelInspection(){this.inspectLeft=0;}
  reload(){if(this.reloadLeft>0||this.ammo>=this.capacity||this.reserve<=0||this.def.id===12)return false;this.cancelInspection();this.burstRemaining=0;this.reloadStartedEmpty=this.ammo===0;this.reloadLeft=this.reloadTime;this.reloadFoley=reloadFoleyStages(this);this.reloadFoleyIndex=0;this.reloadCycle=0;return true;}
- update(dt,onFoley){this.cooldown=Math.max(0,this.cooldown-dt);this.inspectLeft=Math.max(0,this.inspectLeft-dt);this.sinceShot+=dt;if(this.sinceShot>.4)this.shotIndex=0;if(this.reloadLeft<=0)return false;this.reloadLeft-=dt;
+ update(dt,onFoley,reloadSpeed=1){this.cooldown=Math.max(0,this.cooldown-dt);this.inspectLeft=Math.max(0,this.inspectLeft-dt);this.sinceShot+=dt;if(this.sinceShot>.4)this.shotIndex=0;if(this.reloadLeft<=0)return false;this.reloadLeft-=dt*reloadSpeed;
   const phase=clamp(1-this.reloadLeft/this.reloadTime,0,1);
   while(this.reloadFoleyIndex<this.reloadFoley.length&&this.reloadFoley[this.reloadFoleyIndex].phase<=phase){const stage=this.reloadFoley[this.reloadFoleyIndex++],count=stage.cue==='caseDump'?this.spentCases:undefined;if(stage.cue==='caseDump')this.spentCases=0;onFoley?.({...stage,weapon:this.def.id,magazine:this.magazine,handling:this.grip,cycle:this.reloadCycle,empty:this.reloadStartedEmpty,...(count===undefined?{}:{count})});}
   if(this.reloadLeft>0)return false;const n=Math.min(this.def.shellReload?1:this.capacity-this.ammo,this.reserve);this.ammo+=n;this.reserve-=n;this.reloadLeft=this.def.shellReload&&this.ammo<this.capacity&&this.reserve>0?this.reloadTime:0;if(this.reloadLeft>0){this.reloadFoleyIndex=0;this.reloadCycle++;}return true;}

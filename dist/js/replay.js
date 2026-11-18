@@ -1,5 +1,5 @@
 const ANALOG = ['mx','mz','lx','ly'];
-const BUTTONS = ['fire','firePressed','ads','sprint','jump','crouch','reload','swap','inspect','grenade','interact','melee','repeatFire','autoReload','light'];
+const BUTTONS = ['fire','firePressed','ads','sprint','jump','crouch','reload','swap','inspect','grenade','interact','melee','repeatFire','autoReload','light','ability'];
 const MAX_TICKS = 60 * 60 * 45;
 
 export class MatchRecording {

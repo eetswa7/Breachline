@@ -1,8 +1,8 @@
-import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=106';
-import {MODES} from './modes.js?v=106';
-import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=106';
-import {MAPS} from './maps.js?v=106';
-import {restoreOperation,finishOperationBattle} from './operation.js?v=106';
+import {sanitizeLoadout,defaultLoadout,WEAPONS} from './weapons.js?v=107';
+import {MODES} from './modes.js?v=107';
+import {raidInsertion,RAID_STASH_LIMIT,restoreRaidWeapon,raidWeaponRecord} from './raid.js?v=107';
+import {MAPS} from './maps.js?v=107';
+import {restoreOperation,finishOperationBattle} from './operation.js?v=107';
 export const MATCH_HISTORY_LIMIT=12;
 const count=(value,max=1000000)=>Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):0;
 export function matchRecord(result,completedAt=Date.now()){

@@ -63,6 +63,20 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  rescue.g.damage(rescue.p,200,rescue.t);
  assert.equal(rescue.g.findRescue(ally),null);
 
+ const ability=duel('tdm');
+ ability.g.config.loadout.specialty='medic';
+ ability.p.health=30;
+ ability.g.update(1/60,{...emptyInput(),ability:true});
+ assert(ability.p.health>=75);
+ assert(!ability.g.canUseAbility);
+ assert.equal(ability.g.useAbility(),false);
+ ability.g.time=ability.g.abilityReadyAt;
+ ability.g.config.loadout.specialty='recon';
+ assert(ability.g.useAbility());
+ assert.equal(ability.g.scanMarks.length,1);
+ ability.t.x+=10;
+ assert.notEqual(ability.g.scanMarks[0].x,ability.t.x);
+
  const night=duel('tdm');
  night.g.config.night=true;
  night.t.z=-25;

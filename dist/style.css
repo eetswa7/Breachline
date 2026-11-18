@@ -125,3 +125,7 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 .night-toggle input{accent-color:var(--accent);margin:0}
 .flashlight-button{position:fixed;z-index:9;right:max(18px,env(safe-area-inset-right));top:52px;border:1px solid #fff4;background:#0c1718bc;height:31px;min-width:37px;pointer-events:auto;font-size:9px}
 .flashlight-button[aria-pressed="true"]{background:#bcdbef;color:#101b26}
+
+.ability-button{position:fixed;z-index:9;right:max(63px,calc(env(safe-area-inset-right) + 47px));bottom:max(89px,calc(env(safe-area-inset-bottom) + 76px));border:1px solid #fff5;background:#0c1718de;min-height:34px;padding:6px 10px;font-size:10px;letter-spacing:.55px;pointer-events:auto}
+.ability-button:disabled{opacity:.52}
+@media(pointer:coarse){.ability-button{bottom:auto;top:72px}}
