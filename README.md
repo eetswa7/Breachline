@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 106.** 30 weapons, 17 maps and 14 modes.
+**Latest source checkpoint: Release 107.** 30 weapons, 17 maps and 14 modes.
+
+## Release 107: operator specialties
+
+Choose Assault, Recon or Medic in the Armoury. Assault temporarily boosts
+sprint and reload speed. Recon snapshots nearby enemies on radar. Medic heals
+nearby allies and extends downed teammates' revive windows. Activate the
+equipped ability with X, D-pad Left or its HUD button. Cooldowns persist
+through respawn, and Gun Game keeps its original rules.
 
 ## Release 106: Night Ops
 
