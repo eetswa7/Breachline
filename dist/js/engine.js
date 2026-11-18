@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=92';
-import {Navigation} from './navigation.js?v=92';
-import {SpawnDirector} from './spawns.js?v=92';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=92';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=92';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=92';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=92';
-import {traceBullet} from './ballistics.js?v=92';
-import {beginVault,advanceVault} from './traversal.js?v=92';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=92';
+import {Arena,MAPS} from './maps.js?v=93';
+import {Navigation} from './navigation.js?v=93';
+import {SpawnDirector} from './spawns.js?v=93';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=93';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=93';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=93';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=93';
+import {traceBullet} from './ballistics.js?v=93';
+import {beginVault,advanceVault} from './traversal.js?v=93';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=93';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -28,17 +28,17 @@ export class Game {
   this.time=0;this.paused=false;this.events=[];this.grenades=[];this.smokes=[];this.casings=[];this.actors=[];this.shots=0;this.hits=0;this.headshots=0;this.weaponKills={};this.debug={god:false,ammo:false};this.damageYaw=0;this.lastKiller='';this.saved=false;
   this.actors.push(new Actor(0,0,0,this.config.loadout));
   const survival=this.rules.mode.id==='survival';
-  this.survival=survival?{supplies:3,station:null}:null;
+  this.survival=survival?{supplies:3,station:null,pending:[],commander:null,guards:[]}:null;
   this.teamSize=survival?3:this.rules.mode.teams?(this.arena.info.teamSize??4):4;
   // Cosmetic/loadout variety has its own stream, keeping spawn safety and
   // simulation randomness stable as the weapon catalogue grows.
-  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1):this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
+  for(let i=1;i<(survival?this.teamSize+SURVIVAL_WAVES.at(-1).roles.length:this.teamSize*2);i++){const role=(i-1)%6,variants=ROLES[role].variants,primary=this.rules.mode.id==='gun'?variants[0]:variants[Math.floor(arsenalRandom()*variants.length)];this.actors.push(new Actor(i,i<this.teamSize?0:1,role,{primary}));}
   this.player=this.actors[0];
   if(this.rules.mode.id==='gun')for(const a of this.actors)a.weapons=[new Weapon(GUN_ORDER[0]),new Weapon(10)];
   if(survival)this.startSurvivalWave();else this.resetRound();
  }
  startSurvivalWave(){
-  const wave=this.rules.round,count=SURVIVAL_WAVES[wave-1];
+  const wave=this.rules.round,encounter=SURVIVAL_WAVES[wave-1],count=encounter.roles.length;
   this.spawner.resetRound();
   this.grenades.length=0;this.smokes.length=0;this.casings.length=0;
   for(const actor of this.actors)if(actor.team===1)actor.health=0;
@@ -54,14 +54,33 @@ export class Game {
    ally.health=100;
   }
   if(!this.survival.station)this.survival.station={x:this.player.x,y:this.player.y,z:this.player.z};
-  let deployed=0;
-  for(const enemy of this.actors){
-   if(enemy.team!==1)continue;
-   if(deployed++>=count){enemy.downedUntil=0;enemy.respawnLeft=0;continue;}
-   this.spawn(enemy,true);
+  const roster=this.actors.filter(actor=>actor.team===1);
+  this.survival.pending=[];
+  this.survival.commander=wave===SURVIVAL_WAVES.length?roster[0]:null;
+  this.survival.guards=this.survival.commander?roster.slice(1,4):[];
+  for(let i=0;i<roster.length;i++){
+   const enemy=roster[i],role=encounter.roles[i];
+   if(role===undefined){enemy.downedUntil=0;enemy.respawnLeft=0;continue;}
+   enemy.role=role;
+   enemy.name=enemy===this.survival.commander?'COMMANDER':this.survival.guards.includes(enemy)?`RELAY GUARD ${i}`:names[enemy.id]??`OPERATOR ${enemy.id}`;
+   const variants=ROLES[role].variants;
+   enemy.weapons[0]=new Weapon(variants[(i+wave)%variants.length]);
+   enemy.equipment=encounter.smoke&&i%3===0?'smoke':'frag';
+   if(i>=count-(encounter.reserve??0))this.survival.pending.push(enemy);
+   else this.spawn(enemy,true);
   }
+  if(this.survival.commander)this.survival.commander.health=240;
   this.rules.scores[1]=count;
-  this.emit('round',{text:`WAVE ${wave} / ${SURVIVAL_WAVES.length} · ${count} ENEMIES`});
+  this.emit('round',{text:`WAVE ${wave} · ${encounter.name.toUpperCase()} · ${count} ENEMIES`});
+ }
+ releaseSurvivalReserve(){
+  const pending=this.survival.pending.splice(0);
+  for(const enemy of pending)this.spawn(enemy,true);
+  this.emit('round',{text:'SECOND FRONT · ENEMY RESERVES ARRIVING'});
+  return pending.length;
+ }
+ get livingRelayGuards(){
+  return this.survival?.guards.filter(guard=>!guard.dead).length??0;
  }
  canUseSupplies(actor){
   const station=this.survival?.station;
@@ -155,7 +174,7 @@ export class Game {
    }
    a.spawnProtection=Math.max(0,a.spawnProtection-dt);a.switchLeft=Math.max(0,a.switchLeft-dt);a.knifeCooldown=Math.max(0,a.knifeCooldown-dt);a.flashed=Math.max(0,a.flashed-dt);a.hitReact*=Math.exp(-dt*14);a.visualKick*=Math.exp(-dt*17);a.landKick*=Math.exp(-dt*9);
    for(const w of a.weapons)if(w.update(dt,w.reloadLeft>0?cue=>{if(cue.cue==='caseDump')dumpRevolverCases(this,a,w,cue.count,this.eye(a));else this.emit('weaponFoley',{...cue,source:a.id,position:this.eye(a)});}:undefined)&&a.id===0)this.emit('reloadDone',{source:a.id,weapon:w.def.id});
-   if(this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
+   if(a!==this.survival?.commander&&this.time-a.lastDamage>5.5)a.health=Math.min(100,a.health+dt*15);
   }
   if(!p.dead){
    p.yaw+=input.lx;p.pitch=clamp(p.pitch+input.ly,-1.48,1.48);
@@ -218,7 +237,11 @@ export class Game {
     const eye=this.eye(other),along=(eye.x-origin.x)*dir.x+(eye.y-origin.y)*dir.y+(eye.z-origin.z)*dir.z;
     if(along>0&&along<t-.4&&pointSegment(eye,origin,impact)<1.45)other.suppression=2;
    }
-   if(hit&&this.rules.enemies(a,hit)){this.damage(hit,w.damage(t,part)*result.scale,a,part==='head',w.def);anyHit=true;head=head||part==='head';this.emit('blood',{position:impact,value:part==='head'?8:5});}
+   if(hit&&this.rules.enemies(a,hit)){
+    const shielded=this.damage(hit,w.damage(t,part)*result.scale,a,part==='head',w.def)===false;
+    if(shielded)this.emit('impact',{position:impact,surface:'steel',value:4});
+    else{anyHit=true;head=head||part==='head';this.emit('blood',{position:impact,value:part==='head'?8:5});}
+   }
    for(const contact of result.impacts){
     const b=contact.block,normal=this.impactNormal(contact.position,b);
     // A shallow strike sheds/glances off hard cover. Its audible deflection is
@@ -241,6 +264,7 @@ export class Game {
  damage(victim,amount,killer,headshot=false,source=killer?.weapon.def){
   if(victim.dead||victim.spawnProtection>0||(victim.id===0&&this.debug.god)||this.rules.phase!=='playing')return;
   if(killer&&killer.id!==victim.id&&!this.rules.enemies(killer,victim))return;
+  if(victim===this.survival?.commander&&this.livingRelayGuards)return false;
   if(this.rules.mode.teams&&killer&&victim.team!==killer.team){
    const previous=victim.damageContributors.get(killer.id);
    const recent=previous&&this.time-previous.at<=8?previous.amount:0;
@@ -253,6 +277,7 @@ export class Game {
   if((this.operation||this.survival&&victim.team===0)&&!victim.revived&&this.actors.some(actor=>actor.team===victim.team&&!actor.dead)){
    victim.downedUntil=this.time+9;victim.respawnLeft=0;
   }
+  if(this.survival?.guards.includes(victim)&&!this.livingRelayGuards)this.emit('capture',{text:'RELAY GUARDS DOWN · COMMANDER VULNERABLE'});
   if(victim.id===0)this.lastKiller=killer?.name??'FALL';
   if(killer&&killer.id!==victim.id){killer.kills++;killer.streak++;killer.bestStreak=Math.max(killer.bestStreak,killer.streak);
    if(killer.id===0){

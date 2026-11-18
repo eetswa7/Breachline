@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=92';
-import {distance} from './math.js?v=92';
+import {GUN_ORDER} from './weapons.js?v=93';
+import {distance} from './math.js?v=93';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -16,7 +16,14 @@ export const MODES = [
  {id:'survival',name:'LAST STAND',short:'LAST STAND',description:'Lead a three-operator squad through six enemy waves. Use three shared supply drops to stay in the fight.',limit:6,time:120,teams:true}
 ];
 
-export const SURVIVAL_WAVES=[4,6,8,10,12,14];
+export const SURVIVAL_WAVES=[
+ {name:'Vanguard',roles:[0,0,1,1]},
+ {name:'Close Quarters',roles:[1,2,1,2,1,2]},
+ {name:'Overwatch',roles:[3,0,3,0,4,0,3,0]},
+ {name:'Smoke Screen',roles:[1,2,0,1,2,0,1,2,0,4],smoke:true},
+ {name:'Second Front',roles:[4,0,1,0,4,3,2,1,2,4,0,5],reserve:5},
+ {name:'The Commander',roles:[4,5,5,5,0,1,2,3,0,1,2,4,0,5]}
+];
 const OVERTIME_SECONDS = 90;
 export const HARDPOINT_SECONDS = 45;
 export const TAG_LIFETIME = 30;
@@ -318,8 +325,9 @@ export class MatchRules {
  }
  updateSurvival(engine){
   const allies=engine.actors.filter(actor=>actor.team===0&&!actor.dead).length;
-  const enemies=engine.actors.filter(actor=>actor.team===1&&!actor.dead).length;
-  this.scores[1]=enemies;
+  let enemies=engine.actors.filter(actor=>actor.team===1&&!actor.dead).length;
+  if(allies&&engine.survival.pending.length&&(enemies<=3||this.time<=92))enemies+=engine.releaseSurvivalReserve();
+  this.scores[1]=enemies+engine.survival.pending.length;
   if(!allies){this.finish(1);return;}
   if(!enemies){
    this.scores[0]++;

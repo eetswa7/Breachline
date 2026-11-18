@@ -81,6 +81,27 @@ test('death, respawn and spawn protection form a complete loop',()=>{const{g,p,t
  assert(!survival.player.dead);
  assert.equal(survival.player.weapon.reserve,17);
 
+ survival.rules.round=5;
+ survival.startSurvivalWave();
+ assert.equal(survival.survival.pending.length,5);
+ survival.rules.time=92;
+ survival.rules.update(1,survival);
+ assert.equal(survival.survival.pending.length,0);
+ assert.equal(survival.rules.scores[1],12);
+ survival.rules.round=6;
+ survival.startSurvivalWave();
+ const commander=survival.survival.commander;
+ commander.spawnProtection=0;
+ assert.equal(survival.damage(commander,300,survival.player),false);
+ assert.equal(commander.health,240);
+ for(const guard of survival.survival.guards){
+  guard.spawnProtection=0;
+  survival.damage(guard,200,survival.player);
+ }
+ assert.equal(survival.livingRelayGuards,0);
+ survival.damage(commander,250,survival.player);
+ assert(commander.dead);
+
  const extraction=duel('frontline'),{g:run,p:runner,t:guard}=extraction;
  run.operation={id:'siege'};
  run.arena.visible=()=>true;

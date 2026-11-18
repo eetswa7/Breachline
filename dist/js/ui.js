@@ -1,13 +1,13 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=92';
-import {MODES,MatchRules} from './modes.js?v=92';
-import {MAPS} from './maps.js?v=92';
-import {drawDeploymentMap} from './deployment-map.js?v=92';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=92';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=92';
-import {ATTACHMENT_SPECS} from './attachments.js?v=92';
-import {clamp,distance} from './math.js?v=92';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=92';
-import {identityFor,canIdentify} from './combat-identity.js?v=92';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=93';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=93';
+import {MAPS} from './maps.js?v=93';
+import {drawDeploymentMap} from './deployment-map.js?v=93';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=93';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=93';
+import {ATTACHMENT_SPECS} from './attachments.js?v=93';
+import {clamp,distance} from './math.js?v=93';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=93';
+import {identityFor,canIdentify} from './combat-identity.js?v=93';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -182,7 +182,11 @@ export class Interface {
   if(g.survival){
    $('team-blue-label').textContent='WAVES CLEARED';
    $('team-red-label').textContent='ENEMIES LEFT';
-   $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} / ${r.mode.limit} · ${g.survival.supplies} SUPPLY DROPS LEFT`;
+   $('objective').textContent=r.phase==='roundBreak'?`NEXT WAVE IN ${Math.ceil(r.roundWait)}s`:`WAVE ${r.round} · ${SURVIVAL_WAVES[r.round-1].name.toUpperCase()} · ${g.survival.supplies} SUPPLY DROPS LEFT`;
+   const commander=g.survival.commander;
+   if(commander&&!commander.dead)$('objective').textContent=g.livingRelayGuards?
+    `COMMANDER SHIELDED · ${g.livingRelayGuards} RELAY GUARDS LEFT`:
+    `COMMANDER VULNERABLE · ${Math.ceil(commander.health/240*100)}% HEALTH`;
   }else if(r.mode.id==='domination')$('objective').textContent=r.points.map(q=>`${q.name} ${q.contested?'CONTESTED':q.owner===p.team?'ALLIES':q.owner>=0?'ENEMIES':q.progress>0?'CAPTURING':'NEUTRAL'}`).join('   ');
   else if(r.mode.id==='hardpoint'){const q=r.points[r.activePoint];$('objective').textContent=`HOLD ${q.name} · ${q.contested?'CONTESTED':q.owner===p.team?'ALLIED CONTROL':q.owner>=0?'ENEMY CONTROL':'UNCLAIMED'} · ROTATES ${Math.ceil(r.rotationRemaining)}s`;}
   else if(r.payload){
@@ -238,6 +242,11 @@ export class Interface {
    const station=g.survival.station;
    c.fillStyle='#b7f978';c.font='bold 12px Arial';
    c.fillText('SUP',(station.x-view.x)*s-9,(station.z-view.z)*s+4);
+  }
+  for(const enemy of g.survival?[g.survival.commander,...g.survival.guards]:[]){
+   if(!enemy||enemy.dead)continue;
+   c.fillStyle='#ff986d';c.font='bold 12px Arial';
+   c.fillText(enemy===g.survival.commander?'◆':'◇',(enemy.x-view.x)*s-5,(enemy.z-view.z)*s+4);
   }
   const payload=g.rules.payload;
   const charge=payload?.position??(payload?g.actors.find(actor=>actor.id===payload.carrier):null)??g.rules.droppedCharge??(g.rules.attackingTeam===g.player.team?g.actors.find(actor=>actor.id===g.rules.chargeCarrier):null);
