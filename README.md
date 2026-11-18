@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 79.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 80.** 30 weapons, 16 maps and 11 modes.
+
+## Release 80: first launch and offline install
+
+First-time online players can reach the menu and start a match as soon as the
+playable art has loaded. The complete offline install runs in the background,
+and the menu reports when it is ready. Upgrades for existing offline players
+still activate a complete release before opening the game.
 
 ## Release 79: deployment briefing
 

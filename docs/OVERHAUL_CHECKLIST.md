@@ -32,6 +32,15 @@ physical iPhone performance remain unfinished or unverified.
   retained evidence, not instructions to rerun them. Unperformed visual/audio
   and physical-device acceptance remains open.
 
+## Release 80 continuation tasks
+
+- [x] Give a fresh online launch priority over the complete offline install.
+  Runtime source `5e4012f` reports offline status separately and retains
+  the complete-release activation requirement for existing installations.
+- [x] Verify runtime source on 18 November 2026. All 74 core tests and the
+  packaging/offline check passed.
+- [ ] Measure first-launch timing and Safari Home Screen behavior on an iPhone.
+
 ## Release 79 continuation tasks
 
 - [x] Replace the generic Play headline with a live briefing for all sixteen
