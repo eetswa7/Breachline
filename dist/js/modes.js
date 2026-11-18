@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=85';
-import {distance} from './math.js?v=85';
+import {GUN_ORDER} from './weapons.js?v=86';
+import {distance} from './math.js?v=86';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -15,6 +15,7 @@ export const MODES = [
  {id:'frontline',name:'FRONTLINE',short:'FRONT',description:'Capture the active sector to push the line. Break through the enemy rear sector to win.',limit:3,time:600,teams:true}
 ];
 
+const OVERTIME_SECONDS = 90;
 export const HARDPOINT_SECONDS = 45;
 export const TAG_LIFETIME = 30;
 export const MAX_TAGS = 32;
@@ -30,7 +31,7 @@ export class MatchRules {
   this.mode=MODES.find(m=>m.id===mode)||MODES[0];
   // The expanded arenas need travel time as well as one kill per firearm.
   if(this.mode.id==='gun'&&arena.info.size>=58)this.mode={...this.mode,time:1350};
-  this.time=this.mode.time;this.scores=[0,0];this.phase='playing';this.round=1;this.roundWait=0;
+  this.time=this.mode.time;this.overtime=false;this.scores=[0,0];this.phase='playing';this.round=1;this.roundWait=0;
   this.winner=null;this.roundWinner=null;this.message='';this.planted=false;this.bombTime=35;
   this.bombSite=-1;this.chargeCarrier=null;this.droppedCharge=null;this.tick=0;
   this.points=arena.objectives.map(p=>({...p,owner:-1,progress:0,capturing:-1,contested:false}));
@@ -99,6 +100,24 @@ export class MatchRules {
    const y=engine?engine.arena.floorAt(victim,victim.y+.08):victim.y;
    this.tags.push({id:this.nextTagId++,x:victim.x,y,z:victim.z,team:victim.team,owner:victim.id,age:0});
   }
+ }
+ scoreLeader(actors){
+  if(this.mode.teams)return this.scores[0]===this.scores[1]?-1:this.scores[0]>this.scores[1]?0:1;
+  const metric=this.mode.id==='gun'?'gunStage':this.mode.id==='hill'?'hillScore':'kills';
+  let best=-Infinity,leader=-1;
+  for(const actor of actors){
+   const score=actor[metric]??0;
+   if(score>best){best=score;leader=actor.id;}
+   else if(score===best)leader=-1;
+  }
+  return leader;
+ }
+ resolveTimedMatch(engine){
+  const leader=this.scoreLeader(engine.actors);
+  if(leader>=0||this.overtime){this.finish(leader);return;}
+  this.overtime=true;
+  this.time=OVERTIME_SECONDS;
+  engine.emit('round',{text:'OVERTIME · TAKE THE LEAD'});
  }
  finish(winner){this.phase='finished';this.winner=winner;}
  roundEnd(team,text) {
@@ -287,16 +306,16 @@ export class MatchRules {
      const team=count[0]?0:1;
      if(p.owner!==team) {
       if(p.capturing!==team){p.capturing=team;p.progress=0;}
-      p.progress+=dt*Math.min(2,count[team])/5;
+      p.progress+=elapsed*Math.min(2,count[team])/5;
       if(p.progress>=1){p.owner=team;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
      }else p.progress=0;
-    }else if(!p.contested)p.progress=Math.max(0,p.progress-dt*.1);
+    }else if(!p.contested)p.progress=Math.max(0,p.progress-elapsed*.1);
    }
-   this.tick+=dt;
+   this.tick+=elapsed;
    if(this.tick>=1) {
     this.tick-=1;
     for(const p of this.points)if(p.owner>=0)this.scores[p.owner]++;
-    if(Math.max(...this.scores)>=150)this.finish(this.scores[0]===this.scores[1]?-1:this.scores[0]>this.scores[1]?0:1);
+    if(Math.max(...this.scores)>=this.mode.limit)this.resolveTimedMatch(engine);
    }
   }
   if(this.mode.id==='sabotage') {
@@ -334,12 +353,11 @@ export class MatchRules {
     }
    }else{this.siteProgress=0;this.interactor=null;for(const a of engine.actors)a.interactProgress=0;}
   }
-  if(this.time<=0&&this.mode.id!=='sabotage') {
-   if(this.mode.teams)this.finish(this.scores[0]===this.scores[1]?-1:this.scores[0]>this.scores[1]?0:1);
-   else {
-    const value=a=>this.mode.id==='gun'?a.gunStage:this.mode.id==='hill'?a.hillScore??0:a.kills;
-    const ranking=engine.actors.slice().sort((a,b)=>value(b)-value(a));
-    this.finish(!ranking[1]||value(ranking[0])!==value(ranking[1])?ranking[0].id:-1);
+  if(this.phase==='playing'&&this.respawns){
+   if(this.time<=0)this.resolveTimedMatch(engine);
+   else if(this.overtime){
+    const leader=this.scoreLeader(engine.actors);
+    if(leader>=0)this.finish(leader);
    }
   }
  }

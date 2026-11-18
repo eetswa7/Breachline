@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=85';
-import {Navigation} from './navigation.js?v=85';
-import {SpawnDirector} from './spawns.js?v=85';
-import {MatchRules} from './modes.js?v=85';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=85';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=85';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=85';
-import {traceBullet} from './ballistics.js?v=85';
-import {beginVault,advanceVault} from './traversal.js?v=85';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=85';
+import {Arena,MAPS} from './maps.js?v=86';
+import {Navigation} from './navigation.js?v=86';
+import {SpawnDirector} from './spawns.js?v=86';
+import {MatchRules} from './modes.js?v=86';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=86';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=86';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=86';
+import {traceBullet} from './ballistics.js?v=86';
+import {beginVault,advanceVault} from './traversal.js?v=86';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=86';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -206,7 +206,7 @@ export class Game {
   const p=this.player,r=this.rules,win=r.winner>=0&&(r.mode.teams?r.winner===p.team:r.winner===p.id);
   const xpBreakdown={completion:100,combat:p.kills*100+this.headshots*25,assists:p.assists*50,objective:p.objectiveXP,victory:win?350:0};
   const xp=Object.values(xpBreakdown).reduce((sum,amount)=>sum+amount,0);
-  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,
+  return {mode:r.mode.id,map:this.config.map,difficulty:this.config.difficulty,win,draw:r.winner===-1,overtime:r.overtime,
    kills:p.kills,assists:p.assists,deaths:p.deaths,headshots:this.headshots,accuracy:this.shots?Math.round(this.hits/this.shots*100):0,
    xp,xpBreakdown,streak:p.bestStreak,weaponKills:{...this.weaponKills},time:this.time};
  }

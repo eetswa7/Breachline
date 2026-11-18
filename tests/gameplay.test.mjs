@@ -42,7 +42,24 @@ test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa'
   g.damage(t,100,p);
   assert.equal(ally.assists,1);
  }
- for(let i=p.kills;i<g.rules.mode.limit;i++){t.health=100;t.spawnProtection=0;g.damage(t,200,p);}assert.equal(g.rules.phase,'finished');assert.equal(g.rules.winner,0);}});
+ for(let i=p.kills;i<g.rules.mode.limit;i++){t.health=100;t.spawnProtection=0;g.damage(t,200,p);}assert.equal(g.rules.phase,'finished');assert.equal(g.rules.winner,0);}
+ for(const mode of ['tdm','ffa']){
+  const {g,p,t}=duel(mode);
+  g.rules.time=.01;
+  g.update(1/60);
+  assert.equal(g.rules.time,90);
+  assert.equal(g.rules.phase,'playing');
+  g.damage(t,200,p);
+  g.rules.update(1/60,g);
+  assert.equal(g.rules.winner,0);
+  assert.equal(g.result().overtime,true);
+ }
+ const tied=duel('tdm').g;
+ tied.rules.update(tied.rules.time,tied);
+ tied.rules.update(tied.rules.time,tied);
+ assert.equal(tied.rules.phase,'finished');
+ assert.equal(tied.rules.winner,-1);
+});
 
 test('domination captures, contests, awards points and finishes',()=>{const{g,p,t}=duel('domination'),q=g.rules.points[0];p.x=q.x;p.z=q.z;t.x=50;t.z=50;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(q.owner,0);g.rules.scores[0]=149;g.rules.tick=.99;g.rules.update(.03,g);assert.equal(g.rules.phase,'finished');const d=duel('domination'),c=d.g.rules.points[0];d.p.x=d.t.x=c.x;d.p.z=d.t.z=c.z;d.g.rules.update(1,d.g);assert(c.contested);assert.equal(c.progress,0);});
 test('sabotage can recover, plant, defuse, switch teams and start another round',()=>{
