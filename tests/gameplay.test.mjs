@@ -61,7 +61,18 @@ test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa'
  assert.equal(tied.rules.winner,-1);
 });
 
-test('domination captures, contests, awards points and finishes',()=>{const{g,p,t}=duel('domination'),q=g.rules.points[0];p.x=q.x;p.z=q.z;t.x=50;t.z=50;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(q.owner,0);g.rules.scores[0]=149;g.rules.tick=.99;g.rules.update(.03,g);assert.equal(g.rules.phase,'finished');const d=duel('domination'),c=d.g.rules.points[0];d.p.x=d.t.x=c.x;d.p.z=d.t.z=c.z;d.g.rules.update(1,d.g);assert(c.contested);assert.equal(c.progress,0);});
+test('domination captures, contests, awards points and finishes',()=>{const{g,p,t}=duel('domination'),q=g.rules.points[0];p.x=q.x;p.z=q.z;t.x=50;t.z=50;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(q.owner,0);g.rules.scores[0]=149;g.rules.tick=.99;g.rules.update(.03,g);assert.equal(g.rules.phase,'finished');const d=duel('domination'),c=d.g.rules.points[0];d.p.x=d.t.x=c.x;d.p.z=d.t.z=c.z;d.g.rules.update(1,d.g);assert(c.contested);assert.equal(c.progress,0);
+ const squad=new Game({mode:'domination'},{seed:891});
+ advance(squad,.15);
+ const assignments=squad.actors.filter(actor=>actor.id!==0&&actor.team===0).map(actor=>actor.objectivePoint);
+ assert(assignments.every(Boolean));
+ assert(new Set(assignments).size>1);
+ const rotation=new Game({mode:'hardpoint'},{seed:891});
+ rotation.rules.rotationRemaining=2;
+ advance(rotation,.15);
+ assert.equal(rotation.actors[1].objectivePoint,rotation.rules.points[rotation.rules.activePoint]);
+ assert.equal(rotation.actors[2].objectivePoint,rotation.rules.points[(rotation.rules.activePoint+1)%rotation.rules.points.length]);
+});
 test('sabotage can recover, plant, defuse, switch teams and start another round',()=>{
  const {g,p,t}=duel('sabotage'),site=g.rules.points[0];
  const ally=Object.assign(Object.create(Object.getPrototypeOf(p)),p,{id:1,x:site.x,z:site.z});

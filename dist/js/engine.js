@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=87';
-import {Navigation} from './navigation.js?v=87';
-import {SpawnDirector} from './spawns.js?v=87';
-import {MatchRules} from './modes.js?v=87';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=87';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=87';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=87';
-import {traceBullet} from './ballistics.js?v=87';
-import {beginVault,advanceVault} from './traversal.js?v=87';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=87';
+import {Arena,MAPS} from './maps.js?v=88';
+import {Navigation} from './navigation.js?v=88';
+import {SpawnDirector} from './spawns.js?v=88';
+import {MatchRules} from './modes.js?v=88';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=88';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=88';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=88';
+import {traceBullet} from './ballistics.js?v=88';
+import {beginVault,advanceVault} from './traversal.js?v=88';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=88';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -16,7 +16,7 @@ export class Actor {
  get weapon(){return this.weapons[this.slot];}
  get dead(){return this.health<=0;}
  get height(){return this.crouched?1.12:1.78;}
- reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
+ reset(p,yaw){this.x=p.x;this.y=p.y;this.z=p.z;this.vault=null;this.viewModel=null;this.weaponObstruction=0;this.hitReact=0;this.vx=this.vz=this.vy=0;this.yaw=yaw;this.pitch=0;this.health=100;this.crouched=false;this.grounded=true;this.sprinting=false;this.sliding=false;this.slideLeft=0;this.slideCooldown=0;this.slideX=0;this.slideZ=0;this.ads=0;this.grenades=2;this.grenadeCooldown=0;this.spawnProtection=1.5;this.respawnLeft=0;this.switchLeft=0;this.slot=0;this.lastDamage=-100;this.damageContributors=new Map();this.lastShot=-100;this.flashed=0;this.suppression=0;this.stepClock=0;this.knifeCooldown=0;this.interacting=false;this.interactProgress=0;this.state='patrol';this.aiClock=this.id*.019;this.pathClock=0;this.target=null;this.lastKnown=null;this.memory=0;this.reaction=0;this.burst=0;this.burstPause=0;this.path=[];this.pathIndex=0;this.goal=null;this.objectivePoint=null;this.stuckTime=0;this.jumpBuffer=0;this.coyote=0;this.recoilPitch=0;this.visualKick=0;this.landKick=0;for(const w of this.weapons)w.reset();}
 }
 
 export class Game {

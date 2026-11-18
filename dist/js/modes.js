@@ -1,5 +1,5 @@
-import {GUN_ORDER} from './weapons.js?v=87';
-import {distance} from './math.js?v=87';
+import {GUN_ORDER} from './weapons.js?v=88';
+import {distance} from './math.js?v=88';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
@@ -307,9 +307,9 @@ export class MatchRules {
      if(p.owner!==team) {
       if(p.capturing!==team){p.capturing=team;p.progress=0;}
       p.progress+=elapsed*Math.min(2,count[team])/5;
-      if(p.progress>=1){p.owner=team;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
+      if(p.progress>=1){p.owner=team;p.capturing=-1;p.progress=0;for(const actor of occupants){actor.captures++;this.awardObjective(actor,'capture');}engine.emit('capture',{text:`${p.name} captured`,source:team});}
      }else p.progress=0;
-    }else if(!p.contested)p.progress=Math.max(0,p.progress-elapsed*.1);
+    }else if(!p.contested){p.progress=Math.max(0,p.progress-elapsed*.1);if(!p.progress)p.capturing=-1;}
    }
    this.tick+=elapsed;
    if(this.tick>=1) {

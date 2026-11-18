@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=87';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=88';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};
@@ -11,11 +11,41 @@ function nearestTag(bot,rules){
  }
  return best;
 }
-function hardpointGoal(bot,rules){
- const p=rules.points[rules.activePoint];
- // Spread defenders inside the ring; the centre may contain a fountain or cover.
- const angle=bot.id*2.399963;
- return {x:p.x+Math.cos(angle)*2.9,y:p.y,z:p.z+Math.sin(angle)*2.9};
+function dominationAssignments(game){
+ const {rules,actors,time}=game;
+ if(game.dominationPlan?.until>time)return game.dominationPlan.points;
+ const points=new Map(),loads=rules.points.map(()=>[0,0]);
+ // A nearby player counts toward the squad already covering a site.
+ const player=game.player;
+ if(!player.dead)for(let i=0;i<rules.points.length;i++){
+  const point=rules.points[i];
+  if(distance(player,point)<5&&Math.abs(player.y-point.y)<2.6)loads[i][player.team]++;
+ }
+ for(const actor of actors){
+  if(actor===player||actor.dead)continue;
+  let best=Infinity,index=-1;
+  for(let i=0;i<rules.points.length;i++){
+   const point=rules.points[i],owned=point.owner===actor.team;
+   const hold=owned&&!point.contested&&point.capturing<0;
+   const cost=distance(actor,point)+Math.abs(actor.y-point.y)*3+
+    loads[i][actor.team]*25+(hold?18:0)-(point.contested?8:0)-
+    (actor.objectivePoint===point?7:0);
+   if(cost<best){best=cost;index=i;}
+  }
+  if(index>=0){loads[index][actor.team]++;points.set(actor.id,rules.points[index]);}
+ }
+ game.dominationPlan={until:time+.6,points};
+ return points;
+}
+function objectivePoint(bot,game){
+ const {rules}=game,id=rules.mode.id;
+ if(id==='domination')return dominationAssignments(game).get(bot.id);
+ if(id==='hardpoint'){
+  const current=rules.points[rules.activePoint],next=rules.points[(rules.activePoint+1)%rules.points.length];
+  if(next&&bot.id%2===0&&rules.rotationRemaining<clamp(distance(bot,next)/4,4,12))return next;
+  return current;
+ }
+ if(id==='hill'||id==='frontline')return rules.points[rules.activePoint];
 }
 function flagGoal(bot,rules,actors){
  const own=rules.flags.find(f=>f.team===bot.team),enemy=rules.flags.find(f=>f.team!==bot.team);if(!own||!enemy)return null;
@@ -71,6 +101,7 @@ export function updateBot(bot,dt,e){
   if(target){if(bot.target!==target.id){bot.reaction=e.difficulty.reaction+(bot.role===5?-.07:.08)*e.random();bot.burst=0;}
    bot.target=target.id;bot.lastKnown={x:target.x,y:target.y,z:target.z};bot.memory=6;bot.state='engage';
   }else{bot.target=null;if(bot.memory>0&&bot.lastKnown){bot.state='investigate';bot.goal=bot.lastKnown;}else bot.state='patrol';}
+  const point=objectivePoint(bot,e);
   const pickup=e.rules.mode.id==='confirmed'?nearestTag(bot,e.rules):null;
   const chargeGoal=e.rules.mode.id==='sabotage'?sabotageGoal(bot,e.rules,e.actors):null;
   const ctfGoal=e.rules.mode.id==='ctf'?flagGoal(bot,e.rules,e.actors):null;
@@ -80,8 +111,9 @@ export function updateBot(bot,dt,e){
    bot.state=bot.weapon.reloadLeft>0?'reload':'retreat';let cover=null,cost=Infinity;
    for(const p of e.arena.cover){const d=distance(bot,p);if(d<cost&&d<13&&!e.arena.collides(p,.35,1.7)&&(!target||!e.arena.visible({...p,y:p.y+1.3},e.eye(target)))){cover=p;cost=d;}}
    bot.goal=cover??{x:bot.x-Math.sin(bot.yaw)*7,y:bot.y,z:bot.z+Math.cos(bot.yaw)*7};
-  }else if(['hardpoint','hill','frontline'].includes(e.rules.mode.id)){
-   bot.goal=hardpointGoal(bot,e.rules);bot.state='objective';
+  }else if(point){
+   const angle=bot.id*2.399963,radius=e.rules.mode.id==='domination'?1.7:2.9;
+   bot.goal={x:point.x+Math.cos(angle)*radius,y:point.y,z:point.z+Math.sin(angle)*radius};bot.state='objective';
   }else if(chargeGoal){
    bot.goal=chargeGoal;bot.state='objective';
   }else if(ctfGoal){
@@ -98,8 +130,11 @@ export function updateBot(bot,dt,e){
    else if(d>preferred*1.25){const flank=bot.weapon.def.id===12?0:Math.min(5,preferred*.25);bot.goal={x:target.x+Math.cos(bot.yaw)*side*flank,y:target.y,z:target.z+Math.sin(bot.yaw)*side*flank};bot.state='flank';}
    else{bot.goal={x:bot.x+Math.cos(bot.yaw)*side*1.8,y:bot.y,z:bot.z+Math.sin(bot.yaw)*side*1.8};bot.state='engage';}
   }else if(bot.state==='patrol'||bot.state==='investigate'&&distance(bot,bot.lastKnown)<2){
-   if(e.rules.mode.id==='domination'){const pts=e.rules.points.filter(p=>p.owner!==bot.team);const point=(pts.length?pts:e.rules.points)[bot.id%(pts.length||3)],angle=bot.id*2.399963;bot.goal={x:point.x+Math.cos(angle)*1.7,y:point.y,z:point.z+Math.sin(angle)*1.7};bot.state='objective';}
-   else if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
+   if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
+  }
+  const assignment=bot.state==='objective'?point??null:null;
+  if(assignment!==bot.objectivePoint){
+   bot.objectivePoint=assignment;bot.pathClock=0;bot.path=[];bot.pathIndex=0;
   }
   if(bot.goal&&bot.pathClock<=0&&e.pathBudget>0){e.pathBudget--;bot.path=e.nav.path(bot,bot.goal);bot.pathIndex=0;bot.pathClock=.85+e.random()*.55;}
  }
