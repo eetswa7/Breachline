@@ -1,6 +1,13 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 95.** 30 weapons, 16 maps and 13 modes.
+**Latest source checkpoint: Release 96.** 30 weapons, 17 maps and 13 modes.
+
+## Release 96: Floodgate
+
+An original 84-meter hydroelectric battleground in the rain. The open turbine
+hall connects the central objectives. A raised service gantry has stairs on
+both ends, and the spillway gives squads a southern flank. Floodgate supports
+the standard mode selector, including Convoy and Last Stand.
 
 ## Release 95: Convoy
 
