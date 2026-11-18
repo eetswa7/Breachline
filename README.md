@@ -1,6 +1,18 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 88.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 89.** 30 weapons, 16 maps and 11 modes.
+
+## Release 89: Blacksite Siege campaign
+
+Open **War Campaign** from the deployment board. Choose between two objectives
+at each of the first two stages, then assault Blacksite. Secured supply routes
+increase allied reinforcements in later battles, while strikes on command or
+reserve forces reduce enemy reinforcements. Each team spends a reinforcement on
+every redeployment and can lose by being wiped out after its pool runs dry.
+
+A completed loss or draw spends one of three assault reserves. Progress saves
+after each finished battle. Leaving a battle early returns to the same stage.
+The campaign takes its difficulty from match setup when the operation begins.
 
 ## Release 88: objective bot squads
 
