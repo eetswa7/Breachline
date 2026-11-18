@@ -1,6 +1,12 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 86.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 87.** 30 weapons, 16 maps and 11 modes.
+
+## Release 87: teammate spectating
+
+After elimination in Sabotage and Elimination, the camera, radar and spatial
+audio follow a surviving teammate. The view switches automatically if that
+teammate dies and returns to the player at the start of the next round.
 
 ## Release 86: sudden-death overtime
 
