@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 109.** 30 weapons, 17 maps and 15 modes.
+**Latest source checkpoint: Release 110.** 30 weapons, 17 maps and 15 modes.
+
+## Release 110: Floodgate Evacuation
+
+War Campaign now offers Blacksite Siege and Floodgate Evacuation with
+independent save progress. Choose which supply routes and reserves to fight
+over before the Floodgate finale. Then lead six operators past nine defenders
+and deliver the evacuation drone before time or allied reinforcements run out.
+Clearing the defenders still leaves the escort objective to complete.
 
 ## Release 109: tactical map
 
