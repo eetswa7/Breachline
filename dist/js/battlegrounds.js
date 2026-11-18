@@ -1,4 +1,4 @@
-import {addZipline} from './traversal.js?v=101';
+import {addZipline} from './traversal.js?v=102';
 
 // Authored combat spaces. Windows are holes in the collision walls, and raised
 // routes use the same walkable stairs as the ground navigation grid.

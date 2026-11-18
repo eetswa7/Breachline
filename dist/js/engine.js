@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=101';
-import {Navigation} from './navigation.js?v=101';
-import {SpawnDirector} from './spawns.js?v=101';
-import {Convoy} from './convoy.js?v=101';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=101';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=101';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=101';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=101';
-import {traceBullet} from './ballistics.js?v=101';
-import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=101';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=101';
+import {Arena,MAPS} from './maps.js?v=102';
+import {Navigation} from './navigation.js?v=102';
+import {SpawnDirector} from './spawns.js?v=102';
+import {Convoy} from './convoy.js?v=102';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=102';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=102';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=102';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=102';
+import {traceBullet} from './ballistics.js?v=102';
+import {beginVault,advanceVault,ziplinePoint} from './traversal.js?v=102';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=102';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -104,6 +104,7 @@ export class Game {
   if(!this.awaitingSurvivalSupport||!['bank','ammo','armor','reinforce'].includes(choice))return false;
   if(choice!=='bank')this.survival.supplies--;
   this.survival.decision=choice;
+  this.recordReplayAction?.('support',choice);
   return true;
  }
  fillSurvivalSupplies(reload=false){
@@ -190,6 +191,7 @@ export class Game {
   for(const actor of this.actors)if(assigned.includes(actor.id)||actor.state==='order'){
    actor.aiClock=0;actor.pathClock=0;actor.path=[];actor.pathIndex=0;
   }
+  this.recordReplayAction?.('order',kind);
   this.emit('capture',{text:kind==='hold'?'SQUAD HOLDING MARK':kind==='follow'?'SQUAD RALLYING ON YOU':'SQUAD BACK ON MISSION',source:player.team,position:point});
   return true;
  }

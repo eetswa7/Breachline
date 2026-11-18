@@ -117,3 +117,6 @@ body:not(.desktop):has(.touch-layer.left-handed) .health-display{left:auto;right
 
 .squad-button{position:fixed;z-index:9;right:max(62px,calc(env(safe-area-inset-right) + 45px));top:14px;border:1px solid #fff4;background:#0c1718bc;min-width:58px;height:33px;pointer-events:auto;font-size:10px;letter-spacing:.65px}
 .squad-status{position:absolute;top:50px;right:max(64px,calc(env(safe-area-inset-right) + 47px));font-size:10px;color:var(--cyan);letter-spacing:.7px}
+
+.replay-status{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#0c1718e8;border:1px solid var(--line);padding:7px 12px;color:var(--cyan);font-size:10px;letter-spacing:.8px}
+#career-replay{margin-bottom:8px}

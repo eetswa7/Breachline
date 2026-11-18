@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Game,emptyInput} from '../dist/js/engine.js';
+import {MatchRecording,ReplayCursor} from '../dist/js/replay.js';
 import {Weapon,WEAPONS,GUN_ORDER} from '../dist/js/weapons.js';
 import {Arena,MAPS} from '../dist/js/maps.js';
 import {ziplinePoint} from '../dist/js/traversal.js';
@@ -265,6 +266,24 @@ test('domination captures, contests, awards points and finishes',()=>{const{g,p,
  assert.equal(squad.activeSquadOrder,null);
  advance(squad,.15);
  assert.equal(ordered.state,'objective');
+ const config={mode:'domination',map:0};
+ const original=new Game(config,{seed:104});
+ const tape=new MatchRecording(original.config,104,null);
+ original.recordReplayAction=(type,value)=>tape.addAction(type,value);
+ assert(original.issueSquadOrder('follow'));
+ for(let tick=0;tick<120;tick++){
+  if(tick===60)assert(original.issueSquadOrder('release'));
+  const input={...emptyInput(),mz:tick<30?.6:0,lx:tick===40?.4:0};
+  tape.addInput(input);original.update(1/60,input);original.events.length=0;
+ }
+ const replay=new Game(tape.config,{seed:tape.seed});
+ const cursor=new ReplayCursor(tape);
+ while(cursor.step(replay))replay.events.length=0;
+ const state=game=>game.actors.map(actor=>[actor.x,actor.y,actor.z,actor.health,actor.state,actor.weapon.ammo]);
+ assert.equal(cursor.tick,120);
+ assert(tape.runs.length<120);
+ assert.deepEqual(state(replay),state(original));
+ assert.deepEqual(replay.rules.scores,original.rules.scores);
  const rotation=new Game({mode:'hardpoint'},{seed:891});
  rotation.rules.rotationRemaining=2;
  advance(rotation,.15);
