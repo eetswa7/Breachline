@@ -1,4 +1,4 @@
-import {clamp} from './math.js?v=74';
+import {clamp} from './math.js?v=75';
 
 const TAU=Math.PI*2;
 const HEAD_PARTS=[10,11,12,13,30,31,32,33,34,38,39];
@@ -21,10 +21,11 @@ export function updateActorMotion(actor,time){
  const speed=Math.hypot(actor.vx,actor.vz),old=actor.operatorMotion;
  const cy=Math.cos(actor.yaw),sy=Math.sin(actor.yaw),localSide=cy*actor.vx+sy*actor.vz,localForward=sy*actor.vx-cy*actor.vz;
  const reset=!old||time<old.time||old.dead&&!actor.dead||Math.hypot(actor.x-old.x,actor.z-old.z)>4;
- const m=actor.operatorMotion??(actor.operatorMotion={matrix:new Float64Array(9)});
+ const m=actor.operatorMotion??(actor.operatorMotion={matrix:new Float64Array(9),feet:[{},{}]});
  const dt=reset?0:clamp(time-m.time,0,.05);
+ if(reset||time-old.time>.15)for(const foot of m.feet)foot.planted=false;
  if(reset){
-  m.side=localSide;m.forward=localForward;m.run=0;m.aimPitch=actor.pitch??0;m.landing=0;m.hitAge=1;m.hitAmplitude=0;
+  m.air=actor.grounded===false?1:0;m.side=localSide;m.forward=localForward;m.run=0;m.aimPitch=actor.pitch??0;m.landing=0;m.hitAge=1;m.hitAmplitude=0;
   m.hitValue=actor.hitReact??0;m.grounded=actor.grounded!==false;m.wasVy=actor.vy??0;
   actor.animSpeed=speed;actor.animDuck=actor.crouched?.5:0;
  }
@@ -34,6 +35,7 @@ export function updateActorMotion(actor,time){
  m.run=approach(m.run,actor.crouched?0:smooth(2.3,5.5,actor.animSpeed),10,dt);
  m.aimPitch=approach(m.aimPitch,clamp(actor.pitch??0,-.65,.65),16,dt);
  const ground=actor.grounded!==false;
+ m.air=approach(m.air,ground?0:1,ground?18:11,dt);
  if(ground&&!m.grounded)m.landing=Math.max(m.landing,clamp(-m.wasVy*.012,.025,.085));
  m.landing=approach(m.landing,0,11,dt);
  const hit=clamp(actor.hitReact??0,0,.16);
@@ -54,7 +56,7 @@ export function updateActorMotion(actor,time){
  m.hipY=.775-duck*.8-m.extraDrop;
  m.hipX=Math.sin(actor.stride)*.018*weight*(1-crouch*.5)*(1-collapse);
  m.hipZ=crouch*.045+collapse*.10;
- m.bodyPitch=-m.forward/directionLength*(.035+m.run*.095)*weight-crouch*.12+m.hit*.95-smooth(.12,1,death)*.48;
+ m.bodyPitch=-m.forward/directionLength*(.035+m.run*.095)*weight-crouch*.12-m.air*.10+m.hit*.95-smooth(.12,1,death)*.48;
  m.bodyRoll=-m.side/directionLength*.055*weight+Math.sin(actor.stride)*.016*weight+(actor.id%2?1:-1)*(m.hit*.3+smooth(.18,1,death)*.38);
  m.settle=-Math.cos(actor.stride*2)*(.010+m.run*.009)*weight*(1-crouch*.5)*(1-collapse)+Math.sin(time*2.15+(actor.id??0))*.003*(1-weight);
  actor.operatorSettle=m.settle;
@@ -69,12 +71,30 @@ export function updateActorMotion(actor,time){
 // Two-bone IK with a long, low stance and a shorter eased swing. Both feet can
 // support a walk; a run gets brief flight and increased push-off. Foot yaw and
 // lateral reach stay bounded during reverse/sideways travel and direction blends.
-export function poseLegs(actor,duck){
+// World-space support contacts cancel boot drift from animation blending,
+// head turns and collisions. Blend near heel strike and lift-off, then limit
+// correction so unexpected movement never stretches the rig.
+function supportFoot(actor,arena,foot,contact,t,cy,sy){
+ const blend=smooth(.10,.25,t)*(1-smooth(.71,.90,t));
+ if(blend===0){contact.planted=false;return;}
+ const worldX=actor.x+cy*foot.x-sy*foot.z,worldZ=actor.z+sy*foot.x+cy*foot.z;
+ if(!contact.planted){
+  contact.x=worldX;contact.z=worldZ;
+  contact.y=arena?.floorAt?.({x:worldX,y:actor.y,z:worldZ},actor.y+.25)??actor.y;
+  contact.planted=true;
+ }
+ const dx=contact.x-worldX,dz=contact.z-worldZ;
+ const strength=blend*Math.min(1,.24/(Math.hypot(dx,dz)||1));
+ foot.x+=(cy*dx+sy*dz)*strength;foot.z+=(-sy*dx+cy*dz)*strength;
+ foot.y+=clamp(contact.y-actor.y,-.18,.22)*blend;
+}
+
+export function poseLegs(actor,duck,arena){
  const parts=actor.renderParts,base=actor.renderBase,m=actor.operatorMotion;
  const weight=clamp((actor.animSpeed??0)/1.4,0,1),ground=actor.grounded===false?0:1;
  const cy=Math.cos(actor.yaw),sy=Math.sin(actor.yaw),side=m?.side??cy*actor.vx+sy*actor.vz,forward=m?.forward??sy*actor.vx-cy*actor.vz,speed=Math.hypot(side,forward)||1;
  const stance=m?.stance??.64,reach=m?.reach??.30,run=m?.run??0,crouch=duck*2;
- const tuck=ground?0:clamp(.11+(actor.vy??0)*.009,.05,.18);
+ const air=m?.air??1-ground,rising=smooth(-2,3,actor.vy??0);
  for(let leg=0;leg<2;leg++){
   const cycle=(((actor.stride??0)/TAU+leg*.5)%1+1)%1,standing=cycle<stance;
   const t=standing?cycle/stance:(cycle-stance)/(1-stance);
@@ -82,12 +102,19 @@ export function poseLegs(actor,duck){
   const foot=parts[4+leg],hipX=base[leg].x+(m?.hipX??0),hipY=m?.hipY??.775-duck*.8,hipZ=m?.hipZ??0;
   // Sideways steps cross less than forwards ones, keeping the boots clear.
   foot.x=base[4+leg].x+travel*reach*.56*side/speed*weight*ground;
-  foot.z=base[4+leg].z-travel*reach*forward/speed*weight*ground+tuck*.35;
+  const lead=leg===((actor.id??0)&1);
+  const tuck=air*(lead?.13+.12*rising:.12-.06*rising),split=air*(lead?-.17:.16);
+  foot.z=base[4+leg].z-travel*reach*forward/speed*weight*ground+split;
   foot.y=base[4+leg].y+lift*(.10+run*.055)*(1-crouch*.4)*weight*ground+tuck;
   const pushOff=.15+run*.10;
   const heel=standing?(1-smooth(0,.16,t))*.09-smooth(.68,1,t)*pushOff:
    -pushOff*(1-smooth(0,.30,t))+.12*Math.sin(t*Math.PI)+.09*smooth(.76,1,t);
   foot.pitch=heel*weight*ground;foot.roll=0;foot.yaw=clamp(side/speed*.16,-.16,.16)*weight;
+  const contact=m?.feet[leg];
+  if(contact){
+   if(standing&&ground&&weight>.25&&!actor.dead) supportFoot(actor,arena,foot,contact,t,cy,sy);
+   else contact.planted=false;
+  }
   if(m?.death){foot.z+=(leg?-.09:.04)*smooth(0,1,m.death);foot.x+=(leg?.025:-.025)*m.death;foot.pitch*=1-m.death;}
   // Lift around the boot's heel/toe instead of rotating its lower corners
   // through the ground. Native and simplified boots share these extents.

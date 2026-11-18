@@ -1,4 +1,4 @@
-import {clamp,lerp,angleDelta} from './math.js?v=74';
+import {clamp,lerp,angleDelta} from './math.js?v=75';
 
 // Rendering, HUD and input share the same optic definition. Never put an opaque
 // first-person scope model in front of the magnified world camera.
@@ -15,7 +15,7 @@ export const sightHeight=w=>isScoped(w)?.188:[1,2,4].includes(w.optic)?.169:.119
 // A small, damped sprint lens change. ADS and reduced-motion keep their exact lens.
 export function movementFov(state,actor,horizontal,dt,enabled=true){
  if(!enabled){state.offset=0;return horizontal;}
- const target=enabled&&actor.sprinting&&!actor.vault?5:0;
+ const target=actor.sliding?3:actor.sprinting&&!actor.vault?5:0;
  state.offset=lerp(state.offset??0,target,1-Math.exp(-clamp(dt,0,.05)*9));
  return horizontal+state.offset*(1-clamp(actor.ads,0,1))**2;
 }
@@ -91,25 +91,27 @@ export function weaponPose(p,time,motion=true,menu=false,out={}){
  const dt=clamp(time-view.time,0,.05);view.time=time;
  const blend=1-Math.exp(-dt*14);view.speed=lerp(view.speed,speed,blend);view.sprint=lerp(view.sprint,p.sprinting?1:0,blend);
  view.vault=lerp(view.vault??0,p.vault?1:0,blend);
+ view.slide=lerp(view.slide??0,motion&&p.sliding?clamp((p.slideLeft??0)/.72,0,1):0,blend);
  const strafe=(p.vx??0)*Math.cos(p.yaw??0)+(p.vz??0)*Math.sin(p.yaw??0);
  view.strafe=lerp(view.strafe??0,motion?clamp(strafe/5,-1,1):0,blend);
  weaponMotion(view,p,w,dt,motion);
  view.land=lerp(view.land??0,motion?clamp(p.landKick??0,0,.15):0,blend);
  // Integrating stride phase avoids the sudden bob reversal of time * current speed.
- view.phase=(view.phase+view.speed*dt*2.8)%(Math.PI*2);
+ view.phase=(view.phase+(p.grounded!==false&&!p.sliding?view.speed:0)*dt*2.8)%(Math.PI*2);
  const r=w.reloadLeft>0?clamp(1-w.reloadLeft/w.reloadTime,0,1):0;
  const reload=w.reloadLeft>0?Math.sin(r*Math.PI):0,hip=1-ads;
  const shell=w.def.shellReload||w.def.id===5,heavy=w.def.kind==='LMG',reloadTilt=shell?.42:heavy?1.13:1;
- const bob=motion?Math.sin(view.phase)*Math.min(.012,view.speed*.0035)*hip:0;
- const sway=motion?(Math.cos(view.phase*.5)*Math.min(.005,view.speed*.0015)+Math.sin(time*1.7)*.0012)*hip:0;
+ const gait=(p.grounded===false?0:1)*(1-view.slide);
+ const bob=motion?Math.sin(view.phase)*Math.min(.012,view.speed*.0035)*hip*gait:0;
+ const sway=motion?(Math.cos(view.phase*.5)*Math.min(.005,view.speed*.0015)*gait+Math.sin(time*1.7)*.0012)*hip:0;
  const sprint=view.sprint*hip,kick=clamp(p.visualKick??0,0,.3),recoil=motion?clamp(view.recoilZ,0,.10):kick*.48;
- const presentation=hip*hip;
- out.x=view.inertiaX*hip+lerp(short?.18:.22,0,ads)+sway+reload*(shell?.018:.035);
- out.y=(view.inertiaY-view.land*.16)*hip+lerp(short?-.218:-.245,-sightHeight(w),ads)+bob-reload*.11*reloadTilt-(p.switchLeft??0)*.42-sprint*.075-view.vault*.19*hip;
- out.z=lerp(short?-.43:-.49,short?-.29:-.32,ads)+recoil*lerp(1,.56,ads)-reload*.02;
+ const presentation=hip*hip,slide=view.slide*hip;
+ out.x=view.inertiaX*hip+lerp(short?.18:.22,0,ads)+sway+reload*(shell?.018:.035)+slide*.035;
+ out.y=(view.inertiaY-view.land*.16)*hip+lerp(short?-.218:-.245,-sightHeight(w),ads)+bob-reload*.11*reloadTilt-(p.switchLeft??0)*.42-sprint*.075-view.vault*.19*hip-slide*.045;
+ out.z=lerp(short?-.43:-.49,short?-.29:-.32,ads)+recoil*lerp(1,.56,ads)-reload*.02+slide*.065;
  out.yaw=reload*.2*reloadTilt-sprint*.20+view.inertiaYaw*presentation;
- out.pitch=reload*.47*reloadTilt+sprint*.21+clamp(view.recoilPitch,0,.11)*presentation+view.inertiaPitch*presentation+view.vault*.42*hip;
- out.roll=(view.inertiaX*.4-view.strafe*.028)*hip+lerp(short?-.02:-.035,0,ads)-reload*.22*reloadTilt+sprint*.18+view.recoilRoll*presentation;
+ out.pitch=reload*.47*reloadTilt+sprint*.21+clamp(view.recoilPitch,0,.11)*presentation+view.inertiaPitch*presentation+view.vault*.42*hip+slide*.09;
+ out.roll=(view.inertiaX*.4-view.strafe*.028)*hip+lerp(short?-.02:-.035,0,ads)-reload*.22*reloadTilt+sprint*.18+view.recoilRoll*presentation-slide*.14;
  // The blade uses a deliberate wrist stroke rather than a firearm impulse.
  const slash=w.def.kind==='MELEE'?kick*hip*(motion?1:.35):0;
  out.x-=slash*.18;out.y+=slash*.09;out.z-=slash*.48;

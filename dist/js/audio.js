@@ -1,9 +1,9 @@
-import {Ambience} from './ambience.js?v=74';
-import {WEAPONS} from './weapons.js?v=74';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=74';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=74';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=74';
-import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=74';
+import {Ambience} from './ambience.js?v=75';
+import {WEAPONS} from './weapons.js?v=75';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=75';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=75';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=75';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=75';
 // Original synthesized recordings: cached pressure transients, action sounds and
 // surface impacts and environmental beds.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -106,6 +106,13 @@ export class AudioSystem {
   synth('stepWood',.20,(t,n,low)=>low*Math.exp(-t*30)*.65+(n-low)*Math.exp(-t*100)*.07,5371);
   synth('stepMetal',.22,(t,n,low)=>low*Math.exp(-t*29)*.56+(n-low)*Math.exp(-t*80)*.10,9109);
   synth('stepWater',.26,(t,n,low)=>low*Math.exp(-t*27)*.24+(n-low)*Math.exp(-t*18)*.13*(1-Math.exp(-t*250)),1237);
+  for(const [surface,grit,scrape] of [['Hard',.24,.34],['Metal',.11,.40],['Soft',.19,.20],['Wet',.31,.09]]){
+   synth('slide'+surface,.65,(t,n,low)=>{
+    const attack=Math.min(1,t/.018),tail=Math.max(0,1-t/.65)**1.6;
+    const grain=.65+.35*Math.sin(t*(90+t*105))*Math.sin(t*133);
+    return attack*tail*((n-low)*grit*grain+low*scrape*(1-t));
+   },7619+surface.charCodeAt(0)*19);
+  }
   synth('impactMetal',.28,(t,n,low)=>(n-low)*Math.exp(-t*160)*.24+(Math.sin(t*9420)+Math.sin(t*15437)*.42)*Math.exp(-t*36)*.10);
   synth('impactStone',.20,(t,n,low)=>n*Math.exp(-t*95)*.21+low*Math.exp(-t*24)*.23);
   synth('impactWood',.18,(t,n,low)=>low*Math.exp(-t*47)*.34+Math.sin(t*3370)*Math.exp(-t*84)*.10);
@@ -230,6 +237,12 @@ export class AudioSystem {
    switch(e.type){
     case 'shot':this.play(`${e.suppressed?'suppressed':'shot'}${e.weapon}`,{volume:volume*(own?.85:.72)*(e.loudness??1),pan,rate:.985+Math.random()*.030,indoor:room??(!e.position&&e.indoor),distance:d,important:own,occluded,position,acoustics});if(own)this.haptic(8);break;
     case 'step':case 'land':if(d<24){const hard=game.arena.indoors(e.position),map=game.arena.info?.id,tag=game.arena.info?.tag,soft=tag==='MIXED'||tag?.includes('FOREST'),land=e.type==='land';const actual=footstepSurface(game.arena,e.position);const sound=actual?'step'+actual:hard?'stepHard':map===8?'stepSnow':map===9?'stepQuarry':soft?'stepSoft':'stepGravel';this.play(sound,{volume:volume*(land?.65:own?.28:.48)*(e.value??1),pan,rate:land?.76:.94+Math.random()*.11,distance:d,important:land&&own,occluded,indoor:room,position,acoustics});if(land&&own)this.haptic(Math.round(8+12*(e.value??0)));}break;
+    case 'slide':{
+     const surface=footstepSurface(game.arena,p);
+     const family=surface==='Metal'?'Metal':surface==='Water'?'Wet':surface==='Soft'||surface==='Snow'||surface==='Gravel'?'Soft':'Hard';
+     this.play('slide'+family,{volume:.64,important:true,indoor:roomAcoustics(game.arena,p)});
+     break;
+    }
     case 'impact':if(!e.ballisticAudio&&d<40&&impacts++<3){const s=e.surface,key=['steel','dark','blue','rust','brass'].includes(s)?'impactMetal':s==='wood'?'impactWood':s==='glass'?'impactGlass':s==='water'?'impactWater':'impactStone';this.play(key,{volume:volume*.34,pan,distance:d,occluded,indoor:room,position,acoustics});}break;
     case 'ricochet':case 'penetration':if(d<40&&ballistic++<3){const s=e.surface,family=['steel','dark','blue','rust','brass'].includes(s)?'Metal':e.type==='penetration'&&s==='wood'?'Wood':e.type==='penetration'&&s==='glass'?'Glass':'Stone';this.play(e.type+family,{volume:volume*(e.type==='ricochet'?.29:.31),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
     case 'casing':if(d<18&&cases++<3){const family=['Hard','Metal','Wood','Soft','Water'].includes(e.surface)?e.surface:'Hard';this.play((e.shell?'hull':'casing')+family,{volume:volume*(own?.15:.11)*(.6+.4*(e.value??1)),pan,rate:.97+Math.random()*.06,distance:d,occluded,indoor:room,position,acoustics});}break;
