@@ -1,6 +1,14 @@
 # BREACHLINE
 
-**Latest source checkpoint: Release 89.** 30 weapons, 16 maps and 11 modes.
+**Latest source checkpoint: Release 90.** 30 weapons, 16 maps and 11 modes.
+
+## Release 90: Blacksite vault extraction
+
+Breach the rear sector to open the vault, then bring its data core back to
+Sector A within 150 seconds. A fallen carrier drops the core for another
+attacker to recover. Defenders can block extraction by occupying the zone.
+The attackers must deliver the core even if they exhaust the defenders'
+reinforcements.
 
 ## Release 89: Blacksite Siege campaign
 
