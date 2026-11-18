@@ -1,13 +1,13 @@
-import {Arena,MAPS} from './maps.js?v=82';
-import {Navigation} from './navigation.js?v=82';
-import {SpawnDirector} from './spawns.js?v=82';
-import {MatchRules} from './modes.js?v=82';
-import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=82';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=82';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=82';
-import {traceBullet} from './ballistics.js?v=82';
-import {beginVault,advanceVault} from './traversal.js?v=82';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=82';
+import {Arena,MAPS} from './maps.js?v=83';
+import {Navigation} from './navigation.js?v=83';
+import {SpawnDirector} from './spawns.js?v=83';
+import {MatchRules} from './modes.js?v=83';
+import {Weapon,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=83';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=83';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=83';
+import {traceBullet} from './ballistics.js?v=83';
+import {beginVault,advanceVault} from './traversal.js?v=83';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=83';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -39,7 +39,7 @@ export class Game {
  spawn(a,initial=false){
   const p=this.spawner.select(a,this,initial);a.reset(p,p.yaw);a.vault=null;
  }
- resetRound(){this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
+ resetRound(){this.spawner.resetRound();for(const a of this.actors)a.health=0;for(const a of this.actors)this.spawn(a,true);this.rules.assignCharge(this.actors);this.grenades.length=0;this.smokes.length=0;this.casings.length=0;this.rules.tags.length=0;this.emit('round',{text:this.rules.mode.id==='elimination'?`ROUND ${this.rules.round} · ELIMINATE ALL ENEMIES`:this.rules.mode.id==='sabotage'?`ROUND ${this.rules.round} · ${this.rules.attackingTeam===0?'ATTACK':'DEFEND'}`:'ENGAGE'});}
  canSee(a,b){if(a.flashed>.3)return false;const from=this.eye(a),to=this.eye(b);if(!this.arena.visible(from,to))return false;for(const s of this.smokes)if(s.age<13&&pointSegment(s,from,to)<Math.min(5.2,s.age*4))return false;return true;}
  moveActor(a,tx,tz,dt){
   const speed=Math.hypot(tx,tz),wasGrounded=a.grounded,startX=a.x,startZ=a.z;

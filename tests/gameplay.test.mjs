@@ -31,7 +31,21 @@ test('paused and finished simulations cannot consume ammunition or time',()=>{co
 test('TDM and FFA end at their score limits',()=>{for(const mode of ['tdm','ffa']){const{g,p,t}=duel(mode);for(let i=0;i<g.rules.mode.limit;i++){t.health=100;t.spawnProtection=0;g.damage(t,200,p);}assert.equal(g.rules.phase,'finished');assert.equal(g.rules.winner,0);}});
 
 test('domination captures, contests, awards points and finishes',()=>{const{g,p,t}=duel('domination'),q=g.rules.points[0];p.x=q.x;p.z=q.z;t.x=50;t.z=50;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(q.owner,0);g.rules.scores[0]=149;g.rules.tick=.99;g.rules.update(.03,g);assert.equal(g.rules.phase,'finished');const d=duel('domination'),c=d.g.rules.points[0];d.p.x=d.t.x=c.x;d.p.z=d.t.z=c.z;d.g.rules.update(1,d.g);assert(c.contested);assert.equal(c.progress,0);});
-test('sabotage can plant, defuse, switch teams and start another round',()=>{const{g,p,t}=duel('sabotage'),site=g.rules.points[0];p.x=site.x;p.z=site.z;p.interacting=true;t.x=20;t.z=20;for(let i=0;i<190;i++)g.rules.update(1/60,g);assert(g.rules.planted);assert.equal(g.rules.bombSite,0);p.interacting=false;t.x=site.x;t.z=site.z;t.interacting=true;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(g.rules.phase,'roundBreak');assert.equal(g.rules.scores[1],1);g.rules.round=3;g.rules.nextRound();assert.equal(g.rules.attackingTeam,1);assert(!g.rules.planted);});
+test('sabotage can recover, plant, defuse, switch teams and start another round',()=>{
+ const {g,p,t}=duel('sabotage'),site=g.rules.points[0];
+ const ally=Object.assign(Object.create(Object.getPrototypeOf(p)),p,{id:1,x:site.x,z:site.z});
+ g.actors.push(ally);
+ p.x=site.x;p.z=site.z;p.interacting=true;t.x=20;t.z=20;
+ g.rules.chargeCarrier=ally.id;
+ g.rules.update(4,g);
+ assert(!g.rules.planted);
+ ally.health=0;
+ g.rules.onDeath(ally,g);
+ assert(g.rules.droppedCharge);
+ g.rules.update(0,g);
+ assert.equal(g.rules.chargeCarrier,p.id);
+ assert.equal(g.rules.droppedCharge,null);
+ for(let i=0;i<190;i++)g.rules.update(1/60,g);assert(g.rules.planted);assert.equal(g.rules.bombSite,0);p.interacting=false;t.x=site.x;t.z=site.z;t.interacting=true;for(let i=0;i<310;i++)g.rules.update(1/60,g);assert.equal(g.rules.phase,'roundBreak');assert.equal(g.rules.scores[1],1);g.rules.round=3;g.rules.nextRound();assert.equal(g.rules.attackingTeam,1);assert(!g.rules.planted);});
 test('a planted charge remains live when all attackers die',()=>{const{g,p,t}=duel('sabotage');g.rules.planted=true;g.rules.bombSite=0;g.rules.bombTime=.05;p.health=0;g.rules.update(.02,g);assert.equal(g.rules.phase,'playing');g.rules.update(.04,g);assert.equal(g.rules.scores[0],1);});
 test('sabotage disables mid-round respawning',()=>{const{g,p,t}=duel('sabotage');g.actors.push(Object.assign(Object.create(Object.getPrototypeOf(t)),t,{id:1,team:0,x:15,z:15,health:100,aiClock:1000}));g.damage(p,200,t);advance(g,4);assert(p.dead);});
 test('every map has safe spawns and navigable routes to the objectives',()=>{for(let id=0;id<MAPS.length;id++){const arena=new Arena(id),nav=new Navigation(arena);for(const spawn of arena.spawns)assert(!arena.collides(spawn,.31,1.75),`map ${id} invalid spawn`);for(const objective of arena.objectives){const path=nav.path(arena.spawns[0],objective);assert(path.length>0,`map ${id} no path`);assert(distance2(path.at(-1),objective)<4.5,`map ${id} ${objective.name} unreachable`);}}});

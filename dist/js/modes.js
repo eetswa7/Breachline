@@ -1,10 +1,10 @@
-import {GUN_ORDER} from './weapons.js?v=82';
-import {distance} from './math.js?v=82';
+import {GUN_ORDER} from './weapons.js?v=83';
+import {distance} from './math.js?v=83';
 
 export const MODES = [
  {id:'tdm',name:'TEAM DEATHMATCH',short:'TDM',description:'4 vs 4. First team to 40 eliminations.',limit:40,time:360,teams:true},
  {id:'ffa',name:'FREE FOR ALL',short:'FFA',description:'Every operator for themselves. First to 20.',limit:20,time:360,teams:false},
- {id:'sabotage',name:'SABOTAGE',short:'SAB',description:'Plant or defuse. One life per round. First to 4 rounds.',limit:4,time:110,teams:true},
+ {id:'sabotage',name:'SABOTAGE',short:'SAB',description:'Carry, recover, plant or defuse the charge. One life per round. First to 4 rounds.',limit:4,time:110,teams:true},
  {id:'domination',name:'DOMINATION',short:'DOM',description:'Capture A, B and C. Hold them to reach 150 points.',limit:150,time:480,teams:true},
  {id:'gun',name:'GUN GAME',short:'GUN',description:`${GUN_ORDER.length} guns. One elimination per tier. Final gun: Krait R revolver.`,limit:GUN_ORDER.length,time:900,teams:false},
  {id:'hardpoint',name:'HARDPOINT',short:'HARD',description:'Hold the rotating zone. Contested zones score nothing. First to 150.',limit:150,time:480,teams:true},
@@ -27,7 +27,7 @@ export class MatchRules {
   if(this.mode.id==='gun'&&arena.info.size>=58)this.mode={...this.mode,time:1350};
   this.time=this.mode.time;this.scores=[0,0];this.phase='playing';this.round=1;this.roundWait=0;
   this.winner=null;this.roundWinner=null;this.message='';this.planted=false;this.bombTime=35;
-  this.bombSite=-1;this.tick=0;
+  this.bombSite=-1;this.chargeCarrier=null;this.droppedCharge=null;this.tick=0;
   this.points=arena.objectives.map(p=>({...p,owner:-1,progress:0,capturing:-1,contested:false}));
   this.siteProgress=0;this.interactor=null;
   this.activePoint=this.points.length>1?1:0;this.rotationRemaining=HARDPOINT_SECONDS;
@@ -51,7 +51,29 @@ export class MatchRules {
  get attackingTeam(){return Math.floor((this.round-1)/3)%2;}
  get respawns(){return !['sabotage','elimination'].includes(this.mode.id);}
  enemies(a,b){return a.id!==b.id&&(!this.mode.teams||a.team!==b.team);}
+ get sabotageSites(){return this.points.filter((_,index)=>index===0||index===2);}
+ assignCharge(actors){
+  if(this.mode.id!=='sabotage')return;
+  this.chargeCarrier=actors.find(actor=>actor.team===this.attackingTeam&&!actor.dead)?.id??null;
+  this.droppedCharge=null;
+ }
+ sabotageTarget(actor){
+  if(this.mode.id!=='sabotage'||this.phase!=='playing'||actor.dead)return null;
+  if(this.planted)return actor.team!==this.attackingTeam?this.points[this.bombSite]:null;
+  if(actor.id!==this.chargeCarrier)return null;
+  return this.sabotageSites.find(point=>distance(actor,point)<3&&Math.abs(actor.y-point.y)<=2)??null;
+ }
+ canUseCharge(actor,engine){
+  const point=this.sabotageTarget(actor);
+  return !!point&&!actor.sprinting&&distance(actor,point)<3&&Math.abs(actor.y-point.y)<=2&&
+   engine.arena.visible(engine.eye(actor),{x:point.x,y:point.y+.7,z:point.z});
+ }
  onDeath(victim,engine){
+  if(this.mode.id==='sabotage'&&!this.planted&&victim.id===this.chargeCarrier){
+   this.chargeCarrier=null;
+   this.droppedCharge={x:victim.x,y:engine.arena.floorAt(victim,victim.y+.08),z:victim.z};
+   engine.emit('capture',{text:'CHARGE DROPPED',source:victim.team,position:this.droppedCharge});
+  }
   if(this.mode.id!=='ctf')return;
   const flag=this.flags.find(f=>f.carrier===victim.id);if(!flag)return;
   flag.carrier=null;flag.x=victim.x;flag.y=engine.arena.floorAt(victim,victim.y+.08);flag.z=victim.z;flag.atBase=false;flag.age=0;
@@ -79,7 +101,7 @@ export class MatchRules {
  }
  nextRound() {
   this.round++;this.phase='playing';this.time=this.mode.time;this.planted=false;
-  this.bombTime=35;this.bombSite=-1;this.siteProgress=0;this.interactor=null;this.message='';
+  this.bombTime=35;this.bombSite=-1;this.chargeCarrier=null;this.droppedCharge=null;this.siteProgress=0;this.interactor=null;this.message='';
  }
  updateHardpoint(dt,engine) {
   if(!this.points.length)return;
@@ -274,22 +296,26 @@ export class MatchRules {
    if(alive[1-this.attackingTeam]===0){this.roundEnd(this.attackingTeam,'DEFENDERS ELIMINATED');return;}
    if(!this.planted&&alive[this.attackingTeam]===0){this.roundEnd(1-this.attackingTeam,'ATTACKERS ELIMINATED');return;}
    if(this.time<=0&&!this.planted){this.roundEnd(1-this.attackingTeam,'SITE SECURED');return;}
-   let chosen=null,site=-1;
-   for(const a of engine.actors) {
-    if(a.dead||!a.interacting||a.sprinting)continue;
-    for(let i=0;i<2;i++) {
-     const index=i===0?0:2,p=this.points[index];
-     if(distance(a,p)>3||Math.abs(a.y-p.y)>2)continue;
-     if((!this.planted&&a.team===this.attackingTeam)||(this.planted&&a.team!==this.attackingTeam&&index===this.bombSite)){chosen=a;site=index;break;}
+   if(this.droppedCharge){
+    const charge=this.droppedCharge;
+    const nearby=engine.actors.filter(actor=>!actor.dead&&actor.team===this.attackingTeam&&
+     distance(actor,charge)<1.65&&Math.abs(actor.y-charge.y)<1.6&&
+     engine.arena.visible(engine.eye(actor),{...charge,y:charge.y+.3}));
+    const collector=nearby.reduce((closest,actor)=>!closest||distance(actor,charge)<distance(closest,charge)?actor:closest,null);
+    if(collector){
+     this.chargeCarrier=collector.id;this.droppedCharge=null;
+     engine.emit('capture',{text:'CHARGE RECOVERED',source:collector.team,actor:collector.id,position:charge});
     }
-    if(chosen)break;
    }
+   const eligible=engine.actors.filter(actor=>actor.interacting&&this.canUseCharge(actor,engine));
+   const chosen=eligible.find(actor=>actor.id===this.interactor)??eligible[0];
+   const site=chosen?this.points.indexOf(this.sabotageTarget(chosen)):-1;
    if(chosen) {
     if(this.interactor!==chosen.id){this.siteProgress=0;for(const a of engine.actors)a.interactProgress=0;}
     this.interactor=chosen.id;this.siteProgress+=dt/(this.planted?5:3);chosen.interactProgress=this.siteProgress;
     if(this.siteProgress>=1) {
      if(this.planted)this.roundEnd(chosen.team,'CHARGE DEFUSED');
-     else{this.planted=true;this.bombSite=site;this.bombTime=35;engine.emit('capture',{text:'CHARGE ARMED · DEFEND IT'});}
+     else{this.planted=true;this.chargeCarrier=null;this.bombSite=site;this.bombTime=35;engine.emit('capture',{text:'CHARGE ARMED · DEFEND IT',source:chosen.team,position:this.points[site]});}
      chosen.interactProgress=0;this.siteProgress=0;this.interactor=null;
     }
    }else{this.siteProgress=0;this.interactor=null;for(const a of engine.actors)a.interactProgress=0;}

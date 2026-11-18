@@ -1,4 +1,4 @@
-import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=82';
+import {distance,direction,angleDelta,clamp,rayBox} from './math.js?v=83';
 export const ROLES=[{name:'Rifleman',weapon:0,variants:[0,13,16,2,24],range:19},{name:'Rusher',weapon:3,variants:[3,14,17,21,25],range:9},{name:'Shotgunner',weapon:5,variants:[5,6,18,26],range:7},{name:'Marksman',weapon:8,variants:[8,15,19,28],range:37},{name:'Heavy',weapon:9,variants:[9,20,27],range:28},{name:'Elite',weapon:1,variants:[1,16,21],range:22}];
 export const DIFFICULTY={recruit:{reaction:.85,accuracy:.115,speed:.9},regular:{reaction:.48,accuracy:.065,speed:1},veteran:{reaction:.25,accuracy:.033,speed:1.06}};
 const GUN_RANGE={RIFLE:20,SMG:11,SHOTGUN:7,SNIPER:37,MARKSMAN:31,LMG:26,PISTOL:12,MELEE:1.3};
@@ -28,6 +28,26 @@ function flagGoal(bot,rules,actors){
  }
  return{x:enemy.x,y:enemy.y,z:enemy.z};
 }
+function sabotageGoal(bot,rules,actors){
+ const attacking=bot.team===rules.attackingTeam;
+ if(rules.droppedCharge){
+  const charge=rules.droppedCharge;
+  const closerAlly=attacking&&actors.some(actor=>!actor.dead&&actor.team===bot.team&&distance(actor,charge)<distance(bot,charge));
+  if(attacking&&!closerAlly)return charge;
+  const angle=bot.id*2.399963;
+  return {x:charge.x+Math.cos(angle)*4,y:charge.y,z:charge.z+Math.sin(angle)*4};
+ }
+ const carrier=attacking?actors.find(actor=>actor.id===rules.chargeCarrier&&!actor.dead):null;
+ const sites=rules.sabotageSites;
+ const site=rules.planted?rules.points[rules.bombSite]:
+  carrier?sites.reduce((closest,point)=>distance(carrier,point)<distance(carrier,closest)?point:closest):
+  sites[bot.id%sites.length];
+ if(!site)return null;
+ const usesCharge=rules.planted?!attacking:carrier===bot;
+ if(usesCharge)return site;
+ const angle=bot.id*2.399963;
+ return {x:site.x+Math.cos(angle)*5,y:site.y,z:site.z+Math.sin(angle)*5};
+}
 function teammateInFireLane(bot,target,e){
  if(!e.rules.mode.teams)return false;
  const from=e.eye(bot),to=e.eye(target);to.y-=.28;
@@ -52,6 +72,7 @@ export function updateBot(bot,dt,e){
    bot.target=target.id;bot.lastKnown={x:target.x,y:target.y,z:target.z};bot.memory=6;bot.state='engage';
   }else{bot.target=null;if(bot.memory>0&&bot.lastKnown){bot.state='investigate';bot.goal=bot.lastKnown;}else bot.state='patrol';}
   const pickup=e.rules.mode.id==='confirmed'?nearestTag(bot,e.rules):null;
+  const chargeGoal=e.rules.mode.id==='sabotage'?sabotageGoal(bot,e.rules,e.actors):null;
   const ctfGoal=e.rules.mode.id==='ctf'?flagGoal(bot,e.rules,e.actors):null;
   let danger=null;for(const g of e.grenades)if(g.kind==='frag'&&g.fuse<1.8&&distance(bot,g)<7){danger=g;break;}
   if(danger){const n=Math.max(.1,distance(bot,danger));bot.goal={x:bot.x+(bot.x-danger.x)/n*9,y:bot.y,z:bot.z+(bot.z-danger.z)/n*9};bot.state='evade';}
@@ -61,6 +82,8 @@ export function updateBot(bot,dt,e){
    bot.goal=cover??{x:bot.x-Math.sin(bot.yaw)*7,y:bot.y,z:bot.z+Math.cos(bot.yaw)*7};
   }else if(['hardpoint','hill','frontline'].includes(e.rules.mode.id)){
    bot.goal=hardpointGoal(bot,e.rules);bot.state='objective';
+  }else if(chargeGoal){
+   bot.goal=chargeGoal;bot.state='objective';
   }else if(ctfGoal){
    bot.goal=ctfGoal;bot.state='objective';
   }else if(pickup&&(!target||distance(bot,pickup)<Math.max(5,Math.min(12,distance(bot,target)*.7)))){
@@ -76,7 +99,6 @@ export function updateBot(bot,dt,e){
    else{bot.goal={x:bot.x+Math.cos(bot.yaw)*side*1.8,y:bot.y,z:bot.z+Math.sin(bot.yaw)*side*1.8};bot.state='engage';}
   }else if(bot.state==='patrol'||bot.state==='investigate'&&distance(bot,bot.lastKnown)<2){
    if(e.rules.mode.id==='domination'){const pts=e.rules.points.filter(p=>p.owner!==bot.team);const point=(pts.length?pts:e.rules.points)[bot.id%(pts.length||3)],angle=bot.id*2.399963;bot.goal={x:point.x+Math.cos(angle)*1.7,y:point.y,z:point.z+Math.sin(angle)*1.7};bot.state='objective';}
-   else if(e.rules.mode.id==='sabotage'){const index=e.rules.planted?e.rules.bombSite:(bot.id%2?0:2);bot.goal=e.rules.points[index];bot.state='objective';}
    else if(!bot.goal||distance(bot,bot.goal)<3||e.random()<.055){const other=e.actors[(bot.id+1+Math.floor(e.random()*(e.actors.length-1)))%e.actors.length];bot.goal={x:other.x+(e.random()-.5)*10,y:0,z:other.z+(e.random()-.5)*10};}
   }
   if(bot.goal&&bot.pathClock<=0&&e.pathBudget>0){e.pathBudget--;bot.path=e.nav.path(bot,bot.goal);bot.pathIndex=0;bot.pathClock=.85+e.random()*.55;}
@@ -86,8 +108,9 @@ export function updateBot(bot,dt,e){
   const d=distance(bot,target),nearby=e.actors.filter(a=>!a.dead&&e.rules.enemies(bot,a)&&distance(a,target)<4).length;
   if(d>5.5&&d<15&&nearby>0&&e.canSee(bot,target)&&e.random()<dt*(nearby>1?.42:.12)){e.throwGrenade(bot);bot.grenadeCooldown=5.5+e.random()*2.5;}
  }
+ bot.interacting=bot.state==='objective'&&e.rules.canUseCharge(bot,e);
  let moving=false;
- if(bot.pathIndex<bot.path.length){
+ if(!bot.interacting&&bot.pathIndex<bot.path.length){
   // Look ahead only along swept-clear ground, never through a diagonal wall.
   if(thought)for(let skip=Math.min(bot.path.length-1,bot.pathIndex+3);skip>bot.pathIndex;skip--){
    const q=bot.path[skip];if(Math.abs(q.y-bot.y)<.12&&e.nav.walkable(bot,q)){bot.pathIndex=skip;break;}
@@ -112,15 +135,14 @@ export function updateBot(bot,dt,e){
  }
  if(!moving)e.moveActor(bot,0,0,dt);
  bot.crouched=(bot.state==='reload'||bot.state==='retreat')&&!moving;
- if(e.rules.mode.id==='sabotage'&&bot.state==='objective'&&distance(bot,bot.goal)<2.9)bot.interacting=true;
  if(target&&bot.flashed<=.3){
   const eye=e.eye(bot),t=e.eye(target),d=Math.max(.1,distance(bot,target));bot.yaw+=angleDelta(bot.yaw,Math.atan2(t.x-eye.x,-(t.z-eye.z)))*clamp(dt*12,0,1);bot.pitch+=(Math.atan2(t.y-eye.y-.28,d)-bot.pitch)*clamp(dt*10,0,1);bot.ads=Math.min(1,bot.ads+dt*5);
-  if(bot.reaction<=0&&bot.burstPause<=0&&bot.state!=='evade'&&bot.weapon.cooldown<=0&&bot.weapon.reloadLeft<=0&&e.canSee(bot,target)&&!teammateInFireLane(bot,target,e)){
+  if(!bot.interacting&&bot.reaction<=0&&bot.burstPause<=0&&bot.state!=='evade'&&bot.weapon.cooldown<=0&&bot.weapon.reloadLeft<=0&&e.canSee(bot,target)&&!teammateInFireLane(bot,target,e)){
    if(bot.weapon.ammo===0)bot.weapon.reload();
    else if(e.shoot(bot,true)){bot.burst++;if(bot.burst>=(bot.role===4?9:bot.role===3?1:3)){bot.burst=0;bot.burstPause=.25+e.random()*.5;}}
   }
  }else bot.ads=Math.max(0,bot.ads-dt*4);
- if(bot.weapon.ammo<bot.weapon.capacity*.28&&bot.target===null)bot.weapon.reload();
+ if(!bot.interacting&&bot.weapon.ammo<bot.weapon.capacity*.28&&bot.target===null)bot.weapon.reload();
  // Teammates share a last known position, never an omniscient live target.
  if(target&&e.rules.mode.teams&&bot.aiClock<.14&&e.random()<dt*.8)for(const a of e.actors)if(a.id!==bot.id&&a.team===bot.team&&!a.dead&&distance(a,bot)<14&&a.target===null){a.lastKnown={...bot.lastKnown};a.memory=4;}
 }
