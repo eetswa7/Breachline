@@ -1,10 +1,11 @@
-import {WEAPONS} from './weapons.js?v=73';
-import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=73';
-import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=73';
-import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=73';
-import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=73';
+import {Ambience} from './ambience.js?v=74';
+import {WEAPONS} from './weapons.js?v=74';
+import {loadSoundLibrary,footstepSurface,roomAcoustics} from './audio-library.js?v=74';
+import {listenerFrame,updateSpatialListener,createWorldPanner} from './spatial-audio.js?v=74';
+import {WorldAcoustics,distanceGain,lowpassFrequency,coverBudget,coverOcclusion} from './world-acoustics.js?v=74';
+import {attachmentFoleyCue,buildAttachmentFoley} from './attachment-audio.js?v=74';
 // Original synthesized recordings: cached pressure transients, action sounds and
-// surface impacts. No external audio downloads or continuously running ambience.
+// surface impacts and environmental beds.
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 // Regions reuse original recorded contacts/friction in the loaded bank. Native
 // buffer views are not copied, so every component cue shares the same PCM.
@@ -48,7 +49,7 @@ const SHOTS=[
 ];
 function randomStream(seed){let n=seed>>>0;return()=>{n^=n<<13;n^=n>>>17;n^=n<<5;return(n>>>0)/2147483648-1;};}
 export class AudioSystem {
- constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.regionStarts=new WeakMap();this.voicePriority=new WeakMap();this.voiceGroup=new WeakMap();this.worldAcoustics=new WorldAcoustics();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
+ constructor(settings){this.settings=settings;this.context=null;this.buffers=new Map();this.variations=new Map();this.variationLast=new Map();this.regionStarts=new WeakMap();this.voicePriority=new WeakMap();this.voiceGroup=new WeakMap();this.worldAcoustics=new WorldAcoustics();this.ambience=new Ambience();this.voices=0;this.active=new Set();this.hapticAt=0;this.muted=false;}
  async start(){try{
   if(!this.context){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;this.context=new C({latencyHint:'interactive'});this.master=this.context.createGain();this.master.gain.value=this.settings.volume;if(this.context.createDynamicsCompressor){this.limiter=this.context.createDynamicsCompressor();this.limiter.threshold.value=-7;this.limiter.knee.value=5;this.limiter.ratio.value=5;this.limiter.attack.value=.003;this.limiter.release.value=.12;this.master.connect(this.limiter);this.limiter.connect(this.context.destination);}else this.master.connect(this.context.destination);this.build();this.makeRoom();}
   if(this.context.state==='suspended')await this.context.resume();this.muted=false;
@@ -202,7 +203,17 @@ export class AudioSystem {
   // No audio-specific timer, propagation delay or moving emitted wave origin.
   const p=game.player,eye=game.eye?.(p)??{x:p.x,y:p.y+(p.height??1.67)-.12,z:p.z};
   this.spatialReady=updateSpatialListener(this.context,listenerFrame(p,eye));
-  const budget=coverBudget();if(this.context?.state==='running'&&!this.muted)this.worldAcoustics.update(game,this.context,budget);
+  const budget=coverBudget();
+  if(this.context?.state==='running'&&!this.muted){
+   this.worldAcoustics.update(game,this.context,budget);
+   const now=this.context.currentTime;
+   if(now>=(this.ambienceCheckAt??0)){
+    const room=roomAcoustics(game.arena,eye);
+    const enclosure=room==='hall'?.84:room==='room'?.94:0;
+    this.ambience.update(this.context,this.master,game.arena.info?.id,this.settings.ambience??0,enclosure);
+    this.ambienceCheckAt=now+.18;
+   }
+  }
   for(const e of events){
    const dx=e.position?e.position.x-game.player.x:0,dy=e.position?e.position.y-game.player.y:0,dz=e.position?e.position.z-game.player.z:0;
    const d=Math.hypot(dx,dy,dz),own=e.source===0;
@@ -238,6 +249,8 @@ export class AudioSystem {
    }
   }
  }
- pause(){this.muted=true;for(const source of this.active){try{source.stop();}catch{}source.onended?.();}this.context?.suspend().catch(()=>{});}
+ prepareAmbience(arena){if(this.context&&this.settings.ambience>0){this.ambience.prepare(this.context,arena.info.id);this.ambienceCheckAt=null;}}
+ stopAmbience(){this.ambience.stop();this.ambienceCheckAt=null;}
+ pause(){this.muted=true;this.stopAmbience();for(const source of this.active){try{source.stop();}catch{}source.onended?.();}this.context?.suspend().catch(()=>{});}
  ui(){this.play('click',{volume:.4});}
 }
