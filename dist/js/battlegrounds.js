@@ -89,7 +89,7 @@ export function buildBlacksite(a){
  combatRoom(a,0,0,34,22,6,'steel',true);
  for(const x of [-31,31])for(const z of [-28,28])a.room(x,z,12,15,4.1,'concrete',true,true);
  for(const x of [-10,10])for(const z of [-5,5]){
-  a.box(x,1.15,z,3.2,2.3,3.6,'dark',{mesh:'bevel'});
+  a.box(x,1.15,z,3.2,2.3,3.6,'dark',{mesh:'bevel',turbineBay:true});
   a.detail(x,2.45,z,3.1,.3,3.5,'rust',{mesh:'bevel'});
   for(const y of [.7,1.4,2.1])a.detail(x-1.63,y,z,.05,.09,2.2,'orange');
  }

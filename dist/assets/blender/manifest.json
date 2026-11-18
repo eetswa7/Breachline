@@ -696,6 +696,16 @@
       "vertices": 268,
       "vertexMaterial": true
     },
+    "blacksite_turbine_train__near": {
+      "triangles": 1652,
+      "vertices": 992,
+      "vertexMaterial": true
+    },
+    "blacksite_turbine_train__far": {
+      "triangles": 952,
+      "vertices": 536,
+      "vertexMaterial": true
+    },
     "blacksite_service_apron__near": {
       "triangles": 283,
       "vertices": 557,
@@ -6607,37 +6617,37 @@
     {
       "path": "breachline-library.part000.bin",
       "bytes": 2097150,
-      "sha256": "f0c2f0d8bd843cb3006dca9ca55730d4893afd2fcfa8b82096d9e80f15236cd1"
+      "sha256": "f6866ee0482c5b6ddc7334f3e558a507255e6b0bb50b27f8a0fbb275f722c568"
     },
     {
       "path": "breachline-library.part001.bin",
       "bytes": 2097150,
-      "sha256": "81ed2339d193365a1790d21bcd35ce01ab74ef11175b98231cda229d150d13be"
+      "sha256": "a7a032a2c01c9d0e6cd5f0149061158c1a2086bd752353bda867478bec16046b"
     },
     {
       "path": "breachline-library.part002.bin",
       "bytes": 2097150,
-      "sha256": "bbe53ed56fd334effb1068cd9b32aa449912d5f4ea8fe6182085b53a81c24d50"
+      "sha256": "3aebc930a505225a05392db1314f3f25642e74d2a06cb95caa0ba4cbabc5086f"
     },
     {
       "path": "breachline-library.part003.bin",
       "bytes": 2097150,
-      "sha256": "857c86a780b0924cbabaef69e8250c46368592e21b0ab6b4b559269243b91117"
+      "sha256": "fd20d5f880982d127fd41263e65b2dfcbdf2ad0a870058f8be31b52d388c9fbe"
     },
     {
       "path": "breachline-library.part004.bin",
       "bytes": 2097150,
-      "sha256": "61525424d153dcf0e5be4c43aa5ed43fbb6e2c34cb5efaf83b4a754e41f5d1ad"
+      "sha256": "4bdd7492766bd8afcebba7c3ca7345b18841d3b7c006a03db56ff3e48de954cb"
     },
     {
       "path": "breachline-library.part005.bin",
       "bytes": 2097150,
-      "sha256": "17b5c4ea7ee1c32de61f8bf8958596a469f8aa5e4683bbce01dca155bf1ec94b"
+      "sha256": "45f6f6cf181d36286fd5e9957fb4bbc87632b8c750a92e89bc86eb974366586d"
     },
     {
       "path": "breachline-library.part006.bin",
-      "bytes": 916941,
-      "sha256": "67c05fd27bf53b8581224e9abfd1c348d26f12755106409120766204a10673a7"
+      "bytes": 957904,
+      "sha256": "1a5d44cf3c2e153fb01e835cb4e0e913c9d8f57625a89e5ce9f381c89e692dbc"
     },
     {
       "path": "surfaces-albedo.part000.bin",
@@ -6732,6 +6742,7 @@
     "blacksite_hall_ceiling",
     "blacksite_service_apron",
     "blacksite_service_approach",
+    "blacksite_turbine_train",
     "cooling_stack",
     "site_sign_0",
     "site_sign_1",
@@ -6757,12 +6768,12 @@
   "authorship": "Original Blender mesh authoring and native Cycles colour/normal/physical bakes",
   "geometryPacking": {
     "normalisedBits": 16,
-    "streams": 304,
-    "savedBytes": 3335012,
+    "streams": 306,
+    "savedBytes": 3356580,
     "maxColourError": 0,
     "maxMaterialError": 0.000007629510948348184,
-    "exactSourceSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac",
-    "exactPackedSha256": "4a7c1daff7ff0383b52532fe7020118674e7bbd0b4ade22165d960af6a6350ac"
+    "exactSourceSha256": "53ede4cab23b63ead3f2603b758b507ffb6d9082c74a5000b3eea558ac78959e",
+    "exactPackedSha256": "53ede4cab23b63ead3f2603b758b507ffb6d9082c74a5000b3eea558ac78959e"
   },
   "library": {
     "parts": [
@@ -6774,9 +6785,9 @@
       "breachline-library.part005.bin",
       "breachline-library.part006.bin"
     ],
-    "bytes": 13499841,
-    "unpackedBytes": 42100476,
-    "sha256": "c7a7d220ac9f587e74825868c7b55d4d84f4bfa62f76120c6c17bad6aa58b4fc"
+    "bytes": 13540804,
+    "unpackedBytes": 42356004,
+    "sha256": "fcb3b4ab4dbd8e655fc3ce187a8141d6982884a6819a7c7a9fe737cdab751ef6"
   },
-  "downloadBytes": 18701041
+  "downloadBytes": 18742004
 }

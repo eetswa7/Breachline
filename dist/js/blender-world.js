@@ -1,6 +1,6 @@
 // Render-only assembly of the Blender kit. The simulation's arena objects,
 // collision, objectives and navigation stay authoritative.
-import {productionWorld} from './production-world.js?v=77';
+import {productionWorld} from './production-world.js?v=78';
 export function blenderWorld(arena){
  const visual=(p,options)=>Object.assign(Object.create(p),{blenderPrepared:null,...options});
  const buildings=arena.blocks.filter(p=>!p.ground&&!p.roof&&p.h>5&&p.w>4&&p.d>4);
@@ -27,7 +27,7 @@ export function blenderWorld(arena){
    parts.push(visual(p,{x:p.x,y:top/2,z:p.z,w:Math.min(p.w,p.d),h:top,d:Math.max(p.w,p.d),
     yaw:alongX?Math.PI/2:0,blenderKind:'vehicle_sedan',blenderColour:true,tile:8}));continue;
   }
-  if(generators.includes(p)){parts.push(visual(p,{blenderKind:'generator',blenderColour:true,tile:8}));continue;}
+  if(generators.includes(p)){parts.push(visual(p,{blenderKind:p.turbineBay?'blacksite_turbine_train':'generator',blenderColour:true,tile:8}));continue;}
   // Large painted building envelopes must not inherit the black machined
   // steel finish used by barrels and machinery. Keep the collider reference.
   if(!p.ground&&!p.roof&&p.h>.65&&Math.max(p.w,p.d)>1.1&&['steel','dark'].includes(p.surface)&&

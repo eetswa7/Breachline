@@ -216,10 +216,10 @@ export function productionWorld(arena,parts){
    for(const x of [-13.75,13.75])add(x,3.72,sign*11.23,1.9,1.65,.13,'loading_shutter',{yaw:sign>0?Math.PI:0});
   }
   for(const x of [-10,10])for(const z of [-5,5]){
-   const generator=arena.blocks.find(p=>p.x===x&&p.z===z&&p.surface==='dark'&&p.h===2.3);
+   const generator=arena.blocks.find(p=>p.x===x&&p.z===z&&p.turbineBay);
    if(!generator)continue;
    floor(x,z,3.6,4.0,'concrete',{productionEpoxy:true},generator);
-   add(x,2.30,z,3.05,.42,.6,'pipe_rack',{},generator);
+   add(x,2.45,z+.78,1.05,.31,.68,'duct_run',{},generator);
   }
   // Distant switchyard architecture gives the perimeter real industrial mass;
   // it stays outside the original boundary wall and does not act as cover.

@@ -201,6 +201,64 @@ def author_blacksite(api, helpers):
             overhead((x*.91,5.84,z),(.52,.035,.06),(.35,.41,.39),(.77,.16),True)
     model('blacksite_hall_ceiling',ceiling,ceiling_far)
 
+    # Packaged turbine-generator train. Full-height shrouds preserve the
+    # original cover silhouette. The bolt-on equipment distinguishes the
+    # inlet, split turbine housing, alternator and exhaust at player height.
+    turbine = []; turbine_far = []
+    steel = (.30, .38, .38); graphite = (.13, .19, .20)
+    teal = (.30, .49, .47); intake_green = (.42, .57, .53)
+    zinc = (.62, .69, .66); yellow = (.76, .57, .20)
+    def turbine_part(part, distant=True):
+        turbine.append(part)
+        if distant: turbine_far.append(part)
+
+    def casing(width, bottom, top, bevel, z0, z1, color, physical=(.73, .24)):
+        x = width / 2
+        outline = [(-x+bevel,bottom),(x-bevel,bottom),(x,bottom+bevel),
+                   (x,top-bevel),(x-bevel,top),(-x+bevel,top),
+                   (-x,top-bevel),(-x,bottom+bevel)]
+        return (extrusion(outline,z0,z1),(0,0,0),(1,1,1),color,physical)
+
+    # A bolted base spreads machinery load into the foundation and hides
+    # deep pockets under the rail. The three shrouds sit on the same skids.
+    turbine_part(box((0,-.455,0),(.994,.09,.996),graphite,(.83,.24)))
+    turbine_part(box((0,-.345,0),(.946,.155,.962),steel,(.8,.25)))
+    for x in (-.445,.445):
+        turbine_part(box((x,-.382,0),(.085,.042,.99),zinc,(.68,.31)))
+        for z in (-.425,-.155,.155,.425):
+            turbine_part(box((x,-.353,z),(.064,.033,.075),graphite,(.67,.45)),False)
+    turbine_part(casing(.93,-.28,.444,.069,-.465,-.172,intake_green))
+    turbine_part(casing(.975,-.28,.458,.084,-.176,.208,teal))
+    turbine_part(casing(.936,-.28,.407,.083,.196,.455,steel))
+    for z in (-.175,-.075,.186,.222):
+        turbine_part(casing(.991,-.271,.471,.090,z-.013,z+.013,graphite))
+        turbine_part(casing(.985,-.271,.466,.09,z-.008,z+.008,zinc,(.65,.39)),False)
+
+    # End grilles have recessed dark cores, a formed outer surround, and
+    # separate thick fins. The far model keeps an inset face and broad frame.
+    for side, z in ((-1,.473),(1,.475)):
+        face = side*z
+        turbine_part(box((0,.074,face),(.791,.485,.038),graphite,(.93,.06)))
+        for x in (-.411,.411):
+            turbine_part(box((x,.073,face),(.059,.567,.049),zinc,(.71,.37)))
+        for y in (-.196,.344):
+            turbine_part(box((0,y,face),(.824,.037,.048),zinc,(.71,.37)))
+        for index in range(10):
+            y = -.160+index*.048
+            turbine_part(box((0,y,side*.490),(.782,.026,.019),steel,(.64,.44)),False)
+
+    for side in (-1,1):
+        for z in (-.331,.042,.347):
+            turbine_part(box((side*.487,.019,z),(.019,.304,.143),zinc,(.65,.31)))
+            turbine_part(box((side*.498,.019,z),(.004,.257,.115),teal,(.76,.18)),False)
+            turbine_part(box((side*.495,-.022,z+.037),(.010,.048,.015),graphite,(.49,.61)),False)
+        turbine_part(box((side*.479,-.237,0),(.023,.049,.835),yellow,(.82,.11)))
+        for z in (-.329,-.116,.107,.314):
+            turbine_part(box((side*.477,.221,z),(.028,.045,.032),graphite,(.70,.39)),False)
+    turbine_part(box((0,.458,.297),(.464,.084,.203),graphite,(.66,.43)))
+    turbine_part(box((0,.485,.297),(.431,.028,.192),zinc,(.71,.36)),False)
+    model('blacksite_turbine_train',turbine,turbine_far)
+
     def ground_mesh(name, approach=False):
         """Poured slabs and feathered tyre sweeps in a single native batch."""
         vertices = []; triangles = []; colours = []; physical = []
@@ -262,4 +320,4 @@ def author_blacksite(api, helpers):
     ground_mesh('blacksite_service_approach', True)
     return ['blacksite_hall_roof','blacksite_hall_cladding','blacksite_hall_wall_long',
             'blacksite_hall_wall_short','blacksite_hall_ceiling',
-            'blacksite_service_apron','blacksite_service_approach']
+            'blacksite_service_apron','blacksite_service_approach','blacksite_turbine_train']
