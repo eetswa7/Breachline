@@ -1,14 +1,14 @@
-import {OPERATION_STAGES,operationBattle} from './operation.js?v=96';
-import {Convoy} from './convoy.js?v=96';
-import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=96';
-import {MAPS} from './maps.js?v=96';
-import {drawDeploymentMap} from './deployment-map.js?v=96';
-import {matchSetup,LOADOUT_SLOTS} from './save.js?v=96';
-import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=96';
-import {ATTACHMENT_SPECS} from './attachments.js?v=96';
-import {clamp,distance} from './math.js?v=96';
-import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=96';
-import {identityFor,canIdentify} from './combat-identity.js?v=96';
+import {OPERATION_STAGES,operationBattle} from './operation.js?v=97';
+import {Convoy} from './convoy.js?v=97';
+import {MODES,MatchRules,SURVIVAL_WAVES} from './modes.js?v=97';
+import {MAPS} from './maps.js?v=97';
+import {drawDeploymentMap} from './deployment-map.js?v=97';
+import {matchSetup,LOADOUT_SLOTS} from './save.js?v=97';
+import {WEAPONS,ATTACHMENTS,Weapon,PRIMARY_IDS,GUN_ORDER} from './weapons.js?v=97';
+import {ATTACHMENT_SPECS} from './attachments.js?v=97';
+import {clamp,distance} from './math.js?v=97';
+import {scopeVisible,isScoped,opticMagnification} from './aim.js?v=97';
+import {identityFor,canIdentify} from './combat-identity.js?v=97';
 export const $=id=>document.getElementById(id);
 const show=(id,visible)=>$(id).classList.toggle('hidden',!visible);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -229,8 +229,9 @@ export class Interface {
   else $('objective').textContent=r.mode.id==='gun'?`TIER ${Math.min(GUN_ORDER.length,p.gunStage+1)} / ${GUN_ORDER.length}`:`FIRST TO ${r.mode.limit}`;
   const rescue=g.findRescue(p);
   const canResupply=g.canUseSupplies(p);
-  const canInteract=!!rescue||canResupply||r.canUseCharge(p,g);
-  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
+  const gate=g.gateInReach(p);
+  const canInteract=!!rescue||canResupply||!!gate||r.canUseCharge(p,g);
+  $('interact-prompt').textContent=rescue?(p.rescueProgress>0?`REVIVING ${rescue.name} · ${Math.min(99,Math.floor(p.rescueProgress*50))}%`:`HOLD INTERACT TO REVIVE ${rescue.name}`):canResupply?'INTERACT TO RESUPPLY SQUAD':gate?`INTERACT TO OPEN ${gate.name.toUpperCase()}`:canInteract?(p.interactProgress>0?`${r.planted?'DEFUSING':'PLANTING'} ${Math.floor(p.interactProgress*100)}%`:`HOLD INTERACT TO ${r.planted?'DEFUSE':'PLANT'}`):'';
   this.app.input.setContext(canInteract);
   $('hitmarker').style.opacity=g.time<this.hitUntil?1:0;$('kill-confirm').style.opacity=g.time<this.killUntil?1:0;$('announcement').style.opacity=g.time<this.announceUntil?1:0;
   $('crosshair').style.setProperty('--spread',`${4+p.weapon.spread(p.ads,Math.hypot(p.vx,p.vz)>.6,p.crouched)*240+p.visualKick*30}px`);$('crosshair').style.opacity=p.ads>.7||p.dead?0:1;
@@ -267,6 +268,10 @@ export class Interface {
    if(!enemy||enemy.dead)continue;
    c.fillStyle='#ff986d';c.font='bold 12px Arial';
    c.fillText(enemy===g.survival.commander?'◆':'◇',(enemy.x-view.x)*s-5,(enemy.z-view.z)*s+4);
+  }
+  for(const {barrier} of g.arena.doors){
+   c.fillStyle=barrier.destroyed?'#81ecaa':'#e7b063';c.font='bold 11px Arial';
+   c.fillText(barrier.destroyed?'▱':'▰',(barrier.x-view.x)*s-4,(barrier.z-view.z)*s+3);
   }
   if(g.rules.convoy){
    const convoy=g.rules.convoy,pos=convoy.position;

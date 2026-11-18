@@ -37,6 +37,21 @@ export function buildFloodgate(arena) {
     for (const side of [-1,1]) detail(x+side*1.94,.5,z,.55,1,1.9,'steel',{mesh:'cylinder'});
   }
 
+  // Each gate bridges a full partition. The outer lanes stay open.
+  for(const [name,x,z] of [['Gantry gate',-5,-11],['Spillway gate',5,11]]){
+    const left=x-2,right=x+2;
+    box((-15+left)/2,2.55,z,left+15,5.1,.55,'concrete');
+    box((15+right)/2,2.55,z,15-right,5.1,.55,'concrete');
+    for(const edge of [left,right]){
+      detail(edge,2.55,z,.17,5.1,.72,'orange');
+      detail(edge,5.2,z,.52,.19,.74,'steel');
+    }
+    const barrier=box(x,2.55,z,4,5.1,.55,'steel',{invisible:true,routeGate:true});
+    const panels=[-1,1].map(side=>({x:x-2.5,y:0,z:z+side*1}));
+    for(const panel of panels)detail(panel.x,.58,panel.z,.29,1.16,.3,'steel',{mesh:'bevel'});
+    arena.doors.push({name,barrier,panels,lift:0,opening:false});
+  }
+
   // A walkable service gantry links the outer yards above the north flank.
   box(0,2.23,-17,26.4,.34,5.4,'steel',{catwalk:true});
   for (const x of [-11,-4,4,11]) {

@@ -1,14 +1,14 @@
-import {Arena,MAPS} from './maps.js?v=96';
-import {Navigation} from './navigation.js?v=96';
-import {SpawnDirector} from './spawns.js?v=96';
-import {Convoy} from './convoy.js?v=96';
-import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=96';
-import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=96';
-import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=96';
-import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=96';
-import {traceBullet} from './ballistics.js?v=96';
-import {beginVault,advanceVault} from './traversal.js?v=96';
-import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=96';
+import {Arena,MAPS} from './maps.js?v=97';
+import {Navigation} from './navigation.js?v=97';
+import {SpawnDirector} from './spawns.js?v=97';
+import {Convoy} from './convoy.js?v=97';
+import {MatchRules,SURVIVAL_WAVES} from './modes.js?v=97';
+import {Weapon,WEAPONS,GUN_ORDER,sanitizeLoadout} from './weapons.js?v=97';
+import {DIFFICULTY,ROLES,updateBot} from './ai.js?v=97';
+import {clamp,lerp,distance,direction,rng,rayBox,pointSegment} from './math.js?v=97';
+import {traceBullet} from './ballistics.js?v=97';
+import {beginVault,advanceVault} from './traversal.js?v=97';
+import {ejectCasing,dumpRevolverCases,updateCasings} from './casing-foley.js?v=97';
 
 export const emptyInput=()=>({mx:0,mz:0,lx:0,ly:0,fire:false,firePressed:false,ads:false,sprint:false,jump:false,crouch:false,reload:false,swap:false,inspect:false,grenade:false,interact:false,melee:false,repeatFire:false,autoReload:false});
 const names=['YOU','TRACE','ROOK','ECHO','ONYX','VALE','KESTREL','FLINT','GHOST','HAWK'];
@@ -163,6 +163,22 @@ export class Game {
    this.emit('capture',{text:`${ally.name} REVIVED`,source:actor.team,actor:actor.id,position:{x:ally.x,y:ally.y,z:ally.z}});
   }
  }
+ gateInReach(actor){
+  if(actor.dead)return null;
+  return this.arena.doors.find(gate=>!gate.opening&&!gate.barrier.destroyed&&gate.panels.some(panel=>
+   distance(actor,panel)<1.85&&Math.abs(actor.y-panel.y)<1.35&&
+   this.arena.visible(this.eye(actor),{...panel,y:panel.y+1.3})));
+ }
+ updateGates(dt){
+  for(const gate of this.arena.doors){
+   if(!gate.opening||gate.barrier.destroyed)continue;
+   gate.lift=Math.min(1,gate.lift+dt/1.5);
+   if(gate.lift<1)continue;
+   gate.barrier.destroyed=true;
+   for(const actor of this.actors){actor.pathClock=0;actor.aiClock=0;}
+   this.emit('capture',{text:`${gate.name.toUpperCase()} OPEN · SHORTCUT AVAILABLE`});
+  }
+ }
  eye(a){return{x:a.x,y:a.y+a.height-.12,z:a.z};}
  emit(type,data={}){if(this.events.length<180)this.events.push({type,time:this.time,...data});}
  spawn(a,initial=false){
@@ -194,6 +210,7 @@ export class Game {
   if(this.paused||this.rules.phase==='finished')return;dt=clamp(dt,0,1/30);this.time+=dt;
   if(this.rules.phase==='roundBreak'){this.rules.update(dt,this);return;}
   const p=this.player;
+  this.updateGates(dt);
   for(const a of this.actors){
    if(a.dead){
     if(a.downedUntil<=this.time&&this.canRedeploy(a)){
@@ -233,7 +250,13 @@ export class Game {
    if((p.weapon.burstRemaining>0||input.fire&&(p.weapon.def.automatic||input.firePressed||input.repeatFire))&&!p.sprinting&&!p.vault)this.shoot(p,false);
    if(input.grenade)this.throwGrenade(p);
    if(input.melee&&this.rules.mode.id!=='gun')this.melee(p);
-   if(input.interact&&!p.interacting&&this.survival&&!this.findRescue(p))this.resupplySquad();
+   if(input.interact&&!p.interacting&&!this.findRescue(p)&&!this.rules.canUseCharge(p,this)){
+    if(this.canUseSupplies(p))this.resupplySquad();
+    else {
+     const gate=this.gateInReach(p);
+     if(gate)gate.opening=true;
+    }
+   }
    p.interacting=input.interact;
    // Recover only the recoil contribution, retaining the player's own look input.
    if(p.weapon.sinceShot>.14){const rec=p.recoilPitch*(1-Math.exp(-dt*8));p.pitch=clamp(p.pitch-rec,-1.48,1.48);p.recoilPitch-=rec;}

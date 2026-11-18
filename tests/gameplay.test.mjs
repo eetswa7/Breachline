@@ -226,6 +226,17 @@ test('a planted charge remains live when all attackers die',()=>{const{g,p,t}=du
 test('sabotage disables mid-round respawning',()=>{const{g,p,t}=duel('sabotage');g.actors.push(Object.assign(Object.create(Object.getPrototypeOf(t)),t,{id:1,team:0,x:15,z:15,health:100,aiClock:1000}));g.damage(p,200,t);assert.equal(g.cameraActor.id,1);advance(g,4);assert(p.dead);assert.equal(g.cameraActor.id,1);g.actors.find(actor=>actor.id===1).health=0;assert.equal(g.cameraActor,p);g.resetRound();assert.equal(g.cameraActor,p);});
 test('every map has safe spawns and navigable routes to the objectives',()=>{for(let id=0;id<MAPS.length;id++){const arena=new Arena(id),nav=new Navigation(arena);const convoy=new Convoy(arena,nav);assert(convoy.length>10,`map ${id} convoy route too short`);assert(distance2(convoy.route.at(-1),arena.objectives.at(-1))<4.5,`map ${id} convoy finish unreachable`);if(arena.info.name==='FLOODGATE'){
  const deck={x:0,y:2.4,z:-17};
+ for(const gate of arena.doors){
+  const {x,z}=gate.barrier,start={x,y:0,z:z-2},end={x,y:0,z:z+2};
+  assert(!nav.walkable(start,end));
+  const detour=nav.path(start,end);
+  gate.barrier.destroyed=true;
+  assert(nav.walkable(start,end));
+  const shortcut=nav.path(start,end);
+  assert(nav.lastReached);
+  assert(shortcut.length<detour.length);
+  gate.barrier.destroyed=false;
+ }
  for(const team of [0,1]){
   const approach=nav.path(arena.spawns.find(spawn=>spawn.team===team),deck);
   assert(nav.lastReached,`Floodgate team ${team} cannot reach the gantry`);

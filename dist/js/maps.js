@@ -1,9 +1,9 @@
-import {rng,rayBox,distance,clamp} from './math.js?v=96';
-import {dressWorld} from './world-detail.js?v=96';
-import {RayGrid} from './ray-grid.js?v=96';
-import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=96';
-import {buildNuketown} from './nuketown.js?v=96';
-import {buildFloodgate} from './floodgate.js?v=96';
+import {rng,rayBox,distance,clamp} from './math.js?v=97';
+import {dressWorld} from './world-detail.js?v=97';
+import {RayGrid} from './ray-grid.js?v=97';
+import {buildDistrict,buildBlacksite} from './battlegrounds.js?v=97';
+import {buildNuketown} from './nuketown.js?v=97';
+import {buildFloodgate} from './floodgate.js?v=97';
 export const MAPS=[
  {id:0,name:'OLD QUARTER',location:'Coastal city',size:32,weather:'sun',tag:'URBAN',description:'Market alleys, a central plaza and elevated terraces.',sky:[.47,.65,.76],fog:[.59,.66,.65],sun:[-.5,.8,.35]},
  {id:1,name:'FOUNDRY',location:'Industrial district',size:35,weather:'overcast',tag:'INDUSTRIAL',description:'Four loading entrances connect the machinery hall to covered freight lanes.',sky:[.27,.38,.48],fog:[.35,.43,.46],sun:[-.6,.7,-.3]},
@@ -332,7 +332,7 @@ export class Arena {
   const x=Math.floor((p.x+this.info.size)/4),z=Math.floor((p.z+this.info.size)/4),n=this.collisionSize;
   return x>=0&&z>=0&&x<n&&z<n?this.collisionCells[z*n+x]:this.blocks;
  }
- collides(p,r=.32,h=1.75){for(const b of this.nearby(p,r)){if(b.ground||b.destroyed)continue;if(Math.abs(p.x-b.x)<b.w/2+r&&Math.abs(p.z-b.z)<b.d/2+r&&p.y+h>b.y-b.h/2+.03&&p.y<b.y+b.h/2-.03)return true;}return false;}
+ collides(p,r=.32,h=1.75,ignoreRouteGates=false){for(const b of this.nearby(p,r)){if(b.ground||b.destroyed||ignoreRouteGates&&b.routeGate)continue;if(Math.abs(p.x-b.x)<b.w/2+r&&Math.abs(p.z-b.z)<b.d/2+r&&p.y+h>b.y-b.h/2+.03&&p.y<b.y+b.h/2-.03)return true;}return false;}
  floorAt(p,maxY=p.y+.34){let floor=0;for(const b of this.nearby(p)){if(b.destroyed)continue;const top=b.y+b.h/2;if(top<=maxY+.001&&top>floor&&Math.abs(p.x-b.x)<b.w/2+.32&&Math.abs(p.z-b.z)<b.d/2+.32)floor=top;}return floor;}
  trace(o,d,limit=160,ignore=null){
   if(this.rayGrid?.blocks===this.blocks&&this.rayGrid.count===this.blocks.length&&this.collisionCells)return this.rayGrid.trace(o,d,limit,ignore);

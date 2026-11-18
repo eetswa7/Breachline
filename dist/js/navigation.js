@@ -1,36 +1,47 @@
-import {distance} from './math.js?v=96';
+import {distance,rayBox} from './math.js?v=97';
 // A small layered navigation grid includes room floors and reachable stairs/terraces.
 // Connectivity is baked once per match; A* runs at most once per bot per second.
 export class Navigation {
  constructor(arena){
-  this.arena=arena;this.step=arena.info.navigationStep??1.25;this.size=arena.info.size;this.n=Math.ceil(this.size*2/this.step);this.cells=Array.from({length:this.n*this.n},()=>[]);this.nodes=[];
+  this.arena=arena;const gates=arena.doors?.map(door=>door.barrier)??[];this.step=arena.info.navigationStep??1.25;this.size=arena.info.size;this.n=Math.ceil(this.size*2/this.step);this.cells=Array.from({length:this.n*this.n},()=>[]);this.nodes=[];
   for(let iz=1;iz<this.n-1;iz++)for(let ix=1;ix<this.n-1;ix++){
    const x=-this.size+(ix+.5)*this.step,z=-this.size+(iz+.5)*this.step,levels=[0];
    for(const b of arena.nearby({x,y:0,z})){let top=b.y+b.h/2;if(top>.1&&top<=4.8&&Math.abs(x-b.x)<b.w/2&&Math.abs(z-b.z)<b.d/2)levels.push(top);}
-   for(const y of [...new Set(levels)])if(!arena.collides({x,y:y+.04,z},.34,1.75)){const id=this.nodes.length;this.nodes.push({x,y,z,id,ix,iz,links:[]});this.cells[iz*this.n+ix].push(id);}
+   for(const y of [...new Set(levels)])if(!arena.collides({x,y:y+.04,z},.34,1.75,true)){
+    const id=this.nodes.length,node={x,y,z,id,ix,iz,links:[]};
+    const gate=gates.find(block=>Math.abs(x-block.x)<block.w/2+.34&&Math.abs(z-block.z)<block.d/2+.34&&y<block.h);
+    if(gate)node.gate=gate;
+    this.nodes.push(node);this.cells[iz*this.n+ix].push(id);}
   }
   for(const node of this.nodes)for(const [dx,dz]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){
    const ix=node.ix+dx,iz=node.iz+dz;if(ix<0||ix>=this.n||iz<0||iz>=this.n)continue;
    for(const id of this.cells[iz*this.n+ix]){let to=this.nodes[id];if(Math.abs(to.y-node.y)>.36)continue;
-    if(dx&&dz&&(arena.collides({x:node.x,y:Math.max(node.y,to.y)+.05,z:to.z},.34,1.75)||arena.collides({x:to.x,y:Math.max(node.y,to.y)+.05,z:node.z},.34,1.75)))continue;
-    if(this.walkable(node,to))node.links.push(id);
+    if(dx&&dz&&(arena.collides({x:node.x,y:Math.max(node.y,to.y)+.05,z:to.z},.34,1.75,true)||arena.collides({x:to.x,y:Math.max(node.y,to.y)+.05,z:node.z},.34,1.75,true)))continue;
+    if(!this.walkable(node,to,true))continue;
+    node.links.push(id);
+    if(gates.length){
+     const length=Math.hypot(to.x-node.x,to.z-node.z);
+     const ray={x:(to.x-node.x)/length,y:0,z:(to.z-node.z)/length};
+     const gate=node.gate??to.gate??gates.find(block=>rayBox({...node,y:node.y+.1},ray,{...block,w:block.w+.68,d:block.d+.68},length)!==null);
+     if(gate)(node.gateLinks??=new Map()).set(id,gate);
+    }
    }
   }
   this.g=new Float32Array(this.nodes.length);this.previous=new Int32Array(this.nodes.length);this.closed=new Uint32Array(this.nodes.length);this.seen=new Uint32Array(this.nodes.length);this.searchId=0;
   this.heapIds=new Int32Array(Math.max(64,this.nodes.length*2));this.heapScores=new Float64Array(this.heapIds.length);this.heapSize=0;
  }
  // Sweep a standing capsule along each edge, including intermediate step heights.
- walkable(from,to){
+ walkable(from,to,ignoreRouteGates=false){
   const length=Math.hypot(to.x-from.x,to.z-from.z),steps=Math.max(1,Math.ceil(length/.25));
   let y=from.y;const p={x:from.x,y,z:from.z};
   for(let i=1;i<=steps;i++){const t=i/steps;p.x=from.x+(to.x-from.x)*t;p.z=from.z+(to.z-from.z)*t;
    const floor=this.arena.floorAt(p,y+.36);if(floor<y-.37)return false;y=floor;p.y=y+.04;
-   if(this.arena.collides(p,.34,1.75))return false;
+   if(this.arena.collides(p,.34,1.75,ignoreRouteGates))return false;
   }
   return Math.abs(y-to.y)<.12;
  }
  nearest(p){let best=-1,cost=Infinity,ix=Math.floor((p.x+this.size)/this.step),iz=Math.floor((p.z+this.size)/this.step);for(let r=0;r<=5;r++){
-  for(let z=Math.max(0,iz-r);z<=Math.min(this.n-1,iz+r);z++)for(let x=Math.max(0,ix-r);x<=Math.min(this.n-1,ix+r);x++)for(const id of this.cells[z*this.n+x]){const n=this.nodes[id],d=distance(p,n)+Math.abs(n.y-p.y)*3;if(d<cost){cost=d;best=id;}}
+  for(let z=Math.max(0,iz-r);z<=Math.min(this.n-1,iz+r);z++)for(let x=Math.max(0,ix-r);x<=Math.min(this.n-1,ix+r);x++)for(const id of this.cells[z*this.n+x]){const n=this.nodes[id];if(n.gate&&!n.gate.destroyed)continue;const d=distance(p,n)+Math.abs(n.y-p.y)*3;if(d<cost){cost=d;best=id;}}
   // An occupied cell may offer only a roof node even while clear ground is one
   // cell away. Keep expanding until the best height-aware candidate is closer
   // than every unseen cell's horizontal lower bound.
@@ -53,7 +64,7 @@ export class Navigation {
   this.heapSize=0;this.g[start]=0;this.previous[start]=-1;this.seen[start]=search;
   this.pushNode(start,0);let reached=start,best=distance(from,to),count=0;
   while(this.heapSize&&count<5000){const id=this.popNode();if(this.closed[id]===search)continue;count++;this.closed[id]=search;const n=this.nodes[id],h=distance(n,this.nodes[goal]);if(h<best){best=h;reached=id;}if(id===goal){reached=id;break;}
-    for(const next of n.links){if(this.closed[next]===search)continue;let t=this.g[id]+distance(n,this.nodes[next])+Math.abs(n.y-this.nodes[next].y);if(this.seen[next]!==search||t<this.g[next]){this.seen[next]=search;this.g[next]=t;this.previous[next]=id;const q=this.nodes[next],end=this.nodes[goal];this.pushNode(next,t+distance(q,end)*1.15+Math.abs(q.y-end.y));}}
+    for(const next of n.links){const gate=n.gateLinks?.get(next);if(this.closed[next]===search||gate&&!gate.destroyed)continue;let t=this.g[id]+distance(n,this.nodes[next])+Math.abs(n.y-this.nodes[next].y);if(this.seen[next]!==search||t<this.g[next]){this.seen[next]=search;this.g[next]=t;this.previous[next]=id;const q=this.nodes[next],end=this.nodes[goal];this.pushNode(next,t+distance(q,end)*1.15+Math.abs(q.y-end.y));}}
   }
   this.lastExpanded=count;this.lastReached=reached===goal;
   const path=[];for(let id=reached;id!==start&&id!==-1;id=this.previous[id])path.push(this.nodes[id]);return path.reverse();
